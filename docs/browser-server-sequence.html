@@ -1,0 +1,61 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>ktheme → Android APK 처리 경계</title>
+<h1>ktheme → Android APK 처리 경계</h1>
+<p>Static Hosting/CDN, Edge Function, Object Storage의 책임을 분리한 흐름입니다.</p>
+<pre class="mermaid">
+sequenceDiagram
+    actor User as 사용자
+    participant Browser as 사용자 브라우저 (프리뷰 포함)
+    participant Static as Static Hosting/CDN
+    participant Edge as Edge Function
+    participant Object as Object Storage
+    participant Cache as 브라우저 결과 캐시
+    participant Crypto as WebCrypto
+
+    User->>Browser: .ktheme 선택
+    Browser->>Browser: KakaoTalkTheme.css·Images 파싱
+    Browser->>Browser: iOS CSS 목업 렌더링
+    Browser->>Browser: Android nine-patch Canvas 렌더링
+    Browser-->>User: iOS/Android 화면 프리뷰 표시
+    User->>Browser: iOS/Android 전환·메시지 입력
+    Browser-->>User: 해당 mode 프리뷰 갱신
+    Browser->>Cache: base.apk/result hash 조회
+    alt base.apk 캐시 없음
+        Browser->>Static: GET /base.apk
+        Static-->>Browser: base.apk 정적 응답
+        Browser->>Cache: base.apk 저장
+    end
+    alt 동일 입력 결과 캐시 있음
+        Cache-->>Browser: 기존 signed APK
+        Browser-->>User: 즉시 다운로드
+    else 신규 입력
+        Browser->>Edge: GET /shared-cache/{base+theme hash}
+        alt 공용 변환 결과 있음
+            Edge->>Object: GET signed/{hash}.apk
+            Object-->>Edge: signed APK
+            Edge-->>Browser: signed APK
+            Browser-->>User: 즉시 다운로드
+        else 공용 결과 없음
+            Browser->>Browser: KakaoTalkTheme.css 재파싱
+            Browser->>Browser: iOS Images → Android theme 리소스 매핑
+            Browser->>Browser: base.apk ZIP 리소스 교체
+            Browser->>Edge: PUT /shared-cache/{base+theme hash} (signed APK)
+            Edge->>Object: PUT signed/{hash}.apk
+            Object-->>Edge: 저장 완료
+        end
+        Browser->>Crypto: 브라우저 개인키 생성/재사용
+        Crypto-->>Browser: RSA key pair
+        Browser->>Crypto: APK v2 서명 블록 생성
+        Crypto-->>Browser: 자체 서명 APK
+        Browser->>Cache: signed APK 저장
+        Browser-->>User: themed.apk 다운로드
+    end
+    Note over Static,Edge: 변환·서명 없음
+    Note over Edge,Object: signed APK 저장·조회만 수행
+    Note over Browser,Crypto: 개인키는 브라우저 밖으로 전송하지 않음
+</pre>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({startOnLoad: true, securityLevel: "strict", theme: "neutral"});
+</script>

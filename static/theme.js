@@ -121,7 +121,9 @@ function imageKey(name) {
 
 function cssColorWithAlpha(value, body, property) {
   const alphaProperty = property.replace(/-color$/, "-alpha");
-  const alphaMatch = body.match(new RegExp(`${alphaProperty}\\s*:\\s*([0-9.]+)\\s*;`));
+  // 경계를 잡지 않으면 `-ios-normal-background-alpha`가 `background-alpha`로 매칭돼
+  // 엉뚱한 속성의 alpha를 가져온다.
+  const alphaMatch = body.match(new RegExp(`(?:^|[\\s;{])${alphaProperty}\\s*:\\s*([0-9.]+)\\s*;`));
   if (!alphaMatch) return value.toUpperCase();
   const alpha = Math.max(0, Math.min(1, Number.parseFloat(alphaMatch[1])));
   const rgb = value.length === 9 ? value.slice(3) : value.slice(1);

@@ -4,15 +4,13 @@ import {convertTheme, loadBase} from "./apk.js";
 import {signApk} from "./sign.js";
 import {previewState, refreshPreview} from "./preview.js";
 import {apkToTheme} from "./reverse.js";
+import {converterVersion} from "./converter-version.js";
 
 const form = document.getElementById("theme-form");
 const fileInput = document.getElementById("theme-file");
 const snackbar = document.getElementById("snackbar");
 const convertButton = form.querySelector("button[type=submit]");
 const cacheName = "ktheme-apk-output-v2";
-// 캐시 키에 변환기 판을 섞는다. 입력만으로 키를 만들면 변환 버그를 고쳐도
-// 브라우저·공용 캐시가 예전 산출물을 계속 돌려준다.
-const converterVersion = "2026-08-18.1";
 const sharedCacheUrl = window.KTHEME_SHARED_CACHE_URL || (location.hostname === "localhost" ? "http://localhost:8787/shared-cache" : "/shared-cache");
 const sharedThemeUrl = window.KTHEME_SHARED_THEME_URL || sharedCacheUrl.replace(/shared-cache$/, "shared-theme");
 const shareKeyParam = "t";

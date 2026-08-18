@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "test:e2e": "node tests/e2e/local-flow.mjs",
-    "test:apk": "node tests/apk-gate.mjs"
+    "test:apk": "node tests/apk-gate.mjs",
+    "test:worker": "node tests/unit/put-validation.mjs"
   },
   "dependencies": {
     "jszip": "^3.10.1",

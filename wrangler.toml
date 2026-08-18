@@ -1,6 +1,15 @@
-name = "ktheme-cache"
+name = "ktheme-converter"
 main = "worker.js"
 compatibility_date = "2026-08-16"
+
+# 정적 자산과 API를 한 배포로 낸다. app.js가 프로덕션에서 /shared-cache 를
+# 상대경로로 부르므로 worker와 같은 origin이어야 한다.
+# public/ 은 npm run build 가 만든다. 레포 루트를 그대로 올리지 않는다.
+[assets]
+directory = "./public"
+# Worker 가 PUT 검증에서 base.apk 를 되읽는다. 클라이언트 캐시 키가 base 바이트를
+# 섞어 만들기 때문에 그 바이트가 없으면 key 와 본문의 관계를 확인할 수 없다.
+binding = "ASSETS"
 
 [[r2_buckets]]
 binding = "KTHEME_CACHE"

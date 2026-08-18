@@ -119,3 +119,19 @@ THEME_PATH=~/Downloads/example.ktheme npm run test:apk
 | `ANDROID_SDK_ROOT` | 없으면 `ANDROID_HOME`, 그다음 `~/Library/Android/sdk` |
 | `ADB_SERIAL` | 기기 지정. 없으면 붙어 있는 첫 기기 |
 | `APK_GATE_SKIP_DEVICE` | `1`이면 설치 단계를 건너뜁니다 |
+
+## 공용 캐시 PUT 검증
+
+Worker는 저장하기 전에 본문이 정말 그 key의 산출물인지 봅니다. 검증 없이 받으면 아무나 아무 바이트나 공용 캐시에 밀어 넣고, 다음 방문자가 그걸 APK로 받아 갑니다.
+
+| 대상 | 검사 |
+| --- | --- |
+| `PUT /shared-theme/{key}` | ZIP이고 `KakaoTalkTheme.css`가 있을 것. `sha256(본문 ++ base.apk ++ 변환기 판)`이 `key`와 같을 것 |
+| `PUT /shared-cache/{key}` | ZIP이고 `AndroidManifest.xml`·`resources.arsc`가 있을 것. APK 서명 블록에 v2 항목이 있을 것. 같은 `key`의 원본 테마가 이미 저장돼 있을 것 |
+
+APK의 key는 입력 테마에서 나오므로 APK 바이트만으로는 되계산할 수 없습니다. 그래서 같은 key로 이미 검증돼 저장된 원본 테마가 있는지로 대신 묶습니다 — 브라우저는 변환과 겹쳐 테마를 먼저 올립니다.
+
+거절은 `400`에 `X-Cache: REJECTED`, base.apk를 읽지 못해 판정 자체를 못 하면 `503`에 `X-Cache: UNVERIFIED`입니다. 어느 쪽이든 저장을 하지 않으므로 예산도 쓰지 않습니다. 클라이언트는 캐시 미스와 같게 굴러 로컬 변환으로 계속 다운로드합니다.
+
+변환기 판은 `static/converter-version.js` 하나에 있습니다. 브라우저는 캐시 키를 만들 때, Worker는 key를 되계산할 때 같은 값을 봅니다. `binding = "ASSETS"`가 있어야 Worker가 `base.apk`를 되읽을 수 있습니다.
+

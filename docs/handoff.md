@@ -163,3 +163,11 @@ npm run test:e2e
 - 변경한 파일과 동작: `tests/apk-gate.mjs`가 브라우저 E2E를 그대로 태워 APK를 받고(별도 변환 경로를 하나 더 두면 그 경로가 검증되지 않은 채 남는다) `aapt2 dump badging`으로 package·label·minSdk를, `aapt2 dump resources`로 색 값 형식을, `apksigner verify --verbose`로 v2 서명을, `zipalign -c`로 4바이트 정렬을 본다. 기기가 붙어 있으면 설치·확인 뒤 지운다. build-tools는 필요한 도구를 다 갖춘 것 중 최신을 고르고 SDK 경로는 `ANDROID_SDK_ROOT`·`ANDROID_HOME`·`~/Library/Android/sdk` 순으로 찾는다 — 경로를 박아 두면 CI에서 바로 깨진다. `package.json`에 `test:apk`를, `README.md`에 사용법을 넣었다.
 - 실행한 검증 명령과 결과: 실제 `뚱카츄.ktheme`로 7단계 전부 통과(package `com.ktheme.themex_2fccbc7d5`, theme 색 51개 중 32개 적용, v2 서명 true, emulator-5556 설치·제거). 서명을 깬 APK를 넣으면 `aapt2 badging`에서 멈추고 종료 코드 1이다. `APK_GATE_SKIP_DEVICE=1` 경로도 확인했다.
 - 확인하지 못한 항목과 남은 리스크: 게이트가 보는 것은 워킹트리이지 커밋본이 아니다. 기기 단계는 테마 APK 단독 설치까지만 본다 — 카카오톡 호스트 앱이 없는 emulator에서는 실제 적용 화면을 확인할 수 없다. color resource 중 XML selector는 `(file)`로 나오므로 형식 검사에서 통과시킨다. 색 개수(51 중 32)는 aapt2가 세는 `color/theme_*` 기준이라 브라우저 쪽 compiled 색 개수와 다르다.
+
+## 2026-08-18 공용 캐시 PUT 잠금
+
+- 현재 구현 상태: 다음 작업 우선순위 4를 닫았다. `PUT /shared-cache`·`/shared-theme`가 본문 구조·서명·key 관계를 통과해야만 저장한다. 검증은 예산 가드보다 앞에 있어서 거절된 요청은 쓰기를 한 번도 하지 않는다.
+- 변경한 파일과 동작: `worker.js`가 중앙 디렉터리를 직접 읽어 ZIP 여부와 필수 entry를 보고, APK 서명 블록을 id-value 쌍으로 걸어가 v2 항목을 확인한다. 테마는 `sha256(본문 ++ base.apk ++ 변환기 판)`이 key와 같아야 하고, APK는 같은 key의 원본 테마가 이미 저장돼 있어야 한다 — APK 바이트만으로는 key를 되계산할 수 없기 때문이다. base.apk는 `ASSETS` 바인딩으로 되읽고 isolate 안에 캐시한다. 변환기 판은 `static/converter-version.js`로 빼서 브라우저와 Worker가 한 값을 본다. 두 곳에 적어 두면 한쪽만 올라간 순간 저장이 전부 조용히 거절된다. 거절은 400·`X-Cache: REJECTED`, 판정 불가는 503·`X-Cache: UNVERIFIED`다.
+- 실행한 검증 명령과 결과: `npm run test:worker` 8건 통과, `npm run test:e2e` 통과, `npm run test:apk` 7단계 통과, `node --check` 전부 통과. `npx wrangler dev --local`로 실제 런타임에서 확인했다 — 올바른 key 테마 204 STORED, 틀린 key 400, 쓰레기 본문 400, 원본 테마 없는 APK 400, 서명 없는 APK 400, 저장분 GET 200 HIT.
+- 확인하지 못한 항목과 남은 리스크: **배포에 반영하지 않았다.** 지금 도는 판은 검증 없는 판이다. 변환기 판을 올릴 때 `acceptedConverterVersions`에 새 값을 넣지 않으면 그 순간부터 저장이 전부 거절된다 — 다운로드는 계속되지만 공용 캐시가 채워지지 않는다. 테마 PUT마다 base.apk 2.4MB를 붙여 4.5MB를 해시하므로 CPU가 그만큼 든다. APK 검증은 서명 블록의 존재만 보고 서명 자체를 검증하지는 않는다 — Worker에서 인증서 체인을 검사하는 것은 범위 밖이다. 원본 테마가 예산·용량 상한으로 저장되지 못하면 뒤따르는 APK PUT도 거절된다.
+

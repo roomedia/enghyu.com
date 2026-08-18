@@ -25,8 +25,10 @@ function drawResizable(canvas, bitmap, width, height, scale, point, mode) {
   const targetRight = sourceWidth - x1;
   const targetTop = y0;
   const targetBottom = sourceHeight - y1;
-  const stretchSourceWidth = Math.max(1, x1 - x0);
-  const stretchSourceHeight = Math.max(1, y1 - y0);
+  // stretch cell은 bitmap 1px이다. CSS px 기준으로 1을 하한으로 두면 @3x에서
+  // source를 3배 넓게 집어 인접 열과 겹치고, 짧은 말풍선일수록 왜곡이 커진다.
+  const stretchSourceWidth = Math.max(1 / scale, x1 - x0);
+  const stretchSourceHeight = Math.max(1 / scale, y1 - y0);
   const stretchTargetWidth = Math.max(1, width - targetLeft - targetRight);
   const stretchTargetHeight = Math.max(1, height - targetTop - targetBottom);
   const context = canvas.getContext("2d");

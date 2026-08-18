@@ -1,10 +1,10 @@
 // 테마를 적용한 채팅 화면 프리뷰 렌더링.
 import {imageKey, parseTheme, previewImage, sourceScaleForPath} from "./theme.js";
-import {cssColor, escapeHtml, screenMarkup, tabBarMarkup} from "./screens.js";
+import {cssColor, escapeHtml, headerMarkup, screenMarkup, tabBarMarkup} from "./screens.js";
 
 const previewDevice = document.getElementById("preview-device");
 const previewMetrics = document.getElementById("preview-metrics");
-const previewState = {themeBytes: null, messages: [], screen: "chats"};
+const previewState = {themeBytes: null, messages: [], screen: "chats", dark: false};
 let previewImageUrls = [];
 let previewRenderToken = 0;
 let previewComposing = false;
@@ -89,7 +89,8 @@ async function renderPreview(themeBytes, token = previewRenderToken) {
     if (token !== previewRenderToken) return;
     previewMetrics.textContent = `${previewState.screen} 화면 프리뷰`;
     previewDevice.style.setProperty("--preview-bg", cssColor(theme.colors.theme_background_color) || "#ffffff");
-    previewDevice.innerHTML = screenMarkup(previewState.screen, theme, images);
+    previewDevice.classList.toggle("is-dark", previewState.dark);
+    previewDevice.innerHTML = screenMarkup(previewState.screen, theme, images, previewState.dark);
     return;
   }
   const messages = previewState.messages.length ? previewState.messages : [{direction: "you", text: "테마가 적용된 채팅 화면입니다."}];
@@ -130,7 +131,8 @@ async function renderPreview(themeBytes, token = previewRenderToken) {
   if (token !== previewRenderToken) return;
   previewMetrics.textContent = `채팅 · ${bubbles.length}개 메시지 · 마지막 ${lastBubble.visualLines}줄, ${Math.round(lastBubble.width)} × ${Math.round(lastBubble.height)}px`;
   previewDevice.style.setProperty("--preview-bg", cssColor(theme.colors.theme_chatroom_background_color) || "#ffffff");
-  previewDevice.innerHTML = `<div class="chat-header"><span>${escapeHtml(theme.name)} 테마</span></div><div class="chat" style="background:${background}"><div class="chat-meta">오늘</div><div class="notice">새로운 메시지가 도착했습니다</div>${bubbleMarkup}</div><div class="input-bar"><label class="sr-only" for="preview-message-input">메시지 입력</label><input id="preview-message-input" class="preview-message-input" type="text" maxlength="120" placeholder="메시지를 입력하세요" autocomplete="off"><button class="preview-send" type="button">전송</button></div>${tabBarMarkup(theme, images, "chats")}`;
+  previewDevice.classList.toggle("is-dark", previewState.dark);
+  previewDevice.innerHTML = `${headerMarkup(theme, `${theme.name} 테마`, previewState.dark, "chat-header")}<div class="chat" style="background:${background}"><div class="chat-meta">오늘</div><div class="notice">새로운 메시지가 도착했습니다</div>${bubbleMarkup}</div><div class="input-bar"><label class="sr-only" for="preview-message-input">메시지 입력</label><input id="preview-message-input" class="preview-message-input" type="text" maxlength="120" placeholder="메시지를 입력하세요" autocomplete="off"><button class="preview-send" type="button">전송</button></div>${tabBarMarkup(theme, images, "chats", previewState.dark)}`;
   if (token !== previewRenderToken) return;
   const chat = previewDevice.querySelector(".chat");
   if (chat) chat.scrollTop = chat.scrollHeight;
@@ -187,6 +189,11 @@ function sendPreviewMessage() {
 
 document.addEventListener("click", event => {
   if (event.target.closest(".preview-send")) { sendPreviewMessage(); return; }
+  if (event.target.closest("[data-preview-mode]")) {
+    previewState.dark = !previewState.dark;
+    void refreshPreview();
+    return;
+  }
   const target = event.target.closest("[data-screen]");
   if (!target || !previewState.themeBytes) return;
   previewState.screen = target.dataset.screen;

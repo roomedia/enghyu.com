@@ -261,7 +261,7 @@ try {
   await assert.doesNotReject(async () => firstPage.locator(".chat-header").waitFor());
   assert.match(await firstPage.locator("#preview-device").innerText(), /테마/);
   assert.match(await firstPage.locator("#preview-device").innerText(), /새로운 메시지가 도착했습니다/);
-  assert.equal(await firstPage.locator(".preview-mode").count(), 0);
+  assert.equal(await firstPage.locator(".chat-header .mode-toggle").count(), 1);
   // 친구·더보기·잠금화면 프리뷰. 매핑된 색과 이미지가 실제로 반영되는지 본다.
   await firstPage.locator('.tab[data-screen="friends"]').click();
   await firstPage.locator(".screen-header").waitFor();
@@ -279,6 +279,18 @@ try {
   await firstPage.locator('.tab[data-screen="chats"]').click();
   await firstPage.locator(".chat").waitFor();
   assert.equal(await firstPage.locator(".screen-header").count(), 0);
+
+  // 다크모드 토글. 카카오톡 chrome만 어두워지고 테마가 준 색은 유지돼야 한다.
+  await firstPage.locator(".mode-toggle").click();
+  await firstPage.locator('#preview-device.is-dark .mode-toggle[aria-pressed="true"]').waitFor();
+  assert.equal(await firstPage.locator(".chat-header").evaluate(element => getComputedStyle(element).backgroundColor), "rgb(27, 29, 31)");
+  await firstPage.locator('.tab[data-screen="friends"]').click();
+  await firstPage.locator(".screen-header").waitFor();
+  assert.equal(await firstPage.locator(".screen-body").evaluate(element => getComputedStyle(element).backgroundColor), mappedBackground);
+  await firstPage.locator(".mode-toggle").click();
+  await firstPage.locator('#preview-device:not(.is-dark) .mode-toggle[aria-pressed="false"]').waitFor();
+  await firstPage.locator('.tab[data-screen="chats"]').click();
+  await firstPage.locator(".chat").waitFor();
 
   const enterMessage = "엔터 한 번";
   await firstPage.locator("#preview-message-input").fill(enterMessage);

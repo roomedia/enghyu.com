@@ -1,5 +1,7 @@
 // Android 테마 APK를 iOS `.ktheme`으로 되돌린다. 정방향에서 쓰는 매핑 표를
 // 그대로 뒤집어 쓰므로 표를 한쪽만 고쳐 어긋나는 일이 없다.
+import {cropNinePatchBorder} from "./bitmap.js";
+import {manifestDefaults, orderedBlocks} from "./ktheme-skeleton.js";
 import {compiledColorValues, compiledStringValues} from "./resources.js";
 import {
   bubbleInsetProperties,
@@ -48,18 +50,6 @@ function readNinePatch(png) {
   return null;
 }
 
-// 정방향이 붙인 1px 투명 테두리를 걷어내 원본 비트맵을 복원한다.
-async function stripNinePatchBorder(bytes) {
-  const bitmap = await createImageBitmap(new Blob([bytes], {type: "image/png"}));
-  const canvas = document.createElement("canvas");
-  canvas.width = bitmap.width - 2;
-  canvas.height = bitmap.height - 2;
-  canvas.getContext("2d").drawImage(bitmap, -1, -1);
-  bitmap.close();
-  const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/png"));
-  return new Uint8Array(await blob.arrayBuffer());
-}
-
 function cssBlock(name, declarations) {
   return `${name}\n{\n${declarations.map(([property, value]) => `    ${property}: ${value};`).join("\n")}\n}\n`;
 }
@@ -67,13 +57,10 @@ function cssBlock(name, declarations) {
 function buildCss(name, blocks) {
   const manifest = cssBlock("ManifestStyle", [
     ["-kakaotalk-theme-name", `'${name}'`],
-    ["-kakaotalk-theme-version", "'1'"],
-    ["-kakaotalk-author-name", "'ktheme2apk'"],
+    ...Object.entries(manifestDefaults).map(([property, value]) => [property, `'${value}'`]),
   ]);
-  const body = [...blocks.entries()]
-    .filter(([, declarations]) => declarations.length)
-    .map(([blockName, declarations]) => cssBlock(blockName, declarations))
-    .join("\n");
+  // 골격의 block 순서를 따르고 값이 없는 block은 빠진다.
+  const body = orderedBlocks(blocks).map(([blockName, declarations]) => cssBlock(blockName, declarations)).join("\n");
   return `${manifest}\n${body}`;
 }
 
@@ -127,7 +114,7 @@ async function apkToTheme(apkBytes) {
     let geometry = null;
     if (target.endsWith(".9.png")) {
       geometry = readNinePatch(bytes);
-      bytes = await stripNinePatchBorder(bytes);
+      bytes = await cropNinePatchBorder(bytes);
     }
     outputZip.file(`Images/${fileName}`, bytes);
     exported += 1;

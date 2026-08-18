@@ -33,6 +33,8 @@
 | `bytes.js` | 바이트 조립과 SHA-256 유틸 |
 | `reverse.js` | Android 테마 APK → iOS `.ktheme` 역변환 |
 | `screens.js` | 친구·더보기·잠금화면 프리뷰 마크업 |
+| `bitmap.js` | Canvas 픽셀 helper. 눌림 이미지 색 추출, 9-patch 테두리 크롭 |
+| `ktheme-skeleton.js` | 역변환 `.ktheme` 골격. CSS block 순서와 manifest 고정값 |
 
 ## 배포
 

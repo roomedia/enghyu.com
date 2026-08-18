@@ -110,9 +110,9 @@ npm run test:e2e
 - 실행한 검증 명령과 결과: `node --check static/preview.js` 통과, `npm run test:e2e` 통과, `git diff --check` 통과.
 - 확인하지 못한 항목과 남은 리스크: 아주 긴 테마 이름이 실제 모바일 폭에서 어떻게 잘리는지는 브라우저 화면으로 확인하지 않았다.
 
-## 2026-08-18 컬러 치환 버그와 매핑 보완 (진행 중)
+## 2026-08-18 컬러 치환 버그와 매핑 보완
 
-- 현재 구현 상태: iOS→Android 매핑 보완 1단계. 아직 커밋하지 않았다.
+- 현재 구현 상태: iOS→Android 매핑 보완 1단계. 커밋 7340c47 로 들어갔다.
 - 확정한 버그 둘:
   - `readStringPool()`이 UTF-16 string pool을 UTF-8 디코더로 읽어 type pool이 `'c\x00o\x00l\x00o\x00r\x00'`로 깨졌다. `pruneCompiledResources()`가 type pool 내용을 안 써서 그동안 드러나지 않았다.
   - `theme_body_cell_border_color`가 CSS에서 파싱되는데도 `resources.arsc`에 기록되지 않았다. 하드코딩 id 표에서 빠져 있었고, 값 검증이 없어 테스트가 통과했다.
@@ -141,3 +141,11 @@ npm run test:e2e
 - 실행한 검증 명령과 결과: `static/*.js`·`worker.js` `node --check` 통과, `npm run test:e2e` 통과, 실제 `뚱카츄.ktheme` E2E 통과, `git diff --check` 통과. 실제 테마로 세 화면을 캡처해 배경 이미지·프로필·탭 아이콘·키패드 색 반영을 눈으로 확인했다.
 - e2e 추가분: 탭 전환, 친구 화면 배경색이 입력 CSS 값과 일치, 잠금화면 bullet 4개와 탭바 미표시, 채팅 복귀. 기대 색은 입력 CSS에서 끌어와 fixture와 실제 테마 양쪽에서 성립한다.
 - 확인하지 못한 항목과 남은 리스크: 세 화면은 목업이라 실제 카카오톡 레이아웃과 1:1은 아니다. 잠금화면은 탭바 없이 표시하므로 뒤로 가기 버튼이 유일한 탈출 경로다.
+
+## 2026-08-18 프리뷰 다크모드와 키패드 프레스 컬러
+
+- 현재 구현 상태: 프리뷰 헤더의 토글로 라이트/다크를 오간다. 카카오톡 chrome(헤더·입력바·탭바)만 어두운 표면으로 바꾸고 테마가 준 색·이미지는 그대로 둔다 — 같은 테마가 어두운 배경에서 어떻게 보이는지 확인하는 용도다. 잠금화면은 토글이 없고 마지막 상태를 따라간다. 브라우저·공용 캐시 키에 변환기 판을 섞어 변환 로직을 고치면 예전 산출물이 돌아오지 않는다. iOS가 눌림 이미지로, Android가 색으로 표현하는 키패드 프레스 컬러는 이미지 중앙 픽셀에서 뽑아 `theme_passcode_keypad_pressed_background_color`에 쓴다.
+- 변경한 파일과 동작: `static/screens.js`의 `headerMarkup()`이 모든 화면 헤더를 만들고 다크 토글(태양/달 SVG, `aria-pressed`)을 붙인다. `index.html`이 `.device.is-dark` chrome 표면 CSS를 둔다. `static/preview.js`는 `previewState.dark`를 들고 토글 클릭 시 다시 그린다. `static/theme.js`는 `ButtonStyle-AddFriend` 매핑을 `-ios-image` 하나로 고쳤다 — iOS 가이드(`docs/kakaotalk_theme_user_guide_26.7.0_iOS.md`)는 이 버튼만 `-ios-image`를 쓰고 pressed 변형 선언이 없다. `PasscodeStyle:-ios-keypad-number-highlighted-image`는 `colorFromImageSlots`로 빼서 Android 색으로 보낸다 — 가이드가 iOS 이미지·Android 색 둘 다 "키패드 프레스 컬러"로 설명한다. `static/apk.js`는 `sampleFillColor()`로 중앙 픽셀에서 `#AARRGGBB`를 뽑고, 이렇게 소비한 이미지는 미지원 경고에서 뺀다 — 색으로 들어갔는데 "출력에서 제외"로 알리면 적용 실패처럼 읽힌다. Canvas 픽셀 helper(`sampleFillColor`·`cropNinePatchBorder`)는 양방향이 함께 쓰는 `static/bitmap.js`로 묶었고, 역변환 CSS의 block 순서(공식 가이드 서술 순서)·manifest 고정값·block 내 property 정렬은 `static/ktheme-skeleton.js`가 정한다. `static/app.js`는 캐시 키 해시에 `converterVersion = "2026-08-18.1"`을 섞는다. `static/app.js`의 `cacheKey`가 입력과 base 바이트에 이어 버전 문자열까지 해시한다. 친구 화면 예시 인명은 기능 이름으로 바꿨다. `README.md` 모듈 표에 신설 둘을 추가했다.
+- e2e 추가분: fixture에 `PasscodeStyle` 눌림 이미지 선언을 더했다. 검증 항목은 토글 존재·다크 chrome 색·다크에서도 테마 배경색 유지·토글 해제 복귀·스낵바 경고에 소비 이미지가 섞이지 않음·실제 입력 출력에 프레스 컬러 기록. 죽어 있던 `.preview-mode` 주장은 토글 존재 확인으로 갈아꼈다.
+- 실행한 검증 명령과 결과: `static/*.js`·`worker.js` `node --check` 통과, `npm run test:e2e` 통과, 실제 `뚱카츄.ktheme` E2E 통과(프레스 컬러 `#FFFAFCF2` 기록, compiled 색 34개), `git diff --check` 통과. 실제 테마로 라이트/다크 채팅·친구·잠금화면을 캡처해 chrome만 어두워지고 테마 색이 유지됨을 눈으로 확인했다.
+- 확인하지 못한 항목과 남은 리스크: 다크모드는 프리뷰 전용 표면이고 생성 APK와 무관하다. 프레스 컬러를 중앙 픽셀 하나로 정하므로 무늬 있는 눌림 이미지는 근사다. 역변환은 이 색을 이미지로 되살리지 못해 왕복에서 사라진다. `converterVersion`을 올리는 것은 수동이라 변환 동작을 고치고 판 올리기를 잊으면 낡은 캐시가 살아남는다. 이번 변경으로 실기기 재설치·실행은 하지 않았다.

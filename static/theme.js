@@ -34,9 +34,6 @@ const imageTargets = {
   passcodeImgCode04Selected: "theme_passcode_04_checked_image.png",
   profileImg01: "theme_profile_01_image.png",
 };
-const colorTargets = {
-  "background-color": "theme_background_color",
-};
 const blockColorTargets = {
   "HeaderStyle-Main": {"background-color": "theme_header_cell_color", "-ios-text-color": "theme_header_color", "-ios-tab-text-color": "theme_title_color", "-ios-tab-highlighted-text-color": "theme_title_pressed_color"},
   "TabBarStyle-Main": {"background-color": "theme_maintab_cell_color"},
@@ -153,7 +150,9 @@ function parseTheme(css) {
   for (const block of css.matchAll(/([\w-]+)\s*\{([\s\S]*?)\}/g)) {
     const blockName = normalizeBlockName(block[1]);
     for (const property of block[2].matchAll(/([-\w]+)\s*:\s*(#[0-9a-fA-F]{6,8})\s*;/g)) {
-      const target = blockColorTargets[blockName]?.[property[1]] || colorTargets[property[1]];
+      // block별 매핑만 본다. 전역 fallback을 두면 매핑에 없는 block의 background-color가
+      // 다른 block의 값을 덮어쓴다 — BottomBannerStyle이 배경색을 가로채는 사례가 있었다.
+      const target = blockColorTargets[blockName]?.[property[1]];
       if (target) colors[target] = cssColorWithAlpha(property[2], block[2], property[1]);
     }
     for (const property of block[2].matchAll(/(-ios-(?:group-)?title-edgeinsets)\s*:\s*([^;]+);/g)) {

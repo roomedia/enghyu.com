@@ -25,13 +25,14 @@
 |---|---|
 | `app.js` | 폼 배선, 캐시 조회, 다운로드와 스낵바 |
 | `theme.js` | `.ktheme` CSS 파싱, Android resource 이름 매핑 |
-| `preview.js` | 채팅 화면 프리뷰 렌더링 |
+| `preview.js` | 프리뷰 렌더링과 화면 전환. 채팅은 Canvas로 그린다 |
 | `apk.js` | `base.apk` 로드, 테마 적용 APK 조립, ZIP 정렬 |
 | `resources.js` | values XML·`resources.arsc` 편집, 앱 identity |
 | `ninepatch.js` | iOS 말풍선 PNG → Android `npTc` 9-patch |
 | `sign.js` | RSA 키·인증서, APK Signature Scheme v2 |
 | `bytes.js` | 바이트 조립과 SHA-256 유틸 |
 | `reverse.js` | Android 테마 APK → iOS `.ktheme` 역변환 |
+| `screens.js` | 친구·더보기·잠금화면 프리뷰 마크업 |
 
 ## 배포
 

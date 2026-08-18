@@ -1,9 +1,11 @@
 // 테마를 적용한 채팅 화면 프리뷰 렌더링.
 import {imageKey, parseTheme, previewImage, sourceScaleForPath} from "./theme.js";
+import {cssColor, escapeHtml, screenMarkup, tabBarMarkup} from "./screens.js";
 
 const previewDevice = document.getElementById("preview-device");
 const previewMetrics = document.getElementById("preview-metrics");
-const previewState = {themeBytes: null, messages: []};
+const previewState = {themeBytes: null, messages: [], screen: "chats"};
+let previewImageUrls = [];
 let previewRenderToken = 0;
 let previewComposing = false;
 
@@ -49,10 +51,6 @@ function drawResizable(canvas, bitmap, width, height, scale, point, mode) {
   }
 }
 
-function escapeHtml(value) {
-  return value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
-}
-
 function previewBubbleSize(text, naturalWidth, naturalHeight, insets, maxWidth) {
   const [left, top, right, bottom] = insets;
   const context = document.createElement("canvas").getContext("2d");
@@ -86,20 +84,19 @@ async function renderPreview(themeBytes, token = previewRenderToken) {
   const cssEntry = zip.files["KakaoTalkTheme.css"];
   if (!cssEntry) return;
   const theme = parseTheme(await cssEntry.async("string"));
-  const images = {};
-  for (const [path, entry] of Object.entries(zip.files)) {
-    if (!path.startsWith("Images/") || entry.dir) continue;
-    const key = imageKey(path);
-    if (!["mainBgImage", "chatroomBgImage", "chatroomBubbleSend01", "chatroomBubbleSend02", "chatroomBubbleReceive01", "chatroomBubbleReceive02", "maintabIcoChats", "maintabIcoChatsSelected"].includes(key)) continue;
-    if (!images[key]) {
-      try { images[key] = {bitmap: await createImageBitmap(await entry.async("blob")), scale: sourceScaleForPath(path)}; } catch { /* 프리뷰용 이미지가 아니면 색상 화면으로 계속 표시 */ }
-    }
+  const images = await loadPreviewImages(zip);
+  if (previewState.screen !== "chats") {
+    if (token !== previewRenderToken) return;
+    previewMetrics.textContent = `${previewState.screen} 화면 프리뷰`;
+    previewDevice.style.setProperty("--preview-bg", cssColor(theme.colors.theme_background_color) || "#ffffff");
+    previewDevice.innerHTML = screenMarkup(previewState.screen, theme, images);
+    return;
   }
   const messages = previewState.messages.length ? previewState.messages : [{direction: "you", text: "테마가 적용된 채팅 화면입니다."}];
   const maxBubbleWidth = Math.max(170, Math.min(310, previewDevice.clientWidth - 32));
-  const background = theme.colors.theme_chatroom_background_color || theme.colors.theme_background_color || "#ffffff";
-  const meColor = theme.colors.theme_chatroom_bubble_me_color || "#202124";
-  const youColor = theme.colors.theme_chatroom_bubble_you_color || "#202124";
+  const background = cssColor(theme.colors.theme_chatroom_background_color) || cssColor(theme.colors.theme_background_color) || "#ffffff";
+  const meColor = cssColor(theme.colors.theme_chatroom_bubble_me_color) || "#202124";
+  const youColor = cssColor(theme.colors.theme_chatroom_bubble_you_color) || "#202124";
   const bubbleConfigs = (direction, group) => {
     if (direction === "me") {
       return {
@@ -132,14 +129,42 @@ async function renderPreview(themeBytes, token = previewRenderToken) {
   const bubbleMarkup = bubbles.map((bubble, index) => `<div class="bubble ${bubble.className}${bubble.group ? " group" : ""}" data-message-index="${index}" data-natural-width="${bubble.naturalWidth}" data-natural-height="${bubble.naturalHeight}" style="width:${bubble.width}px;height:${bubble.height}px"><canvas width="${Math.ceil(bubble.width)}" height="${Math.ceil(bubble.height)}"></canvas><span class="bubble-text" style="${insetStyle(bubble.insets, bubble.color)}">${escapeHtml(bubble.text)}</span></div>`).join("");
   if (token !== previewRenderToken) return;
   previewMetrics.textContent = `채팅 · ${bubbles.length}개 메시지 · 마지막 ${lastBubble.visualLines}줄, ${Math.round(lastBubble.width)} × ${Math.round(lastBubble.height)}px`;
-  previewDevice.style.setProperty("--preview-bg", theme.colors.theme_chatroom_background_color || "#ffffff");
-  previewDevice.innerHTML = `<div class="chat-header"><span>${escapeHtml(theme.name)} 테마</span></div><div class="chat" style="background:${background}"><div class="chat-meta">오늘</div><div class="notice">새로운 메시지가 도착했습니다</div>${bubbleMarkup}</div><div class="input-bar"><label class="sr-only" for="preview-message-input">메시지 입력</label><input id="preview-message-input" class="preview-message-input" type="text" maxlength="120" placeholder="메시지를 입력하세요" autocomplete="off"><button class="preview-send" type="button">전송</button></div><div class="tab-bar"><span>친구</span><strong>채팅</strong><span>더보기</span></div>`;
+  previewDevice.style.setProperty("--preview-bg", cssColor(theme.colors.theme_chatroom_background_color) || "#ffffff");
+  previewDevice.innerHTML = `<div class="chat-header"><span>${escapeHtml(theme.name)} 테마</span></div><div class="chat" style="background:${background}"><div class="chat-meta">오늘</div><div class="notice">새로운 메시지가 도착했습니다</div>${bubbleMarkup}</div><div class="input-bar"><label class="sr-only" for="preview-message-input">메시지 입력</label><input id="preview-message-input" class="preview-message-input" type="text" maxlength="120" placeholder="메시지를 입력하세요" autocomplete="off"><button class="preview-send" type="button">전송</button></div>${tabBarMarkup(theme, images, "chats")}`;
   if (token !== previewRenderToken) return;
   const chat = previewDevice.querySelector(".chat");
   if (chat) chat.scrollTop = chat.scrollHeight;
   for (const [index, bubble] of bubbles.entries()) {
     if (bubble.source) drawResizable(previewDevice.querySelector(`[data-message-index="${index}"] canvas`), bubble.source.bitmap, bubble.width, bubble.height, bubble.source.scale, bubble.point, "android");
   }
+}
+
+const previewImageKeys = [
+  "mainBgImage", "chatroomBgImage", "passcodeBgImage", "profileImg01",
+  "chatroomBubbleSend01", "chatroomBubbleSend02", "chatroomBubbleReceive01", "chatroomBubbleReceive02",
+  "maintabIcoFriends", "maintabIcoFriendsSelected", "maintabIcoChats", "maintabIcoChatsSelected",
+  "maintabIcoMore", "maintabIcoMoreSelected",
+  "passcodeImgCode01", "passcodeImgCode02", "passcodeImgCode03", "passcodeImgCode04",
+  "passcodeImgCode01Selected", "passcodeImgCode02Selected", "passcodeImgCode03Selected", "passcodeImgCode04Selected",
+];
+
+// 말풍선은 Canvas라 bitmap이 필요하고 나머지 화면은 <img> src가 필요하다. 둘 다 만든다.
+async function loadPreviewImages(zip) {
+  for (const url of previewImageUrls) URL.revokeObjectURL(url);
+  previewImageUrls = [];
+  const images = {};
+  for (const [path, entry] of Object.entries(zip.files)) {
+    if (!path.startsWith("Images/") || entry.dir) continue;
+    const key = imageKey(path);
+    if (images[key] || !previewImageKeys.includes(key)) continue;
+    try {
+      const blob = await entry.async("blob");
+      const url = URL.createObjectURL(blob);
+      previewImageUrls.push(url);
+      images[key] = {bitmap: await createImageBitmap(blob), scale: sourceScaleForPath(path), url};
+    } catch { /* 프리뷰용 이미지가 아니면 색상만으로 화면을 그린다 */ }
+  }
+  return images;
 }
 
 async function refreshPreview() {
@@ -161,7 +186,11 @@ function sendPreviewMessage() {
 }
 
 document.addEventListener("click", event => {
-  if (event.target.closest(".preview-send")) sendPreviewMessage();
+  if (event.target.closest(".preview-send")) { sendPreviewMessage(); return; }
+  const target = event.target.closest("[data-screen]");
+  if (!target || !previewState.themeBytes) return;
+  previewState.screen = target.dataset.screen;
+  void refreshPreview();
 });
 document.addEventListener("compositionstart", event => {
   if (event.target.matches(".preview-message-input")) previewComposing = true;

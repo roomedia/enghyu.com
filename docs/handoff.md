@@ -10,7 +10,7 @@
 
 ## 현재 구현
 
-- `static/`: 진입점 `app.js` 하나에 ES 모듈 8개가 붙는다. `.ktheme` ZIP/CSS 파싱, 이미지명 매핑, 색상 변경, 앱 identity 변경, 브라우저 캐시, APK 생성·서명을 담당한다. 모듈별 역할은 `README.md`의 표가 정본이다.
+- `static/`: 진입점 `app.js` 하나에 ES 모듈 9개가 붙는다. `.ktheme` ZIP/CSS 파싱, 이미지명 매핑, 색상 변경, 앱 identity 변경, 브라우저 캐시, APK 생성·서명을 담당한다. 모듈별 역할은 `README.md`의 표가 정본이다.
 - 공용 캐시 서버가 없거나 네트워크 요청이 실패해도 로컬 변환·다운로드를 계속한다. 다운로드 이름은 입력 basename에 `.apk`를 붙인다.
 - 말풍선 `.9.png`: iOS PNG를 Canvas로 재인코딩하고 Android `npTc` 9-patch chunk를 추가한다.
 - CSS block별 색상·alpha를 Android compiled `resources.arsc` resource ID에 반영한다.
@@ -131,3 +131,13 @@ npm run test:e2e
 - 실행한 검증 명령과 결과: `static/*.js`·`worker.js` `node --check` 통과, `npm run test:e2e` 통과, 실제 `뚱카츄.ktheme` E2E 통과, `git diff --check` 통과. 실제 입력 왕복에서 색 31개가 값까지 전부 일치하고 `edgeInsets`·`stretchPoints`도 원본과 같다(`23.33 61 68 20`, `31px 81px`).
 - 리팩토링: 죽은 `colorTargets`와 미사용 export(`compiledEntryIds`, `blockColorTargets`)를 지웠다.
 - 확인하지 못한 항목과 남은 리스크: 역변환 대상은 이 도구가 만든 APK다. 시판 Android 테마 APK는 XML drawable·selector 해석이 필요해 지원하지 않는다. 되돌린 `.ktheme`을 실제 iOS 카카오톡에 넣어 보지는 않았다. 여러 density가 있으면 배율이 큰 쪽만 쓴다.
+
+## 2026-08-18 친구·더보기·잠금화면 프리뷰
+
+- 현재 구현 상태: 프리뷰 탭바를 눌러 친구·채팅·더보기를 오간다. 잠금화면은 더보기 안의 항목으로 들어가고 뒤로 가기로 돌아온다. 탭바를 네 칸으로 늘려 목업을 왜곡하지 않으려는 선택이다. 채팅 외 화면은 정적 목업이고 입력을 받지 않는다.
+- 변경한 파일과 동작: `static/screens.js`가 세 화면 마크업을 만든다. 친구 화면은 `mainBgImage`·`profileImg01`·title·description·section title·cell border 색을, 더보기는 같은 배경에 body cell 색과 잠금화면 진입을, 잠금화면은 `passcodeBgImage`·bullet 8종·keypad 배경·keypad 색·`theme_passcode_color`를 쓴다. 탭바는 `maintabIcoFriends/Chats/More`와 focused 변형, `theme_maintab_cell_color`를 반영한다. `static/preview.js`는 화면 상태를 들고 분기하며, 말풍선용 bitmap과 `<img>`용 object URL을 함께 만든다(재렌더 때 이전 URL을 폐기한다). 화면 헤더는 `.screen-header`로 분리해 채팅 화면 판별을 방해하지 않는다.
+- 함께 잡은 정방향 버그: `cssColorWithAlpha`의 alpha 속성 정규식이 경계를 잡지 않아 `-ios-normal-background-alpha: 0.0`이 `background-alpha`로 매칭됐다. `뚱카츄`의 `background-color: #FFFFFF`가 `#00FFFFFF`로 나가 배경이 투명해졌다. 프리뷰가 청록색으로 보여 발견했다.
+- 함께 잡은 프리뷰 버그: 내부 색 형식은 Android `#AARRGGBB`인데 CSS는 `#RRGGBBAA`로 읽는다. `#FF000000`이 투명한 빨강이 됐다. `cssColor()`로 순서를 바꿔 넣는다.
+- 실행한 검증 명령과 결과: `static/*.js`·`worker.js` `node --check` 통과, `npm run test:e2e` 통과, 실제 `뚱카츄.ktheme` E2E 통과, `git diff --check` 통과. 실제 테마로 세 화면을 캡처해 배경 이미지·프로필·탭 아이콘·키패드 색 반영을 눈으로 확인했다.
+- e2e 추가분: 탭 전환, 친구 화면 배경색이 입력 CSS 값과 일치, 잠금화면 bullet 4개와 탭바 미표시, 채팅 복귀. 기대 색은 입력 CSS에서 끌어와 fixture와 실제 테마 양쪽에서 성립한다.
+- 확인하지 못한 항목과 남은 리스크: 세 화면은 목업이라 실제 카카오톡 레이아웃과 1:1은 아니다. 잠금화면은 탭바 없이 표시하므로 뒤로 가기 버튼이 유일한 탈출 경로다.

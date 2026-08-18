@@ -221,6 +221,13 @@ function server() {
 const fixtures = await createFixtures();
 globalThis.fixtureBasePath = fixtures.basePath;
 const expectedApkName = `${basename(fixtures.themePath).replace(/\.[^.]*$/, "")}.apk`;
+const fixtureColors = parseTheme(await (await JSZip.loadAsync(await readFile(fixtures.themePath))).files["KakaoTalkTheme.css"].async("string")).colors;
+// 내부 색 형식은 Android `#AARRGGBB`다. 브라우저가 돌려주는 computed 값과 맞추려면 순서를 바꿔야 한다.
+const computedRgb = color => {
+  const opaque = color.length === 9 ? color.slice(3) : color.slice(1);
+  const [red, green, blue] = [0, 2, 4].map(index => Number.parseInt(opaque.slice(index, index + 2), 16));
+  return `rgb(${red}, ${green}, ${blue})`;
+};
 // compiled resource table 치환 회귀 가드. 실제 base.apk로 직접 검증하므로 fixture 구성과 무관하다.
 {
   const baseZip = await JSZip.loadAsync(await readFile(join(projectRoot, "base.apk")));
@@ -255,6 +262,24 @@ try {
   assert.match(await firstPage.locator("#preview-device").innerText(), /테마/);
   assert.match(await firstPage.locator("#preview-device").innerText(), /새로운 메시지가 도착했습니다/);
   assert.equal(await firstPage.locator(".preview-mode").count(), 0);
+  // 친구·더보기·잠금화면 프리뷰. 매핑된 색과 이미지가 실제로 반영되는지 본다.
+  await firstPage.locator('.tab[data-screen="friends"]').click();
+  await firstPage.locator(".screen-header").waitFor();
+  assert.match(await firstPage.locator("#preview-device").innerText(), /친구/);
+  const mappedBackground = await firstPage.locator(".screen-body").evaluate(element => getComputedStyle(element).backgroundColor);
+  assert.equal(mappedBackground, computedRgb(fixtureColors.theme_background_color));
+  await firstPage.locator('.tab[data-screen="more"]').click();
+  await firstPage.locator('[data-screen="passcode"]').waitFor();
+  assert.match(await firstPage.locator("#preview-device").innerText(), /잠금화면/);
+  await firstPage.locator('[data-screen="passcode"]').click();
+  await firstPage.locator(".keypad").waitFor();
+  assert.equal(await firstPage.locator(".bullet").count(), 4);
+  assert.equal(await firstPage.locator(".tab-bar").count(), 0);
+  await firstPage.locator('[data-screen="more"]').click();
+  await firstPage.locator('.tab[data-screen="chats"]').click();
+  await firstPage.locator(".chat").waitFor();
+  assert.equal(await firstPage.locator(".screen-header").count(), 0);
+
   const enterMessage = "엔터 한 번";
   await firstPage.locator("#preview-message-input").fill(enterMessage);
   await firstPage.locator("#preview-message-input").press("Enter");

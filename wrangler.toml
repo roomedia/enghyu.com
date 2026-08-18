@@ -1,0 +1,7 @@
+name = "ktheme-cache"
+main = "worker.js"
+compatibility_date = "2026-08-16"
+
+[[r2_buckets]]
+binding = "KTHEME_CACHE"
+bucket_name = "ktheme-cache"

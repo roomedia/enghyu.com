@@ -1,0 +1,12 @@
+{
+  "name": "ktheme2apk-e2e",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:e2e": "node tests/e2e/local-flow.mjs"
+  },
+  "dependencies": {
+    "jszip": "^3.10.1",
+    "playwright": "^1.55.0"
+  }
+}

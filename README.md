@@ -100,3 +100,22 @@ npm run test:e2e
 ```
 
 E2E는 임시 Android base ZIP과 `.ktheme`를 만들고, 사용자 A의 최초 변환·서명·공용 캐시 저장 후 사용자 B가 동일 입력으로 즉시 다운로드하는 흐름을 headless Chromium에서 검증합니다.
+
+## APK 게이트
+
+E2E는 자기가 만든 바이트를 자기가 읽어 검증하므로, 그 APK를 안드로이드가 받아 주는지는 확인하지 못합니다. 그 자리를 `tests/apk-gate.mjs`가 메웁니다.
+
+```bash
+THEME_PATH=~/Downloads/example.ktheme npm run test:apk
+```
+
+실제 `base.apk`와 실제 `.ktheme`로 변환한 APK를 `aapt2 dump badging`·`aapt2 dump resources`·`apksigner verify --verbose`·`zipalign -c`에 태우고, 붙어 있는 기기가 있으면 설치까지 확인한 뒤 지웁니다. `npm test`에는 넣지 않았습니다 — 실제 테마 파일과 Android SDK가 있어야 돌기 때문입니다.
+
+| 환경변수 | 뜻 |
+| --- | --- |
+| `THEME_PATH` | 입력 `.ktheme`. `APK_PATH`가 없으면 필수 |
+| `BASE_PATH` | 기본값은 저장소의 `base.apk` |
+| `APK_PATH` | 변환을 건너뛰고 이미 만든 APK를 검사 |
+| `ANDROID_SDK_ROOT` | 없으면 `ANDROID_HOME`, 그다음 `~/Library/Android/sdk` |
+| `ADB_SERIAL` | 기기 지정. 없으면 붙어 있는 첫 기기 |
+| `APK_GATE_SKIP_DEVICE` | `1`이면 설치 단계를 건너뜁니다 |

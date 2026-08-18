@@ -156,3 +156,10 @@ npm run test:e2e
 - 변경한 파일과 동작: `tests/e2e/local-flow.mjs`가 여러 줄로 접히는 말풍선 canvas에서 늘어난 띠를 가로·세로로 훑어 색 편차를 잰다. fixture 비트맵이 한 열마다 8씩 오르는 그라데이션이라 비트맵 1열만 집으면 편차가 브라우저 보간 한 계단치에 머물고, CSS 1px을 하한으로 두면 3열이 섞여 20을 넘는다. 상한은 12로 뒀다. fixture 기하에 기대는 검사라 실제 테마 입력에서는 건너뛴다.
 - 실행한 검증 명령과 결과: `node --check tests/e2e/local-flow.mjs` 통과, `npm run test:e2e` 통과(측정값 red 7·green 7), 실제 `뚱카츄.ktheme` E2E 통과, `git diff --check` 통과. 하한을 CSS 1px로 되돌려 넣었을 때 red 23·green 22로 검사가 실제로 깨지는 것을 확인하고 되돌렸다.
 - 확인하지 못한 항목과 남은 리스크: 임계 12는 Chromium 보간 결과에서 잡은 값이라 다른 엔진에서는 여유가 다를 수 있다. 실제 테마 경로는 이 검사를 돌지 않으므로 늘림 왜곡은 여전히 눈으로 봐야 한다.
+
+## 2026-08-18 APK 도구 사슬 게이트
+
+- 현재 구현 상태: 다음 작업 우선순위 3을 닫았다. `npm run test:apk`가 실제 `base.apk`와 실제 `.ktheme`로 변환한 APK를 Android 도구 사슬에 태운다. `npm test`에는 넣지 않았다 — 실제 테마 파일과 SDK가 있어야 돌기 때문이다.
+- 변경한 파일과 동작: `tests/apk-gate.mjs`가 브라우저 E2E를 그대로 태워 APK를 받고(별도 변환 경로를 하나 더 두면 그 경로가 검증되지 않은 채 남는다) `aapt2 dump badging`으로 package·label·minSdk를, `aapt2 dump resources`로 색 값 형식을, `apksigner verify --verbose`로 v2 서명을, `zipalign -c`로 4바이트 정렬을 본다. 기기가 붙어 있으면 설치·확인 뒤 지운다. build-tools는 필요한 도구를 다 갖춘 것 중 최신을 고르고 SDK 경로는 `ANDROID_SDK_ROOT`·`ANDROID_HOME`·`~/Library/Android/sdk` 순으로 찾는다 — 경로를 박아 두면 CI에서 바로 깨진다. `package.json`에 `test:apk`를, `README.md`에 사용법을 넣었다.
+- 실행한 검증 명령과 결과: 실제 `뚱카츄.ktheme`로 7단계 전부 통과(package `com.ktheme.themex_2fccbc7d5`, theme 색 51개 중 32개 적용, v2 서명 true, emulator-5556 설치·제거). 서명을 깬 APK를 넣으면 `aapt2 badging`에서 멈추고 종료 코드 1이다. `APK_GATE_SKIP_DEVICE=1` 경로도 확인했다.
+- 확인하지 못한 항목과 남은 리스크: 게이트가 보는 것은 워킹트리이지 커밋본이 아니다. 기기 단계는 테마 APK 단독 설치까지만 본다 — 카카오톡 호스트 앱이 없는 emulator에서는 실제 적용 화면을 확인할 수 없다. color resource 중 XML selector는 `(file)`로 나오므로 형식 검사에서 통과시킨다. 색 개수(51 중 32)는 aapt2가 세는 `color/theme_*` 기준이라 브라우저 쪽 compiled 색 개수와 다르다.

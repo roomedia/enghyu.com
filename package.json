@@ -3,7 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test:e2e": "node tests/e2e/local-flow.mjs"
+    "test:e2e": "node tests/e2e/local-flow.mjs",
+    "test:apk": "node tests/apk-gate.mjs"
   },
   "dependencies": {
     "jszip": "^3.10.1",

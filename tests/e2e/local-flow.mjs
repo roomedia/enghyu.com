@@ -144,10 +144,11 @@ async function createFixtures() {
     "res/drawable-xxhdpi/theme_chatroom_bubble_you_02_image.9.png": "base-bubble",
   });
   const theme = await fixtureZip({
-    "KakaoTalkTheme.css": "ManifestStyle { -kakaotalk-theme-name: 'E2E'; } MainViewStyle-Primary { background-color: #123456; } MessageCellStyle-Send { -ios-text-color: #112233; -ios-title-edgeinsets: 2.5px 3.25px 4.5px 5.75px; -ios-group-title-edgeinsets: 2.5px 3.25px 4.5px 5.75px; -ios-background-image: url(send.png) 15px 20px; -ios-group-background-image: url(send-group.png) 15px 20px; } MessageCellStyle-Receive { -ios-text-color: #445566; -ios-title-edgeinsets: 2.5px 3.25px 4.5px 5.75px; -ios-group-title-edgeinsets: 2.5px 3.25px 4.5px 5.75px; -ios-background-image: url(receive.png) 15px 20px; -ios-group-background-image: url(receive-group.png) 15px 20px; }",
+    "KakaoTalkTheme.css": "ManifestStyle { -kakaotalk-theme-name: 'E2E'; } MainViewStyle-Primary { background-color: #123456; } PasscodeStyle { -ios-keypad-number-highlighted-image: 'passcodeKeypadPressed.png'; } MessageCellStyle-Send { -ios-text-color: #112233; -ios-title-edgeinsets: 2.5px 3.25px 4.5px 5.75px; -ios-group-title-edgeinsets: 2.5px 3.25px 4.5px 5.75px; -ios-background-image: url(send.png) 15px 20px; -ios-group-background-image: url(send-group.png) 15px 20px; } MessageCellStyle-Receive { -ios-text-color: #445566; -ios-title-edgeinsets: 2.5px 3.25px 4.5px 5.75px; -ios-group-title-edgeinsets: 2.5px 3.25px 4.5px 5.75px; -ios-background-image: url(receive.png) 15px 20px; -ios-group-background-image: url(receive-group.png) 15px 20px; }",
     "Images/mainBgImage@2x.png": "theme-image-xhdpi",
     "Images/mainBgImage@3x.png": "theme-image",
     "Images/commonIcoTheme.png": "optional-unsupported-image",
+    "Images/passcodeKeypadPressed@3x.png": bubble,
     "Images/chatroomBubbleSend01@3x.png": bubble,
     "Images/chatroomBubbleSend02@3x.png": bubble,
     "Images/chatroomBubbleReceive01@3x.png": bubble,
@@ -235,6 +236,8 @@ const computedRgb = color => {
   const names = compiledColorValues(arsc);
   assert.ok(Object.keys(names).length > 10, "base.apk에서 compiled color를 읽지 못했습니다");
   assert.ok(names.theme_title_color);
+  // iOS는 눌림 이미지, Android는 색인 슬롯의 Android 쪽 target. base에 없으면 치환이 조용히 실패한다.
+  assert.ok(names.theme_passcode_keypad_pressed_background_color);
   const patched = compiledColorValues(replaceCompiledColors(arsc, {theme_title_color: "#FF010203"}));
   assert.equal(patched.theme_title_color, "#FF010203", "compiled color 치환이 동작하지 않습니다");
 }
@@ -398,6 +401,8 @@ try {
   const firstSnackbar = await firstPage.locator("#snackbar").textContent();
   assert.equal(firstSnackbar, `${expectedApkName} 다운로드를 시작하고 공유 링크를 복사했습니다.`);
   assert.match(await firstPage.locator("#snackbar").getAttribute("title"), /commonIcoTheme/);
+  // 색으로 바꿔 소비한 이미지가 미지원 경고에 섞이면 안 된다.
+  assert.doesNotMatch(await firstPage.locator("#snackbar").getAttribute("title"), /passcodeKeypadPressed/);
   assert.equal(await firstPage.locator("#snackbar").getAttribute("aria-hidden"), "false");
   const firstCopied = await firstPage.evaluate(() => window.copiedTexts);
   assert.equal(firstCopied.length, 1);
@@ -424,6 +429,10 @@ try {
   if (Object.keys(outputColors).length) {
     for (const [name, value] of Object.entries(expectedColors)) {
       assert.equal(outputColors[name], value.length === 7 ? `#FF${value.slice(1)}` : value, `${name} 색상 불일치`);
+    }
+    if (process.env.THEME_PATH) {
+      // 눌림 이미지 중앙 픽셀에서 뽑은 키패드 프레스 컬러. 형식만 본다 — 값은 이미지가 정한다.
+      assert.match(outputColors.theme_passcode_keypad_pressed_background_color || "", /^#[0-9A-F]{8}$/, "키패드 프레스 컬러가 기록되지 않았습니다");
     }
   }
   const previewInset = await firstPage.locator(".bubble.me:not(.group) .bubble-text").evaluate(element => ({

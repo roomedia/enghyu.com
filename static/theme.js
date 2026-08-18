@@ -90,8 +90,8 @@ const imagePropertyTargets = {
   "TabBarStyle-Main:-ios-piccoma-selected-icon-image": "theme_maintab_ico_piccoma_focused_image.png",
   "MainViewStyle-Primary:-ios-background-image": "theme_background_image.png",
   "DefaultProfileStyle:-ios-profile-images": "theme_profile_01_image.png",
-  "ButtonStyle-AddFriend:-ios-background-image": "theme_find_add_friend_button_image.png",
-  "ButtonStyle-AddFriend:-ios-selected-background-image": "theme_find_add_friend_button_pressed_image.png",
+  // 가이드는 이 버튼만 `-ios-image`를 쓴다. pressed 변형은 iOS에 선언이 없다.
+  "ButtonStyle-AddFriend:-ios-image": "theme_find_add_friend_button_image.png",
   "BackgroundStyle-ChatRoom:-ios-background-image": "theme_chatroom_background_image.png",
   "BackgroundStyle-Passcode:-ios-background-image": "theme_passcode_background_image.png",
   "MessageCellStyle-Send:-ios-background-image": "theme_chatroom_bubble_me_01_image.9.png",
@@ -106,6 +106,12 @@ const imagePropertyTargets = {
   "PasscodeStyle:-ios-bullet-selected-second-image": "theme_passcode_02_checked_image.png",
   "PasscodeStyle:-ios-bullet-selected-third-image": "theme_passcode_03_checked_image.png",
   "PasscodeStyle:-ios-bullet-selected-fourth-image": "theme_passcode_04_checked_image.png",
+};
+
+// iOS는 이미지로, Android는 색으로 같은 것을 표현하는 슬롯. 가이드가 둘 다
+// "키패드 프레스 컬러"로 설명한다. 이미지에서 색을 뽑아 건넨다.
+const colorFromImageSlots = {
+  "PasscodeStyle:-ios-keypad-number-highlighted-image": "theme_passcode_keypad_pressed_background_color",
 };
 
 // 실물 테마와 공식 가이드의 표기가 갈리는 block 이름을 하나로 모은다.
@@ -209,7 +215,7 @@ function imageKeysByTarget(imageRefs = {}) {
 
 // CSS가 참조하지만 Android template에 대응 resource가 없는 슬롯.
 function unsupportedImageSlots(imageRefs = {}) {
-  return Object.keys(imageRefs).filter(slot => !imagePropertyTargets[slot]);
+  return Object.keys(imageRefs).filter(slot => !imagePropertyTargets[slot] && !colorFromImageSlots[slot]);
 }
 
 function sourceScaleForPath(path) {
@@ -246,6 +252,7 @@ function previewImage(images, key) {
 
 export {
   bubbleInsetProperties,
+  colorFromImageSlots,
   colorPropertiesByTarget,
   densityScaleForPath,
   imageKeyForTarget,

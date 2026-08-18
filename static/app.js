@@ -1,5 +1,5 @@
 // 진입점: 폼 배선, 변환 파이프라인 호출, 다운로드와 스낵바.
-import {concat, digest, hex} from "./bytes.js";
+import {concat, digest, encoder, hex} from "./bytes.js";
 import {convertTheme, loadBase} from "./apk.js";
 import {signApk} from "./sign.js";
 import {previewState, refreshPreview} from "./preview.js";
@@ -10,6 +10,9 @@ const fileInput = document.getElementById("theme-file");
 const snackbar = document.getElementById("snackbar");
 const convertButton = form.querySelector("button[type=submit]");
 const cacheName = "ktheme-apk-output-v2";
+// 캐시 키에 변환기 판을 섞는다. 입력만으로 키를 만들면 변환 버그를 고쳐도
+// 브라우저·공용 캐시가 예전 산출물을 계속 돌려준다.
+const converterVersion = "2026-08-18.1";
 const sharedCacheUrl = window.KTHEME_SHARED_CACHE_URL || (location.hostname === "localhost" ? "http://localhost:8787/shared-cache" : "/shared-cache");
 const sharedThemeUrl = window.KTHEME_SHARED_THEME_URL || sharedCacheUrl.replace(/shared-cache$/, "shared-theme");
 const shareKeyParam = "t";
@@ -19,7 +22,8 @@ let reverseOutput = null;
 let snackbarTimer = 0;
 
 async function cacheKey(file, baseBytes) {
-  return hex(await digest(concat(new Uint8Array(await file.arrayBuffer()), new Uint8Array(baseBytes))));
+  const input = concat(new Uint8Array(await file.arrayBuffer()), new Uint8Array(baseBytes), encoder.encode(converterVersion));
+  return hex(await digest(input));
 }
 
 async function fetchShared(url, options = {}) {

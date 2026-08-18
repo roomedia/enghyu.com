@@ -1,5 +1,6 @@
 // base.apk 로드와 테마 적용 APK 조립. ZIP 정렬까지 담당한다.
 import {concat, decoder} from "./bytes.js";
+import {sampleFillColor} from "./bitmap.js";
 import {toNinePatch} from "./ninepatch.js";
 import {
   applyIdentity,
@@ -11,6 +12,7 @@ import {
 } from "./resources.js";
 import {
   bubbleInsetProperties,
+  colorFromImageSlots,
   bubbleStretchProperties,
   imageKey,
   imageKeysByTarget,
@@ -49,7 +51,16 @@ async function convertTheme(baseBytes, themeBytes, key) {
     if (images[key][scale]) throw new Error(`동일 이미지의 density가 중복됩니다: ${path}`);
     images[key][scale] = {entry, scale};
   }
-  const unsupported = unsupportedImageInputs(images, byTarget);
+  // 이미지로 선언됐지만 Android가 색으로 받는 항목은 여기서 색으로 바꾼다.
+  for (const [slot, target] of Object.entries(colorFromImageSlots)) {
+    const source = images[imageRefs[slot]];
+    const density = source && Object.values(source)[0];
+    if (density) colors[target] = await sampleFillColor(await density.entry.async("blob"));
+  }
+  // 색으로 바꿔 소비한 이미지는 미지원 경고에서 뺀다. 색으로 들어갔는데
+  // "출력에서 제외합니다"라고 알리면 적용 실패처럼 읽힌다.
+  const colorSourceKeys = new Set(Object.keys(colorFromImageSlots).map(slot => imageRefs[slot]).filter(Boolean));
+  const unsupported = unsupportedImageInputs(images, byTarget).filter(key => !colorSourceKeys.has(key));
   const unsupportedSlots = unsupportedImageSlots(imageRefs);
   const removedPaths = themeResourcePathsToRemove(baseZip, images, colors, byTarget);
   const outputZip = new JSZip();

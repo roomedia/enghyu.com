@@ -358,6 +358,34 @@ try {
   assert.ok(safeBounds.text.top >= safeBounds.bubble.top + safeBounds.top - 0.5);
   assert.ok(safeBounds.text.right <= safeBounds.bubble.right - safeBounds.right + 0.5);
   assert.ok(safeBounds.text.bottom <= safeBounds.bubble.bottom + 0.5);
+
+  // 늘림 seam 회귀 가드. stretch cell은 비트맵 1px이라 늘어난 띠는 그 한 열·한 행의
+  // 색으로만 채워져야 한다. 하한을 CSS 1px로 두면 @3x에서 비트맵 3열을 집어 인접
+  // 열이 섞이고 띠에 눈에 보이는 그라데이션이 생긴다. 여러 줄로 접히는 이 말풍선만
+  // 가로·세로 양쪽에 쓸 만한 띠를 갖는다. fixture 기하만 알고 있으므로 실제 테마
+  // 입력에서는 건너뛴다.
+  if (!process.env.THEME_PATH) {
+    const seam = await safeBubble.locator("canvas").evaluate(element => {
+      const context = element.getContext("2d", {willReadFrequently: true});
+      const at = (x, y) => Array.from(context.getImageData(x, y, 1, 1).data);
+      // fixture는 120px 비트맵을 @3x로 쓴다. source가 40 CSS px이고 늘림 점이 15·20이라
+      // 늘어나는 띠는 좌 15·우 24.7·상 20·하 19.7을 뺀 자리다.
+      const band = {left: 16, right: element.width - 26, top: 21, bottom: element.height - 21};
+      const midX = Math.round((band.left + band.right) / 2);
+      const midY = Math.round((band.top + band.bottom) / 2);
+      const reds = [];
+      const greens = [];
+      for (let x = band.left; x <= band.right; x += 4) reds.push(at(x, midY)[0]);
+      for (let y = band.top; y <= band.bottom; y += 4) greens.push(at(midX, y)[1]);
+      const spread = values => Math.max(...values) - Math.min(...values);
+      return {band, size: [element.width, element.height], redSpread: spread(reds), greenSpread: spread(greens)};
+    });
+    assert.ok(seam.band.right - seam.band.left > 8 && seam.band.bottom - seam.band.top > 8, `늘림 띠가 없습니다: ${JSON.stringify(seam)}`);
+    // fixture 그라데이션은 비트맵 한 열마다 8씩 오른다. 비트맵 1열만 집으면 브라우저
+    // 보간이 남기는 한 계단치만 흔들리고, 3열을 집으면 20을 넘는다.
+    assert.ok(seam.redSpread <= 12, `가로 늘림 띠에 그라데이션이 생겼습니다: ${JSON.stringify(seam)}`);
+    assert.ok(seam.greenSpread <= 12, `세로 늘림 띠에 그라데이션이 생겼습니다: ${JSON.stringify(seam)}`);
+  }
   const phoneHeightBeforeScroll = await firstPage.locator(".phone").evaluate(element => element.getBoundingClientRect().height);
   for (let index = 0; index < 12; index += 1) {
     const scrollMessage = `스크롤 메시지 ${index}`;

@@ -511,6 +511,40 @@ try {
   await sharedPage.locator("#snackbar.is-visible").filter({hasText: "공유 링크를 복사했습니다"}).waitFor({state: "visible"});
   assert.equal((await sharedPage.evaluate(() => window.copiedTexts))[0], firstCopied[0]);
   await sharedContext.close();
+
+  // Android → iOS 역변환. 방금 만든 APK를 되돌려 원본이 보존됐는지 본다.
+  const reverseContext = await browser.newContext({acceptDownloads: true});
+  await reverseContext.addInitScript(() => {
+    Object.defineProperty(navigator, "clipboard", {configurable: true, value: {writeText: async () => {}}});
+  });
+  const reversePage = await reverseContext.newPage();
+  await reversePage.goto(`http://127.0.0.1:${port}/`);
+  await reversePage.locator("#theme-file").setInputFiles({name: "themed.apk", mimeType: "application/vnd.android.package-archive", buffer: Buffer.from(outputBytes)});
+  await reversePage.locator(".chat-header").waitFor();
+  const reverseDownload = reversePage.waitForEvent("download");
+  await reversePage.locator("button[type=submit]").click();
+  const reverseEvent = await reverseDownload;
+  assert.equal(reverseEvent.suggestedFilename(), "themed.ktheme");
+  const rebuilt = await JSZip.loadAsync(await readFile(await reverseEvent.path()));
+  const rebuiltCss = await rebuilt.files["KakaoTalkTheme.css"].async("string");
+  assert.match(rebuiltCss, /ManifestStyle/);
+  assert.ok(Object.keys(rebuilt.files).filter(name => name.startsWith("Images/")).length > 0);
+  const rebuiltTheme = parseTheme(rebuiltCss);
+  const sourceTheme = parseTheme(inputCss);
+  // Android가 보존한 부분집합이 기준이다. 대응 resource가 없는 선언은 왕복에서 사라지는 게 정상이다.
+  for (const [name, value] of Object.entries(rebuiltTheme.colors)) {
+    const expected = sourceTheme.colors[name];
+    if (!expected) continue;
+    const normalize = color => (color.length === 7 ? `#FF${color.slice(1)}` : color).toUpperCase();
+    assert.equal(normalize(value), normalize(expected), `${name} 왕복 색상 불일치`);
+  }
+  for (const [slot, insets] of Object.entries(rebuiltTheme.edgeInsets)) {
+    if (sourceTheme.edgeInsets[slot]) assert.deepEqual(insets, sourceTheme.edgeInsets[slot], `${slot} 왕복 인셋 불일치`);
+  }
+  for (const [slot, point] of Object.entries(rebuiltTheme.stretchPoints)) {
+    if (sourceTheme.stretchPoints[slot]) assert.deepEqual(point, sourceTheme.stretchPoints[slot], `${slot} 왕복 stretch 불일치`);
+  }
+  await reverseContext.close();
   console.log("E2E PASS: 최초 변환·공용 저장·다른 사용자 즉시 다운로드");
 } finally {
   await browser.close();

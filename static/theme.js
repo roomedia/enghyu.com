@@ -170,6 +170,27 @@ function parseTheme(css) {
   return {colors, edgeInsets, stretchPoints, imageRefs, name: css.match(/-kakaotalk-theme-name\s*:\s*'([^']*)'/)?.[1]?.trim() || "Converted Theme"};
 }
 
+// 아래 셋은 정방향 표를 그대로 뒤집는다. 역방향 전용 표를 따로 두면
+// 정방향을 고칠 때마다 조용히 어긋난다.
+function slotsByTarget() {
+  const map = {};
+  for (const [slot, target] of Object.entries(imagePropertyTargets)) (map[target] ||= []).push(slot);
+  return map;
+}
+
+function imageKeyForTarget(target) {
+  return Object.entries(imageTargets).find(([, filename]) => filename === target)?.[0];
+}
+
+// 한 Android 색이 여러 iOS 속성으로 갈라진다. send normal/highlighted가 그 예다.
+function colorPropertiesByTarget() {
+  const map = {};
+  for (const [block, properties] of Object.entries(blockColorTargets)) {
+    for (const [property, target] of Object.entries(properties)) (map[target] ||= []).push([block, property]);
+  }
+  return map;
+}
+
 // Android resource 파일명이 어느 테마 이미지에서 오는지 정한다.
 // CSS 선언이 먼저이고, 선언이 없으면 파일명 규약으로 채운다.
 function imageKeysByTarget(imageRefs = {}) {
@@ -223,6 +244,10 @@ function previewImage(images, key) {
 
 export {
   bubbleInsetProperties,
+  colorPropertiesByTarget,
+  densityScaleForPath,
+  imageKeyForTarget,
+  slotsByTarget,
   imageKeysByTarget,
   unsupportedImageSlots,
   bubbleStretchProperties,

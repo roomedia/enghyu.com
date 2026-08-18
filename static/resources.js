@@ -183,6 +183,35 @@ function compiledColorValues(data) {
   return values;
 }
 
+// 컴파일된 resource table의 문자열 값. 역방향 변환이 테마 이름을 여기서 읽는다.
+function compiledStringValues(data) {
+  const tables = compiledTables(data);
+  if (!tables) return {};
+  const {view, globalStrings, typeStrings, keyStrings, typeChunks} = tables;
+  const wanted = typeStrings.indexOf("string") + 1;
+  const values = {};
+  for (const chunk of typeChunks) {
+    if (data[chunk + 8] !== wanted) continue;
+    const entryCount = view.getUint32(chunk + 12, true);
+    const entriesStart = view.getUint32(chunk + 16, true);
+    const headerSize = view.getUint16(chunk + 2, true);
+    for (let entryId = 0; entryId < entryCount; entryId += 1) {
+      const entryOffset = view.getUint32(chunk + headerSize + entryId * 4, true);
+      if (entryOffset === 0xffffffff) continue;
+      const entry = chunk + entriesStart + entryOffset;
+      if (view.getUint16(entry + 2, true) & 0x0001) continue;
+      const name = keyStrings[view.getUint32(entry + 4, true)];
+      const valueOffset = entry + view.getUint16(entry, true);
+      if (!name || valueOffset + 8 > data.length) continue;
+      // 0x03 = TYPE_STRING. 값은 global string pool의 index다.
+      if (data[valueOffset + 3] !== 0x03) continue;
+      const text = globalStrings[view.getUint32(valueOffset + 4, true)];
+      if (text !== undefined) values[name] = text;
+    }
+  }
+  return values;
+}
+
 function pruneCompiledResources(data, removedPaths, colors) {
   const view = new DataView(data.buffer, data.byteOffset, data.byteLength);
   if (data.length < 12 || view.getUint16(0, true) !== 0x0002) return data;
@@ -339,7 +368,7 @@ function replaceCompiledColors(data, colors) {
 export {
   applyIdentity,
   compiledColorValues,
-  compiledEntryIds,
+  compiledStringValues,
   pruneCompiledResources,
   replaceCompiledColors,
   replaceName,

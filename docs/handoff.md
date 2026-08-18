@@ -10,7 +10,7 @@
 
 ## 현재 구현
 
-- `static/`: 진입점 `app.js` 하나에 ES 모듈 7개가 붙는다. `.ktheme` ZIP/CSS 파싱, 이미지명 매핑, 색상 변경, 앱 identity 변경, 브라우저 캐시, APK 생성·서명을 담당한다. 모듈별 역할은 `README.md`의 표가 정본이다.
+- `static/`: 진입점 `app.js` 하나에 ES 모듈 8개가 붙는다. `.ktheme` ZIP/CSS 파싱, 이미지명 매핑, 색상 변경, 앱 identity 변경, 브라우저 캐시, APK 생성·서명을 담당한다. 모듈별 역할은 `README.md`의 표가 정본이다.
 - 공용 캐시 서버가 없거나 네트워크 요청이 실패해도 로컬 변환·다운로드를 계속한다. 다운로드 이름은 입력 basename에 `.apk`를 붙인다.
 - 말풍선 `.9.png`: iOS PNG를 Canvas로 재인코딩하고 Android `npTc` 9-patch chunk를 추가한다.
 - CSS block별 색상·alpha를 Android compiled `resources.arsc` resource ID에 반영한다.
@@ -122,3 +122,12 @@ npm run test:e2e
 - 실기기 재확인: `SM-S931N`(480dpi, 1080×2340, 카카오톡 26.7.1)에 이번 빌드를 설치·적용해 채팅방을 확인했다. 2글자 메시지 말풍선이 원본 크기로 온전히 그려지고 긴 말풍선도 정상이다. 직전에 보고된 "짧은 말풍선 폭 좁음"은 이 빌드에서 재현되지 않는다. 생성 `npTc`가 커밋본과 동일하므로 원인은 기기에 남아 있던 이전 빌드로 본다.
 - 말풍선 텍스트 영역이 좁은 것은 테마 선언값이다. `-ios-title-edgeinsets: 61px 23.33px 20px 68px`이라 114pt 폭 중 좌 23.33 + 우 68을 여백으로 잡아 텍스트 자리가 22.67pt만 남는다. iOS도 같은 값을 쓴다.
 - 확인하지 못한 항목과 남은 리스크: Android→iOS 역방향 변환과 친구·더보기·잠금화면 프리뷰는 착수 전이다. 기기 설치 과정에서 기존 `com.ktheme.themex_bf801df4f`를 제거하고 재설치했다 — 브라우저마다 서명 키가 달라 같은 패키지를 덮어쓸 수 없다.
+
+## 2026-08-18 Android→iOS 역변환
+
+- 현재 구현 상태: `.apk`를 고르면 `.ktheme`을 만든다. 파일 입력 `accept`에 확장자를 더하고 선택 시점에 역변환해 프리뷰까지 그린다. 다운로드는 그 결과를 그대로 내보낸다.
+- 변경한 파일과 동작: `static/reverse.js`가 `resources.arsc`에서 색·테마 이름을, `res/drawable-*`에서 이미지를 읽어 CSS와 `Images/`를 조립한다. 역매핑은 `slotsByTarget()`·`imageKeyForTarget()`·`colorPropertiesByTarget()`으로 정방향 표를 뒤집어 쓴다. 한 Android 색이 여러 iOS 속성으로 갈라지는 경우(send normal/highlighted)도 함께 복원한다. 알파는 `<속성>-alpha`로 다시 분리한다. 9-patch는 `npTc`에서 인셋·stretch를 역산하고 1px 테두리를 걷어낸다. `static/resources.js`에 문자열 값 판독기 `compiledStringValues`를 추가했다.
+- 정방향에서 함께 잡은 버그: 전역 `colorTargets` fallback 때문에 매핑에 없는 block의 `background-color`가 다른 block 값을 덮어썼다. `뚱카츄`에서 `BottomBannerStyle`의 `#000000`이 `MainViewStyle-Primary`의 `#FFFFFF`를 가로채 `theme_background_color`가 검정으로 나갔다. 왕복 검증이 잡아낸 문제다.
+- 실행한 검증 명령과 결과: `static/*.js`·`worker.js` `node --check` 통과, `npm run test:e2e` 통과, 실제 `뚱카츄.ktheme` E2E 통과, `git diff --check` 통과. 실제 입력 왕복에서 색 31개가 값까지 전부 일치하고 `edgeInsets`·`stretchPoints`도 원본과 같다(`23.33 61 68 20`, `31px 81px`).
+- 리팩토링: 죽은 `colorTargets`와 미사용 export(`compiledEntryIds`, `blockColorTargets`)를 지웠다.
+- 확인하지 못한 항목과 남은 리스크: 역변환 대상은 이 도구가 만든 APK다. 시판 Android 테마 APK는 XML drawable·selector 해석이 필요해 지원하지 않는다. 되돌린 `.ktheme`을 실제 iOS 카카오톡에 넣어 보지는 않았다. 여러 density가 있으면 배율이 큰 쪽만 쓴다.

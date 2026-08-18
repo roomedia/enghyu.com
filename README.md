@@ -1,6 +1,6 @@
-# iOS ktheme → Android APK
+# iOS ktheme ↔ Android APK
 
-정적 웹과 브라우저 처리만으로 iOS KakaoTalk `.ktheme`를 Android APK로 변환합니다.
+정적 웹과 브라우저 처리만으로 iOS KakaoTalk `.ktheme`를 Android APK로 변환합니다. 만들어진 APK를 다시 `.ktheme`로 되돌리는 역변환도 같은 화면에서 처리합니다.
 
 ## 구성
 
@@ -31,6 +31,7 @@
 | `ninepatch.js` | iOS 말풍선 PNG → Android `npTc` 9-patch |
 | `sign.js` | RSA 키·인증서, APK Signature Scheme v2 |
 | `bytes.js` | 바이트 조립과 SHA-256 유틸 |
+| `reverse.js` | Android 테마 APK → iOS `.ktheme` 역변환 |
 
 ## 배포
 
@@ -40,6 +41,14 @@
 4. Edge Function URL과 Static Hosting 도메인의 CORS를 확인합니다.
 
 동일한 `base.apk + .ktheme` hash가 있으면 모든 사용자가 공용 signed APK를 즉시 다운로드합니다. 최초 사용자는 브라우저에서 변환·서명 후 Object Storage에 저장합니다.
+
+## 역변환
+
+파일 선택에서 `.apk`를 고르면 방향이 뒤집힙니다. 페이지가 `resources.arsc`에서 색과 테마 이름을, `res/drawable-*`에서 이미지를 읽어 `.ktheme`을 만들고 같은 프리뷰로 보여 줍니다. 9-patch는 `npTc`에서 텍스트 인셋과 stretch 기준점을 역산하고 정방향이 붙인 1px 테두리를 걷어냅니다.
+
+역매핑은 정방향 표를 그대로 뒤집어 씁니다. 별도 표를 두지 않으므로 한쪽만 고쳐 어긋나는 일이 없습니다.
+
+대상은 이 도구가 만든 APK입니다. `base.apk` template의 resource 이름 규약에 기대므로 시판 Android 테마 APK는 지원 범위 밖입니다. Android에 대응 resource가 없는 선언(선택 말풍선 등)은 왕복에서 사라집니다.
 
 ## 공유 링크
 

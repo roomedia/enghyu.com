@@ -3,6 +3,7 @@ import {concat, digest, hex} from "./bytes.js";
 import {convertTheme, loadBase} from "./apk.js";
 import {signApk} from "./sign.js";
 import {previewState, refreshPreview} from "./preview.js";
+import {apkToTheme} from "./reverse.js";
 
 const form = document.getElementById("theme-form");
 const fileInput = document.getElementById("theme-file");
@@ -13,6 +14,8 @@ const sharedCacheUrl = window.KTHEME_SHARED_CACHE_URL || (location.hostname === 
 const sharedThemeUrl = window.KTHEME_SHARED_THEME_URL || sharedCacheUrl.replace(/shared-cache$/, "shared-theme");
 const shareKeyParam = "t";
 let activeDownloadUrl = "";
+// .apk를 고르면 역변환 결과를 들고 있다가 다운로드에서 그대로 내보낸다.
+let reverseOutput = null;
 let snackbarTimer = 0;
 
 async function cacheKey(file, baseBytes) {
@@ -65,8 +68,21 @@ fileInput.addEventListener("change", async () => {
   convertButton.disabled = !file;
   releaseDownloadUrl();
   hideSnackbar();
+  reverseOutput = null;
   if (!file) return;
-  previewState.themeBytes = new Uint8Array(await file.arrayBuffer());
+  if (file.name.toLowerCase().endsWith(".apk")) {
+    showSnackbar("APK에서 테마를 되돌리는 중...");
+    try {
+      reverseOutput = await apkToTheme(new Uint8Array(await file.arrayBuffer()));
+      hideSnackbar();
+    } catch (error) {
+      showSnackbar(`역변환 실패: ${error.message}`, {duration: 6000});
+      convertButton.disabled = true;
+      return;
+    }
+  }
+  // 역변환 결과도 같은 프리뷰를 그린다. 프리뷰는 .ktheme 형식만 안다.
+  previewState.themeBytes = reverseOutput ? reverseOutput.bytes : new Uint8Array(await file.arrayBuffer());
   previewState.messages = [
     {direction: "you", text: "안녕하세요. 테마가 적용됐어요."},
     {direction: "me", text: "채팅 화면을 확인해 보세요."},
@@ -81,6 +97,11 @@ form.addEventListener("submit", async event => {
   form.querySelector("button").disabled = true;
   releaseDownloadUrl();
   try {
+    if (reverseOutput) {
+      const themeName = `${file.name.replace(/\.[^.]*$/, "").trim() || reverseOutput.name || "theme"}.ktheme`;
+      await download(new Blob([reverseOutput.bytes], {type: "application/zip"}), themeName, {fileName: themeName});
+      return;
+    }
     showSnackbar("브라우저 캐시 확인 중...");
     const base = await loadBase();
     previewState.themeBytes = new Uint8Array(await file.arrayBuffer());
@@ -123,10 +144,10 @@ function downloadFileName(themeFileName) {
   return `${baseName || "themed"}.apk`;
 }
 
-async function download(blob, themeFileName, {warnings = [], shareUrl = ""} = {}) {
+async function download(blob, themeFileName, {warnings = [], shareUrl = "", fileName: explicitName = ""} = {}) {
   releaseDownloadUrl();
   activeDownloadUrl = URL.createObjectURL(blob);
-  const fileName = downloadFileName(themeFileName);
+  const fileName = explicitName || downloadFileName(themeFileName);
   const link = document.createElement("a");
   link.href = activeDownloadUrl;
   link.download = fileName;

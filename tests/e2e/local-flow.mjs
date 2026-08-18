@@ -6,6 +6,8 @@ import {basename, join} from "node:path";
 import {deflateSync} from "node:zlib";
 import JSZip from "jszip";
 import {chromium} from "playwright";
+import {compiledColorValues, replaceCompiledColors} from "../../static/resources.js";
+import {parseTheme} from "../../static/theme.js";
 
 const projectRoot = new URL("../..", import.meta.url).pathname;
 const cache = new Map();
@@ -219,6 +221,17 @@ function server() {
 const fixtures = await createFixtures();
 globalThis.fixtureBasePath = fixtures.basePath;
 const expectedApkName = `${basename(fixtures.themePath).replace(/\.[^.]*$/, "")}.apk`;
+// compiled resource table 치환 회귀 가드. 실제 base.apk로 직접 검증하므로 fixture 구성과 무관하다.
+{
+  const baseZip = await JSZip.loadAsync(await readFile(join(projectRoot, "base.apk")));
+  const arsc = await baseZip.files["resources.arsc"].async("uint8array");
+  const names = compiledColorValues(arsc);
+  assert.ok(Object.keys(names).length > 10, "base.apk에서 compiled color를 읽지 못했습니다");
+  assert.ok(names.theme_title_color);
+  const patched = compiledColorValues(replaceCompiledColors(arsc, {theme_title_color: "#FF010203"}));
+  assert.equal(patched.theme_title_color, "#FF010203", "compiled color 치환이 동작하지 않습니다");
+}
+
 const httpServer = server();
 await new Promise(resolve => httpServer.listen(0, "127.0.0.1", resolve));
 const port = httpServer.address().port;
@@ -365,6 +378,17 @@ try {
   assert.equal(outputZip.files["res/drawable-xxhdpi/theme_maintab_ico_local_image.png"], undefined);
   const inputZip = await JSZip.loadAsync(await readFile(fixtures.themePath));
   const inputCss = await inputZip.files["KakaoTalkTheme.css"].async("string");
+  // 컴파일된 resource table에 CSS 색이 실제로 기록됐는지 확인한다. 값 검증이 없으면
+  // 색상 치환이 통째로 멎어도 다른 assertion이 전부 통과한다.
+  const outputColors = compiledColorValues(await outputZip.files["resources.arsc"].async("uint8array"));
+  const expectedColors = parseTheme(inputCss).colors;
+  assert.ok(Object.keys(expectedColors).length >= 3);
+  // fixture base는 compiled table 대신 values XML을 쓴다. 실제 base.apk일 때만 값 대조가 성립한다.
+  if (Object.keys(outputColors).length) {
+    for (const [name, value] of Object.entries(expectedColors)) {
+      assert.equal(outputColors[name], value.length === 7 ? `#FF${value.slice(1)}` : value, `${name} 색상 불일치`);
+    }
+  }
   const previewInset = await firstPage.locator(".bubble.me:not(.group) .bubble-text").evaluate(element => ({
     left: Number.parseFloat(element.style.left),
     top: Number.parseFloat(element.style.top),

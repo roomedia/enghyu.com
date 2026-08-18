@@ -13,11 +13,12 @@ import {
   bubbleInsetProperties,
   bubbleStretchProperties,
   imageKey,
+  imageKeysByTarget,
   imageSourcesByDensity,
-  imageTargets,
   parseTheme,
   sourceScaleForPath,
   unsupportedImageInputs,
+  unsupportedImageSlots,
 } from "./theme.js";
 
 const baseCacheName = "ktheme-base-v2";
@@ -37,7 +38,8 @@ async function convertTheme(baseBytes, themeBytes, key) {
   const themeZip = await JSZip.loadAsync(themeBytes);
   const cssEntry = themeZip.files["KakaoTalkTheme.css"];
   if (!cssEntry) throw new Error("KakaoTalkTheme.css가 없습니다.");
-  const {colors, edgeInsets, stretchPoints, name} = parseTheme(await cssEntry.async("string"));
+  const {colors, edgeInsets, stretchPoints, imageRefs, name} = parseTheme(await cssEntry.async("string"));
+  const byTarget = imageKeysByTarget(imageRefs);
   const images = {};
   for (const [path, entry] of Object.entries(themeZip.files)) {
     if (!path.startsWith("Images/") || entry.dir) continue;
@@ -47,8 +49,9 @@ async function convertTheme(baseBytes, themeBytes, key) {
     if (images[key][scale]) throw new Error(`동일 이미지의 density가 중복됩니다: ${path}`);
     images[key][scale] = {entry, scale};
   }
-  const unsupported = unsupportedImageInputs(images);
-  const removedPaths = themeResourcePathsToRemove(baseZip, images, colors);
+  const unsupported = unsupportedImageInputs(images, byTarget);
+  const unsupportedSlots = unsupportedImageSlots(imageRefs);
+  const removedPaths = themeResourcePathsToRemove(baseZip, images, colors, byTarget);
   const outputZip = new JSZip();
   let replaced = 0;
   let removed = 0;
@@ -58,12 +61,13 @@ async function convertTheme(baseBytes, themeBytes, key) {
       continue;
     }
     let data = await entry.async("uint8array");
-    const target = Object.entries(imageTargets).find(([, filename]) => path.endsWith(`/${filename}`));
-    const source = target ? imageSourcesByDensity(images, target[0], path) : null;
-    if (target && source) {
+    const basename = path.split("/").pop();
+    const sourceKey = byTarget[basename];
+    const source = sourceKey ? imageSourcesByDensity(images, sourceKey, path) : null;
+    if (source) {
       if (path.endsWith(".9.png")) {
-        const insetProperty = bubbleInsetProperties[path.split("/").pop()];
-        const stretchProperty = bubbleStretchProperties[path.split("/").pop()];
+        const insetProperty = bubbleInsetProperties[basename];
+        const stretchProperty = bubbleStretchProperties[basename];
         const insets = insetProperty ? edgeInsets[`${insetProperty[0]}:${insetProperty[1]}`] : [1, 1, 1, 1];
         const stretchPoint = stretchProperty ? stretchPoints[`${stretchProperty[0]}:${stretchProperty[1]}`] : [1, 1];
         if (insetProperty && !insets) throw new Error(`${path}에 대응하는 iOS edgeinsets가 없습니다.`);
@@ -88,7 +92,10 @@ async function convertTheme(baseBytes, themeBytes, key) {
     bytes: alignResourceTable(await outputZip.generateAsync({type: "uint8array", compression: "STORE"})),
     name,
     removed,
-    warnings: unsupported.map(key => `대응 resource가 없어 출력에서 제외합니다: ${key}`),
+    warnings: [
+      ...unsupported.map(key => `대응 resource가 없어 출력에서 제외합니다: ${key}`),
+      ...unsupportedSlots.map(slot => `Android template에 대응 resource가 없는 CSS 선언입니다: ${slot}`),
+    ],
   };
 }
 

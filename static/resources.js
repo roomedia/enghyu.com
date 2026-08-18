@@ -1,6 +1,8 @@
 // Android resource 편집: values XML, 컴파일된 resources.arsc, 앱 identity.
 import {decoder, encoder} from "./bytes.js";
-import {imageSourcesByDensity, imageTargets} from "./theme.js";
+import {imageSourcesByDensity} from "./theme.js";
+
+const utf16Decoder = new TextDecoder("utf-16le");
 
 function fixedBytesReplace(bytes, source, target) {
   const output = bytes.slice();
@@ -80,7 +82,8 @@ function readStringPool(data, offset) {
       strings.push(decoder.decode(data.slice(textStart, textStart + byteLength)));
     } else {
       const charLength = view.getUint16(cursor, true);
-      strings.push(decoder.decode(data.slice(cursor + 2, cursor + 2 + charLength * 2)));
+      // UTF-16 pool을 UTF-8로 읽으면 문자 사이에 NUL이 남는다. type pool이 이 형식이다.
+      strings.push(utf16Decoder.decode(data.slice(cursor + 2, cursor + 2 + charLength * 2)));
     }
   }
   return strings;
@@ -92,6 +95,92 @@ function nullCompiledResourceValue(data, valueOffset) {
   data[valueOffset + 2] = 0;
   data[valueOffset + 3] = 0;
   view.setUint32(valueOffset + 4, 0, true);
+}
+
+// resources.arsc의 global string pool과 package 안 type/key pool, type chunk 위치를 한 번에 읽는다.
+function compiledTables(data) {
+  const view = new DataView(data.buffer, data.byteOffset, data.byteLength);
+  if (data.length < 12 || view.getUint16(0, true) !== 0x0002) return null;
+  let globalStrings = null;
+  let packageOffset = -1;
+  for (let offset = 12; offset + 8 <= data.length;) {
+    const type = view.getUint16(offset, true);
+    const size = view.getUint32(offset + 4, true);
+    if (!size || offset + size > data.length) break;
+    if (type === 0x0001 && !globalStrings) globalStrings = readStringPool(data, offset);
+    if (type === 0x0200) { packageOffset = offset; break; }
+    offset += size;
+  }
+  if (!globalStrings || packageOffset < 0) return null;
+  const packageEnd = packageOffset + view.getUint32(packageOffset + 4, true);
+  let typeStrings = null;
+  let keyStrings = null;
+  const typeChunks = [];
+  for (let offset = packageOffset + view.getUint16(packageOffset + 2, true); offset + 8 <= packageEnd;) {
+    const type = view.getUint16(offset, true);
+    const size = view.getUint32(offset + 4, true);
+    if (!size || offset + size > packageEnd) break;
+    if (type === 0x0001) {
+      if (!typeStrings) typeStrings = readStringPool(data, offset);
+      else if (!keyStrings) keyStrings = readStringPool(data, offset);
+    } else if (type === 0x0201) {
+      typeChunks.push(offset);
+    }
+    offset += size;
+  }
+  if (!typeStrings || !keyStrings) return null;
+  return {view, globalStrings, typeStrings, keyStrings, typeChunks};
+}
+
+// resource 이름과 entry id는 template마다 다르다. 표를 코드에 박아 두면 template을
+// 바꿀 때 조용히 어긋나므로 base.apk에서 직접 읽는다.
+function compiledEntryIds(data, typeName) {
+  const tables = compiledTables(data);
+  if (!tables) return {};
+  const {view, typeStrings, keyStrings, typeChunks} = tables;
+  const wanted = typeStrings.indexOf(typeName) + 1;
+  const ids = {};
+  for (const chunk of typeChunks) {
+    if (data[chunk + 8] !== wanted) continue;
+    const entryCount = view.getUint32(chunk + 12, true);
+    const entriesStart = view.getUint32(chunk + 16, true);
+    const headerSize = view.getUint16(chunk + 2, true);
+    for (let entryId = 0; entryId < entryCount; entryId += 1) {
+      const entryOffset = view.getUint32(chunk + headerSize + entryId * 4, true);
+      if (entryOffset === 0xffffffff) continue;
+      const name = keyStrings[view.getUint32(chunk + entriesStart + entryOffset + 4, true)];
+      if (name && !(name in ids)) ids[name] = entryId;
+    }
+  }
+  return ids;
+}
+
+// 컴파일된 resource table에서 색상 값을 읽는다. 변환 결과 검증과 역방향 변환이 함께 쓴다.
+function compiledColorValues(data) {
+  const tables = compiledTables(data);
+  if (!tables) return {};
+  const {view, typeStrings, keyStrings, typeChunks} = tables;
+  const wanted = typeStrings.indexOf("color") + 1;
+  const values = {};
+  for (const chunk of typeChunks) {
+    if (data[chunk + 8] !== wanted) continue;
+    const entryCount = view.getUint32(chunk + 12, true);
+    const entriesStart = view.getUint32(chunk + 16, true);
+    const headerSize = view.getUint16(chunk + 2, true);
+    for (let entryId = 0; entryId < entryCount; entryId += 1) {
+      const entryOffset = view.getUint32(chunk + headerSize + entryId * 4, true);
+      if (entryOffset === 0xffffffff) continue;
+      const entry = chunk + entriesStart + entryOffset;
+      if (view.getUint16(entry + 2, true) & 0x0001) continue;
+      const name = keyStrings[view.getUint32(entry + 4, true)];
+      const valueOffset = entry + view.getUint16(entry, true);
+      if (!name || valueOffset + 8 > data.length) continue;
+      // 0x1c = TYPE_INT_COLOR_ARGB8. 그 외는 @null이거나 색상이 아니다.
+      if (data[valueOffset + 3] !== 0x1c) continue;
+      values[name] = `#${view.getUint32(valueOffset + 4, true).toString(16).padStart(8, "0").toUpperCase()}`;
+    }
+  }
+  return values;
 }
 
 function pruneCompiledResources(data, removedPaths, colors) {
@@ -158,15 +247,17 @@ function pruneCompiledResources(data, removedPaths, colors) {
   return data;
 }
 
+// selector XML은 normal/focused 이미지가 둘 다 있어야 의미가 있다.
 const tabIconHelpers = {
-  "theme_tab_call_icon.xml": ["maintabIcoCall", "maintabIcoCallSelected"],
-  "theme_tab_chats_icon.xml": ["maintabIcoChats", "maintabIcoChatsSelected"],
-  "theme_tab_friend_icon.xml": ["maintabIcoFriends", "maintabIcoFriendsSelected"],
-  "theme_tab_more_icon.xml": ["maintabIcoMore", "maintabIcoMoreSelected"],
-  "theme_tab_now_icon.xml": ["maintabIcoNow", "maintabIcoNowSelected"],
-  "theme_tab_piccoma_icon.xml": ["maintabIcoPiccoma", "maintabIcoPiccomaSelected"],
-  "theme_tab_shopping_icon.xml": ["maintabIcoShopping", "maintabIcoShoppingSelected"],
+  "theme_tab_call_icon.xml": ["theme_maintab_ico_call_image.png", "theme_maintab_ico_call_focused_image.png"],
+  "theme_tab_chats_icon.xml": ["theme_maintab_ico_chats_image.png", "theme_maintab_ico_chats_focused_image.png"],
+  "theme_tab_friend_icon.xml": ["theme_maintab_ico_friends_image.png", "theme_maintab_ico_friends_focused_image.png"],
+  "theme_tab_more_icon.xml": ["theme_maintab_ico_more_image.png", "theme_maintab_ico_more_focused_image.png"],
+  "theme_tab_now_icon.xml": ["theme_maintab_ico_now_image.png", "theme_maintab_ico_now_focused_image.png"],
+  "theme_tab_piccoma_icon.xml": ["theme_maintab_ico_piccoma_image.png", "theme_maintab_ico_piccoma_focused_image.png"],
+  "theme_tab_shopping_icon.xml": ["theme_maintab_ico_shopping_image.png", "theme_maintab_ico_shopping_focused_image.png"],
 };
+const addFriendImages = ["theme_find_add_friend_button_image.png", "theme_find_add_friend_button_pressed_image.png"];
 
 const colorHelpers = {
   "res/color/theme_description_color_selector.xml": ["theme_description_color", "theme_description_pressed_color"],
@@ -178,18 +269,18 @@ const colorHelpers = {
   "res/color/theme_title_color_selector.xml": ["theme_title_color", "theme_title_pressed_color"],
 };
 
-function themeResourcePathsToRemove(baseZip, images, colors) {
+function themeResourcePathsToRemove(baseZip, images, colors, byTarget) {
   const remove = new Set();
   const imageKeys = new Set(Object.keys(images));
-  const hasAll = keys => keys.every(key => imageKeys.has(key));
+  const hasAll = targets => targets.every(target => imageKeys.has(byTarget[target]));
   const colorHasAll = keys => keys.every(key => Object.hasOwn(colors, key));
   for (const path of Object.keys(baseZip.files)) {
     if (baseZip.files[path].dir) continue;
-    const target = Object.entries(imageTargets).find(([, filename]) => path.endsWith(`/${filename}`));
-    if (target && !imageSourcesByDensity(images, target[0], path)) remove.add(path);
     const basename = path.split("/").pop();
+    const key = byTarget[basename];
+    if (key && !imageSourcesByDensity(images, key, path)) remove.add(path);
     if (path === "res/drawable/theme_background_image.xml") remove.add(path);
-    if (path.includes("/theme_find_add_friend_button_") || path.endsWith("/theme_find_add_friend_button_image_selector.xml")) remove.add(path);
+    if (basename === "theme_find_add_friend_button_image_selector.xml" && !hasAll(addFriendImages)) remove.add(path);
     if (tabIconHelpers[basename] && !hasAll(tabIconHelpers[basename])) remove.add(path);
     if (colorHelpers[path] && !colorHasAll(colorHelpers[path])) remove.add(path);
     if (path === "res/drawable/theme_body_cell_color_selector.xml" && !colorHasAll(["theme_body_cell_color", "theme_body_cell_pressed_color"])) remove.add(path);
@@ -204,41 +295,6 @@ function replaceName(data, name) {
   return encoder.encode(decoder.decode(data).replace(/(<string\s+name=["'](?:app_name|theme_title)["']>)[^<]*(<\/string>)/g, `$1${name}$2`));
 }
 
-const compiledColorIds = {
-  theme_background_color: 0x03,
-  theme_body_secondary_cell_color: 0x07,
-  theme_body_cell_color: 0x05,
-  theme_body_cell_pressed_color: 0x06,
-  theme_chatroom_background_color: 0x08,
-  theme_chatroom_bubble_me_color: 0x09,
-  theme_chatroom_bubble_you_color: 0x0a,
-  theme_chatroom_input_bar_background_color: 0x0b,
-  theme_chatroom_input_bar_color: 0x0c,
-  theme_chatroom_input_bar_menu_button_color: 0x0d,
-  theme_chatroom_input_bar_menu_icon_color: 0x0e,
-  theme_chatroom_input_bar_send_button_color: 0x0f,
-  theme_chatroom_input_bar_send_icon_color: 0x10,
-  theme_chatroom_unread_count_color: 0x11,
-  theme_description_color: 0x12,
-  theme_description_pressed_color: 0x14,
-  theme_direct_share_background_color: 0x15,
-  theme_direct_share_button_color: 0x16,
-  theme_direct_share_color: 0x17,
-  theme_feature_primary_color: 0x1c,
-  theme_header_color: 0x20,
-  theme_maintab_cell_color: 0x21,
-  theme_notification_background_color: 0x22,
-  theme_notification_color: 0x24,
-  theme_paragraph_color: 0x25,
-  theme_paragraph_pressed_color: 0x27,
-  theme_passcode_background_color: 0x28,
-  theme_passcode_keypad_background_color: 0x2a,
-  theme_passcode_keypad_color: 0x2b,
-  theme_section_title_color: 0x30,
-  theme_title_color: 0x33,
-  theme_title_pressed_color: 0x35,
-};
-
 function compiledColorValue(value) {
   const normalized = value.slice(1);
   return Number.parseInt(normalized.length === 6 ? `ff${normalized}` : normalized, 16);
@@ -247,9 +303,10 @@ function compiledColorValue(value) {
 function replaceCompiledColors(data, colors) {
   const output = data.slice();
   const view = new DataView(output.buffer, output.byteOffset, output.byteLength);
+  const colorIds = compiledEntryIds(data, "color");
   const replacements = Object.entries(colors)
-    .filter(([name]) => compiledColorIds[name])
-    .map(([name, value]) => [compiledColorIds[name], compiledColorValue(value)]);
+    .filter(([name]) => name in colorIds)
+    .map(([name, value]) => [colorIds[name], compiledColorValue(value)]);
   for (let offset = 12; offset + 8 <= output.length;) {
     const type = view.getUint16(offset, true);
     const size = view.getUint32(offset + 4, true);
@@ -281,6 +338,8 @@ function replaceCompiledColors(data, colors) {
 
 export {
   applyIdentity,
+  compiledColorValues,
+  compiledEntryIds,
   pruneCompiledResources,
   replaceCompiledColors,
   replaceName,

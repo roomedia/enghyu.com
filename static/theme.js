@@ -38,7 +38,8 @@ const colorTargets = {
   "background-color": "theme_background_color",
 };
 const blockColorTargets = {
-  "HeaderStyle-Main": {"-ios-text-color": "theme_header_color", "-ios-tab-text-color": "theme_title_color", "-ios-tab-highlighted-text-color": "theme_title_pressed_color"},
+  "HeaderStyle-Main": {"background-color": "theme_header_cell_color", "-ios-text-color": "theme_header_color", "-ios-tab-text-color": "theme_title_color", "-ios-tab-highlighted-text-color": "theme_title_pressed_color"},
+  "TabBarStyle-Main": {"background-color": "theme_maintab_cell_color"},
   "MainViewStyle-Primary": {"background-color": "theme_background_color", "-ios-text-color": "theme_title_color", "-ios-highlighted-text-color": "theme_title_pressed_color", "-ios-description-text-color": "theme_description_color", "-ios-description-highlighted-text-color": "theme_description_pressed_color", "-ios-paragraph-text-color": "theme_paragraph_color", "-ios-paragraph-highlighted-text-color": "theme_paragraph_pressed_color", "-ios-normal-background-color": "theme_body_cell_color", "-ios-selected-background-color": "theme_body_cell_pressed_color"},
   "MainViewStyle-Secondary": {"background-color": "theme_body_secondary_cell_color"},
   "SectionTitleStyle-Main": {"border-color": "theme_body_cell_border_color", "-ios-text-color": "theme_section_title_color"},
@@ -48,6 +49,7 @@ const blockColorTargets = {
   "MessageCellStyle-Send": {"-ios-text-color": "theme_chatroom_bubble_me_color", "-ios-selected-text-color": "theme_chatroom_bubble_me_color", "-ios-unread-text-color": "theme_chatroom_unread_count_color"},
   "MessageCellStyle-Receive": {"-ios-text-color": "theme_chatroom_bubble_you_color", "-ios-selected-text-color": "theme_chatroom_bubble_you_color", "-ios-unread-text-color": "theme_chatroom_unread_count_color"},
   "BackgroundStyle-Passcode": {"background-color": "theme_passcode_background_color"},
+  "LabelStyle-PasscodeTitle": {"-ios-text-color": "theme_passcode_color"},
   "PasscodeStyle": {"-ios-keypad-background-color": "theme_passcode_keypad_background_color", "-ios-keypad-text-normal-color": "theme_passcode_keypad_color"},
   "BackgroundStyle-MessageNotificationBar": {"background-color": "theme_notification_background_color"},
   "LabelStyle-MessageNotificationBarName": {"-ios-text-color": "theme_notification_color"},
@@ -68,6 +70,53 @@ const bubbleStretchProperties = {
   "theme_chatroom_bubble_you_01_image.9.png": ["MessageCellStyle-Receive", "-ios-background-image"],
   "theme_chatroom_bubble_you_02_image.9.png": ["MessageCellStyle-Receive", "-ios-group-background-image"],
 };
+
+// iOS 테마는 CSS 선언이 정본이다. 같은 파일을 여러 슬롯에 재사용하는 테마가 실제로 있어
+// 파일명 규약만으로는 어느 Android resource로 갈지 정할 수 없다.
+const imagePropertyTargets = {
+  "TabBarStyle-Main:-ios-background-image": "theme_maintab_cell_image.9.png",
+  "TabBarStyle-Main:-ios-friends-normal-icon-image": "theme_maintab_ico_friends_image.png",
+  "TabBarStyle-Main:-ios-friends-selected-icon-image": "theme_maintab_ico_friends_focused_image.png",
+  "TabBarStyle-Main:-ios-chats-normal-icon-image": "theme_maintab_ico_chats_image.png",
+  "TabBarStyle-Main:-ios-chats-selected-icon-image": "theme_maintab_ico_chats_focused_image.png",
+  "TabBarStyle-Main:-ios-now-normal-icon-image": "theme_maintab_ico_now_image.png",
+  "TabBarStyle-Main:-ios-now-selected-icon-image": "theme_maintab_ico_now_focused_image.png",
+  "TabBarStyle-Main:-ios-shopping-normal-icon-image": "theme_maintab_ico_shopping_image.png",
+  "TabBarStyle-Main:-ios-shopping-selected-icon-image": "theme_maintab_ico_shopping_focused_image.png",
+  "TabBarStyle-Main:-ios-more-normal-icon-image": "theme_maintab_ico_more_image.png",
+  "TabBarStyle-Main:-ios-more-selected-icon-image": "theme_maintab_ico_more_focused_image.png",
+  "TabBarStyle-Main:-ios-call-normal-icon-image": "theme_maintab_ico_call_image.png",
+  "TabBarStyle-Main:-ios-call-selected-icon-image": "theme_maintab_ico_call_focused_image.png",
+  "TabBarStyle-Main:-ios-local-normal-icon-image": "theme_maintab_ico_local_image.png",
+  "TabBarStyle-Main:-ios-local-selected-icon-image": "theme_maintab_ico_local_focused_image.png",
+  "TabBarStyle-Main:-ios-piccoma-normal-icon-image": "theme_maintab_ico_piccoma_image.png",
+  "TabBarStyle-Main:-ios-piccoma-selected-icon-image": "theme_maintab_ico_piccoma_focused_image.png",
+  "MainViewStyle-Primary:-ios-background-image": "theme_background_image.png",
+  "DefaultProfileStyle:-ios-profile-images": "theme_profile_01_image.png",
+  "ButtonStyle-AddFriend:-ios-background-image": "theme_find_add_friend_button_image.png",
+  "ButtonStyle-AddFriend:-ios-selected-background-image": "theme_find_add_friend_button_pressed_image.png",
+  "BackgroundStyle-ChatRoom:-ios-background-image": "theme_chatroom_background_image.png",
+  "BackgroundStyle-Passcode:-ios-background-image": "theme_passcode_background_image.png",
+  "MessageCellStyle-Send:-ios-background-image": "theme_chatroom_bubble_me_01_image.9.png",
+  "MessageCellStyle-Send:-ios-group-background-image": "theme_chatroom_bubble_me_02_image.9.png",
+  "MessageCellStyle-Receive:-ios-background-image": "theme_chatroom_bubble_you_01_image.9.png",
+  "MessageCellStyle-Receive:-ios-group-background-image": "theme_chatroom_bubble_you_02_image.9.png",
+  "PasscodeStyle:-ios-bullet-first-image": "theme_passcode_01_image.png",
+  "PasscodeStyle:-ios-bullet-second-image": "theme_passcode_02_image.png",
+  "PasscodeStyle:-ios-bullet-third-image": "theme_passcode_03_image.png",
+  "PasscodeStyle:-ios-bullet-fourth-image": "theme_passcode_04_image.png",
+  "PasscodeStyle:-ios-bullet-selected-first-image": "theme_passcode_01_checked_image.png",
+  "PasscodeStyle:-ios-bullet-selected-second-image": "theme_passcode_02_checked_image.png",
+  "PasscodeStyle:-ios-bullet-selected-third-image": "theme_passcode_03_checked_image.png",
+  "PasscodeStyle:-ios-bullet-selected-fourth-image": "theme_passcode_04_checked_image.png",
+};
+
+// 실물 테마와 공식 가이드의 표기가 갈리는 block 이름을 하나로 모은다.
+const blockAliases = {"TabbarStyle-Main": "TabBarStyle-Main", "TabBarStyle": "TabBarStyle-Main", "TabbarStyle": "TabBarStyle-Main"};
+
+function normalizeBlockName(name) {
+  return blockAliases[name] || name;
+}
 
 function imageKey(name) {
   return name.split("/").pop().replace(/@(2|3|4)x(?=\.)/, "").replace(/\.[^.]+$/, "");
@@ -100,8 +149,9 @@ function parseTheme(css) {
   const colors = {};
   const edgeInsets = {};
   const stretchPoints = {};
+  const imageRefs = {};
   for (const block of css.matchAll(/([\w-]+)\s*\{([\s\S]*?)\}/g)) {
-    const blockName = block[1];
+    const blockName = normalizeBlockName(block[1]);
     for (const property of block[2].matchAll(/([-\w]+)\s*:\s*(#[0-9a-fA-F]{6,8})\s*;/g)) {
       const target = blockColorTargets[blockName]?.[property[1]] || colorTargets[property[1]];
       if (target) colors[target] = cssColorWithAlpha(property[2], block[2], property[1]);
@@ -114,8 +164,30 @@ function parseTheme(css) {
       const value = parseStretchPoint(property[2]);
       if (value) stretchPoints[`${blockName}:${property[1]}`] = value;
     }
+    for (const property of block[2].matchAll(/(-ios-[\w-]*image[\w-]*)\s*:\s*(?:'([^']+)'|"([^"]+)"|url\(\s*([^)]+?)\s*\))/g)) {
+      imageRefs[`${blockName}:${property[1]}`] = imageKey(property[2] || property[3] || property[4]);
+    }
   }
-  return {colors, edgeInsets, stretchPoints, name: css.match(/-kakaotalk-theme-name\s*:\s*'([^']*)'/)?.[1]?.trim() || "Converted Theme"};
+  return {colors, edgeInsets, stretchPoints, imageRefs, name: css.match(/-kakaotalk-theme-name\s*:\s*'([^']*)'/)?.[1]?.trim() || "Converted Theme"};
+}
+
+// Android resource 파일명이 어느 테마 이미지에서 오는지 정한다.
+// CSS 선언이 먼저이고, 선언이 없으면 파일명 규약으로 채운다.
+function imageKeysByTarget(imageRefs = {}) {
+  const byTarget = {};
+  for (const [slot, key] of Object.entries(imageRefs)) {
+    const target = imagePropertyTargets[slot];
+    if (target && !(target in byTarget)) byTarget[target] = key;
+  }
+  for (const [key, target] of Object.entries(imageTargets)) {
+    if (!(target in byTarget)) byTarget[target] = key;
+  }
+  return byTarget;
+}
+
+// CSS가 참조하지만 Android template에 대응 resource가 없는 슬롯.
+function unsupportedImageSlots(imageRefs = {}) {
+  return Object.keys(imageRefs).filter(slot => !imagePropertyTargets[slot]);
 }
 
 function sourceScaleForPath(path) {
@@ -130,8 +202,9 @@ function densityScaleForPath(path) {
   return 1;
 }
 
-function unsupportedImageInputs(images) {
-  return Object.keys(images).filter(key => !imageTargets[key]);
+function unsupportedImageInputs(images, byTarget) {
+  const used = new Set(Object.values(byTarget));
+  return Object.keys(images).filter(key => !used.has(key));
 }
 
 function canReplaceDensity(path, sourceScale) {
@@ -151,6 +224,8 @@ function previewImage(images, key) {
 
 export {
   bubbleInsetProperties,
+  imageKeysByTarget,
+  unsupportedImageSlots,
   bubbleStretchProperties,
   imageKey,
   imageSourcesByDensity,

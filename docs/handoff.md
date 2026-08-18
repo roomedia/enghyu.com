@@ -109,3 +109,16 @@ npm run test:e2e
 - 변경한 파일과 동작: `static/preview.js`의 `.chat-header`가 `span` 하나만 그린다. `index.html`에서 `justify-content: space-between`과 `.chat-header small` 규칙을 지우고, 긴 이름이 잘리도록 `span`에 `text-overflow: ellipsis`를 뒀다.
 - 실행한 검증 명령과 결과: `node --check static/preview.js` 통과, `npm run test:e2e` 통과, `git diff --check` 통과.
 - 확인하지 못한 항목과 남은 리스크: 아주 긴 테마 이름이 실제 모바일 폭에서 어떻게 잘리는지는 브라우저 화면으로 확인하지 않았다.
+
+## 2026-08-18 컬러 치환 버그와 매핑 보완 (진행 중)
+
+- 현재 구현 상태: iOS→Android 매핑 보완 1단계. 아직 커밋하지 않았다.
+- 확정한 버그 둘:
+  - `readStringPool()`이 UTF-16 string pool을 UTF-8 디코더로 읽어 type pool이 `'c\x00o\x00l\x00o\x00r\x00'`로 깨졌다. `pruneCompiledResources()`가 type pool 내용을 안 써서 그동안 드러나지 않았다.
+  - `theme_body_cell_border_color`가 CSS에서 파싱되는데도 `resources.arsc`에 기록되지 않았다. 하드코딩 id 표에서 빠져 있었고, 값 검증이 없어 테스트가 통과했다.
+- 변경한 파일과 동작: `static/resources.js`가 색상 entry id를 base.apk에서 파생한다(`compiledEntryIds`). 값 판독기 `compiledColorValues`를 추가했다 — 검증과 역방향 변환이 함께 쓴다. `static/theme.js`는 CSS 이미지 선언을 슬롯으로 읽어(`imagePropertyTargets`) Android resource를 정하고, 선언이 없으면 파일명 규약으로 물러난다. `TabBarStyle-Main`→`theme_maintab_cell_color`, `LabelStyle-PasscodeTitle`→`theme_passcode_color`, `HeaderStyle-Main` 배경→`theme_header_cell_color` 매핑을 추가했다. 친구추가 버튼 이미지는 무조건 제거하던 규칙을 풀고 입력이 있을 때만 유지한다. `static/preview.js`의 stretch source 하한을 CSS `1px`에서 bitmap 1px에 해당하는 `1 / scale`로 고쳤다.
+- 실행한 검증 명령과 결과: `static/*.js`·`worker.js` `node --check` 통과, `npm run test:e2e` 통과, 실제 `뚱카츄.ktheme` E2E 통과, `git diff --check` 통과. 실제 입력 출력에서 커밋본 대비 달라진 색은 의도한 둘뿐이다 — `theme_passcode_color` `@null`→`#FF000000`, `theme_body_cell_border_color`가 처음으로 CSS 값(alpha 0.09 → `0x17000000`)으로 기록된다. 생성된 `npTc` 메타데이터는 커밋본과 완전히 동일하다.
+- 회귀 가드: e2e가 실제 `base.apk`로 compiled color 치환을 직접 검증하고, 실제 base 사용 시 CSS가 정의한 모든 색이 출력 table에 있는지 대조한다.
+- 실기기 재확인: `SM-S931N`(480dpi, 1080×2340, 카카오톡 26.7.1)에 이번 빌드를 설치·적용해 채팅방을 확인했다. 2글자 메시지 말풍선이 원본 크기로 온전히 그려지고 긴 말풍선도 정상이다. 직전에 보고된 "짧은 말풍선 폭 좁음"은 이 빌드에서 재현되지 않는다. 생성 `npTc`가 커밋본과 동일하므로 원인은 기기에 남아 있던 이전 빌드로 본다.
+- 말풍선 텍스트 영역이 좁은 것은 테마 선언값이다. `-ios-title-edgeinsets: 61px 23.33px 20px 68px`이라 114pt 폭 중 좌 23.33 + 우 68을 여백으로 잡아 텍스트 자리가 22.67pt만 남는다. iOS도 같은 값을 쓴다.
+- 확인하지 못한 항목과 남은 리스크: Android→iOS 역방향 변환과 친구·더보기·잠금화면 프리뷰는 착수 전이다. 기기 설치 과정에서 기존 `com.ktheme.themex_bf801df4f`를 제거하고 재설치했다 — 브라우저마다 서명 키가 달라 같은 패키지를 덮어쓸 수 없다.

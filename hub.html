@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#FEE500">
+  <title>enghyu — 웹에서 끝나는 작은 도구들</title>
+  <meta name="description" content="설치 없이 브라우저에서 돌아가는 작은 도구를 만들어 올립니다. 카톡 테마를 안드로이드 APK로 바꾸는 변환기부터 시작합니다.">
+  <!-- Google tag (gtag.js). 하위 경로 페이지와 같은 태그다. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-G5WKCES0DY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-G5WKCES0DY');
+  </script>
+  <!-- 애드센스가 확인하고 심사하는 사이트 루트가 이 페이지다. -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8418699849772106"
+     crossorigin="anonymous"></script>
+  <style>
+    :root {
+      color-scheme: light;
+      --page: #f1f3ef;
+      --surface: #fbfcfa;
+      --surface-soft: #e9ede8;
+      --ink: #202622;
+      --muted: #667068;
+      --line: #d5ddd5;
+      --accent: #FEE500;
+      --accent-ink: #191919;
+      font: 16px/1.5 Arial, "Apple SD Gothic Neo", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { min-width: 320px; background: var(--page); }
+    body { min-width: 320px; min-height: 100dvh; margin: 0; color: var(--ink); background: var(--page); }
+    :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+    .shell { width: min(760px, calc(100% - 40px)); margin: 0 auto; }
+    .site-header { display: flex; align-items: center; justify-content: space-between; min-height: 76px; border-bottom: 1px solid var(--line); }
+    .brand { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; font-size: 15px; font-weight: 800; letter-spacing: -0.02em; }
+    .brand-mark { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 9px; color: var(--accent-ink); background: var(--accent); font-size: 12px; font-weight: 900; }
+
+    main { padding: 34px 0 10px; font-size: 11pt; line-height: 1.75; }
+    h1 { margin: 0 0 14px; font-size: 26pt; font-weight: 800; letter-spacing: -0.03em; }
+    h2 { margin: 34px 0 10px; font-size: 13pt; font-weight: 800; }
+    p { margin: 0 0 12px; }
+    a { color: var(--ink); text-decoration-color: var(--muted); text-underline-offset: 3px; }
+
+    .project { display: block; margin: 16px 0 0; padding: 18px 20px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); text-decoration: none; transition: border-color 160ms ease, background-color 160ms ease; }
+    .project:hover { border-color: var(--ink); background: var(--surface-soft); }
+    .project strong { display: block; margin-bottom: 4px; font-size: 12pt; }
+    .project span { color: var(--muted); font-size: 10pt; }
+    .project-path { display: inline-block; margin-top: 8px; color: var(--muted); font-family: ui-monospace, Menlo, monospace; font-size: 9pt; }
+
+    .site-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 14px; margin-top: 40px; padding: 18px 0 30px; border-top: 1px solid var(--line); color: var(--muted); font-size: 10pt; }
+    .site-footer a { color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="enghyu 홈">
+        <span class="brand-mark" aria-hidden="true">eh</span>
+        <span>enghyu</span>
+      </a>
+    </header>
+
+    <main>
+      <h1>웹에서 끝나는 작은 도구들</h1>
+      <p>설치할 것도 가입할 것도 없이 브라우저에서 바로 돌아가는 도구를 만들어 올리는 곳입니다. 파일을 서버에 올려 두고 기다리게 하는 방식이 싫어서, 할 수 있는 일은 되도록 브라우저 안에서 끝내도록 만듭니다.</p>
+
+      <h2>지금 쓸 수 있는 것</h2>
+
+      <a class="project" href="/ktheme/">
+        <strong>카톡 테마 변환기</strong>
+        <span>카카오톡 iOS 테마 파일(<code>.ktheme</code>)을 안드로이드에서 설치할 수 있는 APK로 바꿔 줍니다. 압축을 풀고 색과 이미지를 읽어 미리보기를 그린 다음 APK를 조립하고 서명하는 과정 전부가 브라우저 안에서 끝납니다. 반대로 APK에서 <code>.ktheme</code>를 다시 뽑는 역변환도 됩니다.</span>
+        <span class="project-path">enghyu.com/ktheme/</span>
+      </a>
+
+      <h2>왜 브라우저에서 하나</h2>
+      <p>테마 파일에는 대화 배경으로 쓸 사진처럼 남에게 보이고 싶지 않은 것이 들어갈 수 있습니다. 변환을 서버에서 돌리면 그 파일을 서버에 올려야 하는데, 브라우저에서 돌리면 올릴 이유가 없어집니다. 압축 해제, 색 치환, 이미지 리샘플링, APK 서명까지 전부 자바스크립트로 처리합니다.</p>
+      <p>다만 이미 누군가 변환해 둔 파일과 완전히 같은 파일이면 결과를 다시 만들지 않고 공용 캐시에서 바로 내보냅니다. 무엇이 어디에 저장되는지는 도구마다 개인정보 처리 방침에 적어 두었습니다.</p>
+
+      <h2>만드는 사람</h2>
+      <p>안드로이드 앱을 만드는 개발자입니다. 업무에서 쓰다 아쉬웠던 것, 직접 필요했던 것을 주말에 만들어 여기에 둡니다. 문의나 버그 신고는 <a href="mailto:k45414254@gmail.com">k45414254@gmail.com</a>으로 보내 주세요.</p>
+    </main>
+
+    <footer class="site-footer">
+      <span>enghyu</span>
+      <a href="/ktheme/privacy">개인정보 처리 방침</a>
+    </footer>
+  </div>
+</body>
+</html>

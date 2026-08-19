@@ -22,16 +22,18 @@ import {
   unsupportedImageInputs,
   unsupportedImageSlots,
 } from "./theme.js";
+import {basePath} from "./base-path.js";
 
+const basePathUrl = () => `${basePath}base.apk`;
 const baseCacheName = "ktheme-base-v2";
 
 async function loadBase() {
   const cache = await caches.open(baseCacheName);
-  const cached = await cache.match("/base.apk");
+  const cached = await cache.match(basePathUrl());
   if (cached) return cached.arrayBuffer();
-  const response = await fetch("/base.apk", {cache: "no-cache"});
+  const response = await fetch(basePathUrl(), {cache: "no-cache"});
   if (!response.ok) throw new Error("base.apk를 불러오지 못했습니다.");
-  await cache.put("/base.apk", response.clone());
+  await cache.put(basePathUrl(), response.clone());
   return response.arrayBuffer();
 }
 

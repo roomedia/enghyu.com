@@ -1,6 +1,13 @@
 node_modules/
+public/
 test-results/
 playwright-report/
 .wrangler/
 .DS_Store
 *.log
+
+# Beads / Dolt files (added by bd init)
+.dolt/
+*.db
+.beads-credential-key
+.beads/proxieddb/

@@ -7,6 +7,14 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "Content-Type, X-Theme-Name",
   "Access-Control-Expose-Headers": "X-Theme-Name",
 };
+// 앱이 마운트된 경로. 정적 자산도 `public/ktheme/` 아래로 들어간다.
+// 프로젝트가 늘면 형제 경로에 각자 Worker를 route로 붙인다.
+const mountPath = "/ktheme";
+const canonicalOrigin = "https://enghyu.com";
+// 프리픽스 없는 옛 경로도 받는다. 이미 열려 있는 탭의 API 호출을 끊지 않는다.
+const apiRoute = name => new RegExp(`^(?:${mountPath})?/${name}/([a-f0-9]{64})$`);
+const apiPathPattern = new RegExp(`^(?:${mountPath})?/(free-claim|download-count|shared-cache|shared-theme)/`);
+
 const apkType = "application/vnd.android.package-archive";
 const themeType = "application/zip";
 const maxBodySize = 64 * 1024 * 1024;
@@ -193,7 +201,7 @@ const resetBaseCache = () => { cachedBaseBytes = null; };
 async function baseBytes(env, request) {
   if (cachedBaseBytes) return cachedBaseBytes;
   if (!env.ASSETS) throw new Error("ASSETS 바인딩이 없어 base.apk 를 읽을 수 없습니다");
-  const response = await env.ASSETS.fetch(new URL("/base.apk", request.url));
+  const response = await env.ASSETS.fetch(new URL(`${mountPath}/base.apk`, request.url));
   if (!response.ok) throw new Error(`base.apk 를 받지 못했습니다 (${response.status})`);
   cachedBaseBytes = new Uint8Array(await response.arrayBuffer());
   return cachedBaseBytes;
@@ -242,13 +250,23 @@ export default {
     const url = new URL(request.url);
     const now = new Date();
 
-    const claim = url.pathname.match(/^\/free-claim\/([a-f0-9]{64})$/);
+    // 옛 workers.dev 링크를 새 도메인으로 넘긴다. 문서와 자산만 옮기고 API는 남겨 둔다 —
+    // 이미 열려 있는 탭이 상대경로로 부르는 호출을 끊지 않으려는 유예다.
+    // `?t=` 공유 링크는 url.search가 그대로 실려서 살아난다.
+    if (url.hostname.endsWith(".workers.dev") && !apiPathPattern.test(url.pathname)) {
+      const target = url.pathname === "/" ? `${mountPath}/` : `${mountPath}${url.pathname}`;
+      return Response.redirect(`${canonicalOrigin}${target}${url.search}`, 301);
+    }
+    // `/ktheme`로 들어오면 슬래시를 붙인다. 자산 상대경로와 basePath 계산이 여기 걸린다.
+    if (url.pathname === mountPath) return Response.redirect(`${url.origin}${mountPath}/${url.search}`, 301);
+
+    const claim = url.pathname.match(apiRoute("free-claim"));
     if (claim) {
       if (request.method !== "POST") return new Response("Method not allowed", {status: 405, headers: responseHeaders({Allow: "POST, OPTIONS"})});
       return jsonResponse({sha: claim[1], free: await claimFreeDownload(env, claim[1], now)});
     }
 
-    const counter = url.pathname.match(/^\/download-count\/([a-f0-9]{64})$/);
+    const counter = url.pathname.match(apiRoute("download-count"));
     if (counter) {
       const sha = counter[1];
       const objectKey = `stats/${sha}.json`;
@@ -264,8 +282,10 @@ export default {
       return jsonResponse(await bumpDownloadCount(env, sha, name, detail, now));
     }
 
-    const match = url.pathname.match(/^\/(shared-cache|shared-theme)\/([a-f0-9]{64})$/);
-    if (!match) return new Response("Not found", {status: 404, headers: responseHeaders()});
+    const match = url.pathname.match(new RegExp(`^(?:${mountPath})?/(shared-cache|shared-theme)/([a-f0-9]{64})$`));
+    // run_worker_first로 Worker가 자산보다 앞에 서므로 남은 경로는 여기서 직접 내보낸다.
+    // 이 줄이 없으면 사이트 전체가 404가 된다.
+    if (!match) return env.ASSETS ? env.ASSETS.fetch(request) : new Response("Not found", {status: 404, headers: responseHeaders()});
     if (!keyPattern.test(match[2])) return new Response("Bad cache key", {status: 400, headers: responseHeaders()});
 
     const bucket = buckets[match[1]];

@@ -29,6 +29,8 @@
 | `apk.js` | `base.apk` 로드, 테마 적용 APK 조립, ZIP 정렬 |
 | `resources.js` | values XML·`resources.arsc` 편집, 앱 identity |
 | `ninepatch.js` | iOS 말풍선 PNG → Android `npTc` 9-patch |
+| `adgate.js` | 다운로드 보상형 광고 게이트. 무료 1회 claim과 adBreak 재생 |
+| `analytics.js` | GA4 이벤트 전송, 테마 이름 정규화, 다운로드 집계 보고 |
 | `sign.js` | RSA 키·인증서, APK Signature Scheme v2 |
 | `bytes.js` | 바이트 조립과 SHA-256 유틸 |
 | `reverse.js` | Android 테마 APK → iOS `.ktheme` 역변환 |

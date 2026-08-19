@@ -3,9 +3,13 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "build": "node scripts/build-assets.mjs",
+    "deploy": "npm run build && npx wrangler deploy",
     "test:e2e": "node tests/e2e/local-flow.mjs",
+    "test:unit": "node tests/unit/gate-and-metrics.mjs",
     "test:apk": "node tests/apk-gate.mjs",
-    "test:worker": "node tests/unit/put-validation.mjs"
+    "test:worker": "node tests/unit/put-validation.mjs",
+    "test": "npm run test:unit && npm run test:worker && npm run test:e2e"
   },
   "dependencies": {
     "jszip": "^3.10.1",

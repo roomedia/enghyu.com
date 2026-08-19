@@ -5,6 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#FEE500">
   <title>카톡 테마 변환기</title>
+  <!-- Google tag (gtag.js). 페이지 조회는 이 정적 태그가 보낸다. app.js의 track()은
+       사용자 동작에만 발화하므로 이게 없으면 조회 자체가 집계되지 않는다.
+       측정 ID를 바꿀 때는 아래 KTHEME_GA_ID도 같이 바꾼다. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-G5WKCES0DY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-G5WKCES0DY');
+  </script>
+  <!-- 애드센스 사이트 확인 스니펫. 크롤러가 <head>에서 이 태그를 찾으므로 정적으로 둔다.
+       Ad Placement API도 같은 스크립트를 쓴다. adBreak·adConfig는 이 스크립트가 만들어 주지
+       않고 페이지가 정의해야 한다. const로 선언하면 window에 안 붙어서 명시로 대입한다.
+       pub 번호를 바꿀 때는 아래 KTHEME_ADSENSE_CLIENT도 같이 바꾼다. -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8418699849772106"
+     crossorigin="anonymous" data-ad-frequency-hint="30s"></script>
+  <script>
+    window.adsbygoogle = window.adsbygoogle || [];
+    window.adBreak = window.adConfig = options => window.adsbygoogle.push(options);
+  </script>
   <style>
     :root {
       color-scheme: light;
@@ -53,6 +73,9 @@
     .form-hint { margin: 0; color: var(--muted); font-size: 12px; }
     .snackbar { position: fixed; bottom: 24px; left: 50%; z-index: 30; max-width: min(560px, calc(100% - 32px)); padding: 13px 18px; border-radius: 12px; color: var(--surface); background: var(--ink); box-shadow: 0 12px 32px rgb(32 38 34 / 0.24); font-size: 13px; line-height: 1.45; opacity: 0; pointer-events: none; visibility: hidden; transform: translate(-50%, 12px); transition: opacity 180ms ease, transform 180ms ease, visibility 180ms ease; }
     .snackbar.is-visible { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+
+    .site-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 14px; padding: 18px 0 30px; border-top: 1px solid var(--line); color: var(--muted); font-size: 10pt; }
+    .site-footer a { color: var(--muted); text-underline-offset: 3px; }
 
     .preview-stage { position: relative; display: grid; justify-items: center; min-height: 690px; padding: 30px 0 18px; }
     .preview-stage::before { content: ""; position: absolute; top: 7%; right: 2%; width: 72%; height: 78%; border-radius: 46% 54% 50% 50%; background: var(--page-deep); transform: rotate(-8deg); z-index: -1; }
@@ -154,7 +177,7 @@
 <body>
   <div class="shell">
     <header class="site-header">
-      <a class="brand" href="/" aria-label="카톡 테마 변환기 홈">
+      <a class="brand" href="./" aria-label="카톡 테마 변환기 홈">
         <span class="brand-mark" aria-hidden="true">카톡</span>
         <span>카톡 테마 변환기</span>
       </a>
@@ -187,9 +210,23 @@
         </div>
       </section>
     </main>
+
+    <footer class="site-footer">
+      <a href="/">enghyu</a>
+      <a href="privacy">개인정보 처리 방침</a>
+    </footer>
   </div>
   <div id="snackbar" class="snackbar" role="status" aria-live="polite" aria-hidden="true"></div>
+  <script>
+    // 배포 환경에서만 채운다. 비어 있으면 광고와 GA는 아무 요청도 보내지 않는다.
+    // 애드센스 심사 통과 전까지는 비워 둔다. 광고가 안 붙는 상태에서 게이트를 켜면
+    // adBreak 콜백이 아무것도 안 와서 45초 타임아웃까지 다운로드가 멈춘다.
+    // 심사가 끝나면 "ca-pub-8418699849772106"을 넣는다. 먼저 head 태그에
+    // data-adbreak-test="on"을 붙여 목 광고로 게이트 전 구간을 확인하고 지운다.
+    window.KTHEME_ADSENSE_CLIENT = "";
+    window.KTHEME_GA_ID = "G-G5WKCES0DY";
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
-  <script type="module" src="/static/app.js"></script>
+  <script type="module" src="static/app.js"></script>
 </body>
 </html>

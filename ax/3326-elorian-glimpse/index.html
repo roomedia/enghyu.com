@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elorian 'Glimpse' — 이미지를 보고 추론하는 비주얼 리즈닝 모델, GPT-6 Astra 대비 94% 저렴</title>
+<meta name="description" content="Elorian의 첫 모델 Glimpse는 'visual scratch space' 메커니즘으로 추론 중간에 원본 이미지를 다시 들여다본다. 입력 $0.60·출력 $3.00/1M tokens, GPT-6 Astra 대비 94% 저렴, 자체 평가에서 과학 차트 추론·쇼트폼 캡셔닝은 Astra 능가. 개발자 관점에서 비용 구조와 쟁점을 정리한다.">
+<meta property="og:title" content="Elorian 'Glimpse' — 이미지를 보고 추론하는 비주얼 리즈닝 모델, GPT-6 Astra 대비 94% 저렴">
+<meta property="og:description" content="추론 중간에 이미지로 복귀하는 visual scratch space. 입력 $0.60·출력 $3.00, Astra 대비 94% 저렴. 멀티모달 에이전트 비용 구조가 바뀌는 지점.">
+<meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3326-cover.png">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --text: #1a1a1a;
+    --muted: #666;
+    --border: #e5e5e5;
+    --code-bg: #f6f6f6;
+    --accent: #0b6efd;
+    --callout-bg: #f4f8ff;
+    --callout-border: #0b6efd;
+    --warn-bg: #fff8ef;
+    --warn-border: #e8930c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #101216;
+      --text: #e8e8e8;
+      --muted: #9a9a9a;
+      --border: #2a2d33;
+      --code-bg: #1b1e24;
+      --accent: #5ea1ff;
+      --callout-bg: #14202f;
+      --callout-border: #5ea1ff;
+      --warn-bg: #2a2118;
+      --warn-border: #e8930c;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR",
+                 "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 800px; margin: 0 auto; padding: 48px 24px 96px; }
+  header { margin-bottom: 32px; }
+  .kicker {
+    font-size: 13px; font-weight: 700; letter-spacing: 0.06em;
+    color: var(--accent); text-transform: uppercase; margin-bottom: 12px;
+  }
+  h1 { font-size: 30px; line-height: 1.4; margin: 0 0 12px; letter-spacing: -0.01em; }
+  .meta { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+  .meta a { color: inherit; }
+  h2 { font-size: 22px; margin: 48px 0 16px; letter-spacing: -0.01em; }
+  h3 { font-size: 17px; margin: 32px 0 12px; }
+  p { margin: 0 0 16px; }
+  ul, ol { margin: 0 0 16px; padding-left: 22px; }
+  li { margin-bottom: 8px; }
+  figure { margin: 28px 0; }
+  figure img {
+    width: 100%; height: auto; display: block;
+    border: 1px solid var(--border); border-radius: 12px;
+  }
+  figcaption { color: var(--muted); font-size: 13px; text-align: center; margin-top: 8px; }
+  code {
+    font-family: "SF Mono", "Menlo", "Consolas", "D2Coding", monospace;
+    font-size: 0.88em; background: var(--code-bg);
+    padding: 2px 6px; border-radius: 5px;
+  }
+  pre {
+    background: var(--code-bg); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px 18px; overflow-x: auto;
+    font-size: 14px; line-height: 1.6; margin: 0 0 20px;
+  }
+  pre code { background: none; padding: 0; border-radius: 0; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .callout {
+    background: var(--callout-bg); border-left: 3px solid var(--callout-border);
+    padding: 14px 18px; border-radius: 0 10px 10px 0; margin: 24px 0;
+  }
+  .callout.warn { background: var(--warn-bg); border-left-color: var(--warn-border); }
+  .callout p:last-child { margin-bottom: 0; }
+  table {
+    width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px;
+  }
+  th, td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; }
+  th { background: var(--code-bg); }
+  hr { border: none; border-top: 1px solid var(--border); margin: 48px 0 24px; }
+  footer { color: var(--muted); font-size: 14px; }
+  .tags { margin: 8px 0 0; }
+  .tags span {
+    display: inline-block; border: 1px solid var(--border); border-radius: 999px;
+    padding: 3px 12px; font-size: 13px; margin: 0 6px 6px 0;
+  }
+  @media (max-width: 560px) {
+    h1 { font-size: 24px; }
+    table { font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="kicker">AX Trend</div>
+    <h1>Elorian 'Glimpse' — 이미지를 보고 추론하는 비주얼 리즈닝 모델, GPT-6 Astra 대비 94% 저렴</h1>
+    <p class="meta">2026-10-16 · <a href="https://github.com/roomedia/ax-trend/issues/3326">원문 이슈 #3326</a></p>
+    <figure>
+      <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3326-cover.png" alt="Glimpse: Elorian의 첫 비주얼 리즈닝 모델 — visual scratch space로 추론 중 이미지 복귀·크롭·코드 실행, 입력 $0.60·출력 $3.00, GPT-6 Astra 대비 94% 저렴, $55M 시드 라운드, 전 Google DeepMind Andrew Dai 창업">
+    </figure>
+  </header>
+
+  <p>미국 Palo Alto의 AI 스타트업 Elorian이 10월 16일(금) 첫 모델 <strong>Glimpse</strong>를 리서치 프리뷰로 공개했다 (TechCrunch 단독 보도). 핵심 메커니즘은 <strong>"visual scratch space"</strong> — 추론 중간에 원본 이미지로 되돌아가 특정 영역을 크롭하거나 비디오 프레임을 추출하고, 코드를 실행해 측정·비교한다.</p>
+
+  <p>CEO는 전 Google DeepMind 연구원 <strong>Andrew Dai</strong>. 그가 들려준 출발점이 재밌다: 보드게임 사진을 찍어 프론티어 모델에게 "누가 이기고 있냐"고 물었더니 답을 못 했다. 보드게임마다 고유한 visual language·iconography·symbol이 있는데 모델이 이를 직관적으로 이해하지 못했다는 것. <em>"인간은 텍스트 없는 이케아 조립 설명서를 보고도 조립하는데, 왜 AI는 못하느냐"</em>가 그의 문제 제기다.</p>
+
+  <div class="callout">
+    <p><strong>개발자 관점 한 줄 요약:</strong> 멀티모달 에이전트의 이미지·비디오 처리 비용을 낮추는 "작지만 시각 추론에 강한" 옵션 하나가 생겼다. 앱 내 카메라·스크린샷 분석(UI 자동화, 문서·차트 해석) 워크로드에 직접 써먹을 수 있는 후보라는 점에서 주목할 만하다.</p>
+  </div>
+
+  <h2>기존 멀티모달 vs Glimpse: 추론 루프가 다르다</h2>
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3326-scratchspace.png" alt="기존 멀티모달 vs Glimpse: 기존 모델은 이미지 한 번 보고 토큰 변환 후 텍스트로만 추론(one-shot), Glimpse는 추론 중간에 원본 이미지로 복귀(multi-round), 크롭·줌 후 코드 실행으로 측정·비교 연산">
+    <figcaption>visual scratch space — 인간처럼 이미지를 다시 들여다본다</figcaption>
+  </figure>
+
+  <p>기존 멀티모달 모델은 이미지를 한 번 보고 토큰으로 변환한 뒤부터는 텍스트로만 추론한다. 첫 인코딩에서 놓친 디테일은 이후 영원히 사라진다. Glimpse는 추론 과정에서 원본 이미지로 다시 돌아간다:</p>
+  <ul>
+    <li><strong>크롭·줌</strong> — 의심 영역을 확대해 재검사</li>
+    <li><strong>비디오 프레임 추출</strong> — 쇼트폼 영상에서 필요한 프레임만 떼어내기</li>
+    <li><strong>코드 실행</strong> — 크롭한 영역에 대해 측정·비교 연산 수행</li>
+  </ul>
+
+  <p>아이디어 자체가 완전히 새로운 건 아니다. OpenAI는 2025년 o-시리즈에 추론 중 크롭·줌을 넣었고, CharTool 연구(2026년 8월 업데이트)는 이미지 크롭과 코드 기반 계산을 결합했다. Elorian의 차별점은 <strong>"그 메커니즘 하나에 맞춰 모델 전체를 설계하고 저렴하게 만들었다"</strong>는 주장이다. 소규모 팀이 수백 대의 GPU로 학습시켰고, 비교 대상 프론티어 시스템보다 "substantially smaller"하다고 한다.</p>
+
+  <h2>가격: GPT-6 Astra 대비 94% 저렴</h2>
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3326-price.png" alt="Glimpse 가격: 입력 $0.60/1M tokens (Astra $10.00의 6%), 출력 $3.00/1M tokens (Astra $50.00의 6%), 94% 저렴 — Sonnet·Sol보다 저렴, Haiku·Luna보다 비싼 mid-level 포지셔닝">
+    <figcaption>Elorian Glimpse의 공격적인 가격 정책</figcaption>
+  </figure>
+
+  <table>
+    <tr><th>모델</th><th>입력 / 1M tokens</th><th>출력 / 1M tokens</th></tr>
+    <tr><td><strong>Glimpse</strong></td><td><strong>$0.60</strong></td><td><strong>$3.00</strong></td></tr>
+    <tr><td>GPT-6 Astra</td><td>$10.00</td><td>$50.00</td></tr>
+    <tr><td>Claude Opus 5.5</td><td>$4.00</td><td>$20.00</td></tr>
+    <tr><td>GPT-6.1 Sol</td><td>$2.00</td><td>$10.00</td></tr>
+  </table>
+
+  <p>Elorian이 제시한 포지셔닝은 "Sonnet·Sol 같은 mid-level 모델보다 저렴하고, Haiku·Luna 같은 lightweight 모델보다 비싸다". 에이전트 비용 관점에서 이게 의미하는 바를 간단히 계산해보자. 회사 제시 단일 예시(LIBERO 태스크 로봇 플래닝)는 에피소드당 Glimpse $0.035 vs Astra $0.249였다.</p>
+
+  <pre><code># 이미지·비디오 처리 10,000회 에이전트 잡의 추론 비용 비교
+INPUT_PER_CALL  = 8_000   # 이미지 토큰 (고해상도 스크린샷 기준)
+OUTPUT_PER_CALL = 1_000   # 텍스트 출력 토큰
+CALLS = 10_000
+
+def cost(input_per_m, output_per_m):
+    return CALLS * (INPUT_PER_CALL * input_per_m + OUTPUT_PER_CALL * output_per_m) / 1e6
+
+print(f"Glimpse:   ${cost(0.60, 3.00):,.0f}")   # $78
+print(f"Astra:     ${cost(10.00, 50.00):,.0f}")  # $1,300
+print(f"Opus 5.5:  ${cost(4.00, 20.00):,.0f}")   # $520
+# Glimpse ≈ 6% of Astra, 15% of Opus 5.5</code></pre>
+
+  <div class="callout">
+    <p><strong>실무 포인트:</strong> 시각 추론 품질이 "충분히" 좋다면, 월 100만 건 단위의 UI 자동화·스크린샷 회귀 검사 같은 워크로드에서 토큰 비용이 1/16로 떨어진다. 벤치마크 검증이 관건이다.</p>
+  </div>
+
+  <h2>평가 결과: Astra를 넘은 두 영역</h2>
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3326-benchmark.png" alt="자체 평가: 과학 차트 추론과 쇼트폼 비디오 캡셔닝에서 GPT-6 Astra 능가(wins), 나머지 비주얼 리즈닝 태스크는 competitive — 회사 자체 평가, runtimewire: wins are narrow, independent validation needed">
+    <figcaption>자체 평가 기준 Astra를 넘은 영역과 독립 검증이 필요한 이유</figcaption>
+  </figure>
+
+  <p>회사 자체 평가에 따르면 Glimpse는 두 태스크에서 GPT-6 Astra를 능가했고, 나머지 비주얼 리즈닝 태스크에서는 "competitive"한 결과를 보였다.</p>
+
+  <div class="callout warn">
+    <p><strong>아직 미확인:</strong> 벤치마크는 전적으로 Elorian 자체 발표다. runtimewire는 "wins are narrow, company-reported results"이며 자사 표에서 GPT-6 Astra에 명확히 진 항목도 있다고 지적했다. 독립 검증 없이는 회사 주장으로 취급할 것. 또한 챗 인터페이스 접근성에 보도가 엇갈린다 — TechCrunch는 waitlist-only라고 전했으나 Elorian 자체 포스트는 "API와 chat UI를 통해 오늘 이용 가능"이라고 썼다. 실제 가용성은 미확인이다.</p>
+  </div>
+
+  <h2>돈의 움직임: $55M 시드, $300M 밸류에이션</h2>
+  <p>제품 출시 전 $55M 시드 라운드를 $300M 밸류에이션에 유치했다. Striker Venture Partners·Menlo Ventures·Altimeter Capital이 공동 리드했고, <strong>Nvidia와 Google 최고과학자 Jeff Dean</strong>이 참여했다. 회사는 6개월 전 스텔스에서 나왔다.</p>
+
+  <p>초기 타깃은 비디오 데이터를 대량 보유한 기업: 로봇 회사, 과학 연구소, 미디어·크리에이티브 회사. 장기 목표는 장면을 모델링해 액션을 선택하고 로봇을 직접 제어하는 방향이며, 내년 목표는 <em>"the world's best visual reasoning model"</em>이다.</p>
+
+  <div class="callout">
+    <p><strong>왜 주목할 만한가:</strong> 비주얼 scratch space 방식이 프론티어 대비 1/5 스케일에서 통한다는 주장은 검증해볼 가치가 있다. 사실이라면 "작고 특화된 모델이 프론티어를 특정 태스크에서 이긴다"는 패턴이 시각 추론으로 확장되는 것이고, 이는 온디바이스·로컬 에이전트 스택(예: RTX Spark 노트북)의 기본 비주얼 모델 후보를 바꾼다. 다만 모든 수치는 회사 주장 — 우리 워크로드는 직접 측정해서 판단할 것.</p>
+  </div>
+
+  <hr>
+  <footer>
+    <p><a href="https://github.com/roomedia/ax-trend/issues/3326">원문 이슈 #3326</a> · 핵심 링크: <a href="https://techcrunch.com/2026/10/16/elorians-first-ai-model-wants-to-reason-with-images-not-just-about-them/">TechCrunch 단독 보도 (10/16)</a> · <a href="https://fourweekmba.com/ai-nvidia-backed-elorian-prices-glimpse-94-below-gpt-6-astra/">fourweekmba 가격·벤치마크 분석</a> · <a href="https://runtimewire.com/article/elorian-glimpse-visual-reasoning-model-launch">runtimewire 비판적 리뷰</a></p>
+    <p class="tags"><span>AX Trend</span><span>Elorian</span><span>Glimpse</span><span>visual reasoning</span><span>multimodal</span></p>
+  </footer>
+</main>
+</body>
+</html>

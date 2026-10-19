@@ -199,3 +199,22 @@ npm run test:e2e
 ### 다음 작업 우선순위
 - enghyu-ax-publisher 크론이 새 경로(`~/workspace/enghyu-site/ax/`) 사용하도록 업데이트됨
 - 다음 크론 run에서 자동 배포 동작 확인
+
+## AX 글 목록 + 허브 진입 (2026-10-19)
+
+### 현재 구현 상태
+- `ax/index.html`: 글 목록 페이지 (카드형, 최신순). `scripts/gen_ax_index.py`가 `ax/*/` 스캔해 자동 생성
+- `hub.html`: "지금 쓸 수 있는 것" 섹션에 AX 트렌드 카드 추가 (`/ax/` 링크)
+- `deploy_cf.py`: 배포 전 `gen_ax_index.py` 실행하도록 연결
+
+### 변경한 파일과 동작
+- `scripts/gen_ax_index.py`: 신규 (title/description/og:image 파싱 → 카드 목록 HTML)
+- `ax/index.html`: 생성됨 (5개 글)
+- `hub.html`: AX 트렌드 project 카드 추가
+- `deploy_cf.py`: ax 목록 갱신 단계 추가
+
+### 실행한 검증 명령과 결과
+- `python3 scripts/gen_ax_index.py`: 5개 글 목록 생성 성공
+- `python3 deploy_cf.py`: 배포 성공
+- `https://enghyu.com/ax/`: 글 목록 정상 표시 확인
+- `https://enghyu.com/`: AX 트렌드 카드 정상 표시 확인

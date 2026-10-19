@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AX 트렌드 — enghyu</title>
+<meta name="description" content="AI/AX 트렌드를 개발자 관점에서 정리한 글 모음.">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --text: #1a1a1a;
+    --muted: #666;
+    --border: #e5e5e5;
+    --card: #fafafa;
+    --accent: #0b6efd;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #101216;
+      --text: #e8e8e8;
+      --muted: #9a9a9a;
+      --border: #2a2d33;
+      --card: #17191e;
+      --accent: #5b9dff;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+         font: 16px/1.6 -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif; }
+  .wrap { max-width: 800px; margin: 0 auto; padding: 40px 20px 80px; }
+  header.top { display: flex; align-items: center; justify-content: space-between;
+               margin-bottom: 8px; }
+  header.top a.home { color: var(--muted); text-decoration: none; font-size: 14px; }
+  h1 { margin: 0 0 6px; font-size: 28px; letter-spacing: -0.02em; }
+  p.lead { margin: 0 0 28px; color: var(--muted); }
+  .card { display: block; margin: 0 0 16px; border: 1px solid var(--border);
+          border-radius: 14px; overflow: hidden; background: var(--card);
+          color: inherit; text-decoration: none; }
+  .card:hover { border-color: var(--accent); }
+  .card img { display: block; width: 100%; aspect-ratio: 16/9; object-fit: cover;
+              border-bottom: 1px solid var(--border); }
+  .card-body { padding: 18px 20px; }
+  .card-body .num { display: inline-block; margin-bottom: 6px; padding: 2px 8px;
+                    border-radius: 999px; background: var(--border);
+                    font-size: 12px; color: var(--muted); }
+  .card-body strong { display: block; margin-bottom: 6px; font-size: 17px;
+                      line-height: 1.45; }
+  .card-body .desc { display: block; color: var(--muted); font-size: 14px;
+                     line-height: 1.6; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top"><a class="home" href="/">&larr; enghyu</a></header>
+    <h1>AX 트렌드</h1>
+    <p class="lead">AI/AX 트렌드를 개발자 관점에서 정리한 글 모음.</p>
+      <a class="card" href="/ax/3277-gpt6-codebase-maintenance/">
+        <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3277-cover.png" alt="" loading="lazy">
+        <div class="card-body">
+          <span class="num">#3277</span>
+          <strong>OpenAI의 &#x27;GPT-6 family로 소프트웨어 유지보수&#x27; — 죽은 코드·기능 스위치·CI 최적화 실전 프롬프트</strong>
+          <span class="desc">OpenAI Core Experimentation 팀이 GPT-6 패밀리(Codex + GPT-6 Astra, GPT-6.1 Sol)로 자사 코드베이스 유지보수를 돌린 실전 기록. 1,400건 이상의 정리 PR 병합, 죽은 코드 제거·오래된 기능 스위치 추적·CI 비용 절감에 실제로 쓰인 프롬프트의 구조를 개발자 관점에서 정리한다.</span>
+        </div>
+      </a>
+      <a class="card" href="/ax/3273-tester-army-e2e/">
+        <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3273-cover.png" alt="" loading="lazy">
+        <div class="card-body">
+          <span class="num">#3273</span>
+          <strong>tester-army &#x27;e2e&#x27;: 에이전틱 E2E 프레임워크에 검증·마이그레이션 스킬 2종 추가</strong>
+          <span class="desc">tester-army의 오픈소스 E2E 프레임워크 e2e에 두 개의 실전 스킬이 붙었다. /create-verification-skill은 코딩 에이전트에게 자기 작업물을 스스로 검증하는 증거 루프를 장착하고, /migrate-to-e2e는 기존 Playwright·Cypress 스위트를 한 조각씩 옮기는 &#x27;둘 다 green&#x27; 경로를 제공한다.</span>
+        </div>
+      </a>
+      <a class="card" href="/ax/3270-mobile-jev/">
+        <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3270-cover.png" alt="" loading="lazy">
+        <div class="card-body">
+          <span class="num">#3270</span>
+          <strong>mobile-jev: Jev 판단 모델이 구동하는 실기기 Android 에이전트</strong>
+          <span class="desc">droidrun의 mobile-jev는 TypeSafe Jev 판단 모델과 Mobilerun 클라우드 디바이스 API를 결합한 Android 에이전트다. Uber 데모 21초/9액션, ADB 없이 실기기를 조작하고, 완료는 모델의 DONE 응답이 아닌 화면 검증으로 증명한다.</span>
+        </div>
+      </a>
+      <a class="card" href="/ax/3269-jevtest/">
+        <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3269-cover.png" alt="" loading="lazy">
+        <div class="card-body">
+          <span class="num">#3269</span>
+          <strong>jevtest: Jev 판단 모델이 구동하는 평문 모바일 E2E 테스트</strong>
+          <span class="desc">Just-Betr의 jevtest는 TypeSafe Jev(System One) 판단 모델로 움직이는 Android/iOS 평문 E2E 테스트 프레임워크다. YAML 한 장으로 테스트를 쓰고, 모든 판단은 lockfile에 기록되어 --lock frozen이면 네트워크도 API 키도 없이 정확히 리플레이된다.</span>
+        </div>
+      </a>
+      <a class="card" href="/ax/3194-billion-context/">
+        <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3194-cover.png" alt="" loading="lazy">
+        <div class="card-body">
+          <span class="num">#3194</span>
+          <strong>billion-context: 코딩 에이전트 컨텍스트를 5배 아껴 쓰는 압축 프록시</strong>
+          <span class="desc">에이전트와 모델 API 사이에 끼는 컨텍스트 압축 프록시 billion-context. 모델이 직접 압축 타이밍을 정하는 구조, 4개의 컨텍스트 관리 도구, 그리고 주장 뒤의 미확인 수치를 개발자 관점에서 정리한다.</span>
+        </div>
+      </a>
+  </div>
+</body>
+</html>

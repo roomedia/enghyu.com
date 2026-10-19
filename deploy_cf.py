@@ -172,7 +172,13 @@ def deploy_worker(completion_jwt):
 
 
 def main():
-    # 0. 빌드
+    # 0a. ax 글 목록 페이지 갱신
+    print("== ax 목록 갱신 ==")
+    rc = os.system(f"cd {PROJECT_ROOT} && python3 scripts/gen_ax_index.py")
+    if rc != 0:
+        raise RuntimeError("ax 목록 생성 실패")
+
+    # 0b. 빌드
     print("== 빌드 ==")
     rc = os.system(f"cd {PROJECT_ROOT} && node scripts/build-assets.mjs")
     if rc != 0:

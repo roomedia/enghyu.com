@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenAI의 'GPT-6 family로 소프트웨어 유지보수' — 죽은 코드·기능 스위치·CI 최적화 실전 프롬프트</title>
+<meta name="description" content="OpenAI Core Experimentation 팀이 GPT-6 패밀리(Codex + GPT-6 Astra, GPT-6.1 Sol)로 자사 코드베이스 유지보수를 돌린 실전 기록. 1,400건 이상의 정리 PR 병합, 죽은 코드 제거·오래된 기능 스위치 추적·CI 비용 절감에 실제로 쓰인 프롬프트의 구조를 개발자 관점에서 정리한다.">
+<meta property="og:title" content="OpenAI의 'GPT-6 family로 소프트웨어 유지보수' — 죽은 코드·기능 스위치·CI 최적화 실전 프롬프트">
+<meta property="og:description" content="1,400건 이상의 정리 PR을 병합한 OpenAI의 에이전트 유지보수 실전 기록. 죽은 코드·기능 스위치·CI 최적화 프롬프트의 설계 철학을 개발자 관점에서 정리한다.">
+<meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3277-cover.png">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --text: #1a1a1a;
+    --muted: #666;
+    --border: #e5e5e5;
+    --code-bg: #f6f6f6;
+    --accent: #0b6efd;
+    --callout-bg: #f4f8ff;
+    --callout-border: #0b6efd;
+    --warn-bg: #fff8ef;
+    --warn-border: #e8930c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #101216;
+      --text: #e8e8e8;
+      --muted: #9a9a9a;
+      --border: #2a2d33;
+      --code-bg: #1b1e24;
+      --accent: #5ea1ff;
+      --callout-bg: #14202f;
+      --callout-border: #5ea1ff;
+      --warn-bg: #2a2118;
+      --warn-border: #e8930c;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR",
+                 "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 800px; margin: 0 auto; padding: 48px 24px 96px; }
+  header { margin-bottom: 32px; }
+  .kicker {
+    font-size: 13px; font-weight: 700; letter-spacing: 0.06em;
+    color: var(--accent); text-transform: uppercase; margin-bottom: 12px;
+  }
+  h1 { font-size: 30px; line-height: 1.4; margin: 0 0 12px; letter-spacing: -0.01em; }
+  .meta { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+  .meta a { color: inherit; }
+  h2 { font-size: 22px; margin: 48px 0 16px; letter-spacing: -0.01em; }
+  h3 { font-size: 17px; margin: 32px 0 12px; }
+  p { margin: 0 0 16px; }
+  ul, ol { margin: 0 0 16px; padding-left: 22px; }
+  li { margin-bottom: 8px; }
+  figure { margin: 28px 0; }
+  figure img {
+    width: 100%; height: auto; display: block;
+    border: 1px solid var(--border); border-radius: 12px;
+  }
+  figcaption { color: var(--muted); font-size: 13px; text-align: center; margin-top: 8px; }
+  code {
+    font-family: "SF Mono", "Menlo", "Consolas", "D2Coding", monospace;
+    font-size: 0.88em; background: var(--code-bg);
+    padding: 2px 6px; border-radius: 5px;
+  }
+  pre {
+    background: var(--code-bg); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px 18px; overflow-x: auto;
+    font-size: 14px; line-height: 1.6; margin: 0 0 20px;
+  }
+  pre code { background: none; padding: 0; border-radius: 0; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .callout {
+    background: var(--callout-bg); border-left: 3px solid var(--callout-border);
+    padding: 14px 18px; border-radius: 0 10px 10px 0; margin: 24px 0;
+  }
+  .callout.warn { background: var(--warn-bg); border-left-color: var(--warn-border); }
+  .callout p:last-child { margin-bottom: 0; }
+  .stat-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 20px 0;
+  }
+  .stat {
+    border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px;
+  }
+  .stat strong { font-size: 19px; display: block; }
+  .stat span { color: var(--muted); font-size: 13px; }
+  hr { border: none; border-top: 1px solid var(--border); margin: 48px 0 24px; }
+  footer { color: var(--muted); font-size: 14px; }
+  .tags { margin: 8px 0 0; }
+  .tags span {
+    display: inline-block; border: 1px solid var(--border); border-radius: 999px;
+    padding: 3px 12px; font-size: 13px; margin: 0 6px 6px 0;
+  }
+  @media (max-width: 560px) {
+    h1 { font-size: 24px; }
+    .stat-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="kicker">AX Trend</div>
+    <h1>OpenAI의 'GPT-6 family로 소프트웨어 유지보수' — 죽은 코드·기능 스위치·CI 최적화 실전 프롬프트</h1>
+    <p class="meta">2026-10-15 · <a href="https://github.com/roomedia/ax-trend/issues/3277">원문 이슈 #3277</a></p>
+    <figure>
+      <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3277-cover.png" alt="GPT-6 패밀리로 소프트웨어 유지보수: 1,400+ 정리 PR, 80만 줄 삭제, 48% 컨테이너 이미지 축소">
+    </figure>
+  </header>
+
+  <p>OpenAI Developers 블로그가 2026-10-14에 "Maintaining software with the GPT-6 family"를 게시했다. 저자는 OpenAI Core Experimentation 팀의 Rodrigo Roim. GPT-6 계열(<strong>Codex + GPT-6 Astra, GPT-6.1 Sol</strong>)을 이용한 코드베이스 유지보수의 실전 기록이다.</p>
+
+  <p>핵심 수치: 팀은 GPT-6 제안으로 시작된 유지보수 풀 리퀘스트 <strong>1,400건 이상</strong>을 병합했다. 다루는 영역은 세 가지다 — <strong>죽은 코드 제거</strong>("Removing unused code"), <strong>오래된 실험·기능 플래그 추적</strong>("Tracking down stale experiments"), <strong>CI 비용·런타임 절감</strong>("Reducing cost and runtime of continuous integration").</p>
+
+  <div class="stat-grid">
+    <div class="stat"><strong>1,400+</strong><span>GPT-6 제안으로 시작된 병합 정리 PR</span></div>
+    <div class="stat"><strong>80만 줄+</strong><span>삭제된 코드 (X 요약 기준)</span></div>
+    <div class="stat"><strong>48%</strong><span>특정 서비스 컨테이너 이미지 축소 (X 요약 기준)</span></div>
+    <div class="stat"><strong>3개 영역</strong><span>죽은 코드 · 기능 플래그 · CI 최적화</span></div>
+  </div>
+
+  <p>이 글의 진짜 재미는 블로그 본문보다 X에서 시작됐다. @CopperForgeAI가 10/15에 이 글을 소개하며 <strong>실제로 사용된 프롬프트들을 공개</strong>했고 (조회수 2.6만, 북마크 651), 그 프롬프트들의 설계 철학이 명확하게 드러나기 때문이다: 모델에게 "확인하라"는 <strong>권한을 넓게 주고</strong>(Slack·Statsig·프로덕션 데이터까지 스스로 뒤지게), "삭제 근거를 PR에 명시"하게 하는 식으로 <strong>신뢰를 확보한다</strong>. 아래 프롬프트 인용은 이 이슈의 중국어 번역본 기준이다.</p>
+
+  <h2>1. 죽은 코드 정리: "증거를 찾은 뒤에만 삭제"</h2>
+
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3277-deadcode.png" alt="죽은 코드 제거 프롬프트 구조: 사용 확인 → 호출 0인 코드 선별 → 삭제 근거 PR 명시">
+    <figcaption>핵심은 "삭제"가 아니라 "확인". 프로덕션 호출이 0임을 증명한 뒤에만 지운다</figcaption>
+  </figure>
+
+  <p>첫 번째 프롬프트의 요지는 한 줄이다: <strong>저장소의 쓸모없는 코드를 찾아 정리하라. Slack, Statsig(기능 스위치 플랫폼), 필요한 모든 소스를 자유롭게 확인해 코드가 실제로 사용되지 않음을 확인하라.</strong></p>
+
+  <pre><code># 프롬프트 1 — 죽은 코드 정리 (의역)
+"저장소에서 사용되지 않는 코드를 찾아 정리하라.
+Slack과 Statsig(기능 스위치 플랫폼)을 포함해 필요한 모든 소스를
+자유롭게 확인하고, 코드가 실제로 사용되지 않음을 확인한 뒤에만
+PR에 삭제 근거를 나열하라."</code></pre>
+
+  <p>개발자 관점에서 중요한 건 이 프롬프트가 <code>grep</code> 수준의 참조 검색이 아니라 <strong>조직의 전체 신호를 모델에게 열어준다는 점</strong>이다. GPT-6 Astra는 Slack 논의, Statsig 실험 설정, 프로덕션 프로파일링 데이터까지 스스로 뒤지고, 프로덕션 호출이 0임을 확인한 뒤에만 PR에 삭제 근거를 나열한다. "이 함수는 왜 지웠나?"라는 리뷰 질문에 모델이 먼저 답할 수 있는 구조다.</p>
+
+  <h2>2. 오래된 실험·기능 스위치 정리: <code>/goal</code> 패턴</h2>
+
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3277-flags.png" alt="오래된 실험·기능 스위치 정리: 먼지 쌓인 플래그 목록과 소유자별 Markdown 리포트">
+    <figcaption>전량 롤아웃된 실험도 "꺼지는 게 아니라 지워지는 게" 목표</figcaption>
+  </figure>
+
+  <p>두 번째 프롬프트는 <code>/goal</code> 스타일의 장문 명령이다. 전체 저장소에서 오래되고 <strong>상수화·폐기·전량 롤아웃된 Statsig 스위치·설정·실험</strong>을 찾아, <strong>프로덕션 동작을 바꾸지 않고</strong> 안전하게 제거하라. 열거·상수·래퍼 함수·별칭·동적 조립 이름으로 <strong>간접 참조까지</strong> 찾고, 프로덕션 텔레메트리·프로파일링으로 CPU 오버헤드를 평가해 비싼 무용 지름길(expensive no-op)을 찾는다. 결과물은 소유자·파일 워크플로우별로 그룹핑한 <strong>Markdown 리포트</strong>로, 병렬 처리용이다.</p>
+
+  <div class="callout">
+    <p>이 패턴은 Series 코드베이스 같은 곳에 바로 적용 가능하다. "feature flag를 끄는 게 아니라 지우는" 작업을 모델이 스스로 리포트로 쪼개주니, 사람이 해야 할 일은 소유자에게 할당하는 것뿐이다.</p>
+  </div>
+
+  <h2>3. CI 최적화 + 에이전트 규칙 자가검증</h2>
+
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3277-ci.png" alt="CI 절감 아이디어 표와 AGENTS.md 규칙 A/B 리플레이 자가검증">
+    <figcaption>CI 아이디어는 일일 절감 분(min)으로 정렬, 규칙은 에이전트가 스스로 A/B 리플레이로 검증</figcaption>
+  </figure>
+
+  <p>세 번째 프롬프트는 두 파트다. <strong>CI 부하 절감 아이디어를 표로 정리하고, 저장소의 과거 실행 기록을 기준으로 일일 예상 절감 CI 분(min) 순으로 정렬</strong>하라. 불안정 테스트는 최근 CI 기록을 보고 고쳐 PR한다.</p>
+
+  <p>그리고 가장 흥미로운 파트 — <strong>AGENTS.md 규칙 자가검증</strong>. 최근 Codex 세션을 뒤져 에이전트를 오도한 지침을 찾고, <strong>같은 스냅샷·모델에서 지침 유지 vs 수정 버전으로 두 번 리플레이</strong>해 작업 품질·도구 호출·토큰 비용을 비교한다. 에이전트 코딩 워크플로우의 <strong>메타 최적화</strong>: 규칙 자체를 에이전트가 실험으로 검증하는 것이다.</p>
+
+  <pre><code># 프롬프트 3 — CI + 자가검증 (의역)
+"본 저장소의 CI 부하를 줄일 아이디어를 표로 정리하고,
+저장소의 과거 실행 기록을 기준으로 일일 예상 절감 CI 분(min)
+순으로 정렬하라. 불안정 테스트는 최근 CI 기록을 보고 고쳐 PR.
+AGENTS.md 규칙은 최근 Codex 세션을 뒤져 에이전트를 오도한
+지침을 찾아, 같은 스냅샷·모델에서 유지/수정 버전으로
+두 번 리플레이해 품질·도구 호출·토큰 비용을 비교하라."</code></pre>
+
+  <div class="callout warn">
+    <p><strong>아직 안 밝혀진 것.</strong> "80만 줄 삭제·컨테이너 이미지 48% 축소" 수치는 X 포스트 요약에만 있고, 블로그 본문에서의 정확한 표현은 이번 조사에서 확인하지 않았다. 프롬프트 전문은 중국어 번역본 기준이며, 영문 원문 대조는 하지 않았다.</p>
+  </div>
+
+  <h2>실무 관점: Series에 그대로 써먹을 만한 것</h2>
+
+  <ul>
+    <li><strong>확인 권한을 프롬프트에 박기:</strong> "grep으로 참조 검색"이 아니라 "Slack·Statsig·프로덕션 호출을 뒤져 실제 미사용을 증명"하는 게 죽은 코드 정리의 핵심이다. Series에도 Slack·프로덕션 신호를 연결하는 패턴으로 옮겨 쓸 수 있다.</li>
+    <li><strong>삭제 근거를 PR에 강제:</strong> "왜 지웠나"를 모델이 먼저 적게 하면 리뷰 비용이 떨어진다. 유지보수 PR 템플릿에 "삭제 근거" 항목을 넣는 것만으로 흉내 낼 수 있다.</li>
+    <li><strong>CI 아이디어를 분(min) 단위로 정렬:</strong> 감(感)이 아니라 수치로 우선순위를 세운다. 우리 레포 CI 히스토리만 있으면 같은 프롬프트를 돌릴 수 있다.</li>
+    <li><strong>AGENTS.md 자가검증:</strong> 에이전트 워크플로우 규칙을 "리플레이 실험"으로 검증하는 패턴은 규칙 품질 관리의 재사용 가능한 템플릿이다.</li>
+  </ul>
+
+  <h2>핵심 링크</h2>
+  <ul>
+    <li><a href="https://developers.openai.com/blog/maintaining-software-with-the-gpt-6-family">Maintaining software with the GPT-6 family</a> (공식 블로그, 10/14)</li>
+    <li><a href="https://x.com/CopperForgeAI/status/2110610938181325012">프롬프트 공개 소개</a> (10/15, X)</li>
+    <li><a href="https://github.com/roomedia/ax-trend/issues/3277">원문 이슈 #3277</a> · openai, gpt-6, maintaining-software, codebase</li>
+  </ul>
+
+  <hr>
+  <footer>
+    <p class="tags"><span>OpenAI</span><span>GPT-6</span><span>Codex</span><span>코드 유지보수</span><span>AX Trend</span></p>
+  </footer>
+</main>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>billion-context: 코딩 에이전트 컨텍스트를 5배 아껴 쓰는 압축 프록시</title>
+<meta name="description" content="에이전트와 모델 API 사이에 끼는 컨텍스트 압축 프록시 billion-context. 모델이 직접 압축 타이밍을 정하는 구조, 4개의 컨텍스트 관리 도구, 그리고 주장 뒤의 미확인 수치를 개발자 관점에서 정리한다.">
+<meta property="og:title" content="billion-context: 코딩 에이전트 컨텍스트를 5배 아껴 쓰는 압축 프록시">
+<meta property="og:description" content="모델이 직접 컨텍스트 압축을 결정하는 프록시. 토큰 5배 절감 주장과 미검증 수치, 실무 도입 전 체크포인트.">
+<meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3194-cover.png">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --text: #1a1a1a;
+    --muted: #666;
+    --border: #e5e5e5;
+    --code-bg: #f6f6f6;
+    --accent: #0b6efd;
+    --callout-bg: #f4f8ff;
+    --callout-border: #0b6efd;
+    --warn-bg: #fff8ef;
+    --warn-border: #e8930c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #101216;
+      --text: #e8e8e8;
+      --muted: #9a9a9a;
+      --border: #2a2d33;
+      --code-bg: #1b1e24;
+      --accent: #5ea1ff;
+      --callout-bg: #14202f;
+      --callout-border: #5ea1ff;
+      --warn-bg: #2a2118;
+      --warn-border: #e8930c;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR",
+                 "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 800px; margin: 0 auto; padding: 48px 24px 96px; }
+  header { margin-bottom: 32px; }
+  .kicker {
+    font-size: 13px; font-weight: 700; letter-spacing: 0.06em;
+    color: var(--accent); text-transform: uppercase; margin-bottom: 12px;
+  }
+  h1 { font-size: 30px; line-height: 1.4; margin: 0 0 12px; letter-spacing: -0.01em; }
+  .meta { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+  .meta a { color: inherit; }
+  h2 { font-size: 22px; margin: 48px 0 16px; letter-spacing: -0.01em; }
+  h3 { font-size: 17px; margin: 32px 0 12px; }
+  p { margin: 0 0 16px; }
+  ul, ol { margin: 0 0 16px; padding-left: 22px; }
+  li { margin-bottom: 8px; }
+  figure { margin: 28px 0; }
+  figure img {
+    width: 100%; height: auto; display: block;
+    border: 1px solid var(--border); border-radius: 12px;
+  }
+  figcaption { color: var(--muted); font-size: 13px; text-align: center; margin-top: 8px; }
+  code {
+    font-family: "SF Mono", "Menlo", "Consolas", "D2Coding", monospace;
+    font-size: 0.88em; background: var(--code-bg);
+    padding: 2px 6px; border-radius: 5px;
+  }
+  pre {
+    background: var(--code-bg); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px 18px; overflow-x: auto;
+    font-size: 14px; line-height: 1.6; margin: 0 0 20px;
+  }
+  pre code { background: none; padding: 0; border-radius: 0; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .callout {
+    background: var(--callout-bg); border-left: 3px solid var(--callout-border);
+    padding: 14px 18px; border-radius: 0 10px 10px 0; margin: 24px 0;
+  }
+  .callout.warn { background: var(--warn-bg); border-left-color: var(--warn-border); }
+  .callout p:last-child { margin-bottom: 0; }
+  .stat-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 20px 0;
+  }
+  .stat {
+    border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px;
+  }
+  .stat strong { font-size: 19px; display: block; }
+  .stat span { color: var(--muted); font-size: 13px; }
+  hr { border: none; border-top: 1px solid var(--border); margin: 48px 0 24px; }
+  footer { color: var(--muted); font-size: 14px; }
+  .tags { margin: 8px 0 0; }
+  .tags span {
+    display: inline-block; border: 1px solid var(--border); border-radius: 999px;
+    padding: 3px 12px; font-size: 13px; margin: 0 6px 6px 0;
+  }
+  @media (max-width: 560px) {
+    h1 { font-size: 24px; }
+    .stat-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="kicker">AX Trend</div>
+    <h1>billion-context: 코딩 에이전트 컨텍스트를 5배 아껴 쓰는 압축 프록시</h1>
+    <p class="meta">2026-10-11 · <a href="https://github.com/roomedia/ax-trend/issues/3194">원문 이슈 #3194</a></p>
+    <figure>
+      <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3194-cover.png" alt="코딩 에이전트 컨텍스트 압축 프록시 인포그래픽">
+    </figure>
+  </header>
+
+  <p>코딩 에이전트를 장시간 돌리다 보면 어김없이 마주치는 병목이 있다. 컨텍스트가 차면 세션이 느려지고, 비용은 쌓이고, 결국 세션을 버리고 처음부터 다시 시작하게 된다. 이 고질 문제를 에이전트 바깥의 <strong>프록시 레이어</strong>에서 풀려는 오픈소스가 GitHub 주간 트렌딩에 올랐다. ranxianglei의 <strong>billion-context</strong>다.</p>
+
+  <p>10/11 확인 기준 레포 생성 2026-08-06, 스타 776개, 최근 푸시 10/10으로 활발히 유지보수 중이다. (이 글을 쓰는 시점 기준 스타는 이미 1,800개를 넘었다.) 핵심 주장은 세 가지다: <strong>100K 컨텍스트로 충분, 토큰 5배 절감, 수십억 토큰을 단일 세션으로 수개월 유지</strong>.</p>
+
+  <h2>동작 방식: 에이전트와 모델 API 사이에 끼어든다</h2>
+  <p>아키텍처는 단순하다. 에이전트(Claude Code, Codex, Cursor, Aider 등)의 base URL을 이 프록시로 향하게 하면 된다. 이후 요청은 다음 다섯 단계를 거친다.</p>
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3194-arch.png" alt="billion-context 프록시 아키텍처: 에이전트 → 프록시(요청 파싱→대화 압축→compress 도구 주입→모델 API 전달→스트리밍 재작성) → 모델 API">
+    <figcaption>에이전트와 모델 API 사이의 5단계 처리 파이프라인</figcaption>
+  </figure>
+  <ol>
+    <li><strong>요청 파싱</strong> — Anthropic 또는 OpenAI 형태의 요청을 해석한다.</li>
+    <li><strong>대화 압축</strong> — acp-kernel 압축으로 대화 히스토리를 압축한다.</li>
+    <li><strong>압축 철학 주입</strong> — <code>compress</code> 도구와 압축 철학을 대화에 삽입한다.</li>
+    <li><strong>실제 모델 API로 전달</strong></li>
+    <li><strong>스트리밍 응답 재작성</strong></li>
+  </ol>
+  <p>설치는 npm 패키지 하나로 끝난다. 이후 클라이언트별 진입점만 골라 쓰면 된다.</p>
+  <pre><code># 글로벌 설치 (사용자 레벨 prefix 권장)
+npm install -g billion-context --prefix=~/.local
+
+# 사용법 3가지 중 택 1
+bili plugin install hermes   # 네이티브 플러그인 (hermes 네이티브 지원)
+bili hermes                   # 런처: 프록시를 띄우고 클라이언트 실행
+# 또는 base URL에 /bili/ prefix를 붙이는 URL 변경 방식</code></pre>
+  <div class="callout">
+    <p><strong>Android 개발자라면:</strong> Hermes가 네이티브 플러그인으로 지원된다는 점이 실무 적용 검토 가치가 있다. (<code>bili plugin install hermes</code> 한 줄.) 대형 레포를 오래 붙잡고 리팩토링하는 작업에서 컨텍스트 폭발은 곧 비용·품질 병목이라, 이 레이어가 세션을 얼마나 오래 유지해주는지가 체감 효용을 가른다.</p>
+  </div>
+
+  <h2>차별점: 압축의 주도권이 모델에게 있다</h2>
+  <p>호스트 내장 요약기(compact 계열)는 컨텍스트가 차면 일괄 잘라내는 하드 트렁케이션 성격이 강하고, 맥락 손실이 잦다. billion-context는 그 주도권을 모델에게 넘긴다. 프록시가 대화에 네 가지 컨텍스트 관리 도구를 주입하고, 모델이 컨텍스트가 찰 때 스스로 판단한다.</p>
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3194-tools.png" alt="모델이 직접 쓰는 컨텍스트 관리 도구 4종: compress, decompress, search_context, acp_status">
+    <figcaption>프록시가 주입하는 컨텍스트 관리 도구 4종</figcaption>
+  </figure>
+  <ul>
+    <li><code>compress</code> — 메시지 구간을 상세 요약으로 접는다.</li>
+    <li><code>decompress</code> — 정확한 디테일이 필요해지면 압축 구간을 다시 펼친다.</li>
+    <li><code>search_context</code> — 압축된 요약과 표시 메시지를 키워드로 검색한다.</li>
+    <li><code>acp_status</code> — 컨텍스트 사용 현황과 아직 압축 가능한 구간을 보여준다.</li>
+  </ul>
+  <p>내세우는 압축의 성격은 세 가지다. <strong>증분(incremental)</strong> — 작은 범위로만 요약 기록을 남기고, <strong>가역(reversible)</strong> — 언제든 복원 가능하며, <strong>프리픽스 캐시 친화적</strong> — 캐시 프리픽스가 깨지지 않는 구조다. 개발자는 "건강한 세션은 프리픽스 캐시 히트율 95~97%, 압축 자체 비용 ≤2%"라고 주장한다.</p>
+
+  <h2>주장하는 수치, 그리고 미확인 딱지</h2>
+  <p>근거로 제시하는 것은 동봉된 페이퍼(버전 v0.2, MIT, living document)에 실린 4.5개월 종단 연구다.</p>
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3194-numbers.png" alt="개발자가 주장하는 종단 연구 수치: 모델 호출 174,327회, 누적 입력 18.76B 토큰, 윈도우 위반 0건, 캐시 히트율 95~97%">
+    <figcaption>개발자가 제시하는 종단 연구 수치 — 전부 자가 측정치</figcaption>
+  </figure>
+  <div class="stat-grid">
+    <div class="stat"><strong>174,327회</strong><span>모델 호출 (3개 호스트)</span></div>
+    <div class="stat"><strong>18.76B</strong><span>누적 입력 토큰</span></div>
+    <div class="stat"><strong>0건</strong><span>204,800 토큰 모델의 윈도우 위반</span></div>
+    <div class="stat"><strong>8,584~12,049회</strong><span>마라톤 세션 호출 수</span></div>
+  </div>
+  <div class="callout warn">
+    <p><strong>미확인:</strong> 위 수치는 모두 개발자 본인의 자가 측정이며 독립 검증이 없다. 페이퍼도 living document라 주장이 바뀔 수 있다. 압축 품질이 "high-fidelity"라고 하지만, 요약 과정에서 세부 구현 디테일이 손실될 가능성에 대한 외부 평가도 아직 없다. 수치 자체보다는 <strong>"모델 주도 압축"이라는 구조적 아이디어</strong>에 주목하는 것이 안전하다.</p>
+  </div>
+
+  <h2>지원 범위와 보안 주의점</h2>
+  <p>지원 클라이언트는 Claude Code, Codex, OpenCode, pi, Gemini CLI, Hermes, Qwen Code, Kimi, Copilot CLI, aider, goose, TRAE, Amp 등 20여 종으로 넓다. 클라이언트별 설치 경로는 <code>CLIENTS.md</code>에 정리되어 있다. 핵심 압축 커널은 별도 레포 <code>ranxianglei/acp-kernel</code>로 분리되어 있고, 전체 코드베이스는 TypeScript다.</p>
+  <div class="callout warn">
+    <p><strong>보안:</strong> 일부 클라이언트는 <strong>cert-MITM 방식</strong>으로 트래픽을 가로챈다. README에 클라이언트별 방식이 명시되어 있으니, 기업 환경 도입 시에는 반드시 보안 검토를 거쳐야 한다. README를 읽고 자신의 클라이언트가 어떤 경로를 쓰는지 확인하는 것이 첫 단계다.</p>
+  </div>
+
+  <h2>왜 중요한가: 컨텍스트 관리가 하네스 레이어로 굳어지는 중</h2>
+  <p>같은 주간 트렌딩에 함께 오른 <code>mksglu/context-mode</code>(MCP+훅 기반 컨텍스트 최적화)와 문제의식은 같다. 접근법은 다르다 — context-mode가 훅 기반 최적화라면, billion-context는 프록시+도구 주입이라는 더 적극적인 개입이다. 서로 다른 구현이 같은 문제를 동시에 겨누는 건, <strong>"컨텍스트 관리"가 에이전트 하네스의 핵심 레이어로 굳어지는 흐름</strong>의 신호다.</p>
+  <p>실무 관점에서 이 도구가 약속하는 건 두 가지다. 하나는 토큰 비용 절감(5배 주장), 다른 하나는 세션의 수명 연장(단일 세션을 수일~수개월 유지)이다. 둘 다 장시간 에이전트 운용의 경제성을 바꾸는 변수다. 다만 채택 규모는 아직 작고(스타 1,800 수준), 주간 트렌딩 진입이 일시적 관심인지 지속 채택인지는 미확인이다. 도입한다면 네이티브 플러그인 경로가 있는 클라이언트부터, 압축 품질의 독립 검증이 나올 때까지는 비핵심 작업에 한해 시험하는 것이 합리적이다.</p>
+
+  <hr>
+  <footer>
+    <p>원문 이슈: <a href="https://github.com/roomedia/ax-trend/issues/3194">roomedia/ax-trend #3194</a><br>
+    레포: <a href="https://github.com/ranxianglei/billion-context">ranxianglei/billion-context</a> ·
+    <a href="https://www.npmjs.com/package/billion-context">npm billion-context</a></p>
+    <p class="tags">
+      <span>AX트렌드</span><span>코딩에이전트</span><span>컨텍스트압축</span><span>토큰절감</span><span>AI개발도구</span>
+    </p>
+  </footer>
+</main>
+</body>
+</html>

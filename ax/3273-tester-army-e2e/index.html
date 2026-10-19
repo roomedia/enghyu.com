@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>tester-army 'e2e': 에이전틱 E2E 프레임워크에 검증·마이그레이션 스킬 2종 추가</title>
+<meta name="description" content="tester-army의 오픈소스 E2E 프레임워크 e2e에 두 개의 실전 스킬이 붙었다. /create-verification-skill은 코딩 에이전트에게 자기 작업물을 스스로 검증하는 증거 루프를 장착하고, /migrate-to-e2e는 기존 Playwright·Cypress 스위트를 한 조각씩 옮기는 '둘 다 green' 경로를 제공한다.">
+<meta property="og:title" content="tester-army 'e2e': 에이전틱 E2E 프레임워크에 검증·마이그레이션 스킬 2종 추가">
+<meta property="og:description" content="에이전트가 자기 작업물을 스스로 검증하고, 기존 테스트 스위트를 한 조각씩 agentic E2E로 옮기는 두 스킬의 구조를 개발자 관점에서 정리한다.">
+<meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3273-cover.png">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --text: #1a1a1a;
+    --muted: #666;
+    --border: #e5e5e5;
+    --code-bg: #f6f6f6;
+    --accent: #0b6efd;
+    --callout-bg: #f4f8ff;
+    --callout-border: #0b6efd;
+    --warn-bg: #fff8ef;
+    --warn-border: #e8930c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #101216;
+      --text: #e8e8e8;
+      --muted: #9a9a9a;
+      --border: #2a2d33;
+      --code-bg: #1b1e24;
+      --accent: #5ea1ff;
+      --callout-bg: #14202f;
+      --callout-border: #5ea1ff;
+      --warn-bg: #2a2118;
+      --warn-border: #e8930c;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR",
+                 "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 800px; margin: 0 auto; padding: 48px 24px 96px; }
+  header { margin-bottom: 32px; }
+  .kicker {
+    font-size: 13px; font-weight: 700; letter-spacing: 0.06em;
+    color: var(--accent); text-transform: uppercase; margin-bottom: 12px;
+  }
+  h1 { font-size: 30px; line-height: 1.4; margin: 0 0 12px; letter-spacing: -0.01em; }
+  .meta { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+  .meta a { color: inherit; }
+  h2 { font-size: 22px; margin: 48px 0 16px; letter-spacing: -0.01em; }
+  h3 { font-size: 17px; margin: 32px 0 12px; }
+  p { margin: 0 0 16px; }
+  ul, ol { margin: 0 0 16px; padding-left: 22px; }
+  li { margin-bottom: 8px; }
+  figure { margin: 28px 0; }
+  figure img {
+    width: 100%; height: auto; display: block;
+    border: 1px solid var(--border); border-radius: 12px;
+  }
+  figcaption { color: var(--muted); font-size: 13px; text-align: center; margin-top: 8px; }
+  code {
+    font-family: "SF Mono", "Menlo", "Consolas", "D2Coding", monospace;
+    font-size: 0.88em; background: var(--code-bg);
+    padding: 2px 6px; border-radius: 5px;
+  }
+  pre {
+    background: var(--code-bg); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px 18px; overflow-x: auto;
+    font-size: 14px; line-height: 1.6; margin: 0 0 20px;
+  }
+  pre code { background: none; padding: 0; border-radius: 0; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .callout {
+    background: var(--callout-bg); border-left: 3px solid var(--callout-border);
+    padding: 14px 18px; border-radius: 0 10px 10px 0; margin: 24px 0;
+  }
+  .callout.warn { background: var(--warn-bg); border-left-color: var(--warn-border); }
+  .callout p:last-child { margin-bottom: 0; }
+  .stat-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 20px 0;
+  }
+  .stat {
+    border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px;
+  }
+  .stat strong { font-size: 19px; display: block; }
+  .stat span { color: var(--muted); font-size: 13px; }
+  hr { border: none; border-top: 1px solid var(--border); margin: 48px 0 24px; }
+  footer { color: var(--muted); font-size: 14px; }
+  .tags { margin: 8px 0 0; }
+  .tags span {
+    display: inline-block; border: 1px solid var(--border); border-radius: 999px;
+    padding: 3px 12px; font-size: 13px; margin: 0 6px 6px 0;
+  }
+  @media (max-width: 560px) {
+    h1 { font-size: 24px; }
+    .stat-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="kicker">AX Trend</div>
+    <h1>tester-army 'e2e': 에이전틱 E2E 프레임워크에 검증·마이그레이션 스킬 2종 추가</h1>
+    <p class="meta">2026-10-15 · <a href="https://github.com/roomedia/ax-trend/issues/3273">원문 이슈 #3273</a></p>
+    <figure>
+      <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3273-cover.png" alt="tester-army e2e 인포그래픽: 에이전트가 스스로 테스트한다">
+    </figure>
+  </header>
+
+  <p>E2E 테스트의 오래된 딜레마가 있다. 스크립트 기반은 빠르고 싸지만 화면 하나 바뀌면 깨지고, 에이전트 기반은 화면에 강하지만 느리고 비싸다. TesterArmy(YC P26)의 오픈소스 프레임워크 <strong>e2e</strong>는 이 둘을 한 테스트 안에 공존시키는 구조로 시작했고, 이제 그 위에 실전 스킬 2종이 올라왔다. <strong>/create-verification-skill</strong>과 <strong>/migrate-to-e2e</strong>다.</p>
+
+  <p>방향은 뚜렷하다. ① 에이전트가 자기 작업물을 스스로 검증하게 하고(verify), ② 기존 테스트 자산을 agentic E2E로 옮기는 진입 장벽을 낮춘다(migrate). 둘 다 "에이전트 시대의 테스트"라는 같은 질문에 답하는, 용도가 다른 두 개의 스킬이다.</p>
+
+  <div class="stat-grid">
+    <div class="stat"><strong>★10,738</strong><span>GitHub 스타 · Apache 2.0 (2026-07-22 생성)</span></div>
+    <div class="stat"><strong>agent.act() + 캐시</strong><span>통과 후 액션 캐시 → 모델 호출 없이 리플레이</span></div>
+    <div class="stat"><strong>/create-verification-skill</strong><span>10/13 공개 · X 조회 5.7만, 좋아요 1.1천</span></div>
+    <div class="stat"><strong>/migrate-to-e2e</strong><span>10/15 공개 · '둘 다 green' 원칙</span></div>
+  </div>
+
+  <h2>프레임워크: 에이전트 스텝과 결정적 어서션의 공존</h2>
+
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3273-flow.png" alt="e2e 작동 방식: 에이전트 스텝 → 액션 캐시 저장 → 캐시 리플레이">
+    <figcaption>에이전트 스텝이 통과하면 액션을 캐시해 다음 run부터 모델 호출 없이 리플레이</figcaption>
+  </figure>
+
+  <p>e2e의 핵심 아이디어는 단순하다. 테스트 안에 두 종류의 스텝이 함께 산다. <code>agent.act()</code> — 목표만 주면 모델이 클릭 경로를 탐색하는 에이전트 스텝. 그리고 <code>screen.getByRole()</code> + <code>expect()</code> — 접근성 역할 기반의 결정적 어서션. 탐색은 모델에게 맡기고, 증명은 결정적으로.</p>
+
+  <p>그리고 결정적인 한 줄: <strong>에이전트 스텝이 한 번 통과하면 액션을 캐시해, 다음 run부터는 모델 호출 없이 리플레이한다.</strong> 스크립트 속도로 돌고 토큰 비용은 0. "에이전트의 탐색 능력으로 작성하고, 스크립트의 속도로 실행한다"는 구조다. 웹은 Playwright, iOS 시뮬레이터·Android 에뮬레이터는 agent-device 경유, 하나의 API로 묶었다.</p>
+
+  <div class="callout">
+    <p>이는 이전에 다룬 <a href="https://enghyu.com/ax/3269-jevtest/">jevtest(#[3269])</a>의 lockfile 결정적 리플레이와 같은 문제의식을 공유한다. 차이는 jevtest가 액션을 lockfile에 "결정적으로 고정"하는 데 집중한다면, e2e는 어서션 자체를 결정적(assertion-first)으로 설계하고 캐시는 액션에만 적용한다는 점이다.</p>
+  </div>
+
+  <h2>/create-verification-skill: 에이전트에게 "증거 남기기" 장착</h2>
+
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3273-verify.png" alt="/create-verification-skill 인포그래픽: 에이전트가 자기 작업물을 스스로 검증">
+    <figcaption>verify-&lt;앱&gt; 스킬 생성 — 기능별 explore charter와 feature map으로 한 번 증명</figcaption>
+  </figure>
+
+  <p>Oskar(@o_kwasniewski, TesterArmy)가 10/13에 X에 올린 스킬이다. "Allow your agent to verify its own work and bring you evidence with e2e as the verification layer." 이 스킬이 하는 일은 e2e 위에 프로젝트 전용 <code>verify-&lt;app&gt;</code> 스킬을 생성하는 것. 그 후 코딩 에이전트는 이 스킬을 통해 <strong>앱을 실행하고, 사용자처럼 기능을 실행하고, 증거를 남기고, bug bash까지 한다.</strong> 스킬 + 기능별 explore charter가 담긴 feature map을 쓰고 한 번 증명하는 플로우다.</p>
+
+  <pre><code># 검증 스킬 설치
+npx skills add tester-army/e2e --skill create-verification-skill</code></pre>
+
+  <p>개발자 관점에서 흥미로운 건 이게 "테스트 작성 자동화"가 아니라는 점이다. 코딩 에이전트 워크플로우의 <strong>검증 게이트를 설계하는 패턴</strong>에 가깝다. 모델의 "다 했습니다"를 그대로 받지 않고, 화면을 다시 읽어 실제 상태로 증명하는 루프 — mobile-jev의 검증 설계와 같은 철학이다.</p>
+
+  <h2>/migrate-to-e2e: 기존 스위트를 한 조각씩 옮기기</h2>
+
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3273-migrate.png" alt="/migrate-to-e2e 인포그래픽: '둘 다 green' 원칙으로 기존 스위트를 한 조각씩 포팅">
+    <figcaption>'둘 다 green' 원칙 — 증명될 때까지新旧 스위트 모두 유지</figcaption>
+  </figure>
+
+  <p>Kacper Kapuściak(@kacperkapusciak)가 10/15에 공개한 두 번째 스킬이다. 기존 Playwright·Cypress·Selenium·Detox·Maestro 스위트를 <strong>한 번에 하나씩(slice) e2e로 포팅</strong>한다. 핵심 원칙은 이 한 줄이다: <strong>"둘 다 green" — 각 테스트가 증명될 때까지新旧 스위트 둘 다 green으로 유지.</strong></p>
+
+  <pre><code># 마이그레이션 스킬 설치
+npx skills add tester-army/e2e --skill migrate-to-e2e</code></pre>
+
+  <p>이 원칙은 마이그레이션의 가장 큰 심리적 장벽 — "기존 스위트를 버려야 한다는 두려움" — 을 정면으로 겨냥한다. 기존 테스트를 언제 내릴지는 사용자가 결정하고, <code>MIGRATION.md</code> 진행 파일로 다음 세션(사람이든 에이전트든)이 이어서 진행한다. 결함을 일부러 심어 양쪽 스위트가 다 잡는 것을 보여주는 옵션까지 있다. Series 앱처럼 기존 테스트 자산이 있는 팀에게는 "전부 갈아엎지 않고 한 조각씩" 옮기는 현실적 경로다.</p>
+
+  <div class="callout warn">
+    <p><strong>아직 안 밝혀진 것.</strong> 스레드 답글에서 언급된 v0.20.0의 전체 변경 내용은 상세 미확인이다. 캐시 리플레이가 UI 변경에 얼마나 강건한지는 독립 검증이 없다. 그리고 두 스킬 모두 스킬 소스 등급상 X(공식 계정) 발표로, 실무 도입 전에는 직접 실행해 검증하는 게 맞다.</p>
+  </div>
+
+  <h2>실무 관점: 검증 게이트 설계에 참고할 점</h2>
+
+  <ul>
+    <li><strong>탐색과 증명의 분리:</strong> 탐색(에이전트 스텝)은 모델에게, 증명(어서션·캐시 리플레이)은 결정적으로. 이 분리가 모델 호출 비용을 "첫 1회"로 한정시킨다.</li>
+    <li><strong>'둘 다 green'은 마이그레이션 계약이다:</strong> 기존 스위트를 내리는 시점을 "사용자가 결정"하게 두고, MIGRATION.md로 세션 간 연속성을 보장한다. 에이전트 파이프라인에 인간 개입 지점을 두는 방식이 현실적이다.</li>
+    <li><strong>검증 스킬은 재사용 가능한 자산:</strong> 한 번 만든 <code>verify-&lt;app&gt;</code> 스킬은 feature map과 함께 팀의 검증 지식으로 남는다. "테스트를 돌린다"가 아니라 "증거를 남기는 문화"에 가깝다.</li>
+  </ul>
+
+  <h2>핵심 링크</h2>
+  <ul>
+    <li><a href="https://github.com/tester-army/e2e">tester-army/e2e</a> (Apache 2.0, ★10,738)</li>
+    <li><a href="https://x.com/o_kwasniewski/status/2109694443410399543">/create-verification-skill 발표</a> (10/13, X)</li>
+    <li><a href="https://x.com/kacperkapusciak/status/2110674911509487741">/migrate-to-e2e 발표</a> (10/15, X)</li>
+    <li><a href="https://github.com/roomedia/ax-trend/issues/3273">원문 이슈 #3273</a> · <a href="https://github.com/roomedia/ax-trend/issues/1587">관련 이슈 #1587</a> (TesterArmy SaaS 발표)</li>
+  </ul>
+
+  <hr>
+  <footer>
+    <p class="tags"><span>tester-army</span><span>e2e</span><span>agentic E2E</span><span>테스트 자동화</span><span>AX Trend</span></p>
+  </footer>
+</main>
+</body>
+</html>

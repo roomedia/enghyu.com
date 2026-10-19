@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>mobile-jev: Jev 판단 모델이 구동하는 실기기 Android 에이전트</title>
+<meta name="description" content="droidrun의 mobile-jev는 TypeSafe Jev 판단 모델과 Mobilerun 클라우드 디바이스 API를 결합한 Android 에이전트다. Uber 데모 21초/9액션, ADB 없이 실기기를 조작하고, 완료는 모델의 DONE 응답이 아닌 화면 검증으로 증명한다.">
+<meta property="og:title" content="mobile-jev: Jev 판단 모델이 구동하는 실기기 Android 에이전트">
+<meta property="og:description" content="판단은 빠른 Jev, 실행은 Mobilerun. ADB 없이 클라우드 실기기를 조작하는 Android 에이전트의 분업 구조를 개발자 관점에서 정리한다.">
+<meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3270-cover.png">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --text: #1a1a1a;
+    --muted: #666;
+    --border: #e5e5e5;
+    --code-bg: #f6f6f6;
+    --accent: #0b6efd;
+    --callout-bg: #f4f8ff;
+    --callout-border: #0b6efd;
+    --warn-bg: #fff8ef;
+    --warn-border: #e8930c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #101216;
+      --text: #e8e8e8;
+      --muted: #9a9a9a;
+      --border: #2a2d33;
+      --code-bg: #1b1e24;
+      --accent: #5ea1ff;
+      --callout-bg: #14202f;
+      --callout-border: #5ea1ff;
+      --warn-bg: #2a2118;
+      --warn-border: #e8930c;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR",
+                 "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 800px; margin: 0 auto; padding: 48px 24px 96px; }
+  header { margin-bottom: 32px; }
+  .kicker {
+    font-size: 13px; font-weight: 700; letter-spacing: 0.06em;
+    color: var(--accent); text-transform: uppercase; margin-bottom: 12px;
+  }
+  h1 { font-size: 30px; line-height: 1.4; margin: 0 0 12px; letter-spacing: -0.01em; }
+  .meta { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+  .meta a { color: inherit; }
+  h2 { font-size: 22px; margin: 48px 0 16px; letter-spacing: -0.01em; }
+  h3 { font-size: 17px; margin: 32px 0 12px; }
+  p { margin: 0 0 16px; }
+  ul, ol { margin: 0 0 16px; padding-left: 22px; }
+  li { margin-bottom: 8px; }
+  figure { margin: 28px 0; }
+  figure img {
+    width: 100%; height: auto; display: block;
+    border: 1px solid var(--border); border-radius: 12px;
+  }
+  figcaption { color: var(--muted); font-size: 13px; text-align: center; margin-top: 8px; }
+  code {
+    font-family: "SF Mono", "Menlo", "Consolas", "D2Coding", monospace;
+    font-size: 0.88em; background: var(--code-bg);
+    padding: 2px 6px; border-radius: 5px;
+  }
+  pre {
+    background: var(--code-bg); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px 18px; overflow-x: auto;
+    font-size: 14px; line-height: 1.6; margin: 0 0 20px;
+  }
+  pre code { background: none; padding: 0; border-radius: 0; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .callout {
+    background: var(--callout-bg); border-left: 3px solid var(--callout-border);
+    padding: 14px 18px; border-radius: 0 10px 10px 0; margin: 24px 0;
+  }
+  .callout.warn { background: var(--warn-bg); border-left-color: var(--warn-border); }
+  .callout p:last-child { margin-bottom: 0; }
+  .stat-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 20px 0;
+  }
+  .stat {
+    border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px;
+  }
+  .stat strong { font-size: 19px; display: block; }
+  .stat span { color: var(--muted); font-size: 13px; }
+  hr { border: none; border-top: 1px solid var(--border); margin: 48px 0 24px; }
+  footer { color: var(--muted); font-size: 14px; }
+  .tags { margin: 8px 0 0; }
+  .tags span {
+    display: inline-block; border: 1px solid var(--border); border-radius: 999px;
+    padding: 3px 12px; font-size: 13px; margin: 0 6px 6px 0;
+  }
+  @media (max-width: 560px) {
+    h1 { font-size: 24px; }
+    .stat-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="kicker">AX Trend</div>
+    <h1>mobile-jev: Jev 판단 모델이 구동하는 실기기 Android 에이전트</h1>
+    <p class="meta">2026-10-14 · <a href="https://github.com/roomedia/ax-trend/issues/3270">원문 이슈 #3270</a></p>
+    <figure>
+      <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3270-cover.png" alt="mobile-jev 인포그래픽: AI가 판단하고 클라우드 폰이 실행한다">
+    </figure>
+  </header>
+
+  <p>모바일 UI 에이전트의 딜레마는 명확하다. 무거운 멀티모달 LLM에 화면을 통째로 던지면 판단은 그럴듯하지만 느리고 비싸다. 스크립트 기반은 빠르고 싸지만 화면 하나 바뀌면 깨진다. droidrun의 <strong>mobile-jev</strong>는 이 사이를 이렇게 가르른다: <strong>판단은 빠르고 싼 전용 판단 모델에, 실행은 클라우드 실기기 API에.</strong></p>
+
+  <p>핵심 분업 구조는 한 줄이다: <strong>"판단은 빠른 Jev, 실행은 Mobilerun"</strong>. TypeSafe AI의 Jev(System One 결정 모델, 토큰 생성 없이 구조화된 판단만 반환)가 다음 액션을 고르고, Mobilerun의 클라우드 Android 디바이스 API가 실제로 터치한다. ADB 연결도 필요 없다.</p>
+
+  <div class="stat-grid">
+    <div class="stat"><strong>Uber 데모</strong><span>약 21초에 9개 액션</span></div>
+    <div class="stat"><strong>Jev 판단 속도</strong><span>70~250ms · 토큰 생성 없음</span></div>
+    <div class="stat"><strong>라이선스</strong><span>MIT · ★447 (2026-09-17 생성)</span></div>
+    <div class="stat"><strong>스택</strong><span>JavaScript · Node.js 24 · pnpm 10.30.1</span></div>
+  </div>
+
+  <h2>분업 구조: 판단은 Jev, 실행은 Mobilerun</h2>
+
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3270-arch.png" alt="mobile-jev 분업 구조 다이어그램: Jev 판단 → Mobilerun 실행 → 목표 달성">
+    <figcaption>판단은 빠른 Jev, 실행은 Mobilerun — 판단 모델과 디바이스 API의 분리</figcaption>
+  </figure>
+
+  <p>아키텍처를 뜯어보면 에이전트 루프가 깔끔하게 두 레이어로 분리되어 있다. Jev는 화면 묘사를 받아서 <strong>"다음에 뭘 눌러야 하는지"</strong>라는 구조화된 판단만 낸다. 액션의 실제 수행 — 탭, 입력, 스크롤 — 은 Mobilerun API가 담당한다. 판단 모델이 디바이스 프로토콜을 알 필요가 없고, 실행 레이어는 "뭘 해야 하는지"를 알 필요가 없다.</p>
+
+  <p>이 분리가 가져오는 실무적 이점은 두 가지다. 첫째, <strong>판단 지연이 병목이 아니다.</strong> 70~250ms짜리 Jev 판단은 액션 간 대기 시간에 묻힌다. 둘째, <strong>디바이스 인프라를 로컬에 두지 않아도 된다.</strong> Mobilerun Android 디바이스 + API 키만 있으면 에뮬레이터도 ADB도 없이 돌아간다. CI 머신이나 로컬 맥북에 에뮬레이터 띄우고 플래키한 부팅을 기다릴 필요가 없다는 얘기다.</p>
+
+  <div class="callout">
+    <p>같은 Jev 생태계에서 나온 쌍둥이 프로젝트가 <strong>Just-Betr의 jevtest</strong>(<a href="https://github.com/roomedia/ax-trend/issues/3269">이슈 #3269</a>)다. jevtest가 E2E <strong>테스트 자동화</strong>에 Jev를 쓴다면, mobile-jev는 실제 폰을 조작하는 <strong>에이전트</strong>에 Jev를 쓴 경우다. 판단 레이어를 공유하고 용도가 갈라진 한 쌍으로 보면 된다.</p>
+  </div>
+
+  <h2>Uber 데모: 21초, 9개 액션</h2>
+
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3270-demo.png" alt="Uber 데모 9단계 액션 타임라인">
+    <figcaption>샌프란시스코 공항 → 골든게이트 경로 입력, 결제 선택 화면까지</figcaption>
+  </figure>
+
+  <p>README의 데모 시나리오는 이렇다. Jev가 실제 Mobilerun 폰에서 Uber 앱을 열고, 샌프란시스코 공항에서 골든게이트까지의 경로를 입력한 뒤 <strong>결제 선택 화면까지 도달</strong>한다. 기록된 타이머 기준으로 약 21초에 9개 액션. 액션당 평균 2.3초 — 판단(0.25초 이하)보다 디바이스 반응과 앱 렌더링이 시간을 먹는 구조임을 알 수 있다.</p>
+
+  <p>정직한 한계도 README에 적혀 있다: 실제 예약 완료는 데모하지 않았다. 결제 직전에서 멈췄다는 건, <strong>"마지막 단계의 신뢰도는 미확인"</strong>이라는 뜻이기도 하다. 에이전트 데모에서 가장 깨지기 쉬운 구간이 결제·인증 같은 되돌리기 어려운 액션이라는 걸 생각하면, 평가할 때는 이 경계를 명확히 해두는 게 맞다.</p>
+
+  <h2>검증 설계: 모델의 DONE을 증거로 받지 않는다</h2>
+
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3270-verify.png" alt="모델 DONE 응답과 화면 재검증 비교 인포그래픽">
+    <figcaption>완료 선언이 아니라 실제 화면 상태로 증명한다</figcaption>
+  </figure>
+
+  <p>이 프로젝트에서 개발자 관점으로 가장 주목할 설계는 내장 데모 "다크 테마 켜기"의 검증 방식이다. Jev가 설치된 앱 목록에서 Settings를 찾아 열고, 다크 테마 관련 컨트롤을 선택해 변경한다. 여기서 데모 러너는 <strong>화면을 다시 읽어 실제 다크 테마 스위치가 켜졌는지 검증</strong>한다. 모델이 "다 했습니다"라고 말한 것을 증거로 받지 않는다는 얘기다.</p>
+
+  <p>에이전트 시스템에서 이건 사소해 보이지만 결정적인 차이다. LLM 기반 에이전트의 고질적 실패 모드 중 하나가 <strong>조기 완료 선언</strong>(premature DONE)이다. "버튼을 눌렀다"는 액션 로그와 "버튼이 눌린 상태가 됐다"는 상태 확인은 다른 레이어의 정보다. mobile-jev는 후자를 검증 루프에 넣음으로써, 판단 모델의 할루시네이션 경로를 실행 결과로 차단한다.</p>
+
+  <h2>직접 돌려보기</h2>
+
+  <p>실행 조건은 단순하다. Node.js 24 권장, pnpm 10.30.1, Mobilerun Android 디바이스, 그리고 Mobilerun·TypeSafe API 키 두 개다.</p>
+
+  <pre><code># 의존성 설치 후 개발 서버 시작
+pnpm install
+pnpm dev
+# http://127.0.0.1:3040 에서 목표 입력 → Run task</code></pre>
+
+  <p>스튜디오는 공식 <code>@mobilerun/react</code> 컴포넌트 기반이다. 라이브 디바이스 스트림, 목표 입력창, 실행 액션 타임라인, 모델 지연 측정, 그리고 완료·실패·취소 시 멈추는 태스크 시계가 한 화면에 들어간다. 에이전트를 돌려보면서 "어디서 시간이 가는지"를 실시간으로 볼 수 있다는 점이 디버깅 관점에서 유용하다. 요청 단위 지연 측정도 내장되어 있어 Jev 호출 비용을 액션별로 추적할 수 있다.</p>
+
+  <h2>실무 관점: Series 같은 실제 앱에 붙인다면</h2>
+
+  <p>Android 개발자로서 주목할 포인트 세 가지:</p>
+
+  <ul>
+    <li><strong>실기기 테스트 인프라의 대안:</strong> ADB 없이 클라우드 디바이스 API로 조작하는 구조는 사내 디바이스 팜 운영 부담을 덜어준다. 특히 접근성 트리 기반 화면 묘사가 전제라면, Series처럼 접근성 라벨이 잘 갖춰진 앱일수록 판단 품질이 좋아질 가능성이 크다.</li>
+    <li><strong>판단/실행 분리의 재사용성:</strong> Jev 판단 레이어를 jevtest(E2E 테스트)와 mobile-jev(에이전트)가 공유하는 구조는, 같은 판단 모델을 QA 자동화와 실제 조작 양쪽에 쓰는 패턴으로 확장할 수 있다.</li>
+    <li><strong>비용 구조의 투명성:</strong> 요청 단위 지연 측정이 내장되어 있어 "액션당 얼마"를 바로 계산할 수 있다. 다만 Mobilerun 디바이스·서비스 요금은 별도라 전체 TCO는 직접 확인해야 한다.</li>
+  </ul>
+
+  <div class="callout warn">
+    <p><strong>아직 안 밝혀진 것.</strong> Mobilerun 디바이스·서비스 요금이 별도라 전체 비용은 미확인이다. Uber 데모가 결제 직전에서 멈춘 점 — 실제 예약까지의 신뢰도도 미확인이다. 그리고 Jev 판단이 화면의 텍스트 묘사에 의존하므로, 접근성 정보가 부실한 화면에서의 성능은 직접 검증이 필요하다.</p>
+  </div>
+
+  <h2>핵심 링크</h2>
+  <ul>
+    <li><a href="https://github.com/droidrun/mobile-jev">droidrun/mobile-jev</a> (MIT, ★447, 2026-09-17 생성)</li>
+    <li><a href="https://github.com/roomedia/ax-trend/issues/3270">원문 이슈 #3270</a></li>
+  </ul>
+
+  <hr>
+  <footer>
+    <p class="tags"><span>mobile-jev</span><span>Jev</span><span>모바일 에이전트</span><span>Android</span><span>AX Trend</span></p>
+  </footer>
+</main>
+</body>
+</html>

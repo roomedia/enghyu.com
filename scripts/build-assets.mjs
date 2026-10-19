@@ -17,6 +17,7 @@ const entries = [
   ["privacy.html", `${mountDir}/privacy.html`],
   ["base.apk", `${mountDir}/base.apk`],
   ["static", `${mountDir}/static`],
+  ["ax", "ax"],
 ];
 
 await rm(outDir, {recursive: true, force: true});

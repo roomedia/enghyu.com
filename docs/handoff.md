@@ -171,3 +171,31 @@ npm run test:e2e
 - 실행한 검증 명령과 결과: `npm run test:worker` 8건 통과, `npm run test:e2e` 통과, `npm run test:apk` 7단계 통과, `node --check` 전부 통과. `npx wrangler dev --local`로 실제 런타임에서 확인했다 — 올바른 key 테마 204 STORED, 틀린 key 400, 쓰레기 본문 400, 원본 테마 없는 APK 400, 서명 없는 APK 400, 저장분 GET 200 HIT.
 - 확인하지 못한 항목과 남은 리스크: **배포에 반영하지 않았다.** 지금 도는 판은 검증 없는 판이다. 변환기 판을 올릴 때 `acceptedConverterVersions`에 새 값을 넣지 않으면 그 순간부터 저장이 전부 거절된다 — 다운로드는 계속되지만 공용 캐시가 채워지지 않는다. 테마 PUT마다 base.apk 2.4MB를 붙여 4.5MB를 해시하므로 CPU가 그만큼 든다. APK 검증은 서명 블록의 존재만 보고 서명 자체를 검증하지는 않는다 — Worker에서 인증서 체인을 검사하는 것은 범위 밖이다. 원본 테마가 예산·용량 상한으로 저장되지 못하면 뒤따르는 APK PUT도 거절된다.
 
+
+## AX 블로그 자동 배포 (2026-10-19)
+
+### 현재 구현 상태
+- `ax/` 디렉토리에 AX 트렌드 블로그 HTML 저장 (`ax/<이슈번호>-<슬러그>/index.html`)
+- `scripts/build-assets.mjs`에 `["ax", "ax"]` 항목 추가 → `public/ax/`로 복사됨
+- `deploy_cf.py`: Cloudflare API 직접 호출 배포 스크립트
+  - Secure Vault의 `custom.cloudflare` 커넥터 사용 (서러게이트 방식)
+  - 3단계: manifest 제출 → 에셋 업로드 → Worker 배포
+  - worker.js는 esbuild로 번들링 후 업로드 (ES 모듈 import 해결)
+
+### 변경한 파일과 동작
+- `scripts/build-assets.mjs`: ax 항목 추가
+- `ax/`: 5개 포스트 HTML (3194, 3269, 3270, 3273, 3277)
+- `deploy_cf.py`: 신규 (API 직접 호출 배포)
+
+### 실행한 검증 명령과 결과
+- `node scripts/build-assets.mjs`: 성공 (ax/ 5개 포함)
+- `python3 deploy_cf.py`: 성공 (Worker 배포 완료)
+- `https://enghyu.com/ax/3270-mobile-jev/` 접속 확인: 정상 표시
+
+### 확인하지 못한 항목과 남은 리스크
+- 크론에서 deploy_cf.py 실행 시 Cloudflare 커넥터 접근 가능 여부 (detached 환경에서 테스트 필요)
+- 에셋 캐시 무효화 동작 (Cloudflare 기본 캐시 정책에 의존)
+
+### 다음 작업 우선순위
+- enghyu-ax-publisher 크론이 새 경로(`~/workspace/enghyu-site/ax/`) 사용하도록 업데이트됨
+- 다음 크론 run에서 자동 배포 동작 확인

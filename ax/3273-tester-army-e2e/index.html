@@ -104,10 +104,21 @@
     h1 { font-size: 24px; }
     .stat-grid { grid-template-columns: 1fr; }
   }
+
+  .topnav { margin-bottom: 20px; }
+  .topnav a { color: var(--muted); font-size: 14px; text-decoration: none; }
+  .topnav a:hover { color: var(--accent); text-decoration: underline; }
+  .tags a {
+    display: inline-block; border: 1px solid var(--border); border-radius: 999px;
+    padding: 3px 12px; font-size: 13px; margin: 0 6px 6px 0;
+    color: var(--text); text-decoration: none;
+  }
+  .tags a:hover { border-color: var(--accent); color: var(--accent); }
 </style>
 </head>
 <body>
 <main>
+  <nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
   <header>
     <div class="kicker">AX Trend</div>
     <h1>tester-army 'e2e': 에이전틱 E2E 프레임워크에 검증·마이그레이션 스킬 2종 추가</h1>
@@ -193,8 +204,17 @@ npx skills add tester-army/e2e --skill migrate-to-e2e</code></pre>
 
   <hr>
   <footer>
-    <p class="tags"><span>tester-army</span><span>e2e</span><span>agentic E2E</span><span>테스트 자동화</span><span>AX Trend</span></p>
+    <p class="tags"><a href="/ax/tag/tester-army/">tester-army</a><a href="/ax/tag/e2e/">e2e</a><a href="/ax/tag/agentic-e2e/">agentic E2E</a><a href="/ax/tag/%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%9E%90%EB%8F%99%ED%99%94/">테스트 자동화</a><a href="/ax/tag/ax-trend/">AX Trend</a></p>
   </footer>
 </main>
+<script>
+(function(){
+  try {
+    var data = JSON.stringify({p: location.pathname, r: document.referrer || ""});
+    if (navigator.sendBeacon) { navigator.sendBeacon("/ax/api/track", data); }
+    else { fetch("/ax/api/track", {method: "POST", body: data, keepalive: true}); }
+  } catch (e) {}
+})();
+</script>
 </body>
 </html>

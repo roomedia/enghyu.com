@@ -33,7 +33,8 @@ def parse_post(slug):
 def main():
     slugs = sorted(
         (d for d in os.listdir(AX_DIR)
-         if os.path.isdir(os.path.join(AX_DIR, d)) and d != "__pycache__"),
+         if os.path.isdir(os.path.join(AX_DIR, d)) and d != "__pycache__"
+         and d not in ("tag", "tags", "stats")),
         key=lambda s: int(s.split("-")[0]) if s.split("-")[0].isdigit() else 0,
         reverse=True,
     )
@@ -108,11 +109,20 @@ def main():
 </head>
 <body>
   <div class="wrap">
-    <header class="top"><a class="home" href="/">&larr; enghyu</a></header>
+    <header class="top"><a class="home" href="/">&larr; enghyu</a><span><a class="home" href="/ax/tags/">태그</a> · <a class="home" href="/ax/stats/">통계</a></span></header>
     <h1>AX 트렌드</h1>
     <p class="lead">AI/AX 트렌드를 개발자 관점에서 정리한 글 모음.</p>
 {chr(10).join(cards)}
   </div>
+<script>
+(function(){{
+  try {{
+    var data = JSON.stringify({{p: location.pathname, r: document.referrer || ""}});
+    if (navigator.sendBeacon) {{ navigator.sendBeacon("/ax/api/track", data); }}
+    else {{ fetch("/ax/api/track", {{method: "POST", body: data, keepalive: true}}); }}
+  }} catch (e) {{}}
+}})();
+</script>
 </body>
 </html>
 """

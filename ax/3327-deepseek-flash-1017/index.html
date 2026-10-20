@@ -102,10 +102,21 @@
     h1 { font-size: 24px; }
     table { font-size: 12px; }
   }
+
+  .topnav { margin-bottom: 20px; }
+  .topnav a { color: var(--muted); font-size: 14px; text-decoration: none; }
+  .topnav a:hover { color: var(--accent); text-decoration: underline; }
+  .tags a {
+    display: inline-block; border: 1px solid var(--border); border-radius: 999px;
+    padding: 3px 12px; font-size: 13px; margin: 0 6px 6px 0;
+    color: var(--text); text-decoration: none;
+  }
+  .tags a:hover { border-color: var(--accent); color: var(--accent); }
 </style>
 </head>
 <body>
 <main>
+  <nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
   <header>
     <div class="kicker">AX Trend</div>
     <h1>DeepSeek V4.1-Flash '1017' — '마이너 업데이트'가 Terminal-Bench +35%를 낸 방법</h1>
@@ -195,8 +206,17 @@ response = client.chat.completions.create(
   <hr>
   <footer>
     <p><a href="https://github.com/roomedia/ax-trend/issues/3327">원문 이슈 #3327</a> · 핵심 링크: <a href="https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017">HF 공식 모델 카드 (10/17)</a> · <a href="https://lmmarketcap.com/llm-updates">The Decoder 보도 (10/17)</a> · 관련 이슈: <a href="https://github.com/roomedia/ax-trend/issues/2876">#2876</a> DeepSeek v4.1 Flash 오리지널 릴리스 (9/12)</p>
-    <p class="tags"><span>AX Trend</span><span>DeepSeek</span><span>V4.1-Flash</span><span>agentic benchmark</span><span>MIT</span><span>coding agent</span></p>
+    <p class="tags"><a href="/ax/tag/ax-trend/">AX Trend</a><a href="/ax/tag/deepseek/">DeepSeek</a><a href="/ax/tag/v4-1-flash/">V4.1-Flash</a><a href="/ax/tag/agentic-benchmark/">agentic benchmark</a><a href="/ax/tag/mit/">MIT</a><a href="/ax/tag/coding-agent/">coding agent</a></p>
   </footer>
 </main>
+<script>
+(function(){
+  try {
+    var data = JSON.stringify({p: location.pathname, r: document.referrer || ""});
+    if (navigator.sendBeacon) { navigator.sendBeacon("/ax/api/track", data); }
+    else { fetch("/ax/api/track", {method: "POST", body: data, keepalive: true}); }
+  } catch (e) {}
+})();
+</script>
 </body>
 </html>

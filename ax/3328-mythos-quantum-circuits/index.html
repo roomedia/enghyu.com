@@ -102,10 +102,21 @@
     h1 { font-size: 24px; }
     table { font-size: 12px; }
   }
+
+  .topnav { margin-bottom: 20px; }
+  .topnav a { color: var(--muted); font-size: 14px; text-decoration: none; }
+  .topnav a:hover { color: var(--accent); text-decoration: underline; }
+  .tags a {
+    display: inline-block; border: 1px solid var(--border); border-radius: 999px;
+    padding: 3px 12px; font-size: 13px; margin: 0 6px 6px 0;
+    color: var(--text); text-decoration: none;
+  }
+  .tags a:hover { border-color: var(--accent); color: var(--accent); }
 </style>
 </head>
 <body>
 <main>
+  <nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
   <header>
     <div class="kicker">AX Trend</div>
     <h1>Claude Mythos 5, 양자 회로를 스스로 설계하다 — Toffoli 게이트 17배 감소, 8개 태스크 중 7개 SOTA 능가</h1>
@@ -190,8 +201,17 @@ verify(candidate, stages=["simulation", "lean_proof"])</code></pre>
   <hr>
   <footer>
     <p><a href="https://github.com/roomedia/ax-trend/issues/3328">원문 이슈 #3328</a> · 핵심 링크: <a href="https://www.anthropic.com/research/designing-efficient-quantum-circuits">Anthropic 공식 리서치 포스트 (10/16)</a> · <a href="https://www.unite.ai/anthropic-says-claude-beat-best-published-quantum-circuit-designs/">unite.ai 보도 — arXiv 동행 논문 (10/15 제출)</a> · <a href="https://explainx.ai/blog/claude-quantum-circuits-anthropic-research-fewer-qubits-gates-53-hour-run-2026">explainx.ai 분석 요약</a> · 관련 이슈: <a href="https://github.com/roomedia/ax-trend/issues/2887">#2887</a> Claude Fable 5.1·Mythos 5.1 출시 (같은 모델 계열)</p>
-    <p class="tags"><span>AX Trend</span><span>Anthropic</span><span>Claude Mythos 5</span><span>quantum circuits</span><span>generator-judge</span><span>AI for science</span></p>
+    <p class="tags"><a href="/ax/tag/ax-trend/">AX Trend</a><a href="/ax/tag/anthropic/">Anthropic</a><a href="/ax/tag/claude-mythos-5/">Claude Mythos 5</a><a href="/ax/tag/quantum-circuits/">quantum circuits</a><a href="/ax/tag/generator-judge/">generator-judge</a><a href="/ax/tag/ai-for-science/">AI for science</a></p>
   </footer>
 </main>
+<script>
+(function(){
+  try {
+    var data = JSON.stringify({p: location.pathname, r: document.referrer || ""});
+    if (navigator.sendBeacon) { navigator.sendBeacon("/ax/api/track", data); }
+    else { fetch("/ax/api/track", {method: "POST", body: data, keepalive: true}); }
+  } catch (e) {}
+})();
+</script>
 </body>
 </html>

@@ -101,10 +101,21 @@
     h1 { font-size: 24px; }
     table { font-size: 12px; }
   }
+
+  .topnav { margin-bottom: 20px; }
+  .topnav a { color: var(--muted); font-size: 14px; text-decoration: none; }
+  .topnav a:hover { color: var(--accent); text-decoration: underline; }
+  .tags a {
+    display: inline-block; border: 1px solid var(--border); border-radius: 999px;
+    padding: 3px 12px; font-size: 13px; margin: 0 6px 6px 0;
+    color: var(--text); text-decoration: none;
+  }
+  .tags a:hover { border-color: var(--accent); color: var(--accent); }
 </style>
 </head>
 <body>
 <main>
+  <nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
   <header>
     <div class="kicker">AX Trend</div>
     <h1>OpenAI, GPT-6 Pro 병렬 에이전트 — 하나의 요청을 여러 에이전트가 동시 처리</h1>
@@ -199,8 +210,17 @@ interface ParallelAgentOrchestrator {
   <hr>
   <footer>
     <p><a href="https://github.com/roomedia/ax-trend/issues/3330">원문 이슈 #3330</a> · 핵심 링크: <a href="https://econotimes.com/OpenAI-Begins-Rolling-Out-Parallel-Agents-to-Eligible-ChatGPT-Pro-Users-1755952">EconoTimes — OpenAI Begins Rolling Out Parallel Agents to Eligible ChatGPT Pro Users (10/17)</a> · <a href="https://dailyaibrief.com/news/openai-adds-collaborative-slide-creation-to-chatgpt-qNFmvJtV">DailyAIBrief — OpenAI Adds Slides and Parallel Agents to ChatGPT (10/17)</a> · <a href="https://rrtechpulse.com/stories/chatgpt-gpt-6-pro-faster-multi-agent-update/">RR Tech Pulse — GPT-6 Pro update: faster, multi-agent (10/17)</a> · 관련 이슈: <a href="https://github.com/roomedia/ax-trend/issues/3113">#3113</a> GPT-6 + 인텔리전트 UI · <a href="https://github.com/roomedia/ax-trend/issues/3277">#3277</a> GPT-6 family 소프트웨어 유지보수 · <a href="https://github.com/roomedia/ax-trend/issues/3091">#3091</a> Decisions API 퍼블릭 베타</p>
-    <p class="tags"><span>AX Trend</span><span>OpenAI</span><span>GPT-6</span><span>parallel-agents</span><span>ChatGPT Slides</span><span>agent-UX</span></p>
+    <p class="tags"><a href="/ax/tag/ax-trend/">AX Trend</a><a href="/ax/tag/openai/">OpenAI</a><a href="/ax/tag/gpt-6/">GPT-6</a><a href="/ax/tag/parallel-agents/">parallel-agents</a><a href="/ax/tag/chatgpt-slides/">ChatGPT Slides</a><a href="/ax/tag/agent-ux/">agent-UX</a></p>
   </footer>
 </main>
+<script>
+(function(){
+  try {
+    var data = JSON.stringify({p: location.pathname, r: document.referrer || ""});
+    if (navigator.sendBeacon) { navigator.sendBeacon("/ax/api/track", data); }
+    else { fetch("/ax/api/track", {method: "POST", body: data, keepalive: true}); }
+  } catch (e) {}
+})();
+</script>
 </body>
 </html>

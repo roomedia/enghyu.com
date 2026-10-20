@@ -104,10 +104,21 @@
     h1 { font-size: 24px; }
     .stat-grid { grid-template-columns: 1fr; }
   }
+
+  .topnav { margin-bottom: 20px; }
+  .topnav a { color: var(--muted); font-size: 14px; text-decoration: none; }
+  .topnav a:hover { color: var(--accent); text-decoration: underline; }
+  .tags a {
+    display: inline-block; border: 1px solid var(--border); border-radius: 999px;
+    padding: 3px 12px; font-size: 13px; margin: 0 6px 6px 0;
+    color: var(--text); text-decoration: none;
+  }
+  .tags a:hover { border-color: var(--accent); color: var(--accent); }
 </style>
 </head>
 <body>
 <main>
+  <nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
   <header>
     <div class="kicker">AX Trend</div>
     <h1>billion-context: 코딩 에이전트 컨텍스트를 5배 아껴 쓰는 압축 프록시</h1>
@@ -192,9 +203,18 @@ bili hermes                   # 런처: 프록시를 띄우고 클라이언트 �
     레포: <a href="https://github.com/ranxianglei/billion-context">ranxianglei/billion-context</a> ·
     <a href="https://www.npmjs.com/package/billion-context">npm billion-context</a></p>
     <p class="tags">
-      <span>AX트렌드</span><span>코딩에이전트</span><span>컨텍스트압축</span><span>토큰절감</span><span>AI개발도구</span>
+      <a href="/ax/tag/ax%ED%8A%B8%EB%A0%8C%EB%93%9C/">AX트렌드</a><a href="/ax/tag/%EC%BD%94%EB%94%A9%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8/">코딩에이전트</a><a href="/ax/tag/%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8%EC%95%95%EC%B6%95/">컨텍스트압축</a><a href="/ax/tag/%ED%86%A0%ED%81%B0%EC%A0%88%EA%B0%90/">토큰절감</a><a href="/ax/tag/ai%EA%B0%9C%EB%B0%9C%EB%8F%84%EA%B5%AC/">AI개발도구</a>
     </p>
   </footer>
 </main>
+<script>
+(function(){
+  try {
+    var data = JSON.stringify({p: location.pathname, r: document.referrer || ""});
+    if (navigator.sendBeacon) { navigator.sendBeacon("/ax/api/track", data); }
+    else { fetch("/ax/api/track", {method: "POST", body: data, keepalive: true}); }
+  } catch (e) {}
+})();
+</script>
 </body>
 </html>

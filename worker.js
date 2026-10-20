@@ -244,6 +244,73 @@ async function validatePutBody(env, request, bucketName, key, bytes) {
   return {ok: true};
 }
 
+// ---- AX 트렌드 통계 ----------------------------------------------------------
+// 글 페이지의 비콘이 POST /ax/api/track 으로 {p: 경로, r: referrer} 를 보낸다.
+// R2에 일자별 JSON 하나로 모아 둔다. 지표용이라 동시 쓰기 경합 시 몇 건 유실을 감수한다.
+const axStatsPrefix = "axstats/v1/";
+const axDayKey = date => `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, "0")}-${String(date.getUTCDate()).padStart(2, "0")}`;
+
+function sanitizePath(p) {
+  if (typeof p !== "string") return null;
+  if (!p.startsWith("/ax/") || p.length > 200) return null;
+  if (/[<>"\\]/.test(p)) return null;
+  return p;
+}
+
+async function trackAxView(env, body, now) {
+  const path = sanitizePath(body?.p);
+  if (!path) return {ok: false};
+  let refHost = "";
+  let flowFrom = "";
+  try {
+    const ref = String(body?.r || "");
+    if (ref) {
+      const u = new URL(ref);
+      if (u.hostname !== "enghyu.com" && !u.hostname.endsWith(".enghyu.com")) {
+        refHost = u.hostname.slice(0, 80);
+      } else {
+        const from = sanitizePath(u.pathname);
+        if (from && from !== path) flowFrom = from;
+      }
+    }
+  } catch { /* referrer 파싱 실패는 무시 */ }
+  const key = axStatsPrefix + axDayKey(now) + ".json";
+  const prev = await readJson(env, key) || {paths: {}, refs: {}, flows: {}};
+  prev.paths[path] = (prev.paths[path] || 0) + 1;
+  if (refHost) {
+    const k = `${refHost} → ${path}`;
+    prev.refs[k] = (prev.refs[k] || 0) + 1;
+  }
+  if (flowFrom) {
+    const k = `${flowFrom} → ${path}`;
+    prev.flows[k] = (prev.flows[k] || 0) + 1;
+  }
+  prev.updatedAt = now.toISOString();
+  await env.KTHEME_CACHE.put(key, JSON.stringify(prev), {httpMetadata: {contentType: "application/json"}});
+  return {ok: true};
+}
+
+async function axStats(env, days) {
+  const n = Math.min(Math.max(parseInt(days, 10) || 30, 1), 90);
+  const out = {paths: {}, refs: {}, flows: {}, days: n};
+  const now = new Date();
+  const keys = [];
+  for (let i = 0; i < n; i += 1) {
+    const d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - i));
+    keys.push(axStatsPrefix + axDayKey(d) + ".json");
+  }
+  const records = await Promise.all(keys.map(k => readJson(env, k)));
+  for (const rec of records) {
+    if (!rec) continue;
+    for (const [k, v] of Object.entries(rec.paths || {})) out.paths[k] = (out.paths[k] || 0) + v;
+    for (const [k, v] of Object.entries(rec.refs || {})) out.refs[k] = (out.refs[k] || 0) + v;
+    for (const [k, v] of Object.entries(rec.flows || {})) out.flows[k] = (out.flows[k] || 0) + v;
+  }
+  const top = obj => Object.entries(obj).sort((a, b) => b[1] - a[1]).slice(0, 50);
+  return {days: n, topPaths: top(out.paths), topRefs: top(out.refs), topFlows: top(out.flows),
+          totalViews: Object.values(out.paths).reduce((a, b) => a + b, 0)};
+}
+
 export default {
   async fetch(request, env) {
     if (request.method === "OPTIONS") return new Response(null, {headers: responseHeaders()});
@@ -280,6 +347,19 @@ export default {
       // 파일명은 클라이언트가 정규화·percent-encoding한 값이다. 그대로 보관한다.
       const name = request.headers.get("X-Theme-Name") || "";
       return jsonResponse(await bumpDownloadCount(env, sha, name, detail, now));
+    }
+
+    const axTrack = url.pathname === "/ax/api/track";
+    if (axTrack) {
+      if (request.method !== "POST") return new Response("Method not allowed", {status: 405, headers: responseHeaders({Allow: "POST, OPTIONS"})});
+      const body = await request.json().catch(() => null);
+      return jsonResponse(await trackAxView(env, body, now));
+    }
+
+    const axStatsRoute = url.pathname === "/ax/api/stats";
+    if (axStatsRoute) {
+      if (request.method !== "GET") return new Response("Method not allowed", {status: 405, headers: responseHeaders({Allow: "GET, OPTIONS"})});
+      return jsonResponse(await axStats(env, url.searchParams.get("days")));
     }
 
     const match = url.pathname.match(new RegExp(`^(?:${mountPath})?/(shared-cache|shared-theme)/([a-f0-9]{64})$`));
@@ -332,4 +412,4 @@ export default {
   },
 };
 
-export {budget, hasV2Signature, readCentralDirectory, resetBaseCache, resetBudgetCache, validatePutBody};
+export {budget, hasV2Signature, readCentralDirectory, resetBaseCache, resetBudgetCache, validatePutBody, sanitizePath, axDayKey};

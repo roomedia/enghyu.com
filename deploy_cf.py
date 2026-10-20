@@ -178,6 +178,12 @@ def main():
     if rc != 0:
         raise RuntimeError("ax 목록 생성 실패")
 
+    # 0a-2. ax 태그 페이지 갱신
+    print("== ax 태그 갱신 ==")
+    rc = os.system(f"cd {PROJECT_ROOT} && python3 scripts/gen_ax_tags.py")
+    if rc != 0:
+        raise RuntimeError("ax 태그 생성 실패")
+
     # 0b. 빌드
     print("== 빌드 ==")
     rc = os.system(f"cd {PROJECT_ROOT} && node scripts/build-assets.mjs")

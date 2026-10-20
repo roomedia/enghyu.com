@@ -218,3 +218,30 @@ npm run test:e2e
 - `python3 deploy_cf.py`: 배포 성공
 - `https://enghyu.com/ax/`: 글 목록 정상 표시 확인
 - `https://enghyu.com/`: AX 트렌드 카드 정상 표시 확인
+
+## AX 글 내비게이션 + 태그 페이지 + 통계 (2026-10-20)
+
+### 현재 구현 상태
+- 글 상단에 `← AX 트렌드 목록` 내비게이션 (`<nav class="topnav">`), 12개 기존 글 패치 완료
+- 푸터 태그를 클릭 가능한 링크로 변경 (`/ax/tag/<슬러그>/`), 50개 태그 페이지 + `/ax/tags/` 모아보기
+- 통계: `POST /ax/api/track` (R2 일자별 집계) + `GET /ax/api/stats?days=N` + `/ax/stats/` 대시보드 (조회수·유입 경로·글 간 이동, 7/30/90일)
+- `deploy_cf.py`: 배포 전 `gen_ax_tags.py` 실행 단계 추가. `gen_ax_index.py`는 tag/tags/stats 디렉토리 제외 + 목록 헤더에 태그/통계 링크
+
+### 변경한 파일과 동작
+- `scripts/patch_ax_posts.py`: 신규 (기존 글 일괄 패치용, nav CSS/HTML·태그 링크화·비콘 삽입)
+- `scripts/gen_ax_tags.py`: 신규 (태그 → 글 매핑, `ax/tag/<슬러그>/index.html` + `ax/tags/index.html` 생성)
+- `scripts/gen_ax_index.py`: tag/tags/stats 제외, 헤더에 태그·통계 링크, 비콘 스크립트 포함
+- `worker.js`: `/ax/api/track` (POST, 경로·referrer 기록), `/ax/api/stats` (GET, 최근 N일 집계) 라우트 추가. R2 키 `axstats/v1/YYYY-MM-DD.json`
+- `ax/stats/index.html`: 신규 (통계 대시보드, API fetch 렌더링)
+- `deploy_cf.py`: gen_ax_tags.py 실행 단계 추가
+- enghyu-ax-publisher 크론 지시문: 신규 글 템플릿 필수 요소로 nav·태그 링크·비콘·CSS 명시
+
+### 실행한 검증 명령과 결과
+- `node --check worker.js`: 통과
+- `python3 deploy_cf.py`: 배포 성공 (에셋 85개, Worker 배포 성공)
+- `curl` 200 확인: `/ax/tags/`, `/ax/tag/opencode/`, `/ax/stats/`, `/ax/api/stats?days=7`
+- `POST /ax/api/track` → `{"ok":true}`, 이후 `/ax/api/stats?days=1`에서 집계 확인 (paths/refs 정상)
+
+### 확인하지 못한 항목과 남은 리스크
+- R2 쓰기 경합 시 몇 건 유실 가능 (지표용이라 감수, 기존 download-count와 같은 패턴)
+- 비콘 미지원 구형 브라우저는 fetch keepalive로 대체 (동일 스크립트 내 처리)

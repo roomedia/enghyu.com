@@ -104,10 +104,21 @@
     h1 { font-size: 24px; }
     .stat-grid { grid-template-columns: 1fr; }
   }
+
+  .topnav { margin-bottom: 20px; }
+  .topnav a { color: var(--muted); font-size: 14px; text-decoration: none; }
+  .topnav a:hover { color: var(--accent); text-decoration: underline; }
+  .tags a {
+    display: inline-block; border: 1px solid var(--border); border-radius: 999px;
+    padding: 3px 12px; font-size: 13px; margin: 0 6px 6px 0;
+    color: var(--text); text-decoration: none;
+  }
+  .tags a:hover { border-color: var(--accent); color: var(--accent); }
 </style>
 </head>
 <body>
 <main>
+  <nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
   <header>
     <div class="kicker">AX Trend</div>
     <h1>OpenAI의 'GPT-6 family로 소프트웨어 유지보수' — 죽은 코드·기능 스위치·CI 최적화 실전 프롬프트</h1>
@@ -201,8 +212,17 @@ AGENTS.md 규칙은 최근 Codex 세션을 뒤져 에이전트를 오도한
 
   <hr>
   <footer>
-    <p class="tags"><span>OpenAI</span><span>GPT-6</span><span>Codex</span><span>코드 유지보수</span><span>AX Trend</span></p>
+    <p class="tags"><a href="/ax/tag/openai/">OpenAI</a><a href="/ax/tag/gpt-6/">GPT-6</a><a href="/ax/tag/codex/">Codex</a><a href="/ax/tag/%EC%BD%94%EB%93%9C-%EC%9C%A0%EC%A7%80%EB%B3%B4%EC%88%98/">코드 유지보수</a><a href="/ax/tag/ax-trend/">AX Trend</a></p>
   </footer>
 </main>
+<script>
+(function(){
+  try {
+    var data = JSON.stringify({p: location.pathname, r: document.referrer || ""});
+    if (navigator.sendBeacon) { navigator.sendBeacon("/ax/api/track", data); }
+    else { fetch("/ax/api/track", {method: "POST", body: data, keepalive: true}); }
+  } catch (e) {}
+})();
+</script>
 </body>
 </html>

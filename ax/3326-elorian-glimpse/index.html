@@ -101,10 +101,21 @@
     h1 { font-size: 24px; }
     table { font-size: 12px; }
   }
+
+  .topnav { margin-bottom: 20px; }
+  .topnav a { color: var(--muted); font-size: 14px; text-decoration: none; }
+  .topnav a:hover { color: var(--accent); text-decoration: underline; }
+  .tags a {
+    display: inline-block; border: 1px solid var(--border); border-radius: 999px;
+    padding: 3px 12px; font-size: 13px; margin: 0 6px 6px 0;
+    color: var(--text); text-decoration: none;
+  }
+  .tags a:hover { border-color: var(--accent); color: var(--accent); }
 </style>
 </head>
 <body>
 <main>
+  <nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
   <header>
     <div class="kicker">AX Trend</div>
     <h1>Elorian 'Glimpse' — 이미지를 보고 추론하는 비주얼 리즈닝 모델, GPT-6 Astra 대비 94% 저렴</h1>
@@ -194,8 +205,17 @@ print(f"Opus 5.5:  ${cost(4.00, 20.00):,.0f}")   # $520
   <hr>
   <footer>
     <p><a href="https://github.com/roomedia/ax-trend/issues/3326">원문 이슈 #3326</a> · 핵심 링크: <a href="https://techcrunch.com/2026/10/16/elorians-first-ai-model-wants-to-reason-with-images-not-just-about-them/">TechCrunch 단독 보도 (10/16)</a> · <a href="https://fourweekmba.com/ai-nvidia-backed-elorian-prices-glimpse-94-below-gpt-6-astra/">fourweekmba 가격·벤치마크 분석</a> · <a href="https://runtimewire.com/article/elorian-glimpse-visual-reasoning-model-launch">runtimewire 비판적 리뷰</a></p>
-    <p class="tags"><span>AX Trend</span><span>Elorian</span><span>Glimpse</span><span>visual reasoning</span><span>multimodal</span></p>
+    <p class="tags"><a href="/ax/tag/ax-trend/">AX Trend</a><a href="/ax/tag/elorian/">Elorian</a><a href="/ax/tag/glimpse/">Glimpse</a><a href="/ax/tag/visual-reasoning/">visual reasoning</a><a href="/ax/tag/multimodal/">multimodal</a></p>
   </footer>
 </main>
+<script>
+(function(){
+  try {
+    var data = JSON.stringify({p: location.pathname, r: document.referrer || ""});
+    if (navigator.sendBeacon) { navigator.sendBeacon("/ax/api/track", data); }
+    else { fetch("/ax/api/track", {method: "POST", body: data, keepalive: true}); }
+  } catch (e) {}
+})();
+</script>
 </body>
 </html>

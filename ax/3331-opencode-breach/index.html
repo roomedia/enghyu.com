@@ -101,10 +101,21 @@
     h1 { font-size: 24px; }
     table { font-size: 12px; }
   }
+
+  .topnav { margin-bottom: 20px; }
+  .topnav a { color: var(--muted); font-size: 14px; text-decoration: none; }
+  .topnav a:hover { color: var(--accent); text-decoration: underline; }
+  .tags a {
+    display: inline-block; border: 1px solid var(--border); border-radius: 999px;
+    padding: 3px 12px; font-size: 13px; margin: 0 6px 6px 0;
+    color: var(--text); text-decoration: none;
+  }
+  .tags a:hover { border-color: var(--accent); color: var(--accent); }
 </style>
 </head>
 <body>
 <main>
+  <nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
   <header>
     <div class="kicker">AX Trend</div>
     <h1>OpenCode 보안 침해 공지 — '대규모 증류 공격'으로 Console 사용자 1.4%의 OpenAI·Anthropic·Google API 키 노출 가능</h1>
@@ -190,8 +201,17 @@ for provider in ["openai", "anthropic", "google"]:
   <hr>
   <footer>
     <p><a href="https://github.com/roomedia/ax-trend/issues/3331">원문 이슈 #3331</a> · 핵심 링크: <a href="https://officechai.com/ai/opencode-discloses-security-breach-says-attackers-may-have-accessed-users-openai-anthropic-and-google-api-keys/">officechai — OpenCode Discloses Security Breach (10/17~18)</a> · 관련 이슈: <a href="https://github.com/roomedia/ax-trend/issues/3236">#3236</a> Anthropic, Claude 증류 공격 방어 대책 공개</p>
-    <p class="tags"><span>AX Trend</span><span>OpenCode</span><span>security</span><span>distillation-attack</span><span>BYOK</span><span>API-keys</span></p>
+    <p class="tags"><a href="/ax/tag/ax-trend/">AX Trend</a><a href="/ax/tag/opencode/">OpenCode</a><a href="/ax/tag/security/">security</a><a href="/ax/tag/distillation-attack/">distillation-attack</a><a href="/ax/tag/byok/">BYOK</a><a href="/ax/tag/api-keys/">API-keys</a></p>
   </footer>
 </main>
+<script>
+(function(){
+  try {
+    var data = JSON.stringify({p: location.pathname, r: document.referrer || ""});
+    if (navigator.sendBeacon) { navigator.sendBeacon("/ax/api/track", data); }
+    else { fetch("/ax/api/track", {method: "POST", body: data, keepalive: true}); }
+  } catch (e) {}
+})();
+</script>
 </body>
 </html>

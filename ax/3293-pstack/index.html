@@ -104,10 +104,21 @@
     h1 { font-size: 24px; }
     .stat-grid { grid-template-columns: 1fr; }
   }
+
+  .topnav { margin-bottom: 20px; }
+  .topnav a { color: var(--muted); font-size: 14px; text-decoration: none; }
+  .topnav a:hover { color: var(--accent); text-decoration: underline; }
+  .tags a {
+    display: inline-block; border: 1px solid var(--border); border-radius: 999px;
+    padding: 3px 12px; font-size: 13px; margin: 0 6px 6px 0;
+    color: var(--text); text-decoration: none;
+  }
+  .tags a:hover { border-color: var(--accent); color: var(--accent); }
 </style>
 </head>
 <body>
 <main>
+  <nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
   <header>
     <div class="kicker">AX Trend</div>
     <h1>pstack — 에이전트용 엄격 엔지니어링 스킬 모음, Cursor 공식 플러그인 등록</h1>
@@ -194,8 +205,17 @@
   <hr>
   <footer>
     <p><a href="https://github.com/roomedia/ax-trend/issues/3293">원문 이슈 #3293</a> · 핵심 링크: <a href="https://x.com/poteto/status/2110757066709356851">X 홍보글 (10/16)</a> · <a href="https://github.com/cursor/plugins/tree/main/pstack">GitHub 공식 플러그인</a></p>
-    <p class="tags"><span>AX Trend</span><span>pstack</span><span>poteto-mode</span><span>Cursor</span><span>AI coding</span></p>
+    <p class="tags"><a href="/ax/tag/ax-trend/">AX Trend</a><a href="/ax/tag/pstack/">pstack</a><a href="/ax/tag/poteto-mode/">poteto-mode</a><a href="/ax/tag/cursor/">Cursor</a><a href="/ax/tag/ai-coding/">AI coding</a></p>
   </footer>
 </main>
+<script>
+(function(){
+  try {
+    var data = JSON.stringify({p: location.pathname, r: document.referrer || ""});
+    if (navigator.sendBeacon) { navigator.sendBeacon("/ax/api/track", data); }
+    else { fetch("/ax/api/track", {method: "POST", body: data, keepalive: true}); }
+  } catch (e) {}
+})();
+</script>
 </body>
 </html>

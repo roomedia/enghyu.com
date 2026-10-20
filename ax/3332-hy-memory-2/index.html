@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>텐센트 Hy Memory 2.0 — 에이전트 '기억'을 3B 특화 모델에 맡기는 메모리 라이터</title>
+<meta name="description" content="텐센트 Hunyuan이 에이전트 메모리 프레임워크 Hy Memory 2.0을 공개했다. 메모리 쓰기 경로를 전담하는 Hy-Memory-30B-A3B(활성 파라미터 3B)가 4개 하네스 평균 55.49로 Claude Opus 5(54.62)를 앞섰다는 주장. 쓰기 경로 오프로드, Mem0·MemOS 드롭인 교체, 그리고 벤치마크의 한계를 정리한다.">
+<meta property="og:title" content="텐센트 Hy Memory 2.0 — 에이전트 '기억'을 3B 특화 모델에 맡기는 메모리 라이터">
+<meta property="og:description" content="활성 파라미터 3B의 메모리 라이터 모델이 Opus 5급 범용 모델을 앞섰다는 텐센트의 주장. 에이전트 메모리 쓰기 경로를 오프로드하는 구조와 실무 도입 관점을 정리.">
+<meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3332-cover.png">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --text: #1a1a1a;
+    --muted: #666;
+    --border: #e5e5e5;
+    --code-bg: #f6f6f6;
+    --accent: #0b6efd;
+    --callout-bg: #f4f8ff;
+    --callout-border: #0b6efd;
+    --warn-bg: #fff8ef;
+    --warn-border: #e8930c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #101216;
+      --text: #e8e8e8;
+      --muted: #9a9a9a;
+      --border: #2a2d33;
+      --code-bg: #1b1e24;
+      --accent: #5ea1ff;
+      --callout-bg: #14202f;
+      --callout-border: #5ea1ff;
+      --warn-bg: #2a2118;
+      --warn-border: #e8930c;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR",
+                 "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 800px; margin: 0 auto; padding: 48px 24px 96px; }
+  header { margin-bottom: 32px; }
+  .kicker {
+    font-size: 13px; font-weight: 700; letter-spacing: 0.06em;
+    color: var(--accent); text-transform: uppercase; margin-bottom: 12px;
+  }
+  h1 { font-size: 30px; line-height: 1.4; margin: 0 0 12px; letter-spacing: -0.01em; }
+  .meta { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+  .meta a { color: inherit; }
+  h2 { font-size: 22px; margin: 48px 0 16px; letter-spacing: -0.01em; }
+  h3 { font-size: 17px; margin: 32px 0 12px; }
+  p { margin: 0 0 16px; }
+  ul, ol { margin: 0 0 16px; padding-left: 22px; }
+  li { margin-bottom: 8px; }
+  figure { margin: 28px 0; }
+  figure img {
+    width: 100%; height: auto; display: block;
+    border: 1px solid var(--border); border-radius: 12px;
+  }
+  figcaption { color: var(--muted); font-size: 13px; text-align: center; margin-top: 8px; }
+  code {
+    font-family: "SF Mono", "Menlo", "Consolas", "D2Coding", monospace;
+    font-size: 0.88em; background: var(--code-bg);
+    padding: 2px 6px; border-radius: 5px;
+  }
+  pre {
+    background: var(--code-bg); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px 18px; overflow-x: auto;
+    font-size: 14px; line-height: 1.6; margin: 0 0 20px;
+  }
+  pre code { background: none; padding: 0; border-radius: 0; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .callout {
+    background: var(--callout-bg); border-left: 3px solid var(--callout-border);
+    padding: 14px 18px; border-radius: 0 10px 10px 0; margin: 24px 0;
+  }
+  .callout.warn { background: var(--warn-bg); border-left-color: var(--warn-border); }
+  .callout p:last-child { margin-bottom: 0; }
+  table {
+    width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px;
+  }
+  th, td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; }
+  th { background: var(--code-bg); }
+  hr { border: none; border-top: 1px solid var(--border); margin: 48px 0 24px; }
+  footer { color: var(--muted); font-size: 14px; }
+
+  .topnav { margin-bottom: 20px; }
+  .topnav a { color: var(--muted); font-size: 14px; text-decoration: none; }
+  .topnav a:hover { color: var(--accent); text-decoration: underline; }
+  .tags a {
+    display: inline-block; border: 1px solid var(--border); border-radius: 999px;
+    padding: 3px 12px; font-size: 13px; margin: 0 6px 6px 0;
+    color: var(--text); text-decoration: none;
+  }
+  .tags a:hover { border-color: var(--accent); color: var(--accent); }
+  @media (max-width: 560px) {
+    h1 { font-size: 24px; }
+    table { font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
+  <header>
+    <div class="kicker">AX Trend</div>
+    <h1>텐센트 Hy Memory 2.0 — 에이전트 '기억'을 3B 특화 모델에 맡기는 메모리 라이터</h1>
+    <p class="meta">2026-10-16 · <a href="https://github.com/roomedia/ax-trend/issues/3332">원문 이슈 #3332</a></p>
+    <figure>
+      <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3332-cover.png" alt="Hy Memory 2.0 — 텐센트 에이전트 메모리 프레임워크 커버">
+    </figure>
+  </header>
+
+  <p>10월 16일, 텐센트 Hunyuan이 에이전트 메모리 프레임워크 <strong>Hy Memory 2.0</strong>을 발표하고 전용 모델·메모리 프레임워크·MemHub 앱의 3개 레이어를 오픈소스화했다. 핵심은 <strong>Hy-Memory-30B-A3B</strong>라는 메모리 라이터(writer) 전용 모델이다. 30B MoE 중 약 <strong>3B의 활성 파라미터</strong>만 쓰는 작은 모델이, 메모리 쓰기라는 단일 작업에서 범용 대형 모델을 이겼다는 게 텐센트의 주장이다.</p>
+
+  <div class="callout">
+    <p><strong>개발자 관점 한 줄 요약:</strong> 에이전트의 "무엇을 기억할지 결정하는 쓰기(write) 경로"를 범용 LLM이 아니라 3B급 특화 모델로 떼어낸 아키텍처. 4개 하네스 평균 <strong>55.49</strong>로 Claude Opus 5(54.62)를 앞섰다고 주장하는데, 수치는 텐센트 자체 측정(20% 서브샘플)이라 독립 검증 전까지는 "주장"으로 읽어야 한다.</p>
+  </div>
+
+  <h2>무엇을 발표했나: 핵심 사실</h2>
+  <ul>
+    <li><strong>Hy Memory 2.0:</strong> 에이전트 메모리 프레임워크. 전용 모델(Hy-Memory-30B-A3B) + 메모리 프레임워크 + MemHub 앱의 3층 구조로 오픈소스 공개.</li>
+    <li><strong>Hy-Memory-30B-A3B:</strong> Hugging Face의 tencent 공식 org에 공개. 외부 메모리 프레임워크의 쓰기 경로를 전담하는 30B MoE(약 3B 활성) 모델. 라이선스는 <strong>Apache 2.0</strong>.</li>
+    <li><strong>드롭인 교체 표방:</strong> Mem0·MemOS·Hy-Memory(Chat·Working·Coding 시나리오) 안의 범용 LLM을 직접 대체하도록 설계됐고, 학습에 쓰지 않은 EverMemOS 같은 프레임워크로도 전이된다고 주장.</li>
+    <li><strong>학습 방법:</strong> Memory On-Policy Distillation(OPD) 2단계 + Attributed Memory Reinforcement Learning.</li>
+    <li><strong>MemHub:</strong> 여러 AI 도구가 하나의 메모리를 공유하는 앱. 실제 동작·지원 도구 목록·호스티드 가격/가용성은 아직 미공개.</li>
+  </ul>
+
+  <h2>3층 레이어 아키텍처</h2>
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3332-arch.png" alt="Hy Memory 3층 레이어 아키텍처: 메모리 라이터 모델 → 메모리 프레임워크 → MemHub 앱">
+    <figcaption>3층 레이어 — 라이터 모델(쓰기 전담) → 메모리 프레임워크 → MemHub(공유 앱)</figcaption>
+  </figure>
+
+  <p>기존 에이전트 메모리 시장은 Mem0·MemOS 같은 프레임워크가 있었지만, "무엇을 기억할지 결정하는" 쓰기 경로는 범용 LLM + 프레임워크별 프롬프트로 처리해 왔다. 텐센트는 <strong>이 쓰기 경로 자체를 소형 특화 모델로 분리</strong>했다. 읽기(read)는 기존대로 범용 모델이 해도 되지만, 쓰기(write)는 매 대화 턴마다 수없이 호출되는 고빈도 작업이라 비용 민감도가 높다. 이 한 경로만 3B급 모델로 오프로드할 수 있다면 <strong>메모리 비용이 크게 낮아지고, 온디바이스·제약 환경 에이전트</strong>에도 적용 여지가 생긴다.</p>
+
+  <h2>벤치마크: 55.49 vs Opus 5 54.62</h2>
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3332-bench.png" alt="4개 하네스 평균 점수 비교: Hy-Memory-30B-A3B 55.49, Claude Opus 5 54.62, DeepSeek V4.1 Flash 53.64, Hy3 51.63, Qwen3.6-35B-A3B 50.37">
+    <figcaption>4개 하네스 평균 — 텐센트 제시 수치. 전량 벤더 자체 측정이다.</figcaption>
+  </figure>
+
+  <p>텐센트가 제시한 벤치마크(4개 하네스 평균):</p>
+  <table>
+    <tr><th>모델</th><th>평균</th></tr>
+    <tr><td><strong>Hy-Memory-30B-A3B</strong></td><td><strong>55.49</strong></td></tr>
+    <tr><td>Claude Opus 5</td><td>54.62</td></tr>
+    <tr><td>DeepSeek V4.1 Flash</td><td>53.64</td></tr>
+    <tr><td>Hy3</td><td>51.63</td></tr>
+    <tr><td>Qwen3.6-35B-A3B</td><td>50.37</td></tr>
+  </table>
+  <p>하네스별로는 Mem0 54.02 / Hy-Memory 60.55 / MemOS 50.51 / EverMemOS 56.89다. 평가 지표는 LoCoMo Judge·LongMemEval(LME)·PersonaMem-v2(PM-v2)·Travel SPS·Shopping PS·Code Memory Bench(CMB) 6종을 하네스별 균등 가중 평균한 것이며, <strong>계산 효율을 위해 각 벤치마크의 20% 고정 서브샘플로만 평가</strong>했다. dev.to 실측 리뷰는 "a 30B memory model and MemHub"로 요약했고, alextech는 "vLLM으로 OpenAI 호환 API 배포 가능"을 전했다.</p>
+
+  <div class="callout warn">
+    <p><strong>주의 (미확인):</strong> 벤치마크는 전량 텐센트 자체 측정(Tencent data)이며 20% 서브샘플 평가라 <strong>독립 검증이 없다</strong>. arXiv 테크리포트 2610.22196의 세부 내용·제출일도 모델 카드 태그 표기만 확인했고 원문 검증은 못 했다. 수치를 받아들이기 전에 LongMemEval 같은 표준 벤치마크를 직접 돌려보는 게 순서다.</p>
+  </div>
+
+  <h2>개발자가 바로 써볼 수 있는 실무 포인트</h2>
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3332-dev.png" alt="개발자 워크플로우: vLLM으로 OpenAI 호환 API 배포 후 기존 Mem0·MemOS 프레임워크에 드롭인 교체">
+    <figcaption>vLLM으로 OpenAI 호환 API로 서빙 → 기존 프레임워크에 드롭인 교체</figcaption>
+  </figure>
+
+  <p>도입 장벽이 낮은 이유 두 가지: Apache 2.0 라이선스로 상용 도입에 제약이 없고, Mem0·MemOS의 드롭인 교체를 표방한다. vLLM으로 OpenAI 호환 API로 띄울 수 있으니 기존 스택에서 바로 실험해 볼 수 있다:</p>
+
+  <pre><code># Hy-Memory-30B-A3B를 vLLM으로 서빙 (OpenAI 호환 API)
+vllm serve tencent/Hy-Memory-30B-A3B --port 8000
+
+# 기존 Mem0/MemOS 설정에서 llm을 이 엔드포인트로 교체
+# → 메모리 쓰기(write) 경로만 3B 특화 모델로 오프로드
+memory_writer = LLM(
+    model="tencent/Hy-Memory-30B-A3B",
+    base_url="http://localhost:8000/v1",   # OpenAI 호환 엔드포인트
+)</code></pre>
+
+  <div class="callout">
+    <p><strong>AX TF 관점:</strong> 장시간 동작하는 에이전트에서 메모리는 컨텍스트 윈도우 한계를 푸는 핵심 인프라다. 쓰기 경로를 3B급 특화 모델로 대체할 수 있다면 메모리 비용이 크게 낮아지고, 온디바이스·제약 환경 에이전트에도 적용 여지가 생긴다. 다만 수치는 벤더 자체 측정인 만큼 독립 재현 전까지는 "주장"으로 다뤄야 한다.</p>
+  </div>
+
+  <h2>관련 이슈</h2>
+  <ul>
+    <li><a href="https://github.com/roomedia/ax-trend/issues/2528">#2528</a> — 텐센트, 295B MoE 오픈소스 모델 'Hy3' 공식 출시</li>
+    <li><a href="https://github.com/roomedia/ax-trend/issues/2531">#2531</a> — Tencent Hy3: 295B MoE 오픈소스 모델, Apache 2.0 라이선스</li>
+    <li><a href="https://github.com/roomedia/ax-trend/issues/3158">#3158</a> — supermemoryai 'supermemory' — AI 메모리·컨텍스트 엔진, LongMemEval 1위·완전 로컬 실행</li>
+  </ul>
+
+  <hr>
+  <footer>
+    <p><a href="https://github.com/roomedia/ax-trend/issues/3332">원문 이슈 #3332</a> · 핵심 링크: <a href="https://longbridge.com/en/news/302088460">Longbridge/wallstreetcn (10/16)</a> · <a href="https://huggingface.co/tencent/Hy-Memory-30B-A3B">HF 모델 카드</a> · <a href="https://github.com/Tencent-Hunyuan/Hy-Memory">GitHub Tencent-Hunyuan/Hy-Memory</a> · <a href="https://dev.to/teolex2020/tencents-hy-memory-is-only-as-good-as-the-llm-that-writes-it-i-measured-it-on-longmemeval-4bj4">dev.to 실측 리뷰</a></p>
+    <p class="tags"><a href="/ax/tag/ax-trend/">AX Trend</a><a href="/ax/tag/performance/">성능 최적화</a><a href="/ax/tag/ai-coding/">AI 코딩</a></p>
+  </footer>
+</main>
+<script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
+</body>
+</html>

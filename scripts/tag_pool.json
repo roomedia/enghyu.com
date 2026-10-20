@@ -36,11 +36,6 @@
   "ChatGPT Slides"
  ],
  "OpenCode": [],
- "_dropped": [
-  "MIT",
-  "poteto-mode"
- ],
- "_note": "AX 트렌드 태그 풀 (controlled vocabulary). 신규 글 작성 시 이 풀에서 선택하고, 새 태그가 필요하면 여기에 추가 후 사용한다. key=정식 태그명, value=병합된 별칭들.",
  "agent-UX": [],
  "agentic benchmark": [],
  "parallel-agents": [],
@@ -66,11 +61,23 @@
  "코드 유지보수": [
   "generator-judge"
  ],
+ "글쓰기 AI": [
+  "writing",
+  "리라이팅",
+  "humanizer",
+  "글쓰기AI"
+ ],
  "_slugs": {
   "AI 코딩": "ai-coding",
   "E2E 테스트": "e2e-test",
   "멀티모달": "multimodal",
   "성능 최적화": "performance",
-  "코드 유지보수": "code-maintenance"
- }
+  "코드 유지보수": "code-maintenance",
+  "글쓰기 AI": "writing-ai"
+ },
+ "_dropped": [
+  "MIT",
+  "poteto-mode"
+ ],
+ "_note": "AX 트렌드 태그 풀 (controlled vocabulary). 신규 글 작성 시 이 풀에서 선택하고, 새 태그가 필요하면 여기에 추가 후 사용한다. key=정식 태그명, value=병합된 별칭들."
 }

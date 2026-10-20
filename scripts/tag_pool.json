@@ -73,11 +73,18 @@
   "멀티모달": "multimodal",
   "성능 최적화": "performance",
   "코드 유지보수": "code-maintenance",
-  "글쓰기 AI": "writing-ai"
+  "글쓰기 AI": "writing-ai",
+  "이미지 생성": "image-gen"
  },
  "_dropped": [
   "MIT",
   "poteto-mode"
  ],
- "_note": "AX 트렌드 태그 풀 (controlled vocabulary). 신규 글 작성 시 이 풀에서 선택하고, 새 태그가 필요하면 여기에 추가 후 사용한다. key=정식 태그명, value=병합된 별칭들."
+ "_note": "AX 트렌드 태그 풀 (controlled vocabulary). 신규 글 작성 시 이 풀에서 선택하고, 새 태그가 필요하면 여기에 추가 후 사용한다. key=정식 태그명, value=병합된 별칭들.",
+ "이미지 생성": [
+  "text-to-image",
+  "image generation",
+  "MOSS-Image",
+  "이미지AI"
+ ]
 }

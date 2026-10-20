@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DeepSeek V4.1-Flash '1017' — '마이너 업데이트'가 Terminal-Bench +35%를 낸 방법</title>
+<meta name="description" content="DeepSeek가 10월 17일 V4.1-Flash-1017 체크포인트를 MIT 라이선스로 공개했다. 스스로 'minor update'라 불렀지만 Terminal-Bench 42.3(+35%), DeepSWE 77.0으로 GPT-6급·Opus급을 넘나든다. 더 빠르고 짧은 출력, Rust 인코딩 툴킷 deepseek-recipe, 로컬 추론 가이드를 개발자 관점에서 정리한다.">
+<meta property="og:title" content="DeepSeek V4.1-Flash '1017' — '마이너 업데이트'가 Terminal-Bench +35%를 낸 방법">
+<meta property="og:description" content="Terminal-Bench 42.3(+35%), DeepSWE 77.0으로 GPT-6·Opus급을 넘나드는 MIT 오픈 모델. 더 빠르고 짧게, deepseek-recipe Rust 툴킷과 로컬 추론 가이드까지.">
+<meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3327-cover.png">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --text: #1a1a1a;
+    --muted: #666;
+    --border: #e5e5e5;
+    --code-bg: #f6f6f6;
+    --accent: #0b6efd;
+    --callout-bg: #f4f8ff;
+    --callout-border: #0b6efd;
+    --warn-bg: #fff8ef;
+    --warn-border: #e8930c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #101216;
+      --text: #e8e8e8;
+      --muted: #9a9a9a;
+      --border: #2a2d33;
+      --code-bg: #1b1e24;
+      --accent: #5ea1ff;
+      --callout-bg: #14202f;
+      --callout-border: #5ea1ff;
+      --warn-bg: #2a2118;
+      --warn-border: #e8930c;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR",
+                 "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 800px; margin: 0 auto; padding: 48px 24px 96px; }
+  header { margin-bottom: 32px; }
+  .kicker {
+    font-size: 13px; font-weight: 700; letter-spacing: 0.06em;
+    color: var(--accent); text-transform: uppercase; margin-bottom: 12px;
+  }
+  h1 { font-size: 30px; line-height: 1.4; margin: 0 0 12px; letter-spacing: -0.01em; }
+  .meta { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+  .meta a { color: inherit; }
+  h2 { font-size: 22px; margin: 48px 0 16px; letter-spacing: -0.01em; }
+  h3 { font-size: 17px; margin: 32px 0 12px; }
+  p { margin: 0 0 16px; }
+  ul, ol { margin: 0 0 16px; padding-left: 22px; }
+  li { margin-bottom: 8px; }
+  figure { margin: 28px 0; }
+  figure img {
+    width: 100%; height: auto; display: block;
+    border: 1px solid var(--border); border-radius: 12px;
+  }
+  figcaption { color: var(--muted); font-size: 13px; text-align: center; margin-top: 8px; }
+  code {
+    font-family: "SF Mono", "Menlo", "Consolas", "D2Coding", monospace;
+    font-size: 0.88em; background: var(--code-bg);
+    padding: 2px 6px; border-radius: 5px;
+  }
+  pre {
+    background: var(--code-bg); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px 18px; overflow-x: auto;
+    font-size: 14px; line-height: 1.6; margin: 0 0 20px;
+  }
+  pre code { background: none; padding: 0; border-radius: 0; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .callout {
+    background: var(--callout-bg); border-left: 3px solid var(--callout-border);
+    padding: 14px 18px; border-radius: 0 10px 10px 0; margin: 24px 0;
+  }
+  .callout.warn { background: var(--warn-bg); border-left-color: var(--warn-border); }
+  .callout p:last-child { margin-bottom: 0; }
+  table {
+    width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px;
+  }
+  th, td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; }
+  th { background: var(--code-bg); }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  hr { border: none; border-top: 1px solid var(--border); margin: 48px 0 24px; }
+  footer { color: var(--muted); font-size: 14px; }
+  .tags { margin: 8px 0 0; }
+  .tags span {
+    display: inline-block; border: 1px solid var(--border); border-radius: 999px;
+    padding: 3px 12px; font-size: 13px; margin: 0 6px 6px 0;
+  }
+  @media (max-width: 560px) {
+    h1 { font-size: 24px; }
+    table { font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="kicker">AX Trend</div>
+    <h1>DeepSeek V4.1-Flash '1017' — '마이너 업데이트'가 Terminal-Bench +35%를 낸 방법</h1>
+    <p class="meta">2026-10-17 · <a href="https://github.com/roomedia/ax-trend/issues/3327">원문 이슈 #3327</a></p>
+    <figure>
+      <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3327-cover.png" alt="DeepSeek V4.1-Flash-1017: 마이너 업데이트 · 메이저 벤치마크 도약 — Terminal-Bench +35%, 1M 컨텍스트 · MIT 라이선스, 더 빠르고 · 더 짧게">
+    </figure>
+  </header>
+
+  <p>DeepSeek 공식 org가 10월 17일 Hugging Face에 <strong>DeepSeek-V4.1-Flash-1017</strong>을 공개했다 (HF API createdAt: 2026-10-17T02:40:38Z, MIT 라이선스). 모델 카드 표현은 겸손하다 — <em>"minor update to DeepSeek-V4.1-Flash"</em>. 그런데 숫자 테이블을 펼치면 minor라고 부르기 민망한 구간이 나온다. agentic 벤치마크 전반에서 전임 대비 두 자릿수 도약, 일부 항목은 프론티어급을 넘나든다.</p>
+
+  <div class="callout">
+    <p><strong>개발자 관점 한 줄 요약:</strong> 코딩 에이전트의 파일 탐색·터미널 작업을 "더 빠르고 더 짧게" 처리하는 MIT 오픈 모델의 새 체크포인트. Terminal-Bench 42.3(+35%), DeepSWE 77.0(GPT-6·Opus급 상회)이라 하네스 실험대에 올릴 만한 후보가 생겼다. 벤치마크는 전부 자사 측정이라는 전제는 달아둔다.</p>
+  </div>
+
+  <h2>벤치마크: 'minor'라는 표현이 무색한 구간</h2>
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3327-benchmark.png" alt="agentic 벤치마크 비교 (1017 vs 기존 Flash): Terminal-Bench 4.0 31.2→42.3(+35%), DeepSWE v1.1 74.2→77.0, ProgramBench 20.3→29.1, Automation-Bench 54.8→60.5 — Terminal-Bench는 Claude Code 하네스, DeepSWE는 Mini-SWE-V2 하네스 측정">
+    <figcaption>1017 vs 기존 Flash — 에이전틱 벤치마크에서 전 항목 상승</figcaption>
+  </figure>
+
+  <table>
+    <tr><th>벤치마크</th><th class="num">기존 Flash</th><th class="num">1017</th><th>경쟁 모델 참고값</th></tr>
+    <tr><td>Terminal-Bench 4.0</td><td class="num">31.2</td><td class="num"><strong>42.3</strong> (+35%)</td><td>GPT-5.6 Sol 39.9 · Opus 5 51.8</td></tr>
+    <tr><td>DeepSWE v1.1</td><td class="num">74.2</td><td class="num"><strong>77.0</strong></td><td>GPT-5.6 Sol 73.0 · Opus 5 74.0</td></tr>
+    <tr><td>ProgramBench</td><td class="num">20.3</td><td class="num"><strong>29.1</strong></td><td>—</td></tr>
+    <tr><td>Automation-Bench v1.0.6</td><td class="num">54.8</td><td class="num"><strong>60.5</strong></td><td>—</td></tr>
+    <tr><td>NL2Repo-Bench</td><td class="num">65.4</td><td class="num"><strong>68.2</strong></td><td>—</td></tr>
+    <tr><td>HLE w/o tools</td><td class="num">36.8</td><td class="num"><strong>42.6</strong></td><td>GPT-5.6 Sol 44.5 · Opus 5 56.3</td></tr>
+    <tr><td>BabyVision (w/tools)</td><td class="num">89.6</td><td class="num"><strong>92.5</strong></td><td>—</td></tr>
+    <tr><td>ZeroBench-main (w/tools)</td><td class="num">49.0</td><td class="num"><strong>51.0</strong></td><td>—</td></tr>
+  </table>
+
+  <p>두 가지 포인트가 눈에 띈다. 첫째, Terminal-Bench 4.0이 <strong>Claude Code 하네스</strong>에서, DeepSWE v1.1이 <strong>Mini-SWE-V2 하네스</strong>에서 측정됐다는 점 — "실제 에이전트 하네스에서의 수행 능력"을 주장하는 셈이다. 둘째, "complete tasks faster and at lower cost" — 벤치 점수만이 아니라 <strong>태스크 실행 시간과 출력 길이를 줄여</strong> "여러 에이전트 하네스에서 성능-비용 파레토 프론티어를 전진시켰다"고 명시했다. agentic 워크로드 비용 최적화를 고민하는 팀이라면 이 문장에 밑줄을 그어야 한다.</p>
+
+  <h2>인코딩이 바뀌었다: Jinja 아웃, Python 레퍼런스 인</h2>
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3327-encoding.png" alt="deepseek-recipe: Rust 라이브러리 + Python 바인딩으로 Messages·Chat Completions·Responses API 요청을 Conversation 포맷으로 변환 후 DeepSeek V4/V4.1 프롬프트 또는 토큰 ID로 인코딩 — multi-turn, tool calling, thinking mode, numeric reasoning effort 지원, Jinja 템플릿 제거하고 Python 레퍼런스 encoding.py 제공">
+    <figcaption>deepseek-recipe — 프롬프트 인코딩을 Rust 툴킷으로</figcaption>
+  </figure>
+
+  <p>이번 릴리스의 실무적으로 가장 흥미로운 변경은 벤치마크가 아니라 <strong>인코딩 방식의 변경</strong>이다. Jinja 포맷 챗 템플릿을 포함하지 않고, 대신 <code>encoding/</code> 폴더에 <strong>Python 레퍼런스 구현(<code>encoding.py</code>)과 테스트 케이스</strong>를 제공한다. 지원하는 범위:</p>
+  <ul>
+    <li><strong>multi-turn</strong> 대화 인코딩</li>
+    <li><strong>tool calling</strong> 포맷</li>
+    <li><strong>thinking mode</strong> 및 <strong>numeric reasoning effort</strong> (추론 강도 수치 조절)</li>
+    <li>대화 중 시스템 메시지, <strong>인터리브드(interleaved) 이미지 컨텐츠</strong></li>
+  </ul>
+
+  <p>그리고 함께 공개된 <strong>deepseek-recipe</strong>: Rust 라이브러리 + Python 바인딩으로, Messages·Chat Completions·Responses API 요청을 Conversation 포맷으로 변환하고 DeepSeek V4·V4.1 프롬프트 또는 토큰 ID로 인코딩하는 "유지보수되는" 툴킷이다. Jinja 템플릿 렌더링을 런타임에서 떼어내고 Rust로 고정했다는 건데, 고처리량 서빙·프라이빗 하네스에서 프롬프트 전처리 오버헤드를 줄이려는 의도로 읽힌다.</p>
+
+  <pre><code># deepseek-recipe 개념 사용 흐름 (레퍼런스)
+from deepseek_recipe import Encoder
+
+enc = Encoder(model="deepseek-ai/DeepSeek-V4.1-Flash-1017")
+# Messages API 요청 -> Conversation 포맷 -> 토큰 ID
+token_ids = enc.encode_messages(
+    messages=[{"role": "user", "content": "..."}],
+    tools=[...],               # tool calling 지원
+    thinking={"effort": 2},    # numeric reasoning effort
+)</code></pre>
+
+  <h2>로컬 추론: 1M 컨텍스트, temp 1.0</h2>
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3327-local.png" alt="로컬 추론 권장 설정: 컨텍스트 윈도우 1M, temperature 1.0, top_p 1.0, max_tokens ≥ 256K — MIT License, 더 짧은 출력 · 더 빠른 실행으로 에이전트 하네스 성능-비용 파레토 프론티어 전진">
+    <figcaption>로컬·프라이빗 하네스 실험의 진입 장벽을 낮춘 권장 설정</figcaption>
+  </figure>
+
+  <p><code>inference/</code> 폴더에 웨이트 변환·로컬 추론 가이드를 제공하고, 권장 샘플링 파라미터는 <strong>temperature 1.0, top_p 1.0, context window 1M tokens, max_tokens ≥ 256K</strong>이다. MIT 라이선스 + 로컬 추론 가이드 + Rust 인코딩 툴킷의 조합은 온디바이스·프라이빗 하네스 실험의 진입 장벽을 낮추는 방향이다. "더 빠르고 더 짧게"라는 주장과 합쳐지면, 대량의 파일 탐색·터미널 작업을 돌리는 에이전트의 드롭인 대체 후보로 벤치에 올릴 만하다.</p>
+
+  <pre><code># OpenAI 호환 클라이언트에서 호출할 때의 핵심 설정
+response = client.chat.completions.create(
+    model="deepseek-ai/DeepSeek-V4.1-Flash-1017",
+    messages=messages,
+    temperature=1.0,
+    top_p=1.0,
+    max_tokens=262144,   # ≥ 256K 권장
+)</code></pre>
+
+  <div class="callout warn">
+    <p><strong>아직 미확인:</strong> 'minor update'라는 표현과 달리 벤치마크 상승폭이 큰데, 체크포인트 변경 외에 학습·데이터 파이프라인 변경이 있었는지는 모델 카드에 명시되지 않았다. 벤치마크는 전부 DeepSeek 자체 측정(자사 하네스 명시는 되어 있음)이며 독립 재현 결과는 아직 없다. API 요금 정보도 이번 릴리스에 포함되지 않아 Flash 계열 특유의 저비용 포지셔닝이 유지되는지도 미확인이다. 모든 수치는 회사 주장으로 취급하고, 우리 워크로드는 직접 측정할 것.</p>
+  </div>
+
+  <h2>왜 주목할 만한가</h2>
+  <p>한국 Android 개발자·AX TF 리드 관점에서 핵심은 하나다: <strong>agentic coding 벤치마크(Terminal-Bench·DeepSWE)에서 GPT-6급·Opus급을 넘나드는 MIT 라이선스 오픈 모델이 '더 빠르고 더 짧게' 업데이트됐다</strong>는 점이다. 코딩 에이전트의 파일 탐색·터미널 작업 비용을 낮추는 드롭인 후보이며, deepseek-recipe(Rust 인코딩 툴킷)와 로컬 추론 가이드는 온디바이스·프라이빗 하네스 실험의 진입 장벽을 낮춘다. agentic 워크로드 비용 최적화를 고민하는 팀이라면 이번 체크포인트를 벤치에 올려볼 만하다.</p>
+
+  <hr>
+  <footer>
+    <p><a href="https://github.com/roomedia/ax-trend/issues/3327">원문 이슈 #3327</a> · 핵심 링크: <a href="https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017">HF 공식 모델 카드 (10/17)</a> · <a href="https://lmmarketcap.com/llm-updates">The Decoder 보도 (10/17)</a> · 관련 이슈: <a href="https://github.com/roomedia/ax-trend/issues/2876">#2876</a> DeepSeek v4.1 Flash 오리지널 릴리스 (9/12)</p>
+    <p class="tags"><span>AX Trend</span><span>DeepSeek</span><span>V4.1-Flash</span><span>agentic benchmark</span><span>MIT</span><span>coding agent</span></p>
+  </footer>
+</main>
+</body>
+</html>

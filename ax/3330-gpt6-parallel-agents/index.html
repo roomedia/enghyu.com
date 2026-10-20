@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenAI, GPT-6 Pro 병렬 에이전트 — 하나의 요청을 여러 에이전트가 동시 처리</title>
+<meta name="description" content="OpenAI가 10월 16일 릴리스 노트에서 GPT-6 Pro 병렬 에이전트를 공개했다. 하나의 요청을 여러 에이전트에 동시에 보내 동시 처리하고, per-agent progress 표시로 활동을 확인하고, 완료된 결과를 열어 개별 검토할 수 있다. 같은 묶음에 ChatGPT Slides도 출시 — Space에서 프레젠테이션을 만들고 편집·공동 작업하는 기능이다.">
+<meta property="og:title" content="OpenAI, GPT-6 Pro 병렬 에이전트 — 하나의 요청을 여러 에이전트가 동시 처리">
+<meta property="og:description" content="병렬 에이전트 + per-agent progress 표시 + ChatGPT Slides. 긴 에이전트 작업의 '침묵'을 겨냥한 가시성 설계와 Responses API 병렬 서브에이전트 흐름의 ChatGPT 확장을 정리한다.">
+<meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3330-cover.png">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --text: #1a1a1a;
+    --muted: #666;
+    --border: #e5e5e5;
+    --code-bg: #f6f6f6;
+    --accent: #0b6efd;
+    --callout-bg: #f4f8ff;
+    --callout-border: #0b6efd;
+    --warn-bg: #fff8ef;
+    --warn-border: #e8930c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #101216;
+      --text: #e8e8e8;
+      --muted: #9a9a9a;
+      --border: #2a2d33;
+      --code-bg: #1b1e24;
+      --accent: #5ea1ff;
+      --callout-bg: #14202f;
+      --callout-border: #5ea1ff;
+      --warn-bg: #2a2118;
+      --warn-border: #e8930c;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR",
+                 "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 800px; margin: 0 auto; padding: 48px 24px 96px; }
+  header { margin-bottom: 32px; }
+  .kicker {
+    font-size: 13px; font-weight: 700; letter-spacing: 0.06em;
+    color: var(--accent); text-transform: uppercase; margin-bottom: 12px;
+  }
+  h1 { font-size: 30px; line-height: 1.4; margin: 0 0 12px; letter-spacing: -0.01em; }
+  .meta { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+  .meta a { color: inherit; }
+  h2 { font-size: 22px; margin: 48px 0 16px; letter-spacing: -0.01em; }
+  h3 { font-size: 17px; margin: 32px 0 12px; }
+  p { margin: 0 0 16px; }
+  ul, ol { margin: 0 0 16px; padding-left: 22px; }
+  li { margin-bottom: 8px; }
+  figure { margin: 28px 0; }
+  figure img {
+    width: 100%; height: auto; display: block;
+    border: 1px solid var(--border); border-radius: 12px;
+  }
+  figcaption { color: var(--muted); font-size: 13px; text-align: center; margin-top: 8px; }
+  code {
+    font-family: "SF Mono", "Menlo", "Consolas", "D2Coding", monospace;
+    font-size: 0.88em; background: var(--code-bg);
+    padding: 2px 6px; border-radius: 5px;
+  }
+  pre {
+    background: var(--code-bg); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px 18px; overflow-x: auto;
+    font-size: 14px; line-height: 1.6; margin: 0 0 20px;
+  }
+  pre code { background: none; padding: 0; border-radius: 0; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .callout {
+    background: var(--callout-bg); border-left: 3px solid var(--callout-border);
+    padding: 14px 18px; border-radius: 0 10px 10px 0; margin: 24px 0;
+  }
+  .callout.warn { background: var(--warn-bg); border-left-color: var(--warn-border); }
+  .callout p:last-child { margin-bottom: 0; }
+  table {
+    width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px;
+  }
+  th, td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; }
+  th { background: var(--code-bg); }
+  hr { border: none; border-top: 1px solid var(--border); margin: 48px 0 24px; }
+  footer { color: var(--muted); font-size: 14px; }
+  .tags { margin: 8px 0 0; }
+  .tags span {
+    display: inline-block; border: 1px solid var(--border); border-radius: 999px;
+    padding: 3px 12px; font-size: 13px; margin: 0 6px 6px 0;
+  }
+  @media (max-width: 560px) {
+    h1 { font-size: 24px; }
+    table { font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="kicker">AX Trend</div>
+    <h1>OpenAI, GPT-6 Pro 병렬 에이전트 — 하나의 요청을 여러 에이전트가 동시 처리</h1>
+    <p class="meta">2026-10-16 · <a href="https://github.com/roomedia/ax-trend/issues/3330">원문 이슈 #3330</a></p>
+    <figure>
+      <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3330-cover.png" alt="GPT-6 Pro 병렬 에이전트 — 하나의 요청이 세 개의 에이전트에 동시에 분기되어 병렬 처리되는 개념도">
+    </figure>
+  </header>
+
+  <p>OpenAI가 10월 16일자 릴리스 노트에서 <strong>GPT-6 Pro 병렬 에이전트(Parallel Agents)</strong>를 공개했다. eligible ChatGPT Pro 사용자가 하나의 요청을 여러 에이전트에 동시에 보내면, 각 에이전트가 그 요청을 동시에 처리한다. 같은 릴리스 노트 묶음에는 <strong>ChatGPT Slides</strong>도 함께 들어 있다 — Space 안에서 프레젠테이션을 만들고 편집하는 기능이다.</p>
+
+  <div class="callout">
+    <p><strong>개발자 관점 한 줄 요약:</strong> 병렬 서브에이전트 오케스트레이션 자체는 Responses API에서 GPT-6.1 Sol·GPT-5.6용 베타 기능으로 문서화돼 있던 흐름이고, 이번엔 ChatGPT 인터페이스로 확장된 셈이다. 진짜 수확은 기능 자체보다 <strong>UX 레퍼런스</strong> — per-agent progress 표시와 완료 태스크별 개별 검토라는, 에이전트 작업의 '침묵' 문제를 푸는 가시성 설계 패턴이다.</p>
+  </div>
+
+  <h2>병렬 에이전트: 동작 방식</h2>
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3330-progress.png" alt="per-agent progress 표시 UI 모크업 — 여러 에이전트의 작업 상태(working, done, reviewing)를 개별 진행률 바와 상태 라벨로 보여주는 화면">
+    <figcaption>per-agent progress 표시 — 어떤 에이전트가 뭘 하는지 각각 보여준다</figcaption>
+  </figure>
+
+  <p>발표된 동작을 정리하면:</p>
+  <ul>
+    <li><strong>하나의 요청을 여러 에이전트에 동시 전송</strong> — 각 에이전트는 요청을 동시에 처리한다("Each agent works on the request concurrently", EconoTimes, 10/17).</li>
+    <li><strong>progress display</strong> — 에이전트들의 활동을 확인할 수 있는 진행 상황 표시가 제공된다.</li>
+    <li><strong>완료된 결과는 열어 개별 검토</strong> — 완료된 태스크별로 결과를 열어 검토할 수 있다.</li>
+    <li><strong>롤아웃 대상</strong> — Chat 탭의 Pro 사용자 중 eligibility를 충족한 사용자. managed workspace는 workspace settings와 rollout eligibility에 따라 제공 여부가 달라지며, 일정은 공개되지 않았다 (RR Tech Pulse, 10/17).</li>
+    <li>같은 묶음에 <strong>faster responses</strong>와 <strong>improved plugin and tool use</strong>도 포함. 단 속도는 수치 없이 "faster"라는 표현만 있으며, OpenAI의 주장일 뿐 <strong>독립 측정은 없다</strong> (RR Tech Pulse).</li>
+  </ul>
+
+  <p>이 패턴을 자사 앱에 에이전트 기능을 넣을 때 그대로 차용할 수 있는 설계로 정리하면 — 에이전트별 실행 상태를 독립적으로 모델링하고, 각각의 진행 상황을 병렬로 노출하는 구조다:</p>
+
+  <pre><code>// 병렬 에이전트 진행 상태 모델링 (개념적 재구성)
+data class AgentRun(
+    val id: String,
+    val status: AgentStatus, // QUEUED / WORKING / REVIEW_READY / DONE / FAILED
+    val progress: Float,     // 0.0 ~ 1.0
+    val result: TaskResult?
+)
+
+interface ParallelAgentOrchestrator {
+    fun dispatch(request: AgentRequest, fanout: Int): List&lt;AgentRun&gt;
+    fun observe(): Flow&lt;List&lt;AgentRun&gt;&gt;  // per-agent progress 스트림
+}
+
+// observe()를 구독해 각 에이전트 카드에 개별 진행률 바 렌더링
+// 사용자가 어떤 카드든 눌러 완료된 결과만 따로 열어 검토</code></pre>
+
+  <h2>ChatGPT Slides: 같은 묶음의 두 번째 기능</h2>
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3330-slides.png" alt="ChatGPT Slides 개념도 — Space 안에서 AI가 슬라이드를 생성하고 두 사람이 실시간으로 공동 편집하는 협업 화면">
+    <figcaption>ChatGPT Slides — Space 기반 프레젠테이션 생성·편집·공동 작업</figcaption>
+  </figure>
+
+  <p>같은 10월 16일 릴리스 노트에서 발표된 ChatGPT Slides는 Space 안에서 프레젠테이션을 만들고 편집하는 기능이다 (DailyAIBrief, 10/17):</p>
+  <ul>
+    <li><strong>시작 지점</strong> — 대화·파일·아웃라인·예시 덱에서 시작할 수 있다.</li>
+    <li><strong>편집</strong> — 텍스트·이미지·도형·차트를 직접 편집하고, ChatGPT에 변경을 요청할 수 있다.</li>
+    <li><strong>협업</strong> — 팀원을 실시간 공동 편집에 초대하고 공유 댓글을 남길 수 있으며, 프레젠테이션은 ChatGPT 안에서 바로 실행된다.</li>
+    <li><strong>내보내기</strong> — 웹에서는 PowerPoint·PDF·Google Slides로, 데스크톱 앱(설치 시)에서는 PowerPoint·Keynote로 열기가 된다.</li>
+    <li><strong>롤아웃</strong> — Space 접근권을 가진 eligible Pro·Business·Enterprise 사용자에게 웹·데스크톱 앱으로 롤아웃.</li>
+  </ul>
+
+  <p>이건 Space 기반 협업이 문서 작성 영역까지 확장되는 신호다. 사내 에이전트 도입 플레이북 관점에서는 "협업 캔버스" 유형이 슬라이드라는 구체적 산출물로 굳어지는 사례로 기록할 만하다.</p>
+
+  <div class="callout warn">
+    <p><strong>아직 안 밝혀진 것:</strong> <strong>동시에 실행 가능한 에이전트 수 미공개</strong>. 플랜 사용량 한도에 미치는 영향 미공개 — 병렬 실행이 Pro 플랜 쿼터를 더 먹는지 불명. <strong>병렬 에이전트 간 도구 권한 미설명</strong> — 각 에이전트가 무엇을 만질 수 있는지 공개되지 않았다. 여러 에이전트가 동시에 행동하면 도달 범위가 배가되므로 보안 관점의 공백이 있다. 같은 주에 4건의 rogue incident 추가 공개가 있었다는 점과 겹쳐 읽힌다 (AIToolsRecap).</p>
+  </div>
+
+  <h2>배경·맥락: 에이전트 UX의 고질적 불만을 겨냥한 가시성 설계</h2>
+
+  <p>OpenAI는 10월 7일 GPT-6를 ChatGPT에 도입하며 텍스트·비주얼·인터랙티브 요소를 결합한 답변을 선보였고, 당시 Pro 추론 옵션은 GPT-6 Astra에서 동작했다 (IA en un minuto, 10/17). 이번 병렬 에이전트는 에이전트 작업의 고질적 불만 — 느림이 아니라 <strong>진행 상황을 알 수 없는 '침묵'</strong> — 을 겨냥한 가시성 설계로 읽힌다 (AIToolsRecap, 10/17).</p>
+
+  <p>명칭 쪽에는 작은 불일치가 있다. 릴리스 노트는 모델을 "GPT-6 Pro"라 부르지만, 같은 날 OpenAI의 X 게시물은 "GPT-6 Astra Pro"라 표기했다. 둘 다 같은 업그레이드(빠른 응답·개선된 플러그인/도구 사용·병렬 에이전트)를 설명하며, 명칭 차이의 이유는 설명되지 않았다 (RR Tech Pulse).</p>
+
+  <div class="callout warn">
+    <p><strong>보안 시사점:</strong> 병렬 에이전트는 도구 권한 스코핑 없이는 도달 범위가 에이전트 수만큼 배가된다. 자사 앱에 fan-out 패턴을 도입한다면, 에이전트별 <strong>최소 권한 도구 화이트리스트</strong>를 의무화해야 한다.</p>
+    <figure>
+      <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3330-scope.png" alt="병렬 에이전트 보안 스코프 개념도 — 여러 에이전트가 각각 다른 도구 권한 배지를 들고 있고, 그 주변에 점선 보안 경계가 표시된 다이어그램">
+      <figcaption>에이전트 × 도구 권한 = 실제 도달 범위. 병렬일수록 스코핑이 중요하다</figcaption>
+    </figure>
+  </div>
+
+  <h2>실무 관점: 생산성 패턴으로 바로 연결되는 두 가지</h2>
+
+  <ul>
+    <li><strong>에이전트 코딩 워크플로우의 fan-out 패턴</strong> — 여러 문서 리뷰·공급업체 비교처럼 쪼개지는 작업은 병렬 위임이 정석이다. 위의 <code>ParallelAgentOrchestrator</code> 의사코드처럼 <strong>dispatch → observe → review</strong> 3단계를 분리하고, observe는 에이전트별 독립 스트림으로 노출하는 것이 핵심이다.</li>
+    <li><strong>긴 작업 UX의 정석</strong> — 사용자가 '멈춘 건지 일하는 건지' 모르는 문제는 per-agent progress 표시와 완료 태스크별 개별 검토로 푼다. Android 앱에서 긴 백그라운드 작업을 시킬 때도 동일한 패턴이 적용된다.</li>
+    <li><strong>측정되지 않은 주장에 대한 태도</strong> — "faster"라는 수치 없는 속도 주장은 릴리스 노트 문구로만 남는다. 우리 릴리스 노트에서는 성능 개선을 수치(p90 등)로 명시하는 습관을 들이자.</li>
+  </ul>
+
+  <hr>
+  <footer>
+    <p><a href="https://github.com/roomedia/ax-trend/issues/3330">원문 이슈 #3330</a> · 핵심 링크: <a href="https://econotimes.com/OpenAI-Begins-Rolling-Out-Parallel-Agents-to-Eligible-ChatGPT-Pro-Users-1755952">EconoTimes — OpenAI Begins Rolling Out Parallel Agents to Eligible ChatGPT Pro Users (10/17)</a> · <a href="https://dailyaibrief.com/news/openai-adds-collaborative-slide-creation-to-chatgpt-qNFmvJtV">DailyAIBrief — OpenAI Adds Slides and Parallel Agents to ChatGPT (10/17)</a> · <a href="https://rrtechpulse.com/stories/chatgpt-gpt-6-pro-faster-multi-agent-update/">RR Tech Pulse — GPT-6 Pro update: faster, multi-agent (10/17)</a> · 관련 이슈: <a href="https://github.com/roomedia/ax-trend/issues/3113">#3113</a> GPT-6 + 인텔리전트 UI · <a href="https://github.com/roomedia/ax-trend/issues/3277">#3277</a> GPT-6 family 소프트웨어 유지보수 · <a href="https://github.com/roomedia/ax-trend/issues/3091">#3091</a> Decisions API 퍼블릭 베타</p>
+    <p class="tags"><span>AX Trend</span><span>OpenAI</span><span>GPT-6</span><span>parallel-agents</span><span>ChatGPT Slides</span><span>agent-UX</span></p>
+  </footer>
+</main>
+</body>
+</html>

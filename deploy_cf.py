@@ -14,6 +14,7 @@ import io
 import json
 import os
 import sys
+import urllib.parse
 import urllib.request
 
 sys.path.insert(0, "/opt/muse/skills/custom-connector-setup/bin")
@@ -57,7 +58,9 @@ def collect_assets():
         for f in files:
             full = os.path.join(root, f)
             rel = os.path.relpath(full, PUBLIC_DIR).replace(os.sep, "/")
-            url_path = "/" + rel
+            # 서버는 percent-encoded pathname으로 매칭하므로 매니페스트 키도 인코딩.
+            # (한글 디렉토리명이 있으면 여기서 %XX 형태로 들어감)
+            url_path = urllib.parse.quote("/" + rel, safe="/:@")
             with open(full, "rb") as fp:
                 content = fp.read()
             h = hashlib.sha256(content).hexdigest()[:32]

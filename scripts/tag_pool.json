@@ -1,0 +1,72 @@
+{
+ "AI for science": [],
+ "AI 코딩": [
+  "AI coding",
+  "coding agent",
+  "AI개발도구",
+  "코딩에이전트",
+  "Cursor",
+  "Codex",
+  "pstack",
+  "Claude Code"
+ ],
+ "API-keys": [],
+ "AX Trend": [
+  "AX트렌드"
+ ],
+ "Android": [],
+ "Anthropic": [],
+ "BYOK": [],
+ "ChatGPT Slides": [],
+ "Claude Mythos 5": [],
+ "DeepSeek": [],
+ "E2E 테스트": [
+  "e2e",
+  "agentic E2E",
+  "테스트 자동화",
+  "tester-army"
+ ],
+ "GPT-6": [],
+ "Jev": [
+  "jevtest",
+  "mobile-jev",
+  "모바일 에이전트"
+ ],
+ "OpenAI": [],
+ "OpenCode": [],
+ "V4.1-Flash": [],
+ "_dropped": [
+  "MIT",
+  "poteto-mode"
+ ],
+ "_note": "AX 트렌드 태그 풀 (controlled vocabulary). 신규 글 작성 시 이 풀에서 선택하고, 새 태그가 필요하면 여기에 추가 후 사용한다. key=정식 태그명, value=병합된 별칭들.",
+ "agent-UX": [],
+ "agentic benchmark": [],
+ "distillation-attack": [],
+ "parallel-agents": [],
+ "quantum circuits": [],
+ "security": [],
+ "멀티모달": [
+  "multimodal",
+  "visual reasoning",
+  "Glimpse",
+  "Elorian"
+ ],
+ "성능 최적화": [
+  "latency",
+  "first-token",
+  "gzip",
+  "컨텍스트압축",
+  "토큰절감"
+ ],
+ "코드 유지보수": [
+  "generator-judge"
+ ],
+ "_slugs": {
+  "AI 코딩": "ai-coding",
+  "E2E 테스트": "e2e-test",
+  "멀티모달": "multimodal",
+  "성능 최적화": "performance",
+  "코드 유지보수": "code-maintenance"
+ }
+}

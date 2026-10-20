@@ -8,9 +8,9 @@
 배포 전 gen_ax_index.py와 함께 실행한다.
 """
 import html
+import json
 import os
 import re
-import urllib.parse
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 AX_DIR = os.path.join(PROJECT_ROOT, "ax")
@@ -67,9 +67,45 @@ BASE_STYLE = """
 """
 
 
+def load_pool():
+    """태그 풀 로드 → {별칭: 정식명} 매핑. _ 로 시작하는 키는 메타데이터."""
+    pool_path = os.path.join(PROJECT_ROOT, "scripts", "tag_pool.json")
+    try:
+        with open(pool_path, encoding="utf-8") as fp:
+            pool = json.load(fp)
+    except (OSError, ValueError):
+        return {}
+    mapping = {}
+    for canonical, aliases in pool.items():
+        if canonical.startswith("_"):
+            continue
+        mapping[canonical] = canonical
+        for a in aliases or []:
+            mapping[a] = canonical
+    return mapping
+
+
+TAG_POOL = load_pool()
+TAG_SLUGS = {}
+try:
+    with open(os.path.join(PROJECT_ROOT, "scripts", "tag_pool.json"), encoding="utf-8") as fp:
+        TAG_SLUGS = json.load(fp).get("_slugs", {}) or {}
+except (OSError, ValueError):
+    pass
+
+
+def canonical_tag(tag):
+    return TAG_POOL.get(tag, tag)
+
+
 def tag_slug(tag):
-    s = re.sub(r"[^a-z0-9가-힣]+", "-", tag.strip().lower()).strip("-")
-    return urllib.parse.quote(s, safe="-")
+    """정식 태그명을 URL 슬러그로. _slugs에 명시된 ASCII 슬러그 우선,
+    없으면 소문자·공백→하이픈·특수문자 제거 (한글은 ASCII 슬러그 필수)."""
+    canon = canonical_tag(tag)
+    explicit = TAG_SLUGS.get(canon)
+    if explicit:
+        return explicit
+    return re.sub(r"[^a-z0-9]+", "-", canon.strip().lower()).strip("-")
 
 
 def parse_post(slug):
@@ -79,11 +115,12 @@ def parse_post(slug):
     title = re.search(r"<title>(.*?)</title>", src, re.S)
     desc = re.search(r'<meta name="description" content="(.*?)"', src, re.S)
     img = re.search(r'<meta property="og:image" content="(.*?)"', src, re.S)
-    tags = re.findall(r'<a href="/ax/tag/[^"]+/">(.*?)</a>', src)
-    # 구형 <span> 태그도 호환
-    if not tags:
-        m = re.search(r'<p class="tags">(.*?)</p>', src, re.S)
-        if m:
+    tags = []
+    m = re.search(r'<p class="tags">(.*?)</p>', src, re.S)
+    if m:
+        tags = re.findall(r'<a href="/ax/tag/[^"]+/">(.*?)</a>', m.group(1))
+        # 구형 <span> 태그도 호환
+        if not tags:
             tags = re.findall(r"<span>(.*?)</span>", m.group(1))
     return {
         "slug": slug,

@@ -245,3 +245,11 @@ npm run test:e2e
 ### 확인하지 못한 항목과 남은 리스크
 - R2 쓰기 경합 시 몇 건 유실 가능 (지표용이라 감수, 기존 download-count와 같은 패턴)
 - 비콘 미지원 구형 브라우저는 fetch keepalive로 대체 (동일 스크립트 내 처리)
+
+## 2026-10-20 10:05 — 태그 풀 도입 + 404 수정
+- `scripts/tag_pool.json` 신설: 정식 태그 25개 (50개→병합). key=정식명, value=별칭, `_slugs`=한글→ASCII 슬러그, `_dropped`=[MIT, poteto-mode].
+- 병합 예: AI 코딩←{AI coding,coding agent,AI개발도구,코딩에이전트,Cursor,Codex,pstack,Claude Code} / E2E 테스트←{e2e,agentic E2E,테스트 자동화,tester-army} / Jev←{jevtest,mobile-jev,모바일 에이전트} / 성능 최적화←{latency,first-token,gzip,컨텍스트압축,토큰절감} / 멀티모달←{multimodal,visual reasoning,Glimpse,Elorian}.
+- 한글 태그 URL 404 원인: Cloudflare 에셋 매칭이 percent-encoded pathname 기준이라 한글 키가 안 맞음. 해결: 태그 URL은 ASCII 슬러그로 통일 (표시명은 한글 유지). `deploy_cf.py`의 매니페스트 인코딩 시도는 불필요했음 (되돌리지 않았으나 무해).
+- 본문 인라인 `<a href="/ax/tag/...">` 가짜 링크 5개 글에서 제거 (깨진 링크). `gen_ax_tags.py`는 이제 `<p class="tags">` 안에서만 태그를 읽음.
+- `scripts/normalize_ax_tags.py` 신설: 기존 글 태그를 풀로 정규화.
+- enghyu-ax-publisher 크론 본문에 태그 풀 규칙 반영.

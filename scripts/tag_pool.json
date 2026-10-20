@@ -10,31 +10,32 @@
   "pstack",
   "Claude Code"
  ],
- "API-keys": [],
  "AX Trend": [
   "AX트렌드"
  ],
  "Android": [],
- "Anthropic": [],
- "BYOK": [],
- "ChatGPT Slides": [],
- "Claude Mythos 5": [],
- "DeepSeek": [],
+ "Anthropic": [
+  "Claude Mythos 5"
+ ],
+ "DeepSeek": [
+  "V4.1-Flash"
+ ],
  "E2E 테스트": [
   "e2e",
   "agentic E2E",
   "테스트 자동화",
   "tester-army"
  ],
- "GPT-6": [],
  "Jev": [
   "jevtest",
   "mobile-jev",
   "모바일 에이전트"
  ],
- "OpenAI": [],
+ "OpenAI": [
+  "GPT-6",
+  "ChatGPT Slides"
+ ],
  "OpenCode": [],
- "V4.1-Flash": [],
  "_dropped": [
   "MIT",
   "poteto-mode"
@@ -42,10 +43,13 @@
  "_note": "AX 트렌드 태그 풀 (controlled vocabulary). 신규 글 작성 시 이 풀에서 선택하고, 새 태그가 필요하면 여기에 추가 후 사용한다. key=정식 태그명, value=병합된 별칭들.",
  "agent-UX": [],
  "agentic benchmark": [],
- "distillation-attack": [],
  "parallel-agents": [],
  "quantum circuits": [],
- "security": [],
+ "security": [
+  "distillation-attack",
+  "BYOK",
+  "API-keys"
+ ],
  "멀티모달": [
   "multimodal",
   "visual reasoning",

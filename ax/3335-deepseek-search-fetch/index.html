@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DeepSeek, 자체 검색엔진 기반 Search·Fetch API 전면 개방 — 성공 요청 1,000건당 $0.75, 11/1 과금 시작</title>
+<meta name="description" content="DeepSeek이 자체 검색엔진 기반 Search API·Fetch API를 모든 개발자에게 개방. Search는 쿼리→구조화 웹페이지 결과, Fetch는 단일 URL→Markdown. 성공 요청 1,000건당 $0.75, 11/1(베이징 시간) 과금 시작. 서버사이드 도구 경유 호출은 무료 구간.">
+<meta property="og:title" content="DeepSeek Search·Fetch API 전면 개방 — API 키 하나로 검색까지, $0.75/1k">
+<meta property="og:description" content="자체 검색엔진 기반 Search·Fetch API 개방. 성공 요청 1,000건당 $0.75, 11/1 과금 시작. 서버사이드 도구 경유는 지금 무료.">
+<meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3335-cover.png">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --text: #1a1a1a;
+    --muted: #666;
+    --border: #e5e5e5;
+    --code-bg: #f6f6f6;
+    --accent: #0b6efd;
+    --callout-bg: #f4f8ff;
+    --callout-border: #0b6efd;
+    --warn-bg: #fff8ef;
+    --warn-border: #e8930c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #101216;
+      --text: #e8e8e8;
+      --muted: #9a9a9a;
+      --border: #2a2d33;
+      --code-bg: #1b1e24;
+      --accent: #5ea1ff;
+      --callout-bg: #14202f;
+      --callout-border: #5ea1ff;
+      --warn-bg: #2a2118;
+      --warn-border: #e8930c;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR",
+                 "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 800px; margin: 0 auto; padding: 48px 24px 96px; }
+  header { margin-bottom: 32px; }
+  .kicker {
+    font-size: 13px; font-weight: 700; letter-spacing: 0.06em;
+    color: var(--accent); text-transform: uppercase; margin-bottom: 12px;
+  }
+  h1 { font-size: 30px; line-height: 1.4; margin: 0 0 12px; letter-spacing: -0.01em; }
+  .meta { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+  .meta a { color: inherit; }
+  h2 { font-size: 22px; margin: 48px 0 16px; letter-spacing: -0.01em; }
+  h3 { font-size: 17px; margin: 32px 0 12px; }
+  p { margin: 0 0 16px; }
+  ul, ol { margin: 0 0 16px; padding-left: 22px; }
+  li { margin-bottom: 8px; }
+  figure { margin: 28px 0; }
+  figure img {
+    width: 100%; height: auto; display: block;
+    border: 1px solid var(--border); border-radius: 12px;
+  }
+  figcaption { color: var(--muted); font-size: 13px; text-align: center; margin-top: 8px; }
+  code {
+    font-family: "SF Mono", "Menlo", "Consolas", "D2Coding", monospace;
+    font-size: 0.88em; background: var(--code-bg);
+    padding: 2px 6px; border-radius: 5px;
+  }
+  pre {
+    background: var(--code-bg); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px 18px; overflow-x: auto;
+    font-size: 14px; line-height: 1.6; margin: 0 0 20px;
+  }
+  pre code { background: none; padding: 0; border-radius: 0; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .callout {
+    background: var(--callout-bg); border-left: 3px solid var(--callout-border);
+    padding: 14px 18px; border-radius: 0 10px 10px 0; margin: 24px 0;
+  }
+  .callout.warn { background: var(--warn-bg); border-left-color: var(--warn-border); }
+  .callout p:last-child { margin-bottom: 0; }
+  table {
+    width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px;
+  }
+  th, td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; }
+  th { background: var(--code-bg); }
+  hr { border: none; border-top: 1px solid var(--border); margin: 48px 0 24px; }
+  footer { color: var(--muted); font-size: 14px; }
+
+  .topnav { margin-bottom: 20px; }
+  .topnav a { color: var(--muted); font-size: 14px; text-decoration: none; }
+  .topnav a:hover { color: var(--accent); text-decoration: underline; }
+  .tags a {
+    display: inline-block; border: 1px solid var(--border); border-radius: 999px;
+    padding: 3px 12px; font-size: 13px; margin: 0 6px 6px 0;
+    color: var(--text); text-decoration: none;
+  }
+  .tags a:hover { border-color: var(--accent); color: var(--accent); }
+  @media (max-width: 560px) {
+    h1 { font-size: 24px; }
+    table { font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
+  <header>
+    <div class="kicker">AX Trend</div>
+    <h1>DeepSeek, 자체 검색엔진 기반 Search·Fetch API 전면 개방 — 성공 요청 1,000건당 $0.75, 11/1 과금 시작</h1>
+    <p class="meta">2026-10-17 · <a href="https://github.com/roomedia/ax-trend/issues/3335">원문 이슈 #3335</a></p>
+    <figure>
+      <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3335-cover.png" alt="DeepSeek Search·Fetch API 전면 개방 커버 — 자체 검색엔진을 중심으로 에이전트들이 검색을 호출하는 개념도">
+    </figure>
+  </header>
+
+  <p>10월 17일, DeepSeek이 공식 X 계정(@deepseek_ai) 스레드와 API 문서를 통해 <strong>Search API</strong>와 <strong>Fetch API</strong>를 모든 개발자에게 개방했다. 핵심은 이 문구 한 줄이다: "powered by DeepSeek's in-house search engine". 자체 검색엔진 — 전 세계에서 하루 수억 건의 요청을 처리하고 있다는 것이 DeepSeek의 주장이다.</p>
+
+  <div class="callout">
+    <p><strong>개발자 관점 한 줄 요약:</strong> 에이전트에 웹 검색 레이어를 붙일 때 <strong>DeepSeek API 키 하나로 모델+검색</strong>을 해결할 수 있는 옵션이 생겼다. Search는 쿼리→구조화 웹페이지 결과, Fetch는 단일 URL→Markdown. 과금은 성공 요청 1,000건당 $0.75, 실패·빈 결과·타임아웃은 과금 안 됨. 서버사이드 도구(DeepSeek Harness·Claude Code·Codex) 경유 호출은 <strong>11/1까지 무료</strong>이니 지금 붙여보고 콜 볼륨을 계측해두는 게 유리하다.</p>
+  </div>
+
+  <h2>핵심 사실</h2>
+  <ul>
+    <li><strong>2026-10-17 발표</strong> — 공식 X 스레드(@deepseek_ai, 08:35 UTC) + 공식 API 문서("17 October 2026"). (DeepSeek 공식 X·API 문서, FourWeekMBA 10/17)</li>
+    <li><strong>Search API</strong> — 쿼리에 대한 웹페이지를 찾아 구조화 결과를 반환. <strong>Fetch API</strong> — 단일 웹페이지의 콘텐츠를 Markdown으로 반환. (공식 API 문서)</li>
+    <li><strong>가격:</strong> 각 엔드포인트 <strong>성공 요청 1,000건당 $0.75</strong>. HTTP 200을 반환하고 결과가 있을 때만 과금 — 실패 요청·빈 검색 결과·타임아웃은 과금되지 않고, 반환 결과 수와 무관하게 동일 요금. (공식 API 문서, FourWeekMBA)</li>
+    <li><strong>레이트 리밋:</strong> 계정당 각 엔드포인트 초당 5요청 (Search 5·Fetch 5, 별도 집계). (공식 API 문서)</li>
+    <li><strong>무료 구간:</strong> DeepSeek Harness·Claude Code·Codex의 <strong>서버사이드 도구 호출은 현재 무료</strong>. 과금은 2026-11-01 00:00 베이징 시간(10/31 16:00 UTC)부터. 문서 원문: "These calls are currently free of charge; per-request billing starts at 00:00 Beijing time on November 1, 2026." (공식 API 문서)</li>
+    <li><strong>패키지 발표:</strong> 같은 X 스레드(1/4)에서는 V4.1-Flash-1017 모델 업데이트도 함께 발표 — 웨이트 MIT 공개 (모델은 <a href="https://github.com/roomedia/ax-trend/issues/3327">이슈 #3327</a>로 별도 이슈화).</li>
+  </ul>
+
+  <h2>두 엔드포인트의 역할 분담</h2>
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3335-howto.png" alt="Search API vs Fetch API 개념도 — Search는 쿼리→구조화 결과, Fetch는 단일 URL→Markdown">
+    <figcaption>Search API(쿼리→구조화 웹페이지 결과)와 Fetch API(단일 URL→Markdown 콘텐츠)</figcaption>
+  </figure>
+
+  <p>역할 분담이 깔끔하다. <strong>Search</strong>는 "어디에 답이 있는지"를 찾는 단계 — 쿼리를 던지면 웹페이지를 찾아 구조화된 결과로 반환한다. <strong>Fetch</strong>는 "그 페이지에 뭐가 있는지"를 읽는 단계 — 단일 URL을 주면 페이지 콘텐츠를 Markdown으로 뽑아준다. 에이전트의 리트리벌 파이프라인(검색→선별→읽기→인용)을 두 개의 API 호출로 그대로 구현할 수 있다.</p>
+
+  <h2>가격 구조: 성공 건에만 과금</h2>
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3335-pricing.png" alt="가격 구조 인포그래픽 — 성공 요청 1,000건당 $0.75, HTTP 200+결과 있을 때만 과금, 5 QPS, 11/1 과금 시작">
+    <figcaption>$0.75/성공 요청 1,000건 — 실패·빈 결과·타임아웃은 과금 안 됨, 반환 결과 수 무관</figcaption>
+  </figure>
+
+  <p>과금 기준이 에이전트 워크로드에 유리하게 설계돼 있다. <strong>성공 요청 1,000건당 $0.75</strong> — 즉 검색 1회당 $0.00075. 실패 요청, 빈 검색 결과, 타임아웃은 과금되지 않는다. 검색 결과가 1개든 10개든 요금은 동일하다. 에이전트가 "검색 실패 → 재시도"를 반복해도 실패분은 공짜라는 뜻이다.</p>
+
+  <p>계정당 각 엔드포인트 <strong>초당 5요청</strong> 제한은 별도 집계(Search 5 + Fetch 5). 병렬 에이전트를 여럿 돌리는 환경에서는 이 수치를 기준으로 동시성을 설계해야 한다.</p>
+
+  <h2>무료 vs 유료: 배선 방식에 따라 갈린다</h2>
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3335-agent.png" alt="에이전트 검색 호출 플로우 — 서버사이드 도구 경유는 11/1까지 무료, 엔드포인트 직접 호출은 즉시 과금">
+    <figcaption>같은 검색도 배선 방식에 따라 무료/유료가 갈린다 — 서버사이드 도구 경유는 11/1까지 무료</figcaption>
+  </figure>
+
+  <p>가장 주의할 포인트다. <strong>무료 기간은 서버사이드 도구(DeepSeek Harness·Claude Code·Codex) 경유 호출에만 적용</strong>된다. 엔드포인트를 직접 호출하면 즉시 $0.75/1k 과금이 시작된다. 같은 검색이라도 에이전트의 배선 방식에 따라 무료/유료가 갈린다는 뜻 — 과금 시작 전인 지금 붙일 때는 이 분기를 코드에 명시해두는 편이 안전하다.</p>
+
+<pre><code>// 사용 패턴 스케치 (실제 엔드포인트·파라미터는 공식 문서 참조)
+// https://api-docs.deepseek.com/guides/search
+
+// 1) Search: 쿼리 -> 구조화 웹페이지 결과
+//    실패·빈 결과·타임아웃은 과금 안 됨 -> 재시도 로직을 아낌없이
+results = search(query="DeepSeek V4.1-Flash 1017 changelog")
+
+// 2) Fetch: 유망한 URL -> Markdown 본문
+//    반환 결과 수와 무관하게 동일 요금 -> 넉넉하게 읽어도 됨
+doc = fetch(url=results[0].url)
+
+// 3) 동시성: 엔드포인트별 5 QPS (Search 5 + Fetch 5, 별도 집계)
+//    병렬 에이전트 환경에서는 이 수치 기준으로 스로틀링 설계
+</code></pre>
+
+  <h2>배경·맥락</h2>
+  <p>DeepSeek은 9월 V4.1-Flash 출시 이후 모델 가격 경쟁을 주도해 왔다. 이번에는 모델이 아니라 <strong>"에이전트가 호출하는 도구" 자체를 상품화</strong>한 것으로, 모델 + 검색 레이어를 하나의 API 키 뒤에 묶어 에이전트 워크로드용 검색 API 시장(전용 검색 API 업체)과 직접 경쟁 구도를 만든다. 모델 체크포인트 업데이트와 같은 날·같은 스레드로 발표된 패키지다.</p>
+
+  <div class="callout warn">
+    <p><strong>주의 (미확인·쟁점):</strong> 검색엔진의 인덱스 규모·랭킹 품질에 대한 독립적인 정확도 평가는 없다. 무료 기간 중 서버사이드 호출의 볼륨 제한·남용 방지 정책은 문서에 명시되지 않았다. "하루 수억 건 처리" 같은 처리량·벤치마크 수치는 DeepSeek 자체 주장이며 독립 재현이 없다.</p>
+  </div>
+
+  <div class="callout">
+    <p><strong>AX TF 관점:</strong> 검색 API 과금의 기준점($0.75/1k, 5 QPS)이 공개된 만큼 에이전트형 기능의 리트리벌 비용 구조를 가늠하기 쉬워졌다. 검색 1회당 $0.00075 — 모델 토큰 비용과 합산해도 에이전트 한 태스크의 웹 리서치 비용이 센트 단위로 계산된다. 11/1 과금 시작 전까지 무료 구간이 있으니, 지금 붙여보고 콜 볼륨을 계측해두면 이후 비용 예측의 기준선이 된다.</p>
+  </div>
+
+  <hr>
+  <footer>
+    <p><a href="https://github.com/roomedia/ax-trend/issues/3335">원문 이슈 #3335</a> · 핵심 링크: <a href="https://api-docs.deepseek.com/guides/search">DeepSeek API 문서 — Search 가이드</a> · <a href="https://fourweekmba.com/ai-deepseek-opens-its-search-api-at-0-75-per-1000-calls/">FourWeekMBA 정리</a> · <a href="https://ailetter.ai.kr/en/d/2026-10-17/11">AI Letter 한국어 정리</a> · 관련: <a href="https://github.com/roomedia/ax-trend/issues/3327">#3327 V4.1-Flash 1017</a></p>
+    <p class="tags"><a href="/ax/tag/deepseek/">DeepSeek</a><a href="/ax/tag/search-api/">검색 API</a></p>
+  </footer>
+</main>
+<script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
+</body>
+</html>

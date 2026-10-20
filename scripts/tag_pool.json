@@ -45,6 +45,11 @@
   "BYOK",
   "API-keys"
  ],
+ "검색 API": [
+  "search-api",
+  "fetch-api",
+  "검색api"
+ ],
  "멀티모달": [
   "multimodal",
   "visual reasoning",
@@ -74,7 +79,8 @@
   "성능 최적화": "performance",
   "코드 유지보수": "code-maintenance",
   "글쓰기 AI": "writing-ai",
-  "이미지 생성": "image-gen"
+  "이미지 생성": "image-gen",
+  "검색 API": "search-api"
  },
  "_dropped": [
   "MIT",

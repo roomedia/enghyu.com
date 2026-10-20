@@ -253,3 +253,8 @@ npm run test:e2e
 - 본문 인라인 `<a href="/ax/tag/...">` 가짜 링크 5개 글에서 제거 (깨진 링크). `gen_ax_tags.py`는 이제 `<p class="tags">` 안에서만 태그를 읽음.
 - `scripts/normalize_ax_tags.py` 신설: 기존 글 태그를 풀로 정규화.
 - enghyu-ax-publisher 크론 본문에 태그 풀 규칙 반영.
+
+## 2026-10-20 10:10 — 태그 2차 단일화 (18개)
+- 회사+모델 중복 제거: Claude Mythos 5→Anthropic, GPT-6·ChatGPT Slides→OpenAI, V4.1-Flash→DeepSeek.
+- 보안 팩트 3종→security 단일화: distillation-attack, BYOK, API-keys.
+- 25개→18개. 배포·200 확인·push 완료.

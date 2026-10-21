@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>google-research 'harness2' — 에이전트 하네스 자체를 재귀 최적화하는 프레임워크, 단일 스텝에 WorkBuddy-Bench +11.5점 주장</title>
+<meta name="description" content="Google Research가 에이전트 하네스 자체를 재귀 최적화하는 오픈 프레임워크 Harness²를 공개했다. Propose–Probe–Compose(태스크 수준 재귀)와 improvement harness(하네싱 수준 재귀)의 2단계 구조, 단일 스텝에 WorkBuddy-Bench +11.5점·JobBench +4.5점 주장. 공개 13일 만에 6,178스타.">
+<meta property="og:title" content="Harness² — 하네스 자체를 재귀 최적화하는 프레임워크">
+<meta property="og:description" content="Google Research 공개. Task-level 재귀(Propose–Probe–Compose) + harnessing-level 재귀(improvement harness). 단일 스텝에 WorkBuddy-Bench +11.5점(저자 주장).">
+<meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3341-cover.png">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --text: #1a1a1a;
+    --muted: #666;
+    --border: #e5e5e5;
+    --code-bg: #f6f6f6;
+    --accent: #0b6efd;
+    --callout-bg: #f4f8ff;
+    --callout-border: #0b6efd;
+    --warn-bg: #fff8ef;
+    --warn-border: #e8930c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #101216;
+      --text: #e8e8e8;
+      --muted: #9a9a9a;
+      --border: #2a2d33;
+      --code-bg: #1b1e24;
+      --accent: #5ea1ff;
+      --callout-bg: #14202f;
+      --callout-border: #5ea1ff;
+      --warn-bg: #2a2118;
+      --warn-border: #e8930c;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR",
+                 "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 800px; margin: 0 auto; padding: 48px 24px 96px; }
+  header { margin-bottom: 32px; }
+  .kicker {
+    font-size: 13px; font-weight: 700; letter-spacing: 0.06em;
+    color: var(--accent); text-transform: uppercase; margin-bottom: 12px;
+  }
+  h1 { font-size: 30px; line-height: 1.4; margin: 0 0 12px; letter-spacing: -0.01em; }
+  .meta { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+  .meta a { color: inherit; }
+  h2 { font-size: 22px; margin: 48px 0 16px; letter-spacing: -0.01em; }
+  h3 { font-size: 17px; margin: 32px 0 12px; }
+  p { margin: 0 0 16px; }
+  ul, ol { margin: 0 0 16px; padding-left: 22px; }
+  li { margin-bottom: 8px; }
+  figure { margin: 28px 0; }
+  figure img {
+    width: 100%; height: auto; display: block;
+    border: 1px solid var(--border); border-radius: 12px;
+  }
+  figcaption { color: var(--muted); font-size: 13px; text-align: center; margin-top: 8px; }
+  code {
+    font-family: "SF Mono", "Menlo", "Consolas", "D2Coding", monospace;
+    font-size: 0.88em; background: var(--code-bg);
+    padding: 2px 6px; border-radius: 5px;
+  }
+  pre {
+    background: var(--code-bg); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px 18px; overflow-x: auto;
+    font-size: 14px; line-height: 1.6; margin: 0 0 20px;
+  }
+  pre code { background: none; padding: 0; border-radius: 0; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .callout {
+    background: var(--callout-bg); border-left: 3px solid var(--callout-border);
+    padding: 14px 18px; border-radius: 0 10px 10px 0; margin: 24px 0;
+  }
+  .callout.warn { background: var(--warn-bg); border-left-color: var(--warn-border); }
+  .callout p:last-child { margin-bottom: 0; }
+  table {
+    width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px;
+  }
+  th, td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; }
+  th { background: var(--code-bg); }
+  hr { border: none; border-top: 1px solid var(--border); margin: 48px 0 24px; }
+  footer { color: var(--muted); font-size: 14px; }
+
+  .topnav { margin-bottom: 20px; }
+  .topnav a { color: var(--muted); font-size: 14px; text-decoration: none; }
+  .topnav a:hover { color: var(--accent); text-decoration: underline; }
+  .tags a {
+    display: inline-block; border: 1px solid var(--border); border-radius: 999px;
+    padding: 3px 12px; font-size: 13px; margin: 0 6px 6px 0;
+    color: var(--text); text-decoration: none;
+  }
+  .tags a:hover { border-color: var(--accent); color: var(--accent); }
+  @media (max-width: 560px) {
+    h1 { font-size: 24px; }
+    table { font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
+  <header>
+    <div class="kicker">AX Trend</div>
+    <h1>google-research 'harness2' — 에이전트 하네스 자체를 재귀 최적화하는 프레임워크, 단일 스텝에 WorkBuddy-Bench +11.5점 주장</h1>
+    <p class="meta">2026-10-21 · <a href="https://github.com/roomedia/ax-trend/issues/3341">원문 이슈 #3341</a> · 소스: GitHub (10/6)</p>
+  </header>
+
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3341-cover.png" alt="HARNESS² Recursive Agent Harnessing — Google Research 2026 커버">
+    <figcaption>Harness² — "Recursive Agent Harnessing for an Open World", Google Research</figcaption>
+  </figure>
+
+  <p>에이전트 성능 경쟁의 전선이 <strong>모델 가중치에서 하네스로</strong> 이동하고 있다. Harness²는 README가 하네스를 이렇게 정의한다: "A <strong>harness</strong> is the system around a model that enables it to act as an agent: prompts, tools, memory, skills, orchestration, and more. <strong>Harnessing</strong> is the process of optimizing that system."</p>
+
+  <p>지금까지 하네스 최적화는 인간의 수동 튜닝 영역이었다. 프롬프트를 고치고, 툴 설명을 다듬고, 메모리 전략을 바꾸는 일. Harness²는 <strong>그 하네스 자체를 재귀 루프에 올리는</strong> plug-and-play 프레임워크다. 모델 가중치는 고정한 채, 두 단계의 재귀를 연결한다.</p>
+
+  <h2>두 단계 재귀: 태스크 수준 × 하네싱 수준</h2>
+
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3341-recursion.png" alt="Propose-Probe-Compose 3단계와 persistent improvement harness 다이어그램">
+    <figcaption>STEP 1은 현재 태스크의 하네스를 정제하고, STEP 2는 교훈을 영속 하네스에 축적해 미래 태스크에 활용한다</figcaption>
+  </figure>
+
+  <p><strong>Task-level recursion</strong>은 현재 태스크의 실행 하네스를 contrastive <strong>Propose–Probe–Compose</strong> 단계로 정제한다. 편집안을 제안(propose)하고, 같은 태스크에 그 효과를 투입해 측정(probe)한 뒤, 실행 간 행동 대비(behavioral contrasts)에서 정제된 하네스를 합성(compose)한다. 핵심은 <strong>ground-truth 피드백 없이도</strong> 동작한다는 점이다.</p>
+
+  <p><strong>Harnessing-level recursion</strong>은 태스크를 넘어선 축적이다. 채택된 하네스와 "evidence-supported lessons"를 persistent <em>improvement harness</em>에 업데이트해서 다음 태스크의 정제를 안내한다. 1단계가 "이 태스크를 더 잘 푸는 법"이라면, 2단계는 "태스크를 풀며 배운 하네스 설계 교훈을 다음에 써먹는 법"이다.</p>
+
+  <h2>하네스를 코드처럼 다루기: 8개 편집 컴포넌트</h2>
+
+  <p>Harness²가 편집 대상으로 삼는 하네스 컴포넌트는 <strong>8종</strong>: system prompt, guardrails, memory, tool guidance, subagents, skills, scripts, plugins. Parallel/sequential recursion을 지원하고, <strong>OpenCode·Codex executor를 공식 지원</strong>한다 — 코딩 에이전트 워크플로에 바로 얹을 수 있는 이유다.</p>
+
+<pre><code># 개념적 흐름 (README 발췌·재구성)
+# 1. 현재 하네스 = {system_prompt, guardrails, memory,
+#                   tool_guidance, subagents, skills, scripts, plugins}
+# 2. Task-level: propose(edit_candidates)
+#                → probe(each candidate on the SAME task)
+#                → compose(refined_harness) from behavioral contrasts
+# 3. Harness-level: improvement_harness.update(
+#                       adopted_harness, evidence_supported_lessons)
+
+$ uv pip install -e '.[render]'   # Linux · Python 3.12 · uv</code></pre>
+
+  <p>설치는 <code>uv pip install -e '.[render]'</code> (Linux, Python 3.12, uv). 벤치마크는 JobBench·LAB·WorkBuddy-Bench 세트, <strong>Apache 2.0</strong> 라이선스다.</p>
+
+  <h2>성능 주장: 단일 스텝에 +11.5점 (단, 저자 주장)</h2>
+
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3341-benchmarks.png" alt="WorkBuddy-Bench +11.5점, JobBench +4.5점, LAB pass rate +11.8pp">
+    <figcaption>저자 주장 수치: 단일 Harness² 스텝의 개선폭. GLM-5·Gemini 3.5 Flash 기준, 제3자 재현 없음</figcaption>
+  </figure>
+
+  <table>
+    <tr><th>벤치마크</th><th>주장 개선폭</th><th>비고</th></tr>
+    <tr><td>WorkBuddy-Bench</td><td><strong>+11.5 pts</strong></td><td>최대치</td></tr>
+    <tr><td>JobBench</td><td><strong>+4.5 pts</strong></td><td></td></tr>
+    <tr><td>LAB partial pass rate</td><td><strong>+11.8pp</strong></td><td></td></tr>
+  </table>
+
+  <p>README의 원문: "a single Harness² step improves GLM-5 and Gemini 3.5 Flash over their base harnesses, with gains of up to 11.5 points on WorkBuddy-Bench, 4.5 points on JobBench, and 11.8 percentage points on LAB's partial pass rate." 모델 가중치 변경 없이, <strong>하네스만 갈아끼워서</strong> 얻은 수치라는 게 핵심 주장이다.</p>
+
+  <h2>급성장 중: 13일에 스타 6,178개</h2>
+
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3341-adoption.png" alt="공개 13일 만에 GitHub 스타 6,178개, 일평균 493개">
+    <figcaption>10-19 09:00 KST 기준 6,178 스타, 일평균 약 493개씩 증가 — 하네스 생태계 관심의 바로미터</figcaption>
+  </figure>
+
+  <p>공개 약 13일 만에 스타 <strong>6,178개</strong>, 일평균 약 493개씩 증가하며 급성장 중이다. 배경 맥락도 분명하다: 같은 주에 DeepSeek Harness 데스크톱 앱(#3114)과 플러그인 생태계(#3314·#3267)가 급성장했고, Harness²는 "하네스 자체를 자동 최적화하는" 한 단계 위의 추상화다. Google Research 명의 + arXiv 논문 동시 공개로 학술 신호도 강하다.</p>
+
+  <div class="callout">
+    <p><strong>AX TF 관점:</strong> 하네스 최적화를 수동 튜닝이 아닌 재귀 루프로 돌리는 첫 번째 구글발 오픈 프레임워크다. <strong>OpenCode·Codex executor 공식 지원</strong>이라 코딩 에이전트 워크플로에 바로 얹을 수 있고, 8개 컴포넌트 구조는 <strong>before/after 하네스 비교 시연</strong>으로 영상화하기 좋다. Propose–Probe–Compose가 ground-truth 없이 돌아간다는 건, "정답이 없는 태스크에서도 하네스가 스스로 좋아진다"는 뜻 — 에이전트 품질 게이트 설계에 직접 응용 가능하다.</p>
+  </div>
+
+  <div class="callout warn">
+    <p><strong>주의 (미확인·쟁점):</strong> 벤치마크 수치(11.5점·4.5점·11.8%p)는 <strong>저자의 단일 실행 결과</strong>이며 제3자 재현 검증이 없다. Propose–Probe–Compose 루프의 <strong>실제 토큰 비용·지연 시간</strong>은 README에 언급이 없다. GLM-5·Gemini 3.5 Flash 외 다른 모델(Claude·GPT 계열)에서의 효과는 미공개다.</p>
+  </div>
+
+  <h2>배경·맥락</h2>
+  <p>하네스 전쟁의 다음 단계는 "더 좋은 하네스"가 아니라 <strong>"하네스를 자동으로 더 좋게 만드는 하네스"</strong>다. DeepSeek가 데스크톱 앱과 플러그인 생태계로 하네스 유통을 선점하는 사이, Google Research는 하네스 최적화 자체를 메타 레벨에서 자동화하는 프레임을 들고 나왔다. 모델이 아니라 <strong>모델을 감싸는 시스템을 최적화하는</strong> 흐름 — 에이전트 인프라의 경쟁축이 바뀌고 있다는 신호로 읽힌다.</p>
+
+  <hr>
+  <footer>
+    <p><a href="https://github.com/roomedia/ax-trend/issues/3341">원문 이슈 #3341</a> · 핵심 링크: <a href="https://github.com/google-research/harness2">google-research/harness2 (GitHub)</a> · <a href="https://harness2.github.io">harness2.github.io</a> · <a href="https://arxiv.org/pdf/2610.14224">arXiv 논문</a></p>
+    <p class="tags"><a href="/ax/tag/ai-coding/">AI 코딩</a><a href="/ax/tag/agentic-benchmark/">agentic benchmark</a></p>
+  </footer>
+</main>
+<script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G5WKCES0DY"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G5WKCES0DY');</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gathin23 'tv-vibehack' — Claude Code로 Android TV 광고·블로트웨어 제거, 공개 1.5일 만에 1,900스타</title>
+<meta name="description" content="Gathin23/tv-vibehack은 Claude Code로 Android TV·Google TV의 광고와 블로트웨어를 제거한 오픈소스 프로젝트다. pm disable-user로 비활성화만 하고 tvOS풍 런처를 올린다. 공개 1.5일 만에 1,900+ 스타, PROMPT.md에 실제 쓴 프롬프트가 그대로 들어 있다.">
+<meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3345-hero.png">
+<meta property="og:title" content="Gathin23 'tv-vibehack' — Claude Code로 Android TV 광고·블로트웨어 제거, 공개 1.5일 만에 1,900스타">
+<meta property="og:description" content="삭제가 아닌 비활성화(pm disable-user) + tvOS풍 런처. 공개 1.5일 만에 1,900+ 스타. PROMPT.md 그대로 재현 가능.">
+<meta property="og:type" content="article">
+<style>
+:root{--bg:#ffffff;--text:#1a1a1a;--muted:#666;--border:#e5e5e5;--accent:#0891b2;--code-bg:#f6f8fa;}
+@media (prefers-color-scheme: dark){:root{--bg:#0f1115;--text:#e8eaf0;--muted:#9aa0ad;--border:#2a2e38;--accent:#22d3ee;--code-bg:#181c24;}}
+*{box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:24px 20px;}
+main{max-width:800px;margin:0 auto;}
+.topnav{margin-bottom:20px;}.topnav a{color:var(--muted);font-size:14px;text-decoration:none;}.topnav a:hover{color:var(--accent);text-decoration:underline;}
+h1{font-size:1.9rem;line-height:1.35;margin:0 0 8px;}
+.meta{color:var(--muted);font-size:14px;margin-bottom:28px;}
+h2{font-size:1.3rem;margin:44px 0 12px;padding-top:8px;border-top:1px solid var(--border);}
+h3{font-size:1.05rem;margin:28px 0 8px;}
+p{margin:0 0 16px;}
+img{max-width:100%;height:auto;border-radius:10px;margin:20px 0;border:1px solid var(--border);}
+figure{margin:0;}figcaption{color:var(--muted);font-size:13px;text-align:center;margin:-8px 0 24px;}
+ul{margin:0 0 16px;padding-left:22px;}
+li{margin-bottom:8px;}
+strong{font-weight:700;}
+.callout{background:var(--code-bg);border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+.warn{background:var(--code-bg);border-left:3px solid #f59e0b;padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.9em;}
+pre{background:var(--code-bg);padding:16px;border-radius:8px;overflow-x:auto;border:1px solid var(--border);font-size:.85em;line-height:1.6;}
+pre code{background:none;padding:0;}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.92em;}
+th,td{border:1px solid var(--border);padding:8px 12px;text-align:left;}
+th{background:var(--code-bg);}
+a{color:var(--accent);}
+.tags a{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:3px 12px;font-size:13px;margin:0 6px 6px 0;color:var(--text);text-decoration:none;}.tags a:hover{border-color:var(--accent);color:var(--accent);}
+footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:14px;}
+</style>
+</head>
+<body>
+<main>
+<nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
+
+<h1>Gathin23 'tv-vibehack' — Claude Code로 Android TV 광고·블로트웨어 제거, 공개 1.5일 만에 1,900스타</h1>
+<div class="meta">2026-10-22 · AX 트렌드 · 원문 이슈 #3345</div>
+
+<figure>
+<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3345-hero.png" alt="tv-vibehack: Your TV, minus the ads. Claude Code로 Android TV 광고·블로트웨어 제거" loading="lazy">
+<figcaption>tv-vibehack — Your TV, minus the ads.</figcaption>
+</figure>
+
+<p>GitHub 레포 <strong>Gathin23/tv-vibehack</strong>이 2026-10-17에 공개된 뒤 약 1.5일 만에 <strong>1,900+ 스타</strong>를 받았다 (GitHub API 기준 created 2026-10-17T08:12:35Z). 컨셉은 한 줄이다.</p>
+
+<div class="callout">
+<strong>"Your TV, minus the ads."</strong> — Wi-Fi로 Android TV·Google TV의 블로트웨어를 걷어내고, 광고 가득한 홈 화면을 tvOS풍의 깔끔한 런처로 교체한다. 루트 불필요, 케이블 불필요, 아무것도 삭제하지 않고, 한 줄로 복원된다.
+</div>
+
+<p>계기는 개인 사연이다. "It started as an afternoon fixing my parents' Mi TV, which showed them an advert before they could reach Netflix." — 부모님 Mi TV가 넷플릭스에 닿기 전에 광고를 먼저 보여줘서 고치던 오후 프로젝트였다.</p>
+
+<h2>동작 방식 3단계</h2>
+
+<figure>
+<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3345-method.png" alt="동작 방식 3단계: 백업 → pm disable-user 비활성화 → tvOS풍 런처 설치" loading="lazy">
+<figcaption>동작 방식 3단계 — 백업 → pm disable-user → tvOS풍 런처</figcaption>
+</figure>
+
+<ol>
+<li><strong>백업</strong> — 설치된 패키지·설정 목록을 먼저 스냅샷으로 남긴다.</li>
+<li><strong><code>pm disable-user</code></strong> — 제조사의 텔레메트리·광고 서비스·콘텐츠 행·선탑재 정크를 비활성화한다. 핵심 안전장치는 이것이다: "Nothing is uninstalled, so a restore script can undo every step." 삭제가 아니라 비활성화라 복원 스크립트로 전부 되돌릴 수 있다.</li>
+<li><strong>tvOS풍 네이티브 런처 설치</strong> — 작은 네이티브 런처를 설치해 기본 홈 화면으로 지정한다.</li>
+</ol>
+
+<p>필요 조건은 TV와 같은 Wi-Fi에 있는 컴퓨터, 개발자 옵션→USB 디버깅을 켠 TV, 그리고 셸에 접근 가능한 코딩 어시스턴트(Claude Code 등)다. 이 프로젝트의 진짜 포인트는 <strong>레포의 PROMPT.md에 실제 쓴 프롬프트가 들어 있다</strong>는 점이다. 그대로 붙여넣으면 재현된다.</p>
+
+<h2>핵심 수치</h2>
+
+<figure>
+<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3345-numbers.png" alt="핵심 수치: 1,900+ 스타, 1.5일, PROMPT.md 재현, no root no cable" loading="lazy">
+<figcaption>핵심 수치 — 1,900+ 스타 · PROMPT.md 재현 · no root · no cable</figcaption>
+</figure>
+
+<table>
+<thead><tr><th>항목</th><th>수치</th><th>비고</th></tr></thead>
+<tbody>
+<tr><td>GitHub 스타</td><td><strong>1,900+</strong></td><td>공개 후 약 1.5일 만 (GitHub API 기준)</td></tr>
+<tr><td>재현 가능성</td><td><strong>PROMPT.md</strong></td><td>실제 쓴 프롬프트가 레포에 그대로 들어 있음</td></tr>
+<tr><td>루트/케이블</td><td><strong>불필요</strong></td><td>Wi-Fi 연결 + USB 디버깅만</td></tr>
+<tr><td>삭제 여부</td><td><strong>없음</strong></td><td><code>pm disable-user</code> 비활성화만, 한 줄 복원 스크립트 포함</td></tr>
+</tbody>
+</table>
+
+<h2>알아둘 점</h2>
+
+<figure>
+<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3345-caveats.png" alt="알아둘 점: 브랜드별 블로트 상이, 개인 프로젝트 유지보수 미확인, 업데이트 후 복원 여부 미확인" loading="lazy">
+<figcaption>알아둘 점 — 브랜드 상이 · 개인 프로젝트 · 업데이트 후 동작 미확인</figcaption>
+</figure>
+
+<ul>
+<li><strong>브랜드별 블로트 상이</strong> — 블로트가 브랜드마다 달라서 프롬프트가 어시스턴트에게 TV를 직접 탐색하고 건드리기 전 확인하게 만든다. 테스트된 TV 목록·실패 케이스는 레포 이슈로 확인할 일이다.</li>
+<li><strong>개인 프로젝트</strong> — 동봉 런처의 완성도·유지보수 주체는 미확인이다.</li>
+<li><strong>업데이트 후 동작 미확인</strong> — <code>pm disable-user</code>가 시스템 업데이트 후에도 유지되는지 등 장기 동작은 미확인이다.</li>
+</ul>
+
+<div class="warn">
+<strong>⚠️ ADB로 TV 건드리기 전 확인.</strong> ADB는 폰과 같은 디버그 브리지라 TV도 Wi-Fi로 리슨한다. 조작은 비활성화 위주지만, 제조사 앱 중 의존성이 있는 항목을 끄면 기본 기능이 멈출 수 있다. <strong>백업→프롬프트의 확인 단계→한 항목씩</strong> 순서를 지킨다.
+</div>
+
+<h2>왜 중요한지</h2>
+
+<p>Android 개발자에게는 익숙한 ADB를 TV에 적용한 사례다. AX TF 관점에서 보면 이 프로젝트는 <strong>"코딩 에이전트가 실제 하드웨어와 대화하며 작업을 끝낸" 바이브코딩 패턴의 교본</strong>이다. 어시스턴트가 셸을 통해 실기기를 탐색하고, 브랜드별 차이를 확인하고, 건드리기 전 묻는다.</p>
+
+<p>같은 패턴(어시스턴트 + 셸 + 실기기 탐색)은 사내 디바이스 자동화·테스트 팜 운영에 그대로 응용된다. PROMPT.md가 통째로 공개돼 있다는 점에서, 바로 써먹을 수 있는 재료다.</p>
+
+<h2>원문 이슈</h2>
+<p>이 글은 <a href="https://github.com/roomedia/ax-trend/issues/3345">ax-trend 이슈 #3345</a>를 바탕으로 작성됐다. 핵심 링크: <a href="https://github.com/Gathin23/tv-vibehack">Gathin23/tv-vibehack (GitHub, 2026-10-17)</a>.</p>
+
+<p class="tags"><a href="/ax/tag/ai-coding/">AI 코딩</a><a href="/ax/tag/android/">Android</a><a href="/ax/tag/ax-trend/">AX Trend</a></p>
+
+<footer>
+<p>enghyu.com AX 트렌드 · <a href="/ax/">목록으로</a></p>
+</footer>
+</main>
+<script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
+</body>
+</html>

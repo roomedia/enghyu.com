@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G5WKCES0DY"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G5WKCES0DY');</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>rohithhn 'Agentic Brain' 공개 — Claude Code·Cursor·Codex 세션을 공유하는 오픈소스 셀프호스팅 AI 코딩 메모리, Apache-2.0</title>
+<meta name="description" content="Agentic Brain: Claude Code·Codex·Antigravity·Cursor·Kilo Code 세션을 로컬 SQLite 하나로 모으는 오픈소스 셀프호스팅 코딩 메모리. Capture→Distill→Rank→Inject→Measure 루프, 최대 2,000 토큰 브리핑, p50 84ms 주입. 다만 벤치마크는 자체 보고다.">
+<meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3343-hero.png">
+<meta property="og:title" content="rohithhn 'Agentic Brain' 공개 — Claude Code·Cursor·Codex 세션을 공유하는 오픈소스 셀프호스팅 AI 코딩 메모리, Apache-2.0">
+<meta property="og:description" content="5개 코딩 도구의 세션을 로컬 SQLite 하나로. 2,000 토큰 브리핑·p50 84ms·LongMemEval-S 94.2% 주장(자체 보고).">
+<meta property="og:type" content="article">
+<style>
+:root{--bg:#ffffff;--text:#1a1a1a;--muted:#666;--border:#e5e5e5;--accent:#0891b2;--code-bg:#f6f8fa;}
+@media (prefers-color-scheme: dark){:root{--bg:#0f1115;--text:#e8eaf0;--muted:#9aa0ad;--border:#2a2e38;--accent:#22d3ee;--code-bg:#181c24;}}
+*{box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:24px 20px;}
+main{max-width:800px;margin:0 auto;}
+.topnav{margin-bottom:20px;}.topnav a{color:var(--muted);font-size:14px;text-decoration:none;}.topnav a:hover{color:var(--accent);text-decoration:underline;}
+h1{font-size:1.9rem;line-height:1.35;margin:0 0 8px;}
+.meta{color:var(--muted);font-size:14px;margin-bottom:28px;}
+h2{font-size:1.3rem;margin:44px 0 12px;padding-top:8px;border-top:1px solid var(--border);}
+h3{font-size:1.05rem;margin:28px 0 8px;}
+p{margin:0 0 16px;}
+img{max-width:100%;height:auto;border-radius:10px;margin:20px 0;border:1px solid var(--border);}
+figure{margin:0;}figcaption{color:var(--muted);font-size:13px;text-align:center;margin:-8px 0 24px;}
+ul{margin:0 0 16px;padding-left:22px;}
+li{margin-bottom:8px;}
+strong{font-weight:700;}
+.callout{background:var(--code-bg);border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+.warn{background:var(--code-bg);border-left:3px solid #f59e0b;padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.9em;}
+pre{background:var(--code-bg);padding:16px;border-radius:8px;overflow-x:auto;border:1px solid var(--border);font-size:.85em;line-height:1.6;}
+pre code{background:none;padding:0;}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.92em;}
+th,td{border:1px solid var(--border);padding:8px 12px;text-align:left;}
+th{background:var(--code-bg);}
+a{color:var(--accent);}
+.tags a{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:3px 12px;font-size:13px;margin:0 6px 6px 0;color:var(--text);text-decoration:none;}.tags a:hover{border-color:var(--accent);color:var(--accent);}
+footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:14px;}
+</style>
+</head>
+<body>
+<main>
+<nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
+
+<h1>rohithhn 'Agentic Brain' 공개 — Claude Code·Cursor·Codex 세션을 공유하는 오픈소스 셀프호스팅 AI 코딩 메모리, Apache-2.0</h1>
+<div class="meta">2026-10-21 · AX 트렌드 · 원문 이슈 #3343</div>
+
+<figure>
+<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3343-hero.png" alt="Agentic Brain 개요: 모든 AI 코딩 도구를 위한 하나의 메모리" loading="lazy">
+<figcaption>Agentic Brain — 오픈소스 · 셀프호스팅 · Apache-2.0</figcaption>
+</figure>
+
+<p>개인 개발자 rohithhn이 AI 코딩 도구용 셀프호스팅 메모리 <strong>Agentic Brain</strong>을 공개했다 (dev.to 공식 런칭 포스트, 2026-10-18). Claude Code·Codex·Antigravity·Cursor·Kilo Code — 도구 다섯 개를 오가며 일하는 개발자가 겪는 "월요일 Claude Code에서 정한 결정을 화요일 Cursor에서 또 설명" 문제를 정면으로 겨냥한다. 라이선스는 <strong>Apache-2.0</strong>, 레포는 <a href="https://github.com/rohithhn/Open-Agentic-Brain-and-Memory">rohithhn/Open-Agentic-Brain-and-Memory</a>다.</p>
+
+<p>가장 눈여겨볼 설계 결정: <strong>푸시(push)와 풀(pull)을 나눴다.</strong> 자주 쓰는 기억은 CLAUDE.md·AGENTS.md·GEMINI.md에 직접 삽입(푸시)하고, 그때그때 필요한 기억은 MCP로 조회(풀)한다. 도구에 따라 같은 지식을 두 번 적는 구조다.</p>
+
+<h2>5단계 루프: Capture → Distill → Rank → Inject → Measure</h2>
+
+<figure>
+<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3343-loop.png" alt="Agentic Brain 5단계 파이프라인: Capture, Distill, Rank, Inject, Measure" loading="lazy">
+<figcaption>Capture→Distill→Rank→Inject→Measure — 메모리 라이프사이클</figcaption>
+</figure>
+
+<ul>
+<li><strong>Capture</strong> — 각 도구의 세션 파일을 파싱해 로컬 SQLite 하나로 모은다.</li>
+<li><strong>Distill</strong> — 밤에 <code>brain dream</code>이 수집분을 다시 쓰는 위키로 다듬고, 학습안(lesson)은 사용자가 승인해야 반영된다. 자동 반영이 아니라 <strong>승인 게이트</strong>가 있다.</li>
+<li><strong>Rank</strong> — 기억을 관련도→증거 순으로 정렬한다. 증거 = 사용 빈도와 "도움이 됐어" 평가.</li>
+<li><strong>Inject</strong> — 최대 <strong>2,000 토큰</strong>짜리 브리핑을 CLAUDE.md·AGENTS.md·GEMINI.md의 전용 마커 안에 쓴다. p50 기준 <strong>84ms</strong>에 준비된다는 주장.</li>
+<li><strong>Measure</strong> — <code>brain eval</code>이 내 히스토리로 퀴즈를 내 검색·주입 변경을 게이트한다. 기억 품질이 떨어지는 변경은 배포되지 않는다.</li>
+</ul>
+
+<p>MCP 인터페이스도 별도로 제공한다 — <code>brain_recall</code>·<code>brain_remember</code>·<code>brain_context</code>. 1만 개 메모리 대상 recall이 p50 <strong>28ms</strong>라는 주장이다.</p>
+
+<h2>핵심 수치: 빠르다, 그러나 벤치마크는 자체 보고</h2>
+
+<figure>
+<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3343-numbers.png" alt="핵심 수치: 2,000 토큰 브리핑, 84ms p50 주입, LongMemEval-S 94.2%" loading="lazy">
+<figcaption>주장 수치 (모두 프로젝트 측 자체 보고 — 독립 검증 없음)</figcaption>
+</figure>
+
+<table>
+<thead><tr><th>지표</th><th>수치</th><th>비고</th></tr></thead>
+<tbody>
+<tr><td>주입 브리핑</td><td><strong>최대 2,000 토큰</strong></td><td>CLAUDE.md 마커 내 삽입, p50 84ms</td></tr>
+<tr><td>LongMemEval-S</td><td><strong>94.2%</strong></td><td>Claude reader+judge 기준, 자체 보고</td></tr>
+<tr><td>LongMemEval-M</td><td><strong>83.0%</strong></td><td>약 127만 토큰 히스토리, 자체 보고</td></tr>
+<tr><td>LoCoMo</td><td><strong>86.6</strong></td><td>기준선 89.3, 자체 보고</td></tr>
+<tr><td>토큰 효율</td><td><strong>약 18%</strong></td><td>전체 대화를 다 주는 방식 대비 ~97% 점수 주장</td></tr>
+</tbody>
+</table>
+
+<div class="warn">
+<strong>⚠️ 벤치마크는 전부 프로젝트 측 주장이다.</strong> LongMemEval·LoCoMo 수치는 독립 검증이 없으므로 "미확인"으로 보고 판단해야 한다. "전체 대화를 다 주면 100점, 나는 18% 토큰으로 97점"이라는 주장은 재현 가능한 벤치 구성(리더 모델·판정자·샘플링)이 공개되어야 의미를 가진다.
+</div>
+
+<h2>로컬 우선: 계정도 서버도 없다</h2>
+
+<figure>
+<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3343-security.png" alt="로컬 우선 보안: 로컬 SQLite, age 암호화 블롭 동기화, 계정·벤더 서버 없음" loading="lazy">
+<figcaption>Your Memory, Your Machine — 데이터는 로컬에</figcaption>
+</figure>
+
+<p>동기화는 "age 암호화된 단일 블롭 + 개인 GitHub 레포의 Release 애셋" 방식이고, 키는 OS 키체인에만 있다. <strong>계정도, 벤더 서버도 없다.</strong> 코딩 세션 전체가 메모리에 들어가는 도구 특성상 이 선택은 보안 민감 팀에게는 검토의 여지가 된다 — 다만 키 유출·블롭 유출 시 파급이 크므로 키 관리(키체인 백업·로테이션)까지 계획에 넣어야 한다.</p>
+
+<div class="callout">
+<strong>claude-mem 사용자를 노린다.</strong> README에 <code>switch-from-claude-mem</code> 마이그레이션 명령이 들어 있다. 기존 도구를 직접 겨냥한 전환 전략 — 시장이 이미 있다는 방증이자, 차별점(승인 게이트·eval 게이트·푸시/풀 분리)을 어필해야 하는 이유다.
+</div>
+
+<h2>제한 사항</h2>
+
+<ul>
+<li><strong>Windows 미지원</strong> — Node 22+ 필요, macOS·Linux만. Claude Desktop·ChatGPT 데스크톱은 pull-only(캡처 불가).</li>
+<li><strong>개인 프로젝트</strong> — 장기 유지보수·보안 감사는 미확인. 운영 의존 전 코드 리뷰가 선행되어야 한다.</li>
+<li>벤치마크는 자체 보고 (위 표 참조).</li>
+</ul>
+
+<h2>개발자 관점: 지금 당장 해볼 수 있는 것</h2>
+
+<p>설치는 한 줄이다:</p>
+
+<pre><code>curl -fsSL https://raw.githubusercontent.com/rohithhn/Open-Agentic-Brain-and-Memory/main/install.sh | bash</code></pre>
+
+<p>관심 있으면 <strong>샌드박스 머신에서 먼저</strong> 돌려보는 것을 권장한다. 확인해볼 실무 포인트 세 가지:</p>
+
+<ol>
+<li><strong>주입 지연 실측</strong> — 84ms(p50) 주장의 재현. 메모리 1만 개에서 recall 28ms도 같이.</li>
+<li><strong>Distill 승인 게이트 UX</strong> — <code>brain dream</code>이 만든 학습안을 실제로 리뷰해보고, 허위 학습안(false memory)이 얼마나 섞이는지.</li>
+<li><strong><code>brain eval</code>의 게이트 감도</strong> — 검색 파라미터를 바꿨을 때 점수가 얼마나 움직이는지. 메모리 품질 관리의 실무 레퍼런스로 삼을 수 있는지가 여기서 갈린다.</li>
+</ol>
+
+<p>관련 이슈: <a href="https://github.com/roomedia/ax-trend/issues/3332">#3332 텐센트 'Hy Memory 2.0'</a> — 에이전트 메모리 프레임워크로 같은 주제, 다른 접근(3B 특화 메모리 라이터 모델). 두 프로젝트를 나란히 두고 비교하면 "메모리를 모델에 맡길 것인가, 파이프라인에 맡길 것인가"라는 설계 분기점이 보인다.</p>
+
+<h2>원문 이슈</h2>
+<p>이 글은 <a href="https://github.com/roomedia/ax-trend/issues/3343">ax-trend 이슈 #3343</a>을 바탕으로 작성됐다. 핵심 링크: <a href="https://dev.to/open-agentic-brain-and-memory/introducing-agentic-brain-one-memory-for-all-your-ai-coding-tools-cog">dev.to 공식 런칭 포스트 (2026-10-18)</a>, <a href="https://github.com/rohithhn/Open-Agentic-Brain-and-Memory">GitHub 레포 (Apache-2.0)</a>.</p>
+
+<p class="tags"><a href="/ax/tag/ai-coding/">AI 코딩</a><a href="/ax/tag/ax-trend/">AX Trend</a><a href="/ax/tag/security/">security</a></p>
+
+<footer>
+<p>enghyu.com AX 트렌드 · <a href="/ax/">목록으로</a></p>
+</footer>
+</main>
+<script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
+</body>
+</html>

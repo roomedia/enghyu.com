@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TypeSafe Jev, Vercel AI Gateway 사상 최속 채택 — 출시 2주 만에 유료 팀 35%, 2위 Sonnet 5.5(18.1%)의 2배</title>
+<meta name="description" content="Vercel AI Gateway 10월 Production Index: TypeSafe 디시전 모델 Jev가 출시 첫 2주 만에 유료 팀의 35.3%에 도달해 게이트웨이 역사상 최속 채택을 기록했다. 채택률은 압도적이지만 지출 점유율은 0.27%에 불과 — 텍스트를 쓰지 않고 정해진 답 중 하나만 고르는 구조 덕분이다.">
+<meta property="og:title" content="TypeSafe Jev, Vercel AI Gateway 사상 최속 채택 — 유료 팀 35% vs 지출 0.27%">
+<meta property="og:description" content="출시 2주 만에 유료 팀 35.3% 도입. 그런데 지출은 0.27%. 디시전 모델의 단가 구조가 프로덕션 규모에서 검증됐다.">
+<meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3336-cover.png">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --text: #1a1a1a;
+    --muted: #666;
+    --border: #e5e5e5;
+    --code-bg: #f6f6f6;
+    --accent: #0b6efd;
+    --callout-bg: #f4f8ff;
+    --callout-border: #0b6efd;
+    --warn-bg: #fff8ef;
+    --warn-border: #e8930c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #101216;
+      --text: #e8e8e8;
+      --muted: #9a9a9a;
+      --border: #2a2d33;
+      --code-bg: #1b1e24;
+      --accent: #5ea1ff;
+      --callout-bg: #14202f;
+      --callout-border: #5ea1ff;
+      --warn-bg: #2a2118;
+      --warn-border: #e8930c;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR",
+                 "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 800px; margin: 0 auto; padding: 48px 24px 96px; }
+  header { margin-bottom: 32px; }
+  .kicker {
+    font-size: 13px; font-weight: 700; letter-spacing: 0.06em;
+    color: var(--accent); text-transform: uppercase; margin-bottom: 12px;
+  }
+  h1 { font-size: 30px; line-height: 1.4; margin: 0 0 12px; letter-spacing: -0.01em; }
+  .meta { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+  .meta a { color: inherit; }
+  h2 { font-size: 22px; margin: 48px 0 16px; letter-spacing: -0.01em; }
+  h3 { font-size: 17px; margin: 32px 0 12px; }
+  p { margin: 0 0 16px; }
+  ul, ol { margin: 0 0 16px; padding-left: 22px; }
+  li { margin-bottom: 8px; }
+  figure { margin: 28px 0; }
+  figure img {
+    width: 100%; height: auto; display: block;
+    border: 1px solid var(--border); border-radius: 12px;
+  }
+  figcaption { color: var(--muted); font-size: 13px; text-align: center; margin-top: 8px; }
+  code {
+    font-family: "SF Mono", "Menlo", "Consolas", "D2Coding", monospace;
+    font-size: 0.88em; background: var(--code-bg);
+    padding: 2px 6px; border-radius: 5px;
+  }
+  pre {
+    background: var(--code-bg); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px 18px; overflow-x: auto;
+    font-size: 14px; line-height: 1.6; margin: 0 0 20px;
+  }
+  pre code { background: none; padding: 0; border-radius: 0; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .callout {
+    background: var(--callout-bg); border-left: 3px solid var(--callout-border);
+    padding: 14px 18px; border-radius: 0 10px 10px 0; margin: 24px 0;
+  }
+  .callout.warn { background: var(--warn-bg); border-left-color: var(--warn-border); }
+  .callout p:last-child { margin-bottom: 0; }
+  table {
+    width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px;
+  }
+  th, td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; }
+  th { background: var(--code-bg); }
+  hr { border: none; border-top: 1px solid var(--border); margin: 48px 0 24px; }
+  footer { color: var(--muted); font-size: 14px; }
+
+  .topnav { margin-bottom: 20px; }
+  .topnav a { color: var(--muted); font-size: 14px; text-decoration: none; }
+  .topnav a:hover { color: var(--accent); text-decoration: underline; }
+  .tags a {
+    display: inline-block; border: 1px solid var(--border); border-radius: 999px;
+    padding: 3px 12px; font-size: 13px; margin: 0 6px 6px 0;
+    color: var(--text); text-decoration: none;
+  }
+  .tags a:hover { border-color: var(--accent); color: var(--accent); }
+  @media (max-width: 560px) {
+    h1 { font-size: 24px; }
+    table { font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
+  <header>
+    <div class="kicker">AX Trend</div>
+    <h1>TypeSafe Jev, Vercel AI Gateway 사상 최속 채택 — 출시 2주 만에 유료 팀 35%, 2위 Sonnet 5.5(18.1%)의 2배</h1>
+    <p class="meta">2026-10-21 · <a href="https://github.com/roomedia/ax-trend/issues/3336">원문 이슈 #3336</a> · 소스: Vercel AI Gateway Production Index (10/15), TechCrunch (10/16)</p>
+  </header>
+
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3336-cover.png" alt="TypeSafe Jev — Vercel 게이트웨이 역사상 최속 채택, 유료 팀 35%가 출시 2주 만에 도입">
+    <figcaption>디시전 모델 Jev — 자유 텍스트를 쓰지 않고 미리 정해진 답 중 하나를 고른다</figcaption>
+  </figure>
+
+  <h2>핵심 사실</h2>
+  <ul>
+    <li>Vercel이 10월 AI Gateway Production Index를 공개했다. TypeSafe AI의 디시전 모델 <strong>Jev가 출시 첫 2주 만에 유료 팀의 35.3%</strong>에 도달해 <strong>"AI Gateway 역사상 최속 채택"(fastest-adopted model in AI Gateway history)</strong>을 기록했다 (Vercel, 10/15).</li>
+    <li>2위 Claude Sonnet 5.5(18.1%)의 약 2배. 이어서 GPT-6 Luna 14.9%(3위), Gemini 3.8 Flash 13.2%(4위), Claude Opus 5.5 13.1%(5위) 순이다.</li>
+    <li>도달률은 압도적이지만 같은 기간 <strong>지출 점유율은 0.27%에 불과</strong>했다. 9월 한 달 기준으로는 토큰 1%·지출 0.15%를 차지했다.</li>
+    <li>Jev는 <strong>9월 최다 요청 모델</strong>이기도 했다 — 반달만 운영했음에도 전체 요청 수 1위. 1주차에 써본 팀의 55.6%가 2주차에도 재사용해 리텐션 5위를 기록했다.</li>
+    <li>"Jev is a decision model. Compared with typical language-model requests, a Jev request is faster, cheaper and uses a fraction of the tokens" — 미리 정해진 몇 가지 출력 중 하나를 고르는 구조라 토큰·비용이 일부에 불과하다 (Vercel).</li>
+    <li>Vercel 스스로 Jev의 초기 도입 사례였다: 유해 명령 분류에 쓰던 GPT-6 Luna를 Jev로 교체했다 (TechCrunch, 10/16).</li>
+    <li>출시 일정: 9/15 limited release, 9/17 게이트웨이 출시.</li>
+  </ul>
+
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3336-chart.png" alt="AI Gateway 유료 팀 채택률 — Jev 35.3%, Claude Sonnet 5.5 18.1%, GPT-6 Luna 14.9%, Gemini 3.8 Flash 13.2%, Claude Opus 5.5 13.1%">
+    <figcaption>AI Gateway 유료 팀 채택률 (출시 첫 2주 기준 · Vercel 스코어카드)</figcaption>
+  </figure>
+
+  <h2>디시전 모델이 뭐길래</h2>
+  <p>Jev는 TypeSafe AI가 내놓은 디시전 모델이다. 일반 LLM처럼 자유 텍스트를 생성하지 않고 <strong>구조화된 결정(분류·선택·점수)만</strong> 출력하는 프론티어 모델 클래스다. "이 명령이 유해한가?"라는 질문에 에세이가 아니라 <code>harmful: 0.92</code> 같은 답 하나만 내놓는다. 선택지가 고정되어 있으니 출력 토큰이 극히 짧고, 따라서 빠르고 싸다.</p>
+
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3336-flow.png" alt="결정 모델 vs 일반 LLM — Jev는 입력에서 정해진 답 중 하나를 선택해 토큰의 일부만 사용">
+    <figcaption>결정 모델 vs 일반 LLM — 선택/분류/판단에 최적화된 구조</figcaption>
+  </figure>
+
+  <p>이 군집은 이미 형성 중이었다. OpenAI Decisions API, Liquid의 d1-ultra, AutoTrust의 오픈 JEV-27B-VL, Cloudflare의 Clef, Jared Palmer의 Kev까지 — '판단 레이어를 분리하자'는 흐름은 있었지만, 이번 Vercel 지표는 <strong>"버즈가 실제 사용으로 이어졌는지"에 대한 첫 하드 데이터</strong>다. TechCrunch의 표현을 빌리자면 "there has been little hard data to back up the good vibes" — 이번이 그 빈자리를 채운 첫 사례다.</p>
+
+  <h2>숫자로 본 단가 구조: 많이 쓰지만 돈은 안 쓴다</h2>
+  <p>가장 흥미로운 숫자는 지출 점유율이다. 채택률 <strong>35.3%</strong>인데 지출은 <strong>0.27%</strong>. 요청 수로는 9월 1위인데 돈으로는 거의 안 보이는 모델이다. 디시전 모델의 경제 구조를 보여주는 가장 직관적인 증거다:</p>
+
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3336-economy.png" alt="채택률 35.3% vs 지출 점유율 0.27% — 많이 쓰지만 비용은 거의 0">
+    <figcaption>유료 팀 채택률 35.3% vs 지출 점유율 0.27% — 디시전 모델의 단가 구조</figcaption>
+  </figure>
+
+  <p>시장 전체의 맥락도 함께 보면 좋다. 게이트웨이 토큰의 70% 이상·지출의 약 25%는 오픈웨이트 모델이 차지하고 있고, 9월 게이트웨이 지출은 12월의 약 13배(1,180%↑)로 폭증했는데 토큰당 평균 가격은 47% 하락했다. <strong>볼륨은 폭발하고 단가는 떨어지는 시장</strong> — 그 속에서 Jev는 "단가를 아예 다른 차원으로 끌어내리는" 카테고리로 자리를 잡은 셈이다.</p>
+
+  <h2>실전: 에이전트 아키텍처에 적용하기</h2>
+  <p>에이전트를 만들고 있다면 이 숫자가 주는 메시지는 명확하다. 에이전트 루프 안의 <strong>판단 레이어(분류·라우팅·검증·승인)</strong>는 일반 LLM으로 돌릴 필요가 없다. 아래는 개념적인 구조 스케치다 — 각 스텝마다 모델 역할을 분리하는 게 핵심이다.</p>
+
+<pre><code>// 에이전트 루프: 역할별 모델 분리 (개념 스케치)
+async function agentStep(userInput) {
+  // 1. 판단은 디시전 모델에 — 빠르고 싸게
+  const decision = await gateway.decision("jev", {
+    input: userInput,
+    choices: ["safe", "needs_review", "blocked"],  // 정해진 답 중 하나만
+  });
+  if (decision.label === "blocked") return reject(decision.score);
+
+  // 2. 진짜로 '생성'이 필요한 곳에만 LLM 투입
+  const response = await gateway.chat("claude-sonnet-5.5", {
+    messages: buildMessages(userInput),
+  });
+
+  // 3. 결과 검증도 디시전 모델로
+  const verdict = await gateway.decision("jev", {
+    input: response,
+    choices: ["pass", "hallucination_risk", "policy_violation"],
+  });
+  return verdict.label === "pass" ? response : escalate(verdict);
+}
+// 판단 스텝(1, 3)은 토큰의 일부만 사용 → 루프 전체 비용이 구조적으로 하락</code></pre>
+
+  <div class="callout">
+    <p><strong>Android 개발자 관점:</strong> 온디바이스·서버 분류 작업(스팸·유해 명령·라우팅)의 단가 구조가 바뀌는 지점이다. 지금 LLM 호출로 돌리고 있는 분류 스텝이 있다면, 디시전 모델로 교체하는 순간 비용이 자릿수 단위로 떨어진다 — Vercel 자신의 유해 명령 분류 교체 사례가 그 증거다.</p>
+  </div>
+
+  <h2>배경·맥락</h2>
+  <p>Vercel AI Gateway는 OpenRouter 유사 통합 API로, 월 수십 조 토큰이 오가는 프로덕션 트래픽의 익명 집계 데이터다. 이 지수는 그 트래픽에서 모델별 채택·지출·리텐션을 집계한 것이다. Jev가 2주 만에 기록한 35.3%는 '출시 직후 채택 속도' 기준 역사상 최고치이고, 요청 수 1위 + 리텐션 5위(55.6% 재사용)까지 겹쳐 <strong>디시전 모델 카테고리의 PMF 신호</strong>로 읽힌다.</p>
+  <p>한편 '성공'의 정의에 따라 1위가 다르다는 점도 기억할 만하다. 지출 기준 최다 런칭은 Opus 5.5(게이트웨이 달러의 10% 이상), 리텐션 1위는 GPT-6 Luna(64.8%)였다. 채택 속도·지출·리텐션 — 세 축이 서로 다른 승자를 가리킨다는 건, 이 시장이 단일 모델이 아니라 <strong>역할별 모델 조합</strong>으로 가고 있다는 뜻이다.</p>
+
+  <div class="callout warn">
+    <p><strong>주의 (미확인·쟁점):</strong> 게이트웨이 트래픽 한정 지표다. OpenAI·Anthropic처럼 자사 API로 직접 쓰는 랩은 과소집계될 수 있다는 한계를 TechCrunch와 Vercel 모두 명시했다. 0.27%라는 극단적 저지출이 무료 프로모션 기간 때문인지, 순수한 단가 구조 때문인지는 미확인 — Vercel 지수는 "published list prices" 기준 추정치라고 명시했다. "최속 채택"은 '첫 2주 도달률' 기준의 기록이다.</p>
+  </div>
+
+  <div class="callout">
+    <p><strong>AX TF 관점:</strong> Jev 호환 오픈 모델(Kev 등)과 게이트웨이 지표를 계속 추적할 가치가 있다. 디시전 모델 군집이 형성되는 시점에 '우리 스택의 판단 레이어를 어디에 둘 것인가'는 아키텍처 결정 문제다 — API 의존 vs 오픈 모델 셀프호스팅의 트레이드오프를 이번 숫자를 기준선으로 삼아 검토해보자.</p>
+  </div>
+
+  <hr>
+  <footer>
+    <p><a href="https://github.com/roomedia/ax-trend/issues/3336">원문 이슈 #3336</a> · 핵심 링크: <a href="https://vercel.com/blog/ai-gateway-production-index-october-2026">Vercel — AI Gateway Production Index (10/15)</a> · <a href="https://techcrunch.com/2026/10/16/jev-is-vercels-fastest-adopted-ai-model-ever/">TechCrunch (10/16)</a> · 관련: <a href="https://github.com/roomedia/ax-trend/issues/3270">#3270 mobile-jev</a> · <a href="https://github.com/roomedia/ax-trend/issues/3269">#3269 jevtest</a></p>
+    <p class="tags"><a href="/ax/tag/jev/">Jev</a><a href="/ax/tag/ax-trend/">AX Trend</a></p>
+  </footer>
+</main>
+<script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
+</body>
+</html>

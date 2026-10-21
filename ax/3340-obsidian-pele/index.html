@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Obsidian, 오픈소스 Mermaid 렌더러 'Pele' 공개 — Mermaid.js 대비 번들 1/6·최대 500배 빠른 렌더 주장, CSS 변수 테마 지원</title>
+<meta name="description" content="Obsidian이 노트 앱용으로 직접 만든 오픈소스 Mermaid 렌더러 Pele가 공개됐다. Mermaid.js 대비 gzip 번들 1/6(230 kB), 렌더 최대 500배(0.05–0.3 ms), 의존성 0개, CSS 변수 테마 전환. 10/17 HN 프론트페이지(561포인트), 공개 하루 만에 에이전트 스킬·CLI·플러그인 4종이 등장.">
+<meta property="og:title" content="Obsidian 'Pele' — 번들 1/6·렌더 500배의 Mermaid 렌더러">
+<meta property="og:description" content="Mermaid.js 1.6MB·6–82ms → Pele 230kB·0.05–0.3ms. 리렌더 없는 CSS 변수 테마, 의존성 0개. HN 561포인트로 프론트 진입.">
+<meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3340-cover.png">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --text: #1a1a1a;
+    --muted: #666;
+    --border: #e5e5e5;
+    --code-bg: #f6f6f6;
+    --accent: #0b6efd;
+    --callout-bg: #f4f8ff;
+    --callout-border: #0b6efd;
+    --warn-bg: #fff8ef;
+    --warn-border: #e8930c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #101216;
+      --text: #e8e8e8;
+      --muted: #9a9a9a;
+      --border: #2a2d33;
+      --code-bg: #1b1e24;
+      --accent: #5ea1ff;
+      --callout-bg: #14202f;
+      --callout-border: #5ea1ff;
+      --warn-bg: #2a2118;
+      --warn-border: #e8930c;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR",
+                 "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 800px; margin: 0 auto; padding: 48px 24px 96px; }
+  header { margin-bottom: 32px; }
+  .kicker {
+    font-size: 13px; font-weight: 700; letter-spacing: 0.06em;
+    color: var(--accent); text-transform: uppercase; margin-bottom: 12px;
+  }
+  h1 { font-size: 30px; line-height: 1.4; margin: 0 0 12px; letter-spacing: -0.01em; }
+  .meta { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+  .meta a { color: inherit; }
+  h2 { font-size: 22px; margin: 48px 0 16px; letter-spacing: -0.01em; }
+  h3 { font-size: 17px; margin: 32px 0 12px; }
+  p { margin: 0 0 16px; }
+  ul, ol { margin: 0 0 16px; padding-left: 22px; }
+  li { margin-bottom: 8px; }
+  figure { margin: 28px 0; }
+  figure img {
+    width: 100%; height: auto; display: block;
+    border: 1px solid var(--border); border-radius: 12px;
+  }
+  figcaption { color: var(--muted); font-size: 13px; text-align: center; margin-top: 8px; }
+  code {
+    font-family: "SF Mono", "Menlo", "Consolas", "D2Coding", monospace;
+    font-size: 0.88em; background: var(--code-bg);
+    padding: 2px 6px; border-radius: 5px;
+  }
+  pre {
+    background: var(--code-bg); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px 18px; overflow-x: auto;
+    font-size: 14px; line-height: 1.6; margin: 0 0 20px;
+  }
+  pre code { background: none; padding: 0; border-radius: 0; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .callout {
+    background: var(--callout-bg); border-left: 3px solid var(--callout-border);
+    padding: 14px 18px; border-radius: 0 10px 10px 0; margin: 24px 0;
+  }
+  .callout.warn { background: var(--warn-bg); border-left-color: var(--warn-border); }
+  .callout p:last-child { margin-bottom: 0; }
+  table {
+    width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px;
+  }
+  th, td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; }
+  th { background: var(--code-bg); }
+  hr { border: none; border-top: 1px solid var(--border); margin: 48px 0 24px; }
+  footer { color: var(--muted); font-size: 14px; }
+
+  .topnav { margin-bottom: 20px; }
+  .topnav a { color: var(--muted); font-size: 14px; text-decoration: none; }
+  .topnav a:hover { color: var(--accent); text-decoration: underline; }
+  .tags a {
+    display: inline-block; border: 1px solid var(--border); border-radius: 999px;
+    padding: 3px 12px; font-size: 13px; margin: 0 6px 6px 0;
+    color: var(--text); text-decoration: none;
+  }
+  .tags a:hover { border-color: var(--accent); color: var(--accent); }
+  @media (max-width: 560px) {
+    h1 { font-size: 24px; }
+    table { font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
+  <header>
+    <div class="kicker">AX Trend</div>
+    <h1>Obsidian, 오픈소스 Mermaid 렌더러 'Pele' 공개 — Mermaid.js 대비 번들 1/6·최대 500배 빠른 렌더 주장, CSS 변수 테마 지원</h1>
+    <p class="meta">2026-10-21 · <a href="https://github.com/roomedia/ax-trend/issues/3340">원문 이슈 #3340</a> · 소스: Hacker News (10/17)</p>
+  </header>
+
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3340-cover.png" alt="화산 여신 Pele의 용암이 플로우차트 노드 사이를 흐르는 커버 이미지">
+    <figcaption>Obsidian이 공개한 초고속 Mermaid 렌더러 Pele — 이름은 화산과 불의 여신에서 따왔다</figcaption>
+  </figure>
+
+  <p>Mermaid.js는 "다이어그램을 텍스트로 쓰는" 표준이 됐다. 그런데 그 무게도 표준이 됐다: gzip 번들 <strong>1.6MB</strong>, 렌더 <strong>6–82ms</strong>. 10월 17일 Hacker News 프론트페이지에 오른 Obsidian의 오픈소스 라이브러리 <strong>Pele</strong>은 이 숫자를 정면으로 공략한다. Mermaid 문법을 그대로 받아 SVG로 렌더하는 드롭인 대체품이다:</p>
+
+  <pre><code>npm install pele
+
+import { render } from "pele";
+const svg = render("flowchart TD\n  A[시작] --&gt; B{테마?}\n  B --&gt;|다크| C[용암 모드]");
+document.body.innerHTML = svg;</code></pre>
+
+  <p>공식 사이트(pele.run)가 밝힌 Mermaid.js 대비 수치:</p>
+
+  <table>
+    <tr><th></th><th>Mermaid.js</th><th>Pele</th></tr>
+    <tr><td>gzip 번들</td><td>1.6 MB</td><td><strong>230 kB (약 1/6)</strong></td></tr>
+    <tr><td>렌더 시간</td><td>6–82 ms</td><td><strong>0.05–0.3 ms (최대 500배)</strong></td></tr>
+    <tr><td>직접 의존성</td><td>23개</td><td><strong>0개</strong></td></tr>
+  </table>
+
+  <h2>0.05ms의 의미: LLM이 그림을 대량으로 그리는 시대</h2>
+
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3340-speed.png" alt="로켓 화살이 무거운 짐을 든 달팽이를 앞지르는 속도 경쟁 일러스트">
+    <figcaption>0.05ms vs 82ms — 렌더 시간 최대 500배 차이라는 주장이다</figcaption>
+  </figure>
+
+  <p>82ms → 0.05ms가 왜 중요하냐면, <strong>LLM이 다이어그램을 대량 생성하는 시대</strong>에 렌더링이 병목이 되기 때문이다. 문서·테크블로그·챗봇 응답에 플로우차트가 수십 개씩 들어가는 파이프라인에서는 6–82ms × N이 그대로 체감 지연이다. Pele는 여기서 <strong>리렌더 비용 자체를 날려버리는</strong> 전략을 쓴다 — 아래 테마 기능과 이어진다.</p>
+
+  <h2>CSS 변수 테마: 리렌더 없이 색상만 바꾼다</h2>
+
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3340-theme.png" alt="라이트·다크 모드 토글 스위치로 다이어그램 테마가 바뀌는 일러스트">
+    <figcaption>CSS 변수(<code>--pele-bg</code>, <code>--pele-fg</code>, <code>--pele-line</code> 등)로 배경·전경·선 색상과 폰트를 지정, 변경은 리렌더 없이 즉시 반영</figcaption>
+  </figure>
+
+  <p>Pele의 개발자 경험상 킬러 기능은 속도보다 이쪽일 수 있다. <code>--pele-bg</code>·<code>--pele-fg</code>·<code>--pele-line</code> 같은 CSS 변수로 배경·전경·선·표면·보더 색상과 폰트를 지정하면, <strong>색상 변경이 리렌더 없이 즉시 반영</strong>된다. 다크모드 토글 버튼 하나로 문서 뷰어 전체의 다이어그램 테마가 바뀌는 것. 작은 화면에서는 다이어그램을 무작정 스케일링하는 대신 <strong>레이아웃을 자동 적응</strong>시킨다. Obsidian이 자체 노트 앱의 "빠른 렌더 + 테마 매칭" 필요로 직접 만든 뒤 공개한 이유가 드러나는 대목이다.</p>
+
+  <p>지원 범위는 <strong>Mermaid 12.1.0에 내장된 모든 다이어그램 타입</strong>을 명시한다.</p>
+
+  <h2>생태계: 공개 24시간 만에 스킬·CLI·플러그인 4종</h2>
+
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3340-usage.png" alt="로봇 개발자가 렌더된 SVG 다이어그램을 노트북에 연결하는 일러스트">
+    <figcaption>공개 하루 만에 에이전트 스킬·CLI·에디터 플러그인 등 통합 레포 4종이 등장했다</figcaption>
+  </figure>
+
+  <p>HN 게시(dchest, 2026-10-17 15:55 UTC)는 <strong>561포인트</strong>로 프론트페이지에 진입했다. GitHub 레포(<code>obsidianmd/pele</code>, 10/5 생성)는 현재 스타 1,721개. 흥미로운 건 속도보다 <strong>생태계 형성 속도</strong>다. 공개 다음 날인 10/18 하루에만:</p>
+
+  <ul>
+    <li><code>jpmanson/pele-skill</code> — 코딩 에이전트용 스킬</li>
+    <li><code>ahmedelgabri/pele-cli</code> — CLI</li>
+    <li><code>farnabaz/streamdown-pele</code>, <code>farnabaz/comark-pele</code> — 마크다운 렌더러 통합</li>
+  </ul>
+
+  <p>특히 <strong>에이전트 스킬이 공개 당일에 나왔다</strong>는 게 포인트다. LLM이 문서를 자동 생성하는 파이프라인에서 "Mermaid 텍스트를 뽑아 렌더"하는 부분은 지금도 흔한 워크플로인데, Pele는 그 슬롯에 번들 부담 없이 꽂힌다.</p>
+
+  <div class="callout">
+    <p><strong>AX TF 관점:</strong> 기술 문서·공유 자료에 LLM이 생성한 Mermaid 다이어그램을 넣을 때 <strong>렌더링 속도와 다크모드 테마 매칭이 바로 걸림돌</strong>이다. Pele는 리렌더 없는 CSS 변수 테마 전환과 0 의존성으로 웹/앱 문서 뷰어에 붙이기 쉽고, 에이전트 스킬까지 나온 만큼 <strong>문서 자동 생성 파이프라인</strong>(마크다운→다이어그램→테마 적용)에도 바로 응용할 수 있다. 다크모드 토글 한 번으로 전체 다이어그램이 뒤바뀌는 데모는 임팩트가 확실하다.</p>
+  </div>
+
+  <div class="callout warn">
+    <p><strong>주의 (미확인·쟁점):</strong> 230 kB·0.05–0.3 ms·500배 같은 성능 수치는 <strong>프로젝트 자체 제공 비교</strong>로, 벤치마크 조건·독립 검증이 없다. 공식 사이트는 "open source"라고만 표기하고 GitHub 라이선스 필드는 <code>other</code>(비표준)로 표시되니 <strong>구체 라이선스 미확인</strong>. "Mermaid 12.1.0의 모든 타입 지원"이 엣지 케이스까지 완전 호환인지도 사용자 검증이 필요하다.</p>
+  </div>
+
+  <h2>배경·맥락</h2>
+  <p>Mermaid.js가 사실상 표준이 된 건 "텍스트→다이어그램"이라는 문법의 승리였다. 하지만 웹 앱에서 1.6MB 번들과 6–82ms 렌더는 부담이었고, 특히 LLM이 다이어그램을 대량 생성하는 흐름에서 렌더링이 병목이 되기 쉬웠다. Obsidian은 자체 노트 앱에서 빠른 렌더링과 테마 매칭이 필요해서 직접 만든 뒤 공개한 것. <strong>라이브러리 하나가 해결하는 문제가 "우리 제품의 진짜 병목"에서 나왔을 때 폭발적</strong>이라는, Obsidian다운 공개다.</p>
+
+  <hr>
+  <footer>
+    <p><a href="https://github.com/roomedia/ax-trend/issues/3340">원문 이슈 #3340</a> · 핵심 링크: <a href="https://pele.run/">pele.run (공식 사이트)</a> · <a href="https://github.com/obsidianmd/pele">obsidianmd/pele (GitHub)</a> · <a href="https://news.ycombinator.com/item?id=50132193">HN 토론 (561포인트)</a></p>
+    <p class="tags"><a href="/ax/tag/performance/">성능 최적화</a><a href="/ax/tag/ai-coding/">AI 코딩</a></p>
+  </footer>
+</main>
+<script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
+</body>
+</html>

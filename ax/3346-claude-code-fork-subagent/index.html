@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G5WKCES0DY"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G5WKCES0DY');</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Code v2.1.302 — fork 서브에이전트 `claude -p`·SDK·데스크톱·VS Code 기본 활성화, Claude Design 12/14 종료 예고</title>
+<meta name="description" content="Claude Code v2.1.302(2026-10-18)가 fork 서브에이전트를 claude -p·Agent SDK·데스크톱·VS Code에서 기본 활성화했다. 끄는 법은 CLAUDE_CODE_FORK_SUBAGENT=0. 훅은 이벤트당 최대 12개 동시 실행, Read 도구는 128MB 초과 이미지를 거부한다. standalone Claude Design은 2026-12-14에 종료된다.">
+<meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3346-hero.png">
+<meta property="og:title" content="Claude Code v2.1.302 — fork 서브에이전트 `claude -p`·SDK·데스크톱·VS Code 기본 활성화, Claude Design 12/14 종료 예고">
+<meta property="og:description" content="fork 서브에이전트가 전 서피스에서 기본값. 끄기·설정 플래그·종료 일정 정리.">
+<meta property="og:type" content="article">
+<style>
+:root{--bg:#ffffff;--text:#1a1a1a;--muted:#666;--border:#e5e5e5;--accent:#0891b2;--code-bg:#f6f8fa;}
+@media (prefers-color-scheme: dark){:root{--bg:#0f1115;--text:#e8eaf0;--muted:#9aa0ad;--border:#2a2e38;--accent:#22d3ee;--code-bg:#181c24;}}
+*{box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:24px 20px;}
+main{max-width:800px;margin:0 auto;}
+.topnav{margin-bottom:20px;}.topnav a{color:var(--muted);font-size:14px;text-decoration:none;}.topnav a:hover{color:var(--accent);text-decoration:underline;}
+h1{font-size:1.9rem;line-height:1.35;margin:0 0 8px;}
+.meta{color:var(--muted);font-size:14px;margin-bottom:28px;}
+h2{font-size:1.3rem;margin:44px 0 12px;padding-top:8px;border-top:1px solid var(--border);}
+h3{font-size:1.05rem;margin:28px 0 8px;}
+p{margin:0 0 16px;}
+img{max-width:100%;height:auto;border-radius:10px;margin:20px 0;border:1px solid var(--border);}
+figure{margin:0;}figcaption{color:var(--muted);font-size:13px;text-align:center;margin:-8px 0 24px;}
+ul{margin:0 0 16px;padding-left:22px;}
+li{margin-bottom:8px;}
+strong{font-weight:700;}
+.callout{background:var(--code-bg);border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+.warn{background:var(--code-bg);border-left:3px solid #f59e0b;padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.9em;}
+pre{background:var(--code-bg);padding:16px;border-radius:8px;overflow-x:auto;border:1px solid var(--border);font-size:.85em;line-height:1.6;}
+pre code{background:none;padding:0;}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.92em;}
+th,td{border:1px solid var(--border);padding:8px 12px;text-align:left;}
+th{background:var(--code-bg);}
+a{color:var(--accent);}
+.tags a{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:3px 12px;font-size:13px;margin:0 6px 6px 0;color:var(--text);text-decoration:none;}.tags a:hover{border-color:var(--accent);color:var(--accent);}
+footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:14px;}
+</style>
+</head>
+<body>
+<main>
+<nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
+
+<h1>Claude Code v2.1.302 — fork 서브에이전트 <code>claude -p</code>·SDK·데스크톱·VS Code 기본 활성화, Claude Design 12/14 종료 예고</h1>
+<div class="meta">2026-10-22 · AX 트렌드 · 원문 이슈 #3346</div>
+
+<figure>
+<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3346-hero.png" alt="Claude Code v2.1.302 — Fork subagents: default everywhere, 2026-10-18 릴리스" loading="lazy">
+<figcaption>Claude Code v2.1.302 — Fork subagents: default everywhere (2026-10-18)</figcaption>
+</figure>
+
+<p>2026-10-18 릴리스 노트에 따르면, <strong>fork 서브에이전트</strong>(<code>subagent_type: "fork"</code>)가 <strong><code>claude -p</code>·Agent SDK·데스크톱 앱·VS Code에서 기본 활성화</strong>됐다. 터미널은 이미 기본값이었고, 이번에 전 서피스로 확대된 것이다. 병렬 작업을 많이 돌리는 사람에게는 기본값 변경이므로 확인이 필요하다.</p>
+
+<div class="callout">
+<strong>fork 서브에이전트 = 독립 컨텍스트에서 도는 병렬 워커.</strong> 메인 대화의 컨텍스트를 오염시키지 않고 작업을 나눠 처리하는 구조다. 이 릴리스부터 4개 서피스에서 꺼져 있는 옵션이 아니라 켜져 있는 기본값이다.
+</div>
+
+<h2>이번 릴리스에서 바뀐 것</h2>
+
+<figure>
+<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3346-whats-new.png" alt="What's new: fork 기본 활성화 4서피스, 백그라운드·포그라운드 실행 규칙, 새 환경변수, 훅 스로틀링 12" loading="lazy">
+<figcaption>What's new — 4서피스 기본 활성화 · 백그라운드-포그라운드 규칙 · 새 환경변수 · 훅 스로틀링 12</figcaption>
+</figure>
+
+<ul>
+<li><strong>fork 기본 활성화:</strong> <code>claude -p</code> / Agent SDK / 데스크톱 / VS Code.</li>
+<li><strong>실행 규칙 변경:</strong> 데스크톱·VS Code는 메인 대화의 서브에이전트를 <strong>항상 백그라운드로 실행</strong>한다. 반대로 서브에이전트 자신의 Agent 호출은 <code>claude -p</code>·Agent SDK·데스크톱·VS Code에서 <strong>기본 포그라운드 실행</strong>으로 바뀐다.</li>
+<li><strong>새 환경변수</strong> <code>CLAUDE_CODE_AUTO_MODE_MODEL</code> — 클라이언트 측 auto mode 분류기가 쓸 모델을 고르는 용도. 서버 측 auto mode 모델은 변경 없음.</li>
+<li><strong>훅 스로틀링:</strong> "at most 12 of one event run at a time; the rest wait their turn" — 이벤트당 최대 12개 훅만 동시 실행하고 나머지는 대기한다.</li>
+<li><strong>Read 도구 수정:</strong> 어떤 크기 이미지든 메모리에 전부 읽던 문제 수정 — <strong>128MB 초과 이미지 소스는 거부</strong>한다.</li>
+<li><strong><code>/config</code>에 <code>Idle compaction</code> 행 추가</strong> — idle compaction을 끄고 켤 수 있고, compaction 후 안내에 끄는 방법이 표시된다.</li>
+<li><strong>플러그인 다수 켠 상태 시작 시간 개선.</strong> 권한 모드 미지정 시 <code>claude -p</code>·SDK 세션이 third-party provider에서 <code>default</code> 모드로 시작한다.</li>
+</ul>
+
+<h2>설정 플래그 — 켜기·끄기</h2>
+
+<figure>
+<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3346-config.png" alt="Config & flags: CLAUDE_CODE_FORK_SUBAGENT=0, CLAUDE_CODE_AUTO_MODE_MODEL, /config Idle compaction, claude mcp serve 미제공" loading="lazy">
+<figcaption>Config & flags — 환경변수·<code>/config</code>·<code>mcp serve</code> 예외</figcaption>
+</figure>
+
+<pre><code># fork 서브에이전트 끄기
+export CLAUDE_CODE_FORK_SUBAGENT=0
+
+# auto mode 분류기 모델 지정 (클라이언트 측)
+export CLAUDE_CODE_AUTO_MODE_MODEL=&lt;model&gt;</code></pre>
+
+<div class="warn">
+<strong>⚠️ 예외 하나:</strong> "claude mcp serve never offers them" — <code>claude mcp serve</code>에서는 fork 서브에이전트를 제공하지 않는다. MCP 서버 경로로 도는 환경이라면 fork 동작을 기대하지 말 것.
+</div>
+
+<h2>숫자와 마감일</h2>
+
+<figure>
+<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3346-numbers.png" alt="Numbers & deadlines: Dec 14 2026 Claude Design 종료, 128MB Read 제한, 12 훅, 과금 영향 미확인" loading="lazy">
+<figcaption>Numbers & deadlines — 2026-12-14 Claude Design 종료 · 128MB · 12 훅 · 과금 영향 미확인</figcaption>
+</figure>
+
+<table>
+<thead><tr><th>항목</th><th>수치</th><th>비고</th></tr></thead>
+<tbody>
+<tr><td>Claude Design 종료</td><td><strong>2026-12-14</strong></td><td><code>/design-sync</code>·<code>/design-login</code> 안내 추가. standalone Claude Design(claude.ai/design)이 이날 종료</td></tr>
+<tr><td>Read 도구 이미지 제한</td><td><strong>128MB</strong></td><td>초과 이미지 소스 거부</td></tr>
+<tr><td>훅 동시 실행 상한</td><td><strong>12</strong></td><td>이벤트당 최대 12개, 나머지 대기</td></tr>
+<tr><td>fork 과금 영향</td><td><strong>미확인</strong></td><td>토큰 사용량·과금 영향은 릴리스 노트 미언급</td></tr>
+</tbody>
+</table>
+
+<ul>
+<li><strong>미확인:</strong> <code>CLAUDE_CODE_AUTO_MODE_MODEL</code> 변경 시 분류 품질·비용 미확인.</li>
+<li><strong>미확인:</strong> Claude Design 종료 후 마이그레이션 경로 미공지.</li>
+</ul>
+
+<h2>왜 중요한지</h2>
+
+<p>fork가 기본값이 된다는 것은 <strong>서브에이전트 병렬 실행이 이제 옵트인(opt-in)이 아니라 옵트아웃(opt-out)</strong>이라는 뜻이다. 에이전트 워크플로를 돌리는 팀이라면 비용·동시 실행 수를 다시 볼 필요가 있다. 훅 스로틀링(12개)은 그 완충 장치로 보인다.</p>
+
+<p>Claude Design의 12월 14일 종료 예고는 별도로 주목할 일정이다. standalone 디자이너 도구를 쓰고 있었다면 마이그레이션 계획을 세워야 한다. 관련 이슈: <a href="https://github.com/roomedia/ax-trend/issues/3329">#3329 (첫 토큰 지연 4.07초→1.33초)</a>, <a href="https://github.com/roomedia/ax-trend/issues/3337">#3337 (Claude가 Claude Code 코드 90% 작성 중)</a>.</p>
+
+<h2>원문 이슈</h2>
+<p>이 글은 <a href="https://github.com/roomedia/ax-trend/issues/3346">ax-trend 이슈 #3346</a>을 바탕으로 작성됐다. 핵심 링크: <a href="https://github.com/anthropics/claude-code/releases/tag/v2.1.302">claude-code v2.1.302 릴리스 (2026-10-18)</a>, <a href="https://aiweekly.co/alerts/claude-code-21302-turns-on-fork-subagents-in-sdk-and-apps">aiweekly.co 요약 (2026-10-18)</a>.</p>
+
+<p class="tags"><a href="/ax/tag/ai-coding/">AI 코딩</a><a href="/ax/tag/anthropic/">Anthropic</a><a href="/ax/tag/ax-trend/">AX Trend</a></p>
+
+<footer>
+<p>enghyu.com AX 트렌드 · <a href="/ax/">목록으로</a></p>
+</footer>
+</main>
+<script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
+</body>
+</html>

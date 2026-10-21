@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G5WKCES0DY"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G5WKCES0DY');</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leonxlnx 'earshot' — 코딩 에이전트용 오디오 리뷰·사운드 생성 툴킷, CPU 온리·MCP 지원, 공개 4일 만에 1,100+스타</title>
+<meta name="description" content="Leonxlnx(Leon Lin)가 2026-10-15 공개한 earshot. 코딩 에이전트가 소리를 듣고 리뷰·생성하게 하는 CPU 온리 오픈소스 툴킷. describe·critique·forge·fit 7개 명령, 201개 SFX 뱅크(0.3), 22초 런칭 필름의 모든 사운드는 forge로 코드에서 생성. 공개 4일 만에 1,157스타.">
+<meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3347-hero.png">
+<meta property="og:title" content="Leonxlnx 'earshot' — 코딩 에이전트용 오디오 리뷰·사운드 생성 툴킷, CPU 온리·MCP 지원, 공개 4일 만에 1,100+스타">
+<meta property="og:description" content="코딩 에이전트에게 '귀'를 달아주는 툴킷. 7개 명령·201개 SFX 뱅크·22초 런칭 필름 풀 코드 사운드.">
+<meta property="og:type" content="article">
+<style>
+:root{--bg:#ffffff;--text:#1a1a1a;--muted:#666;--border:#e5e5e5;--accent:#0891b2;--code-bg:#f6f8fa;}
+@media (prefers-color-scheme: dark){:root{--bg:#0f1115;--text:#e8eaf0;--muted:#9aa0ad;--border:#2a2e38;--accent:#22d3ee;--code-bg:#181c24;}}
+*{box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:24px 20px;}
+main{max-width:800px;margin:0 auto;}
+.topnav{margin-bottom:20px;}.topnav a{color:var(--muted);font-size:14px;text-decoration:none;}.topnav a:hover{color:var(--accent);text-decoration:underline;}
+h1{font-size:1.9rem;line-height:1.35;margin:0 0 8px;}
+.meta{color:var(--muted);font-size:14px;margin-bottom:28px;}
+h2{font-size:1.3rem;margin:44px 0 12px;padding-top:8px;border-top:1px solid var(--border);}
+h3{font-size:1.05rem;margin:28px 0 8px;}
+p{margin:0 0 16px;}
+img{max-width:100%;height:auto;border-radius:10px;margin:20px 0;border:1px solid var(--border);}
+figure{margin:0;}figcaption{color:var(--muted);font-size:13px;text-align:center;margin:-8px 0 24px;}
+ul{margin:0 0 16px;padding-left:22px;}
+li{margin-bottom:8px;}
+strong{font-weight:700;}
+.callout{background:var(--code-bg);border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+.warn{background:var(--code-bg);border-left:3px solid #f59e0b;padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.9em;}
+pre{background:var(--code-bg);padding:16px;border-radius:8px;overflow-x:auto;border:1px solid var(--border);font-size:.85em;line-height:1.6;}
+pre code{background:none;padding:0;}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.92em;}
+th,td{border:1px solid var(--border);padding:8px 12px;text-align:left;}
+th{background:var(--code-bg);}
+a{color:var(--accent);}
+.tags a{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:3px 12px;font-size:13px;margin:0 6px 6px 0;color:var(--text);text-decoration:none;}.tags a:hover{border-color:var(--accent);color:var(--accent);}
+footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:14px;}
+</style>
+</head>
+<body>
+<main>
+<nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
+
+<h1>Leonxlnx 'earshot' — 코딩 에이전트용 오디오 리뷰·사운드 생성 툴킷, CPU 온리·MCP 지원, 공개 4일 만에 1,100+스타</h1>
+<div class="meta">2026-10-22 · AX 트렌드 · 원문 이슈 #3347</div>
+
+<figure>
+<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3347-hero.png" alt="earshot — Ears for coding agents: CPU-only open-source audio toolkit, Leonxlnx, Oct 15 2026, MIT" loading="lazy">
+<figcaption>earshot — Ears for coding agents (2026-10-15, Leonxlnx)</figcaption>
+</figure>
+
+<p>2026년 10월 15일, Leon Lin(@LexnLin)이 GitHub에 <strong>'earshot'</strong>을 공개했다. 한 줄로 말하면 <strong>"코딩 에이전트에게 귀를 달아주는 툴킷"</strong>이다. AI 코딩 에이전트는 영화를 렌더링하는 코드까지 짤 수 있지만, 자기가 만든 결과물의 소리는 듣지 못한다. README는 "premium key press와 cheap one을 구분하지 못하고, hit이 컷보다 80ms 늦게 떨어지는 것을 알아채지 못한다"고 지적한다. earshot은 소리를 에이전트가 추론할 수 있는 <strong>"증거"(evidence)</strong>로 바꾸는 시도다.</p>
+
+<div class="callout">
+<strong>실용 포인트 두 가지.</strong> 첫째, <strong>CPU 온리</strong> — 로컬 실행 부담이 없다. 둘째, <strong>MCP 서버 형태로 제공</strong>돼 Claude Code에 바로 붙일 수 있다. MIT 라이선스, CLI·Python API·MCP 세 가지 인터페이스.
+</div>
+
+<h2>7개 명령이 하는 일</h2>
+
+<figure>
+<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3347-commands.png" alt="7 commands: describe, match, find, timeline, critique, forge, fit" loading="lazy">
+<figcaption>7 commands — 소리를 단어로, 녹음을 코드로</figcaption>
+</figure>
+
+<ul>
+<li><strong><code>describe</code></strong> — 소리를 단어로 묘사. 예: "0.56 s short transient (attack 3 ms, decays in 190 ms)".</li>
+<li><strong><code>match</code></strong> — 설명(캡션)의 적합도 판정.</li>
+<li><strong><code>find</code></strong> — 긴 녹음 속에서 최적 구간 찾기.</li>
+<li><strong><code>timeline</code></strong> — 초 단위 청취 트랜스크립트.</li>
+<li><strong><code>critique</code></strong> — 런칭 영상 스코어카드. README 예시: "VERDICT: close - 21 of 23 scored metrics in range".</li>
+<li><strong><code>forge</code></strong> — 코드로 사운드를 생성하고, 청취로 개선한다.</li>
+<li><strong><code>fit</code></strong> — 녹음을 코드로 변환한다.</li>
+</ul>
+
+<p>흐름은 명확하다. <code>forge</code>로 소리를 만들고 <code>critique</code>로 점수를 받고 <code>fit</code>으로 코드로 되돌린다. 에이전트가 <strong>제작→청취→수정 루프</strong>를 돌 수 있는 구조다.</p>
+
+<h2>201개 SFX 뱅크와 22초 런칭 필름</h2>
+
+<figure>
+<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3347-sfx-bank.png" alt="201 sound effects bank - New in 0.3, 22s launch film all sounds from earshot forge" loading="lazy">
+<figcaption>201 SFX bank — "New in 0.3"</figcaption>
+</figure>
+
+<p>버전 0.3의 핵심은 <strong>코드로 저장된 201개 사운드 이펙트 뱅크</strong>다. <code>earshot sfx</code>로 특정 시점에 이펙트를 조준하고, <code>earshot kit</code>로 영화 전체의 이펙트를 측정된 싱크 포인트로 렌더링한다. 모델도 네트워크도 필요 없다.</p>
+
+<p>가장 강한 증거는 런칭 필름 그 자체다. <strong>22초 런칭 필름의 모든 사운드는 <code>earshot forge</code>로 코드에서 만들었다</strong> — "no recordings, no music track". 툴이 자기 홍보물의 사운드를 자기 코드로 다 만들어냈다는 점이 이 프로젝트의 데모 방식이다.</p>
+
+<h2>숫자와 아직 확인 안 된 것</h2>
+
+<figure>
+<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3347-numbers.png" alt="1,157 stars in 4 days (Oct 19), 62 forks, MIT license, CLI, Python API, MCP server" loading="lazy">
+<figcaption>Numbers — 1,157 stars (10/19 기준) · 62 forks · MIT</figcaption>
+</figure>
+
+<table>
+<thead><tr><th>항목</th><th>수치</th><th>비고</th></tr></thead>
+<tbody>
+<tr><td>GitHub 스타</td><td><strong>1,157</strong></td><td>10/19 기준, 공개 4일 만. 포크 62</td></tr>
+<tr><td>SFX 뱅크</td><td><strong>201개</strong></td><td>버전 0.3, 코드로 저장, 모델·네트워크 불필요</td></tr>
+<tr><td>런칭 필름</td><td><strong>22초</strong></td><td>모든 사운드 = forge 코드 생성</td></tr>
+<tr><td>제공 형태</td><td>CLI · Python API · MCP</td><td>MIT 라이선스, CPU 온리</td></tr>
+</tbody>
+</table>
+
+<div class="warn">
+<strong>⚠️ 미확인:</strong> runtimewire는 "blind-test evidence remains small"이라고 지적한다 — 자체 블라인드 테스트 근거가 작고, 자동 스코어링이 인간 판단과는 아직 거리가 있다. 스코어링 정확도·매칭 정밀도 등 성능 주장은 저자 자료 외의 <strong>독립 검증이 아직 없다</strong>. 201개 SFX 뱅크가 실제 프로덕션급 품질인지도 사용해 봐야 안다.
+</div>
+
+<h2>왜 중요한지</h2>
+
+<p>AX TF 관점에서 코딩 에이전트의 <strong>'감각' 확장</strong>은 실무에 바로 연결된다. 앱 데모·프로모 영상을 에이전트가 만들고 스스로 검수하는 파이프라인에서 <strong>소리는 비어 있는 칸</strong>이었다. 같은 저자의 taste-skill(#3272, 코딩 에이전트에 '취향'을 주는 스킬)과 같은 계열의 에이전트 감각 확장 프로젝트라는 점도 눈여겨볼 만하다.</p>
+
+<p>관련 이슈: <a href="https://github.com/roomedia/ax-trend/issues/3272">#3272</a> (Leonxlnx 'taste-skill' v2.0.0), <a href="https://github.com/roomedia/ax-trend/issues/3339">#3339</a> (alchaincyf 'huashu-motion' — 에이전트 영상 생성).</p>
+
+<h2>원문 이슈</h2>
+<p>이 글은 <a href="https://github.com/roomedia/ax-trend/issues/3347">ax-trend 이슈 #3347</a>을 바탕으로 작성됐다. 핵심 링크: <a href="https://github.com/Leonxlnx/earshot">Leonxlnx/earshot (GitHub, 2026-10-15)</a>, <a href="https://runtimewire.com/article/earshot-audio-tools-for-ai-coding-agents">runtimewire 보도 (2026-10-16)</a>.</p>
+
+<p class="tags"><a href="/ax/tag/ai-coding/">AI 코딩</a><a href="/ax/tag/agent-ux/">agent-UX</a><a href="/ax/tag/ax-trend/">AX Trend</a></p>
+
+<footer>
+<p>enghyu.com AX 트렌드 · <a href="/ax/">목록으로</a></p>
+</footer>
+</main>
+<script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
+</body>
+</html>

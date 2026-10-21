@@ -38,6 +38,13 @@
  "OpenCode": [],
  "agent-UX": [],
  "agentic benchmark": [],
+ "에이전트 모델": [
+  "agent-model",
+  "atria",
+  "dawn",
+  "상하이",
+  "Shanghai AI Lab"
+ ],
  "parallel-agents": [],
  "quantum circuits": [],
  "security": [
@@ -81,7 +88,8 @@
   "글쓰기 AI": "writing-ai",
   "이미지 생성": "image-gen",
   "검색 API": "search-api",
-  "AI 영상 생성": "ai-video"
+  "AI 영상 생성": "ai-video",
+  "에이전트 모델": "agent-model"
  },
  "_dropped": [
   "MIT",

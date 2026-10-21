@@ -258,3 +258,24 @@ npm run test:e2e
 - 회사+모델 중복 제거: Claude Mythos 5→Anthropic, GPT-6·ChatGPT Slides→OpenAI, V4.1-Flash→DeepSeek.
 - 보안 팩트 3종→security 단일화: distillation-attack, BYOK, API-keys.
 - 25개→18개. 배포·200 확인·push 완료.
+
+## 2026-10-21 — AX 섹션 GA4 확장
+
+### 현재 구현 상태
+- `/ax/` 전체 페이지(글 23 + 목록 + 태그 23 + 태그 모아보기 + 통계)에 GA4 `G-G5WKCES0DY` 스니펫이 `<head>`에 포함된다. 기존 자체 비콘(`/ax/api/track`)과 병행 유지.
+- 목록·태그 페이지는 생성기 템플릿에 스니펫이 내장되어 재생성 시에도 유지된다. 글 페이지는 정적 파일이라 일괄 주입했고, 새 글은 ax-factory SSOT(channels/enghyu.md 필수 템플릿 요소)에 스니펫 항목이 추가되어 작성 단계에서 포함된다.
+
+### 변경한 파일과 동작
+- `ax/**/*.html` 49개: `<head>` 직후에 gtag 스니펫 주입 (멱등 스크립트로 일괄 적용, 이미 있는 파일은 건너뜀).
+- `scripts/gen_ax_index.py`: `GA_SNIPPET` 상수 추가, 목록 페이지 템플릿 `<head>`에 삽입.
+- `scripts/gen_ax_tags.py`: `GA_SNIPPET` 상수 추가, `page()` 템플릿 `<head>`에 삽입.
+
+### 실행한 검증 명령과 결과
+- `python3 -m py_compile scripts/gen_ax_index.py scripts/gen_ax_tags.py`: 통과.
+- 생성기 재실행 후 `grep -c G-G5WKCES0DY ax/index.html ax/tags/index.html ax/tag/ai-coding/index.html`: 각 2 (src + config).
+- `python3 deploy_cf.py`: 배포 성공 (변경 에셋 49개 업로드, Worker 배포 성공).
+- 라이브 `curl` 확인: `https://enghyu.com/ax/3342-atria-dawn/`, `/ax/`, `/ax/tag/ai-coding/` 모두 G-ID 2회 + 비콘 유지 확인.
+
+### 확인하지 못한 항목과 남은 리스크
+- GA4 콘솔에서 ax 페이지뷰가 실제로 집계되는지는 데이터 반영 지연(수 시간~24h)으로 미확인. 다음 날 GA4 실시간/보고서에서 재확인 필요.
+- enghyu-ax-publisher 크론 본문 자체에는 스니펫이 아직 없다 (SSOT만 반영). 크론 본문 동기화는 팩토리 2단계에서 별도 처리 예정.

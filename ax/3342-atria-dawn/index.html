@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G5WKCES0DY"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G5WKCES0DY');</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shanghai AI Lab 'Atria Dawn' 정식 버전 — 744B MoE 에이전트 모델, MIT 라이선스로 등장</title>
+<meta name="description" content="Shanghai AI Lab이 에이전트 모델 Atria Dawn의 정식 버전을 공개했다. 744B MoE, 512K 컨텍스트(주장), MIT 라이선스. 다만 정식 가중치는 아직 'Coming soon'이고, 표기 불일치도 있다. 개발자 관점에서 따져본다.">
+<meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3342-overview.png">
+<meta property="og:title" content="Shanghai AI Lab 'Atria Dawn' 정식 버전 — 744B MoE 에이전트 모델, MIT 라이선스로 등장">
+<meta property="og:description" content="744B MoE·512K 컨텍스트 주장·MIT 라이선스. 그러나 정식 가중치는 'Coming soon', 다운로드 표에는 256K.">
+<meta property="og:type" content="article">
+<style>
+:root{--bg:#ffffff;--text:#1a1a1a;--muted:#666;--border:#e5e5e5;--accent:#0891b2;--code-bg:#f6f8fa;}
+@media (prefers-color-scheme: dark){:root{--bg:#0f1115;--text:#e8eaf0;--muted:#9aa0ad;--border:#2a2e38;--accent:#22d3ee;--code-bg:#181c24;}}
+*{box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:24px 20px;}
+main{max-width:800px;margin:0 auto;}
+.topnav{margin-bottom:20px;}.topnav a{color:var(--muted);font-size:14px;text-decoration:none;}.topnav a:hover{color:var(--accent);text-decoration:underline;}
+h1{font-size:1.9rem;line-height:1.35;margin:0 0 8px;}
+.meta{color:var(--muted);font-size:14px;margin-bottom:28px;}
+h2{font-size:1.3rem;margin:44px 0 12px;padding-top:8px;border-top:1px solid var(--border);}
+h3{font-size:1.05rem;margin:28px 0 8px;}
+p{margin:0 0 16px;}
+img{max-width:100%;height:auto;border-radius:10px;margin:20px 0;border:1px solid var(--border);}
+figure{margin:0;}figcaption{color:var(--muted);font-size:13px;text-align:center;margin:-8px 0 24px;}
+ul{margin:0 0 16px;padding-left:22px;}
+li{margin-bottom:8px;}
+strong{font-weight:700;}
+.callout{background:var(--code-bg);border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+.warn{background:var(--code-bg);border-left:3px solid #f59e0b;padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.9em;}
+pre{background:var(--code-bg);padding:16px;border-radius:8px;overflow-x:auto;border:1px solid var(--border);font-size:.85em;line-height:1.6;}
+pre code{background:none;padding:0;}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.92em;}
+th,td{border:1px solid var(--border);padding:8px 12px;text-align:left;}
+th{background:var(--code-bg);}
+a{color:var(--accent);}
+.tags a{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:3px 12px;font-size:13px;margin:0 6px 6px 0;color:var(--text);text-decoration:none;}.tags a:hover{border-color:var(--accent);color:var(--accent);}
+footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:14px;}
+</style>
+</head>
+<body>
+<main>
+<nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
+
+<h1>Shanghai AI Lab 'Atria Dawn' 정식 버전 — 744B MoE 에이전트 모델, MIT 라이선스로 등장</h1>
+<div class="meta">2026-10-21 · AX 트렌드 · 원문 이슈 #3342</div>
+
+<figure>
+<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3342-overview.png" alt="Atria Dawn 개요: 744B MoE, MIT 라이선스" loading="lazy">
+<figcaption>Shanghai AI Lab Atria Dawn 정식 버전 — 744B MoE, MIT 라이선스</figcaption>
+</figure>
+
+<p>Shanghai Artificial Intelligence Laboratory(상하이 인공지능 연구원)가 에이전트 모델 <strong>Atria Dawn</strong>의 정식 버전(full release)을 공개했다. 연구·소프트웨어 개발·다단계(multi-step) 작업을 겨냥한 모델로, <strong>7440억(744B) 파라미터 mixture-of-experts</strong> 구조를 갖춘 Zhipu의 GLM-5.2 기반 에이전트용 포스트트레이닝 모델이다. 코드가 <strong>MIT 라이선스</strong>로 공개된다는 점이 가장 큰 포인트다.</p>
+
+<p>9월 프리뷰(9/11 가중치 등장, 9/14 arXiv 보고서, 9/15 정식 발표) 이후 약 한 달 만의 후속 릴리스로, 벤치마크 개선과 새 데모를 앞세웠다. 베이스인 GLM-5.2는 Zhipu가 6월에 MIT 라이선스로 공개한 744B 코딩·도구 활용 파운데이션 모델이다.</p>
+
+<h2>벤치마크: 대부분 상승, BrowseComp는 하락</h2>
+
+<figure>
+<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3342-benchmarks.png" alt="Atria Dawn 정식 vs 프리뷰 벤치마크 비교" loading="lazy">
+<figcaption>정식 버전 vs 프리뷰 평가표 (공개 평가표 기준)</figcaption>
+</figure>
+
+<table>
+<thead><tr><th>벤치마크</th><th>정식</th><th>프리뷰</th><th>변동</th></tr></thead>
+<tbody>
+<tr><td>JobBench</td><td><strong>57.5</strong></td><td>50.3</td><td>+7.2</td></tr>
+<tr><td>WideSearch</td><td><strong>84.6</strong></td><td>81.9</td><td>+2.7</td></tr>
+<tr><td>PaperBench</td><td><strong>89.6</strong></td><td>87.0</td><td>+2.6</td></tr>
+<tr><td>SWE-bench Pro</td><td><strong>61.7</strong></td><td>59.6</td><td>+2.1</td></tr>
+<tr><td>BrowseComp</td><td>91.3</td><td>92.5</td><td><strong>-1.2</strong></td></tr>
+</tbody>
+</table>
+
+<p>JobBench의 +7.2점 상승이 눈에 띈다. 반면 BrowseComp는 91.3으로 프리뷰(92.5)보다 소폭 하락했다. 모두 연구실 자체 측정치이므로 하락 원인은 설명되지 않았다. 발표 수치 그대로 믿기보다 실측이 필요하다.</p>
+
+<h2>쟁점: 512K vs 256K, 그리고 'Coming soon' 가중치</h2>
+
+<figure>
+<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3342-context.png" alt="컨텍스트 표기 불일치와 가중치 공개 상태" loading="lazy">
+<figcaption>연구실 발표 512K vs 다운로드 표 256K — 가중치는 아직 Coming soon</figcaption>
+</figure>
+
+<div class="warn">
+<strong>⚠️ 컨텍스트 윈도우 표기 불일치.</strong> 연구실 발표에 따르면 컨텍스트가 256K에서 <strong>512K 토큰</strong>으로 늘었다. 그러나 GitHub 다운로드 표에는 정식 모델과 FP8 버전 모두 여전히 <strong>256K</strong>로 표기되어 있다. 어느 쪽이 실제 서빙 기준인지 미확인 상태다.
+</div>
+
+<p>더 근본적인 문제는 <strong>정식 버전의 가중치가 Hugging Face·ModelScope에서 'Coming soon' 상태</strong>라는 점이다. 지금 다운로드 가능한 것은 프리뷰 가중치뿐이다. 즉 발표된 모델, 호스티드 서비스, 다운로드 체크포인트는 서로 다른 것이다. 자체 호스팅·파인튜닝은 아직 불가하고, 호스티드 API(국제용·중국용 엔드포인트 분리)로만 쓸 수 있다. API 가격도 미공개다.</p>
+
+<div class="callout">
+<strong>텍스트 입력 전용.</strong> "accepts text input only" — 이미지나 오디오 입력은 받지 않는다. 비주얼 리즈닝(Elorian Glimpse 같은) 워크로드에는 맞지 않는다.
+</div>
+
+<h2>데모: 다단계 작업 위주 쇼케이스</h2>
+
+<figure>
+<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3342-demos.png" alt="Atria Dawn 다단계 데모: CAD, PPT, 데이터 분석" loading="lazy">
+<figcaption>릴리스 쇼케이스의 다단계 데모 3종</figcaption>
+</figure>
+
+<p>공식 릴리스 쇼케이스의 데모는 "대화형 답변을 넘는" 다단계 작업 위주다:</p>
+<ul>
+<li><strong>CAD 모델링</strong> — 도구를 직접 다루는 설계 작업</li>
+<li><strong>프레젠테이션 생성</strong> — 네이티브 PowerPoint 요소 + Morph 전환으로 29장 애니메이션 시퀀스</li>
+<li><strong>데이터 분석</strong> — 5개 업무 파일을 가로질러 대사(대조)·실적 분석</li>
+</ul>
+
+<p>29장 슬라이드를 Morph 전환까지 넣어 만든다는 건 단순 텍스트 생성이 아니라 문서 구조를 이해하고 도구를 연속 호출한다는 의미다. 에이전트 워크로드 평가 후보로 넣어볼 만한 이유다.</p>
+
+<h2>개발자 관점: 지금 당장 해볼 수 있는 것</h2>
+
+<p>MIT 라이선스의 744B급 오픈 에이전트 모델이라는 점에서 AX TF의 에이전트 워크로드 평가 후보가 된다. 호스티드 API가 OpenAI 호환이라면 기존 에이전트 스택에서 <strong>엔드포인트만 바꿔 시험</strong>해볼 수 있다:</p>
+
+<pre><code>import openai
+client = openai.OpenAI(
+    base_url="https://api.atria-dawn.example/v1",  # 실제 호스티드 엔드포인트로 교체
+    api_key="&lt;YOUR_KEY&gt;",
+)
+resp = client.chat.completions.create(
+    model="atria-dawn",
+    messages=[{"role": "user", "content": "이 레포의 CI 실패 원인을 분석하고 수정 PR을 만들어줘"}],
+)
+</code></pre>
+
+<div class="warn">
+<strong>⚠️ 도입 전 확인 항목.</strong> ① 512K/256K 어느 쪽이 실제 서빙 기준인지 ② 정식 가중치 공개 시점(재현·자체 서빙·파인튜닝 가능 여부) ③ BrowseComp 하락 원인 ④ 호스티드 API 가격. 특히 <strong>텍스트 입력 전용</strong>이라는 제약과 정식 가중치 미공개는 도입 검토 시 감안해야 한다.
+</div>
+
+<p>발표 수치 그대로 믿지 말고 실측하라는 교훈을 다시 주는 릴리스다. 컨텍스트 표기 불일치 같은 디테일 하나가 배포 판단 전체를 흔든다.</p>
+
+<h2>원문 이슈</h2>
+<p>이 글은 <a href="https://github.com/roomedia/ax-trend/issues/3342">ax-trend 이슈 #3342</a>를 바탕으로 작성됐다. 핵심 링크: <a href="https://news-ai.co/atria-dawn-full-release/">AI News (2026-10-18)</a>, <a href="https://www.aiaffairs.com/technology/shanghai-ai-laboratory-atria-dawn-512k-context-window/">AI Affairs (2026-10-17)</a>.</p>
+
+<p class="tags"><a href="/ax/tag/agent-model/">에이전트 모델</a><a href="/ax/tag/agentic-benchmark/">agentic benchmark</a><a href="/ax/tag/ax-trend/">AX Trend</a></p>
+
+<footer>
+<p>enghyu.com AX 트렌드 · <a href="/ax/">목록으로</a></p>
+</footer>
+</main>
+<script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
+</body>
+</html>

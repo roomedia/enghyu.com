@@ -11,6 +11,10 @@ import re
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 AX_DIR = os.path.join(PROJECT_ROOT, "ax")
 
+GA_SNIPPET = """<script async src="https://www.googletagmanager.com/gtag/js?id=G-G5WKCES0DY"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G5WKCES0DY');</script>
+"""
+
 
 def parse_post(slug):
     path = os.path.join(AX_DIR, slug, "index.html")
@@ -58,7 +62,7 @@ def main():
     page = f"""<!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
+{GA_SNIPPET}<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AX 트렌드 — enghyu</title>
 <meta name="description" content="AI/AX 트렌드를 개발자 관점에서 정리한 글 모음.">

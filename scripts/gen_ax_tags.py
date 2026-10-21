@@ -15,6 +15,10 @@ import re
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 AX_DIR = os.path.join(PROJECT_ROOT, "ax")
 
+GA_SNIPPET = """<script async src="https://www.googletagmanager.com/gtag/js?id=G-G5WKCES0DY"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G5WKCES0DY');</script>
+"""
+
 BEACON = """<script>
 (function(){
   try {
@@ -150,7 +154,7 @@ def page(title, desc, body_html):
     return f"""<!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
+{GA_SNIPPET}<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{html.escape(title)}</title>
 <meta name="description" content="{html.escape(desc)}">

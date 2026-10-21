@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>alchaincyf 'huashu-motion' — 코딩 에이전트가 한 마디로 상업급 제품 런칭 영상 생성·작곡·화면 지점 수정</title>
+<meta name="description" content="alchaincyf가 공개한 코딩 에이전트용 스킬 huashu-motion. '30초 런칭 영상 만들어줘' 한 마디에 제품 리딩→3개 방향 제안→스크립트→ABC 기보법 작곡→로컬 렌더→화면을 찍어 고치는 편집 루프까지. DeepSeek V4.1 Flash로 22초 영상을 30분·1.95元에 제작(저자 실측). MIT, npx 한 줄 설치.">
+<meta property="og:title" content="huashu-motion — 코딩 에이전트가 찍고, 작곡하고, 화면 찍어 고친다">
+<meta property="og:description" content="한 줄 명령으로 상업급 제품 런칭 영상 완성. 작곡은 ABC 기보법+로컬 샘플로 유료 API 없이, 수정은 화면을 직접 찍어서 해당 부분만. 6시간 만에 스타 204개.">
+<meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3339-cover.png">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --text: #1a1a1a;
+    --muted: #666;
+    --border: #e5e5e5;
+    --code-bg: #f6f6f6;
+    --accent: #0b6efd;
+    --callout-bg: #f4f8ff;
+    --callout-border: #0b6efd;
+    --warn-bg: #fff8ef;
+    --warn-border: #e8930c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #101216;
+      --text: #e8e8e8;
+      --muted: #9a9a9a;
+      --border: #2a2d33;
+      --code-bg: #1b1e24;
+      --accent: #5ea1ff;
+      --callout-bg: #14202f;
+      --callout-border: #5ea1ff;
+      --warn-bg: #2a2118;
+      --warn-border: #e8930c;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR",
+                 "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 800px; margin: 0 auto; padding: 48px 24px 96px; }
+  header { margin-bottom: 32px; }
+  .kicker {
+    font-size: 13px; font-weight: 700; letter-spacing: 0.06em;
+    color: var(--accent); text-transform: uppercase; margin-bottom: 12px;
+  }
+  h1 { font-size: 30px; line-height: 1.4; margin: 0 0 12px; letter-spacing: -0.01em; }
+  .meta { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+  .meta a { color: inherit; }
+  h2 { font-size: 22px; margin: 48px 0 16px; letter-spacing: -0.01em; }
+  h3 { font-size: 17px; margin: 32px 0 12px; }
+  p { margin: 0 0 16px; }
+  ul, ol { margin: 0 0 16px; padding-left: 22px; }
+  li { margin-bottom: 8px; }
+  figure { margin: 28px 0; }
+  figure img {
+    width: 100%; height: auto; display: block;
+    border: 1px solid var(--border); border-radius: 12px;
+  }
+  figcaption { color: var(--muted); font-size: 13px; text-align: center; margin-top: 8px; }
+  code {
+    font-family: "SF Mono", "Menlo", "Consolas", "D2Coding", monospace;
+    font-size: 0.88em; background: var(--code-bg);
+    padding: 2px 6px; border-radius: 5px;
+  }
+  pre {
+    background: var(--code-bg); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px 18px; overflow-x: auto;
+    font-size: 14px; line-height: 1.6; margin: 0 0 20px;
+  }
+  pre code { background: none; padding: 0; border-radius: 0; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .callout {
+    background: var(--callout-bg); border-left: 3px solid var(--callout-border);
+    padding: 14px 18px; border-radius: 0 10px 10px 0; margin: 24px 0;
+  }
+  .callout.warn { background: var(--warn-bg); border-left-color: var(--warn-border); }
+  .callout p:last-child { margin-bottom: 0; }
+  table {
+    width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px;
+  }
+  th, td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; }
+  th { background: var(--code-bg); }
+  hr { border: none; border-top: 1px solid var(--border); margin: 48px 0 24px; }
+  footer { color: var(--muted); font-size: 14px; }
+
+  .topnav { margin-bottom: 20px; }
+  .topnav a { color: var(--muted); font-size: 14px; text-decoration: none; }
+  .topnav a:hover { color: var(--accent); text-decoration: underline; }
+  .tags a {
+    display: inline-block; border: 1px solid var(--border); border-radius: 999px;
+    padding: 3px 12px; font-size: 13px; margin: 0 6px 6px 0;
+    color: var(--text); text-decoration: none;
+  }
+  .tags a:hover { border-color: var(--accent); color: var(--accent); }
+  @media (max-width: 560px) {
+    h1 { font-size: 24px; }
+    table { font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
+  <header>
+    <div class="kicker">AX Trend</div>
+    <h1>alchaincyf 'huashu-motion' — 코딩 에이전트가 한 마디로 상업급 제품 런칭 영상 생성·작곡·화면 지점 수정</h1>
+    <p class="meta">2026-10-21 · <a href="https://github.com/roomedia/ax-trend/issues/3339">원문 이슈 #3339</a> · 소스: GitHub (10/18)</p>
+  </header>
+
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3339-cover.png" alt="코딩 에이전트가 한 줄 명령으로 런칭 영상을 만드는 커버 이미지">
+    <figcaption>"30초 런칭 영상 만들어줘" — 코딩 에이전트가 촬영·작곡·편집까지 도맡는다</figcaption>
+  </figure>
+
+  <p>alchaincyf(花叔)가 10월 18일 GitHub에 공개한 코딩 에이전트용 스킬 <strong>huashu-motion</strong>의 약속은 한 줄이다: <em>"一键直出商业级产品宣传片"(클릭 한 번에 상업급 제품 홍보 영상 완성)</em>. Claude Code·Codex 같은 코딩 에이전트에게 제품 30초짜리 런칭 영상을 부탁하면, 에이전트가 제품을 읽고 <strong>세 가지 방향을 제안</strong>한 뒤 영상 전체를 쓰고 <strong>직접 작곡까지</strong> 한다. 그리고 브라우저 편집기에서 화면을 찍어가며 수정한다. 설치는 한 줄:</p>
+
+  <pre><code>npx skills add alchaincyf/huashu-motion</code></pre>
+
+  <p>Agent Skills 표준 배지를 달아 Claude Code·Codex·WorkBuddy·Grok Bot·Muse·Dots 런타임에서 동작하고, 라이선스는 MIT. 공개 약 6시간 만에 스타 204개(약 시간당 35개, 일 환산 약 840개)를 모았다.</p>
+
+  <h2>작곡가 모드: 악보를 먼저 쓰고, 박자에 맞춰 컷 전환</h2>
+
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3339-compose.png" alt="ABC 기보법 텍스트 악보가 피아노·현악·드럼 샘플 연주로 바뀌고 박자에 맞춰 화면이 전환되는 다이어그램">
+    <figcaption>작곡가 모드 — 에이전트가 ABC 기보법(순수 텍스트)으로 악보를 쓰고, 피아노·현악·드럼 샘플로 연주한다. 장면 마커가 박자에 정렬되어 화면 전환이 비트에 붙는다</figcaption>
+  </figure>
+
+  <p>가장 재밌는 아이디어는 <strong>음악을 LLM이 텍스트로 작곡</strong>한다는 점이다. 에이전트는 리듬 시트에 맞춰 순수 텍스트인 ABC 기보법으로 악보를 먼저 쓰고, 장면 마커를 박자에 정렬한 뒤 피아노·현악·드럼 샘플로 연주한다. 영상 생성 모델을 부르는 게 아니라, 모든 소리가 <strong>로컬에서 생성</strong>된다 — 유료 API 호출이 없다. 음악 모델(Suno·Udio 같은)을 쓰는 게 아니라 <strong>악보를 코드로 쓰고 샘플로 연주</strong>한다는 발상이 코딩 에이전트와 기막히게 맞는다: 텍스트만 잘 다루면 되니까.</p>
+
+  <p>작곡이 싫으면 내장 <strong>12개 제품 카테고리 × 3종 배킹트랙</strong> 중에 시드 기반으로 뽑아 쓸 수 있고, 악기 샘플은 <code>om samples build</code> 한 번이면 진짜 악기(CC0·CC-BY 오픈 샘플, 약 55MB)를 내려받는다. 객체가 화면에 떨어지는 프레임에는 <strong>23종 효과음</strong>(착지·타이핑·글리치 등)이 자동 배치된다.</p>
+
+  <h2>화면 지점 수정(point-to-edit): 고치고 싶은 곳을 찍는다</h2>
+
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3339-edit.png" alt="편집기에서 C키를 누르고 화면을 클릭하면 해당 부분만 수정되는 point-to-edit UI 목업">
+    <figcaption>point-to-edit — C를 누르고 화면을 클릭한 뒤 수정 내용을 적으면, 에이전트가 해당 프레임과 클릭 영역을 확대 확인한 뒤 그 부분만 고친다</figcaption>
+  </figure>
+
+  <p>편집 루프가 두 번째 킬러 기능이다. 편집기(<code>om studio</code>)에서 <strong>C를 누르고 화면을 클릭한 뒤 수정 내용을 적으면</strong>, 에이전트는 코멘트와 함께 <strong>타임코드·씬·클릭한 요소와 소스 내 위치</strong>를 받고, 해당 프레임과 클릭 영역을 스크린샷으로 확대 확인한 뒤 <strong>그 부분만</strong> 수정한다. 모든 버전은 보관되고 ⌘Z로 롤백. 제목·숫자·색상·체류 시간 같은 건 편집기 우측 입력창에서 직접 바꾸면 되니 에이전트를 기다릴 필요도 없다.</p>
+
+  <p>이 패턴은 Claude Motion(10/8 공개, Team·Enterprise 한정 베타)의 "화면을 가리켜 수정" 기능과 정확히 같은 문법이다. 차이점: 이건 스킬 한 줄로 공개됐고, MIT라 누구나 가져다 쓸 수 있다.</p>
+
+  <h2>기술 구조: 한 편의 영상 = 하나의 index.html</h2>
+
+  <figure>
+    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3339-pipeline.png" alt="제품 읽기부터 MP4 출력까지의 huashu-motion 파이프라인 다이어그램">
+    <figcaption>파이프라인 — 영상 생성 모델 호출 없이 코드로 그리고 로컬 Chrome으로 렌더한다. 모든 프레임은 결정적(deterministic)이다</figcaption>
+  </figure>
+
+  <p>핵심 아키텍처는 전작 huashu-art-motion(#3231)과 같은 철학이다. 영상 생성 모델을 호출하지 않고 <strong>GSAP·Canvas·Three.js·SVG로 화면을 코드로 그린다</strong>. 한 편의 영화는 하나의 <code>index.html</code>이고, 모든 프레임은 코드와 시간으로만 결정된다:</p>
+
+  <pre><code>에이전트 ──작성──▶ my-film/index.html ◀──감시── om studio (브라우저 편집기)
+      ▲                                          │
+      └── om inbox --wait ◀── .om/inbox.jsonl ◀── 화면 클릭 + 한 줄 코멘트</code></pre>
+
+  <p>기술적 디테일 몇 가지:</p>
+  <ul>
+    <li><strong>감독 규칙, 템플릿 아님</strong>: 실제 런칭 영상 21편(Apple·Nothing·GoPro·Google·Vercel·Linear·Anthropic 등)을 FFmpeg로 절단점·비트·라우드니스·에너지 곡선까지 측정하고, 고관여 영상 142편을 분해해 20종 모션 언어를 정리했다. "3초 안에 훅, 중반에 한 번 폭발, 가장 큰 소리 전엔 한 박자 쉰다" 같은 규칙이 스킬에 내장.</li>
+    <li><strong>렌더는 네 PC의 Chrome</strong>: CPU 코어 수만큼 브라우저를 병렬로 띄워 렌더(기본 최대 8개). 30초 영상이 14코어 Mac에서 약 12~15초 만에 렌더되고, 모션 블러 포함이면 1~1.5분.</li>
+    <li><strong>QA가 내장</strong>: <code>om check</code>(렌더 전 스크립트·규칙 위반·잘린 자막 검사), <code>om qa</code>(완성본의 단발성 프레임·빈 구간·하드컷 검사). 스킬이 에이전트에게 "정말 프레임을 보고, 정상 속도로 한 번 봐라"고 요구한다.</li>
+    <li><strong>학습 루프</strong>: 작업 시작 전 과거 편호와 실수를 읽고, 끝난 후 편집기 코멘트를 흡수해 로컬에만 저장.</li>
+  </ul>
+
+  <p>저자의 실측 데모: DeepSeek V4.1 Flash(1017)로 22초 모션 영상을 3차례 피드백·30분 이내에 제작, 비용 1.95元(元), 캐시 적중률 99.4%. <strong>"비싼 모델 없이도 된다"</strong>는 주장의 근거다.</p>
+
+  <div class="callout">
+    <p><strong>AX TF 관점:</strong> '에이전트 제작 파이프라인' 패턴의 구체적 구현체다. 음악·영상 생성을 API 비용이 드는 블랙박스에 맡기는 대신 <strong>텍스트 악보→로컬 샘플, 화면→코드 렌더</strong>로 전부 로컬화했다는 점이 프로모션 에셋 자동화(릴스·프로덕트 헌트 영상·온보딩 클립)에 바로 응용 가능하다. 특히 point-to-edit의 "클릭 좌표+소스 위치를 함께 코멘트로 넘기는" 인터페이스는 이미지·UI 리뷰 워크플로우에도 이식할 만한 아이디어다.</p>
+  </div>
+
+  <div class="callout warn">
+    <p><strong>주의 (미확인·쟁점):</strong> 영상 품질·작곡 수준에 대한 주장은 저자의 데모 GIF 기준이며 제3자 검증이 없다. 1.95元·99.4% 캐시 적중률도 단일 실행 실측치. README는 중국어 원본이며 영문판(<code>README.en.md</code>)이 별도 존재한다. 그리고 솔직한 한계도 명시돼 있다: 에이전트는 <strong>귀가 없다</strong>(스펙트럼으로 검사, 최종 청취는 사람), <strong>실사·실제 사람은 못 만든다</strong>(코드 렌더만), 효과는 모델 취향에 좌우된다.</p>
+  </div>
+
+  <h2>배경·맥락</h2>
+  <p>같은 저자의 전작 'huashu-art-motion'(#3231)은 코딩 에이전트가 코드로 그리는 아트 애니메이션 스킬이었다. huashu-motion은 그 다음 단계로 <strong>작곡·편집 루프까지 얹은 상업용 런칭 영상 파이프라인</strong>이다. 저자 배경도 독특하다 — '小猫补光灯'(고양이 조명) 앱으로 AppStore 유료 차트 1위를 찍은 독립 개발자. 10/8 Anthropic의 Claude Motion 발표를 보고 <strong>"우리 스킬이 Motion을 완벽히 재현하고 훨씬 강하게"</strong>라는 한 줄 지시로 Claude Code에게 만들게 한 게 시작점이다. 첫날 만든 건 "자기가 거짓말 안 했다는 걸 증명하는 공학"이었다고 — 그날 바로 갈아엎고, '안 멋지다·지루하다·폰트가 구리다'는 피드백을 전부 규칙으로 돌려썼다. 그게 이 스킬의 감독 규칙이 된 셈이다.</p>
+
+  <hr>
+  <footer>
+    <p><a href="https://github.com/roomedia/ax-trend/issues/3339">원문 이슈 #3339</a> · 핵심 링크: <a href="https://github.com/alchaincyf/huashu-motion">alchaincyf/huashu-motion (GitHub, MIT)</a> · 관련: <a href="https://github.com/roomedia/ax-trend/issues/3231">#3231 huashu-art-motion (전작)</a></p>
+    <p class="tags"><a href="/ax/tag/ai-coding/">AI 코딩</a><a href="/ax/tag/ai-video/">AI 영상 생성</a></p>
+  </footer>
+</main>
+<script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
+</body>
+</html>

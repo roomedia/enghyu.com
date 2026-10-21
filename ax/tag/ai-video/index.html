@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>#AI 영상 생성 — AX 트렌드 태그</title>
+<meta name="description" content="&#x27;AI 영상 생성&#x27; 태그가 붙은 AX 트렌드 글 모음.">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff; --text: #1a1a1a; --muted: #666;
+    --border: #e5e5e5; --card: #fafafa; --accent: #0b6efd;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #101216; --text: #e8e8e8; --muted: #9a9a9a;
+      --border: #2a2d33; --card: #17191e; --accent: #5b9dff;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+         font: 16px/1.6 -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif; }
+  .wrap { max-width: 800px; margin: 0 auto; padding: 40px 20px 80px; }
+  .topnav { margin-bottom: 20px; }
+  .topnav a { color: var(--muted); font-size: 14px; text-decoration: none; }
+  .topnav a:hover { color: var(--accent); text-decoration: underline; }
+  h1 { margin: 0 0 6px; font-size: 28px; letter-spacing: -0.02em; }
+  p.lead { margin: 0 0 28px; color: var(--muted); }
+  .card { display: block; margin: 0 0 16px; border: 1px solid var(--border);
+          border-radius: 14px; overflow: hidden; background: var(--card);
+          color: inherit; text-decoration: none; }
+  .card:hover { border-color: var(--accent); }
+  .card img { display: block; width: 100%; aspect-ratio: 16/9; object-fit: cover;
+              border-bottom: 1px solid var(--border); }
+  .card-body { padding: 18px 20px; }
+  .card-body .num { display: inline-block; margin-bottom: 6px; padding: 2px 8px;
+                    border-radius: 999px; background: var(--border);
+                    font-size: 12px; color: var(--muted); }
+  .card-body strong { display: block; margin-bottom: 6px; font-size: 17px; line-height: 1.45; }
+  .card-body .desc { display: block; color: var(--muted); font-size: 14px; line-height: 1.6; }
+  .tagchip { display: inline-block; margin: 0 8px 10px 0; padding: 6px 16px;
+             border: 1px solid var(--border); border-radius: 999px;
+             color: var(--text); text-decoration: none; font-size: 15px; }
+  .tagchip:hover { border-color: var(--accent); color: var(--accent); }
+  .tagchip .cnt { color: var(--muted); font-size: 13px; margin-left: 4px; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a> · <a href="/ax/tags/">태그 전체</a></nav>
+    <h1>#AI 영상 생성</h1>
+    <p class="lead">1개의 글</p>
+      <a class="card" href="/ax/3339-huashu-motion/">
+        <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3339-cover.png" alt="" loading="lazy">
+        <div class="card-body">
+          <span class="num">#3339</span>
+          <strong>alchaincyf &#x27;huashu-motion&#x27; — 코딩 에이전트가 한 마디로 상업급 제품 런칭 영상 생성·작곡·화면 지점 수정</strong>
+          <span class="desc">alchaincyf가 공개한 코딩 에이전트용 스킬 huashu-motion. &#x27;30초 런칭 영상 만들어줘&#x27; 한 마디에 제품 리딩→3개 방향 제안→스크립트→ABC 기보법 작곡→로컬 렌더→화면을 찍어 고치는 편집 루프까지. DeepSeek V4.1 Flash로 22초 영상을 30분·1.95元에 제작(저자 실측). MIT, npx 한 줄 설치.</span>
+        </div>
+      </a>
+  </div>
+<script>
+(function(){
+  try {
+    var data = JSON.stringify({p: location.pathname, r: document.referrer || ""});
+    if (navigator.sendBeacon) { navigator.sendBeacon("/ax/api/track", data); }
+    else { fetch("/ax/api/track", {method: "POST", body: data, keepalive: true}); }
+  } catch (e) {}
+})();
+</script>
+</body>
+</html>

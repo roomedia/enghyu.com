@@ -80,7 +80,8 @@
   "코드 유지보수": "code-maintenance",
   "글쓰기 AI": "writing-ai",
   "이미지 생성": "image-gen",
-  "검색 API": "search-api"
+  "검색 API": "search-api",
+  "AI 영상 생성": "ai-video"
  },
  "_dropped": [
   "MIT",
@@ -92,5 +93,12 @@
   "image generation",
   "MOSS-Image",
   "이미지AI"
+ ],
+ "AI 영상 생성": [
+  "video generation",
+  "motion graphics",
+  "launch video",
+  "huashu-motion",
+  "영상생성"
  ]
 }

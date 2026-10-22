@@ -18,6 +18,13 @@ const entries = [
   ["base.apk", `${mountDir}/base.apk`],
   ["static", `${mountDir}/static`],
   ["ax", "ax"],
+  // 사이트 레벨 SEO 파일 (루트에서 서빙)
+  ["robots.txt", "robots.txt"],
+  ["llms.txt", "llms.txt"],
+  ["sitemap.xml", "sitemap.xml"],
+  ["site-cover.png", "site-cover.png"],
+  ["site-logo.png", "site-logo.png"],
+  ["9ca9258f5d624b6ca7f3fb6697862437.txt", "9ca9258f5d624b6ca7f3fb6697862437.txt"],
 ];
 
 await rm(outDir, {recursive: true, force: true});

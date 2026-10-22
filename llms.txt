@@ -1,0 +1,22 @@
+# enghyu
+
+> enghyu.com은 설치 없이 브라우저에서 돌아가는 작은 도구를 만들고, AI/AX 트렌드를 개발자 관점에서 정리한 블로그 'AX 트렌드'를 운영하는 개인 사이트다.
+
+## 핵심 페이지
+
+- [AX 트렌드 목록](https://enghyu.com/ax/): AI/AX 트렌드 글 모음. 최신순 카드 목록.
+- [태그 목록](https://enghyu.com/ax/tags/): 주제별 글 모음.
+- [조회 통계](https://enghyu.com/ax/stats/): AX 트렌드 글의 조회수·유입 경로 대시보드.
+- [카톡 테마 변환기](https://enghyu.com/ktheme/): 카카오톡 테마(.ktheme)를 안드로이드 APK로 바꾸는 웹 변환기.
+- [RSS 피드](https://enghyu.com/ax/feed.xml): AX 트렌드 최신 글 20건.
+
+## AX 트렌드 발행 안내
+
+- 각 글의 원본은 GitHub 이슈에 공개돼 있다: https://github.com/roomedia/ax-trend/issues
+- 글 하단에 원문 이슈 링크를 표기한다. 정리본은 이 사이트와 티스토리(https://roomedia.tistory.com/)에 발행된다.
+- 발행 주기: 새 이슈가 선별되는 대로 수시로 발행한다 (자동 파이프라인, 회당 1건).
+
+## 데이터 정책
+
+- 인용 시 원본 GitHub 이슈와 이 사이트의 글 URL을 함께 밝혀 달라.
+- 글의 수치·날짜는 원본 이슈에 적힌 값을 그대로 옮긴다.

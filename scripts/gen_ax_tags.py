@@ -150,14 +150,23 @@ def card(p):
       </a>"""
 
 
-def page(title, desc, body_html):
+def page(title, desc, body_html, path=""):
+    og = ""
+    if path:
+        og = f"""
+<meta property="og:title" content="{html.escape(title)}">
+<meta property="og:description" content="{html.escape(desc)}">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://enghyu.com{path}">
+<meta property="og:image" content="https://enghyu.com/site-cover.png">
+<link rel="alternate" type="application/rss+xml" title="AX 트렌드 RSS" href="/ax/feed.xml">"""
     return f"""<!DOCTYPE html>
 <html lang="ko">
 <head>
 {GA_SNIPPET}<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{html.escape(title)}</title>
-<meta name="description" content="{html.escape(desc)}">
+<meta name="description" content="{html.escape(desc)}">{og}
 <style>{BASE_STYLE}</style>
 </head>
 <body>
@@ -202,7 +211,8 @@ def main():
         os.makedirs(out, exist_ok=True)
         with open(os.path.join(out, "index.html"), "w", encoding="utf-8") as fp:
             fp.write(page(f"#{info['name']} — AX 트렌드 태그",
-                          f"'{info['name']}' 태그가 붙은 AX 트렌드 글 모음.", body))
+                          f"'{info['name']}' 태그가 붙은 AX 트렌드 글 모음.", body,
+                          path=f"/ax/tag/{slug}/"))
     print(f"태그별 페이지: {len(tag_map)}개")
 
     # 2. 태그 모아보기 페이지
@@ -221,7 +231,8 @@ def main():
     tags_dir = os.path.join(AX_DIR, "tags")
     os.makedirs(tags_dir, exist_ok=True)
     with open(os.path.join(tags_dir, "index.html"), "w", encoding="utf-8") as fp:
-        fp.write(page("태그 — AX 트렌드", "AX 트렌드 글의 태그 모음.", body))
+        fp.write(page("태그 — AX 트렌드", "AX 트렌드 글의 태그 모음.", body,
+                      path="/ax/tags/"))
     print("ax/tags/index.html 생성")
 
 

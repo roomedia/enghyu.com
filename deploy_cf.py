@@ -187,6 +187,18 @@ def main():
     if rc != 0:
         raise RuntimeError("ax 태그 생성 실패")
 
+    # 0a-3. 포스트 SEO 주입 (JSON-LD·og:url, 멱등)
+    print("== ax 포스트 SEO 패치 ==")
+    rc = os.system(f"cd {PROJECT_ROOT} && python3 scripts/patch_ax_seo.py")
+    if rc != 0:
+        raise RuntimeError("ax 포스트 SEO 패치 실패")
+
+    # 0a-4. sitemap·RSS 생성
+    print("== sitemap·피드 생성 ==")
+    rc = os.system(f"cd {PROJECT_ROOT} && python3 scripts/gen_ax_seo.py")
+    if rc != 0:
+        raise RuntimeError("sitemap·피드 생성 실패")
+
     # 0b. 빌드
     print("== 빌드 ==")
     rc = os.system(f"cd {PROJECT_ROOT} && node scripts/build-assets.mjs")

@@ -279,3 +279,30 @@ npm run test:e2e
 ### 확인하지 못한 항목과 남은 리스크
 - GA4 콘솔에서 ax 페이지뷰가 실제로 집계되는지는 데이터 반영 지연(수 시간~24h)으로 미확인. 다음 날 GA4 실시간/보고서에서 재확인 필요.
 - enghyu-ax-publisher 크론 본문 자체에는 스니펫이 아직 없다 (SSOT만 반영). 크론 본문 동기화는 팩토리 2단계에서 별도 처리 예정.
+
+## 2026-10-22 — 사이트 SEO/GEO 1회 적용 (fire-your-seo-agency 플레이북 기준)
+
+### 현재 구현 상태
+- 사이트 레벨 파일이 루트에서 서빙된다: `sitemap.xml`(61 URL), `llms.txt`, `robots.txt`(AI 크롤러 용도별 Allow + Sitemap 줄), IndexNow 키 파일. `hub.html`·`ax/` 생성 템플릿·전 글에 JSON-LD와 OG가 들어간다.
+- 배포 파이프라인(deploy_cf.py)이 매 배포마다 목록·태그 재생성 → `scripts/patch_ax_seo.py`(글 JSON-LD·og:url 주입, 멱등) → `scripts/gen_ax_seo.py`(sitemap·RSS 재생성) 순으로 돌므로, 새 글도 첫 배포에서 자동 적용된다.
+
+### 변경한 파일과 동작
+- 신규: `robots.txt`, `llms.txt`, `9ca9258f5d624b6ca7f3fb6697862437.txt`(IndexNow 키), `site-cover.png`·`site-logo.png`(기본 OG 커버·조직 로고, `scripts/make_site_assets.py`로 생성한 텍스트 카드).
+- `scripts/gen_ax_seo.py` (신규): enghyu-published.json(없으면 ax/ 디렉토리) 기준으로 sitemap.xml(글 lastmod=published_at)과 ax/feed.xml(최신 20건 RSS)을 생성.
+- `scripts/patch_ax_seo.py` (신규): 글 전수에 BlogPosting JSON-LD(headline·description·image는 글 자체 메타, datePublished는 published_at, author/publisher는 `https://enghyu.com/#org` 참조)와 og:url을 주입.
+- `hub.html`: OG 5종 + JSON-LD @graph(WebSite `/#website`, Organization `/#org`, sameAs=GitHub·티스토리).
+- `scripts/gen_ax_index.py`: 목록 템플릿에 OG·RSS alternate·Blog JSON-LD(`https://enghyu.com/ax/#blog`) 추가.
+- `scripts/gen_ax_tags.py`: `page()`에 path 인자 추가, 태그 페이지 OG·RSS alternate 추가.
+- `scripts/build-assets.mjs`: 루트 SEO 파일 6종을 public/ 루트 자산에 추가.
+- `deploy_cf.py`: gen 단계 뒤에 SEO 패치·sitemap 생성 단계 추가.
+
+### 실행한 검증 명령과 결과
+- 로컬 생성: 글 34개 패치(재실행 시 0개 — 멱등 확인), sitemap 61 URL, feed 20건.
+- `python3 deploy_cf.py`: 배포 성공 (에셋 88개 중 68개 업로드, Worker 배포 성공).
+- 라이브 curl: sitemap.xml·llms.txt·robots.txt·ax/feed.xml·키 파일·site-cover/logo 전부 200. 홈·목록·글 1건에서 ld+json 존재 확인, 글 본문 무손상, 없는 페이지 404 유지.
+- IndexNow: sitemap 전체 61 URL 1회 제출 → 202 Accepted.
+
+### 확인하지 못한 항목과 남은 리스크
+- robots.txt는 Cloudflare 관리형 content-signals 전문이 앞에 병합돼 서빙된다 (curl 꼬리에서 자체 규칙·Sitemap 줄 확인). 관리형 전문 자체는 대시보드 설정 영역이라 레포에서 못 바꾼다.
+- 검색엔진·AI 인용 반영 여부는 색인 주기상 미확인. IndexNow 외 Google Search Console 등록은 별도 작업.
+- 통계 페이지(/ax/stats/)는 유틸리티 페이지라 sitemap에서 제외했다.

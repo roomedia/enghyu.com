@@ -15,6 +15,20 @@ GA_SNIPPET = """<script async src="https://www.googletagmanager.com/gtag/js?id=G
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G5WKCES0DY');</script>
 """
 
+LD_SNIPPET = """<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "@id": "https://enghyu.com/ax/#blog",
+  "name": "AX 트렌드",
+  "description": "AI/AX 트렌드를 개발자 관점에서 정리한 글 모음.",
+  "url": "https://enghyu.com/ax/",
+  "inLanguage": "ko",
+  "publisher": { "@id": "https://enghyu.com/#org" }
+}
+</script>
+"""
+
 
 def parse_post(slug):
     path = os.path.join(AX_DIR, slug, "index.html")
@@ -66,6 +80,13 @@ def main():
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AX 트렌드 — enghyu</title>
 <meta name="description" content="AI/AX 트렌드를 개발자 관점에서 정리한 글 모음.">
+<meta property="og:title" content="AX 트렌드 — enghyu">
+<meta property="og:description" content="AI/AX 트렌드를 개발자 관점에서 정리한 글 모음.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://enghyu.com/ax/">
+<meta property="og:image" content="https://enghyu.com/site-cover.png">
+<link rel="alternate" type="application/rss+xml" title="AX 트렌드 RSS" href="/ax/feed.xml">
+{LD_SNIPPET}
 <style>
   :root {{
     color-scheme: light dark;

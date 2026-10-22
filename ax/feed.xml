@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>AX 트렌드 — enghyu</title>
+    <link>https://enghyu.com/ax/</link>
+    <atom:link href="https://enghyu.com/ax/feed.xml" rel="self" type="application/rss+xml"/>
+    <description>AI/AX 트렌드를 개발자 관점에서 정리한 글 모음.</description>
+    <language>ko</language>
+    <item>
+      <title>Mistral &#x27;Voxtral 3&#x27; — STT·TTS·SDK를 한 벤더로 묶은 실시간 음성 에이전트 스택</title>
+      <link>https://enghyu.com/ax/3376-voxtral-3/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3376-voxtral-3/</guid>
+      <pubDate>Thu, 22 Oct 2026 21:30:00 +0900</pubDate>
+      <description>Mistral이 실시간 음성 에이전트 스택 Voxtral 3를 출시했다. STT/TTS 모델군 + LiveKit 기반 SDK. FLEURS WER 4.1%(Whisper large-v3 16.0%) 주장, 분당 $0.0035부터.</description>
+    </item>
+    <item>
+      <title>카카오 &#x27;Kanana-2-vision-encoder&#x27; 2종 오픈소스 공개 — medium 4.26억·tiny 9,800만, 지연 60% 감소</title>
+      <link>https://enghyu.com/ax/3375-kanana-2-vision-encoder/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3375-kanana-2-vision-encoder/</guid>
+      <pubDate>Thu, 22 Oct 2026 19:20:00 +0900</pubDate>
+      <description>카카오가 AI 비전 인코더 Kanana-2-vision-encoder 2종을 오픈소스로 공개했다. medium 4.26억·tiny 9,800만 파라미터, 지연 60% 감소 주장. 온디바이스 멀티모달 파이프라인에 쓸 만한 경량 옵션이 하나 늘었다.</description>
+    </item>
+    <item>
+      <title>yomiyasu &#x27;4일 4릴리스&#x27; — 서브에이전트 1,200개가 만든 일본어 교정 스킬, 루프+하네스 엔지니어링 3층 설계</title>
+      <link>https://enghyu.com/ax/3365-yomiyasu/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3365-yomiyasu/</guid>
+      <pubDate>Thu, 22 Oct 2026 17:25:00 +0900</pubDate>
+      <description>yomiyasu v2.1.0 해설 포스트(조회 8.8만)가 공개한 3층 설계: 완성 조건을 먼저 정하는 개선 사이클(1층), 지시를 구조에 맡기는 루프 엔지니어링(2층), 에이전트 작업 환경을 설계하는 하네스 엔지니어링(3층). 서브에이전트 1,200개+, 테스트 1,814건, 출력 비교 4,099가지.</description>
+    </item>
+    <item>
+      <title>UniiChat — &#x27;새 채팅&#x27; 없는 영원한 하나의 대화, 메모리 트리로 무한 컨텍스트를 구현한 오픈소스 에이전트</title>
+      <link>https://enghyu.com/ax/3353-uniichat/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3353-uniichat/</guid>
+      <pubDate>Thu, 22 Oct 2026 15:30:00 +0900</pubDate>
+      <description>Victor Taelin이 2026-10-19 공개한 오픈소스 AI 에이전트 UniiChat. 하나의 대화가 수일·수주·수년 계속되고 에이전트가 전부 기억한다. 메모리 트리(이진 요약 트리)+Zoom으로 compaction의 기억 손실 없이 최대 128KB 뷰를 유지한다.</description>
+    </item>
+    <item>
+      <title>Exa, AI 에이전트용 검색 API &#x27;Exa 3.0&#x27; 출시 — 역대 최대 검색 품질 개선·신규 저가 티어 &#x27;Exa Lite&#x27; $4/1,000요청</title>
+      <link>https://enghyu.com/ax/3349-exa-3/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3349-exa-3/</guid>
+      <pubDate>Thu, 22 Oct 2026 13:25:00 +0900</pubDate>
+      <description>Exa가 2026-10-19 AI 에이전트용 검색 API Exa 3.0을 출시했다. 회사는 &#x27;우리가 내놓은 역대 최대 검색 품질 개선&#x27;이라고 표현한다. 신규 저가 티어 Exa Lite(1,000요청당 $4), Dynamic Highlights GA(토큰 95%↓), 인덱스 대확장이 핵심이다.</description>
+    </item>
+    <item>
+      <title>MiniMax, &#x27;M3.1 Flash&#x27; 공식 출시 — 익명 모델 &#x27;Space Bunny&#x27;의 정체 공개, DeepSWE 73.7%·가격 $0.15/$0.60</title>
+      <link>https://enghyu.com/ax/3348-minimax-m31-flash/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3348-minimax-m31-flash/</guid>
+      <pubDate>Thu, 22 Oct 2026 09:45:00 +0900</pubDate>
+      <description>MiniMax가 2026-10-19 공식 출시한 M3.1 Flash. 200조 토큰을 익명으로 처리하며 화제가 된 &#x27;Space Bunny&#x27;는 초기 버전이었다. DeepSWE 73.7%, 전작 대비 에이전트 태스크 비용 70% 감소, 속도 3배. 가격은 입력 $0.15·출력 $0.60 (100만 토큰당).</description>
+    </item>
+    <item>
+      <title>Leonxlnx &#x27;earshot&#x27; — 코딩 에이전트용 오디오 리뷰·사운드 생성 툴킷, CPU 온리·MCP 지원, 공개 4일 만에 1,100+스타</title>
+      <link>https://enghyu.com/ax/3347-earshot/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3347-earshot/</guid>
+      <pubDate>Thu, 22 Oct 2026 06:45:00 +0900</pubDate>
+      <description>Leonxlnx(Leon Lin)가 2026-10-15 공개한 earshot. 코딩 에이전트가 소리를 듣고 리뷰·생성하게 하는 CPU 온리 오픈소스 툴킷. describe·critique·forge·fit 7개 명령, 201개 SFX 뱅크(0.3), 22초 런칭 필름의 모든 사운드는 forge로 코드에서 생성. 공개 4일 만에 1,157스타.</description>
+    </item>
+    <item>
+      <title>Claude Code v2.1.302 — fork 서브에이전트 `claude -p`·SDK·데스크톱·VS Code 기본 활성화, Claude Design 12/14 종료 예고</title>
+      <link>https://enghyu.com/ax/3346-claude-code-fork-subagent/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3346-claude-code-fork-subagent/</guid>
+      <pubDate>Thu, 22 Oct 2026 04:05:00 +0900</pubDate>
+      <description>Claude Code v2.1.302(2026-10-18)가 fork 서브에이전트를 claude -p·Agent SDK·데스크톱·VS Code에서 기본 활성화했다. 끄는 법은 CLAUDE_CODE_FORK_SUBAGENT=0. 훅은 이벤트당 최대 12개 동시 실행, Read 도구는 128MB 초과 이미지를 거부한다. standalone Claude Design은 2026-12-14에 종료된다.</description>
+    </item>
+    <item>
+      <title>Gathin23 &#x27;tv-vibehack&#x27; — Claude Code로 Android TV 광고·블로트웨어 제거, 공개 1.5일 만에 1,900스타</title>
+      <link>https://enghyu.com/ax/3345-tv-vibehack/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3345-tv-vibehack/</guid>
+      <pubDate>Thu, 22 Oct 2026 00:45:00 +0900</pubDate>
+      <description>Gathin23/tv-vibehack은 Claude Code로 Android TV·Google TV의 광고와 블로트웨어를 제거한 오픈소스 프로젝트다. pm disable-user로 비활성화만 하고 tvOS풍 런처를 올린다. 공개 1.5일 만에 1,900+ 스타, PROMPT.md에 실제 쓴 프롬프트가 그대로 들어 있다.</description>
+    </item>
+    <item>
+      <title>Anthropic, &#x27;Public Benefit Fund&#x27; 신설 — 지분 5% 출자, 가치 50% 상승마다 2% 추가, 로비·정치헌금 금지</title>
+      <link>https://enghyu.com/ax/3344-public-benefit-fund/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3344-public-benefit-fund/</guid>
+      <pubDate>Wed, 21 Oct 2026 21:40:00 +0900</pubDate>
+      <description>Anthropic이 지분 5%를 출자하는 Public Benefit Fund를 신설했다. 회사 가치 50% 상승마다 2% 추가, 완전소유 LLC 형태, 로비·정치헌금 금지. 창업자 지분 기부 서약과 합쳐 약 20%가 공익에 귀속된다.</description>
+    </item>
+    <item>
+      <title>rohithhn &#x27;Agentic Brain&#x27; 공개 — Claude Code·Cursor·Codex 세션을 공유하는 오픈소스 셀프호스팅 AI 코딩 메모리, Apache-2.0</title>
+      <link>https://enghyu.com/ax/3343-agentic-brain/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3343-agentic-brain/</guid>
+      <pubDate>Wed, 21 Oct 2026 20:35:00 +0900</pubDate>
+      <description>Agentic Brain: Claude Code·Codex·Antigravity·Cursor·Kilo Code 세션을 로컬 SQLite 하나로 모으는 오픈소스 셀프호스팅 코딩 메모리. Capture→Distill→Rank→Inject→Measure 루프, 최대 2,000 토큰 브리핑, p50 84ms 주입. 다만 벤치마크는 자체 보고다.</description>
+    </item>
+    <item>
+      <title>Shanghai AI Lab &#x27;Atria Dawn&#x27; 정식 버전 — 744B MoE 에이전트 모델, MIT 라이선스로 등장</title>
+      <link>https://enghyu.com/ax/3342-atria-dawn/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3342-atria-dawn/</guid>
+      <pubDate>Wed, 21 Oct 2026 18:45:00 +0900</pubDate>
+      <description>Shanghai AI Lab이 에이전트 모델 Atria Dawn의 정식 버전을 공개했다. 744B MoE, 512K 컨텍스트(주장), MIT 라이선스. 다만 정식 가중치는 아직 &#x27;Coming soon&#x27;이고, 표기 불일치도 있다. 개발자 관점에서 따져본다.</description>
+    </item>
+    <item>
+      <title>google-research &#x27;harness2&#x27; — 에이전트 하네스 자체를 재귀 최적화하는 프레임워크, 단일 스텝에 WorkBuddy-Bench +11.5점 주장</title>
+      <link>https://enghyu.com/ax/3341-harness2/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3341-harness2/</guid>
+      <pubDate>Wed, 21 Oct 2026 15:45:00 +0900</pubDate>
+      <description>Google Research가 에이전트 하네스 자체를 재귀 최적화하는 오픈 프레임워크 Harness²를 공개했다. Propose–Probe–Compose(태스크 수준 재귀)와 improvement harness(하네싱 수준 재귀)의 2단계 구조, 단일 스텝에 WorkBuddy-Bench +11.5점·JobBench +4.5점 주장. 공개 13일 만에 6,178스타.</description>
+    </item>
+    <item>
+      <title>Obsidian, 오픈소스 Mermaid 렌더러 &#x27;Pele&#x27; 공개 — Mermaid.js 대비 번들 1/6·최대 500배 빠른 렌더 주장, CSS 변수 테마 지원</title>
+      <link>https://enghyu.com/ax/3340-obsidian-pele/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3340-obsidian-pele/</guid>
+      <pubDate>Wed, 21 Oct 2026 12:45:00 +0900</pubDate>
+      <description>Obsidian이 노트 앱용으로 직접 만든 오픈소스 Mermaid 렌더러 Pele가 공개됐다. Mermaid.js 대비 gzip 번들 1/6(230 kB), 렌더 최대 500배(0.05–0.3 ms), 의존성 0개, CSS 변수 테마 전환. 10/17 HN 프론트페이지(561포인트), 공개 하루 만에 에이전트 스킬·CLI·플러그인 4종이 등장.</description>
+    </item>
+    <item>
+      <title>alchaincyf &#x27;huashu-motion&#x27; — 코딩 에이전트가 한 마디로 상업급 제품 런칭 영상 생성·작곡·화면 지점 수정</title>
+      <link>https://enghyu.com/ax/3339-huashu-motion/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3339-huashu-motion/</guid>
+      <pubDate>Wed, 21 Oct 2026 09:45:00 +0900</pubDate>
+      <description>alchaincyf가 공개한 코딩 에이전트용 스킬 huashu-motion. &#x27;30초 런칭 영상 만들어줘&#x27; 한 마디에 제품 리딩→3개 방향 제안→스크립트→ABC 기보법 작곡→로컬 렌더→화면을 찍어 고치는 편집 루프까지. DeepSeek V4.1 Flash로 22초 영상을 30분·1.95元에 제작(저자 실측). MIT, npx 한 줄 설치.</description>
+    </item>
+    <item>
+      <title>aicodeking &#x27;leanrea&#x27; — REA 대체 8KB 에이전트 스킬, MCP 없이 순수 CLI로 38% 빠름·35% 저렴</title>
+      <link>https://enghyu.com/ax/3338-leanrea/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3338-leanrea/</guid>
+      <pubDate>Wed, 21 Oct 2026 06:45:00 +0900</pubDate>
+      <description>리버스엔지니어링 에이전트 스킬 REA(25MB 패키지+MCP 서버+207개 도구)를 SKILL.md 단일 파일(8KB)로 대체한 leanrea. 컨텍스트 오버헤드는 400.7k→34.5k 토큰, 벤치마크는 38% 빠름·35% 저렴·60% 토큰 절감, 점수는 74/75로 REA와 대동소이.</description>
+    </item>
+    <item>
+      <title>Anthropic, Claude Code 코드의 90%를 Claude가 작성 중 — 6~9월 병합 PR 2배+, revert 비중 40%↓</title>
+      <link>https://enghyu.com/ax/3337-claude-writes-90pct/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3337-claude-writes-90pct/</guid>
+      <pubDate>Wed, 21 Oct 2026 03:38:07 +0900</pubDate>
+      <description>@ClaudeDevs가 공개한 도그푸딩 수치: Claude가 Claude Code 코드의 약 90%를 작성 중이며, 6~9월 병합 PR은 2배 이상 늘고 revert 비중은 40% 이상 감소했다. 함께 공개된 코드 리뷰 변경 가이드는 팀 단위 에이전트 코딩 도입의 실무 레퍼런스다.</description>
+    </item>
+    <item>
+      <title>TypeSafe Jev, Vercel AI Gateway 사상 최속 채택 — 출시 2주 만에 유료 팀 35%, 2위 Sonnet 5.5(18.1%)의 2배</title>
+      <link>https://enghyu.com/ax/3336-jev-vercel-fastest-adopted/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3336-jev-vercel-fastest-adopted/</guid>
+      <pubDate>Wed, 21 Oct 2026 00:40:00 +0900</pubDate>
+      <description>Vercel AI Gateway 10월 Production Index: TypeSafe 디시전 모델 Jev가 출시 첫 2주 만에 유료 팀의 35.3%에 도달해 게이트웨이 역사상 최속 채택을 기록했다. 채택률은 압도적이지만 지출 점유율은 0.27%에 불과 — 텍스트를 쓰지 않고 정해진 답 중 하나만 고르는 구조 덕분이다.</description>
+    </item>
+    <item>
+      <title>DeepSeek, 자체 검색엔진 기반 Search·Fetch API 전면 개방 — 성공 요청 1,000건당 $0.75, 11/1 과금 시작</title>
+      <link>https://enghyu.com/ax/3335-deepseek-search-fetch/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3335-deepseek-search-fetch/</guid>
+      <pubDate>Tue, 20 Oct 2026 21:50:00 +0900</pubDate>
+      <description>DeepSeek이 자체 검색엔진 기반 Search API·Fetch API를 모든 개발자에게 개방. Search는 쿼리→구조화 웹페이지 결과, Fetch는 단일 URL→Markdown. 성공 요청 1,000건당 $0.75, 11/1(베이징 시간) 과금 시작. 서버사이드 도구 경유 호출은 무료 구간.</description>
+    </item>
+    <item>
+      <title>OpenMOSS-Team &#x27;MOSS-Image-SFT&#x27; — 텍스트 렌더링·레이아웃 생성 강점의 5B 오픈 텍스트-투-이미지 모델, Apache 2.0</title>
+      <link>https://enghyu.com/ax/3334-moss-image-sft/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3334-moss-image-sft/</guid>
+      <pubDate>Tue, 20 Oct 2026 18:50:00 +0900</pubDate>
+      <description>OpenMOSS-Team의 5B DiT 텍스트-투-이미지 모델 MOSS-Image-SFT. 이미지 속 텍스트 렌더링과 JSON 레이아웃 제어가 강점. Apache 2.0 오픈소스, ComfyUI 네이티브 지원, FLUX.2 small VAE 디코더.</description>
+    </item>
+  </channel>
+</rss>

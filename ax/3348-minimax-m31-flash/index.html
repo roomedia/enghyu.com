@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G5WKCES0DY"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G5WKCES0DY');</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MiniMax, 'M3.1 Flash' 공식 출시 — 익명 모델 'Space Bunny'의 정체 공개, DeepSWE 73.7%·가격 $0.15/$0.60</title>
+<meta name="description" content="MiniMax가 2026-10-19 공식 출시한 M3.1 Flash. 200조 토큰을 익명으로 처리하며 화제가 된 'Space Bunny'는 초기 버전이었다. DeepSWE 73.7%, 전작 대비 에이전트 태스크 비용 70% 감소, 속도 3배. 가격은 입력 $0.15·출력 $0.60 (100만 토큰당).">
+<meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3348-hero.png">
+<meta property="og:title" content="MiniMax, 'M3.1 Flash' 공식 출시 — 익명 모델 'Space Bunny'의 정체 공개, DeepSWE 73.7%·가격 $0.15/$0.60">
+<meta property="og:description" content="Space Bunny의 정체 = M3.1 Flash 초기 버전. DeepSWE 73.7%, 70% 저렴해진 에이전트 태스크, 입력 $0.15/출력 $0.60.">
+<meta property="og:type" content="article">
+<style>
+:root{--bg:#ffffff;--text:#1a1a1a;--muted:#666;--border:#e5e5e5;--accent:#0891b2;--code-bg:#f6f8fa;}
+@media (prefers-color-scheme: dark){:root{--bg:#0f1115;--text:#e8eaf0;--muted:#9aa0ad;--border:#2a2e38;--accent:#22d3ee;--code-bg:#181c24;}}
+*{box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:24px 20px;}
+main{max-width:800px;margin:0 auto;}
+.topnav{margin-bottom:20px;}.topnav a{color:var(--muted);font-size:14px;text-decoration:none;}.topnav a:hover{color:var(--accent);text-decoration:underline;}
+h1{font-size:1.9rem;line-height:1.35;margin:0 0 8px;}
+.meta{color:var(--muted);font-size:14px;margin-bottom:28px;}
+h2{font-size:1.3rem;margin:44px 0 12px;padding-top:8px;border-top:1px solid var(--border);}
+h3{font-size:1.05rem;margin:28px 0 8px;}
+p{margin:0 0 16px;}
+img{max-width:100%;height:auto;border-radius:10px;margin:20px 0;border:1px solid var(--border);}
+figure{margin:0;}figcaption{color:var(--muted);font-size:13px;text-align:center;margin:-8px 0 24px;}
+ul{margin:0 0 16px;padding-left:22px;}
+li{margin-bottom:8px;}
+strong{font-weight:700;}
+.callout{background:var(--code-bg);border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+.warn{background:var(--code-bg);border-left:3px solid #f59e0b;padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.9em;}
+pre{background:var(--code-bg);padding:16px;border-radius:8px;overflow-x:auto;border:1px solid var(--border);font-size:.85em;line-height:1.6;}
+pre code{background:none;padding:0;}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.92em;}
+th,td{border:1px solid var(--border);padding:8px 12px;text-align:left;}
+th{background:var(--code-bg);}
+a{color:var(--accent);}
+.tags a{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:3px 12px;font-size:13px;margin:0 6px 6px 0;color:var(--text);text-decoration:none;}.tags a:hover{border-color:var(--accent);color:var(--accent);}
+footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:14px;}
+</style>
+</head>
+<body>
+<main>
+<nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
+
+<h1>MiniMax, 'M3.1 Flash' 공식 출시 — 익명 모델 'Space Bunny'의 정체 공개, DeepSWE 73.7%·가격 $0.15/$0.60</h1>
+<div class="meta">2026-10-22 · AX 트렌드 · 원문 이슈 #3348</div>
+
+<figure>
+<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3348-hero.png" alt="MiniMax M3.1 Flash — Space Bunny's true identity revealed, official release Oct 19 2026" loading="lazy">
+<figcaption>MiniMax M3.1 Flash — Space Bunny의 정체 공개 (2026-10-19, MiniMax 공식)</figcaption>
+</figure>
+
+<p>2026년 10월 19일, MiniMax가 공식 블로그를 통해 <strong>'M3.1 Flash'</strong>를 공식 출시했다. 핵심은 발표 자체보다 <strong>정체 공개</strong>다. 익명으로 <strong>200조(200 trillion) 토큰 이상</strong>을 처리하며 개발자 커뮤니티에서 정체가 화제였던 <strong>'Space Bunny'</strong>가 M3.1 Flash의 초기 버전이었다는 사실을 회사가 공식 확인했다.</p>
+
+<div class="callout">
+<strong>핵심 수치 세 가지.</strong> 첫째, <strong>DeepSWE v1.1 73.7%</strong> — 복잡한 소프트웨어 개발 태스크 벤치마크. 둘째, <strong>에이전트 태스크 전체 사용 비용이 전작 대비 70% 감소</strong>, 온라인 추론 속도는 <strong>거의 3배</strong>. 셋째, 정액제 가격은 <strong>입력 $0.15 / 출력 $0.60</strong> (100만 토큰당, 캐시 입력은 $0.015).
+</div>
+
+<h2>'Space Bunny'의 정체</h2>
+
+<figure>
+<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3348-space-bunny.png" alt="200T+ tokens processed anonymous as 'Space Bunny', revealed as early version of M3.1 Flash" loading="lazy">
+<figcaption>200T+ tokens — 익명 'Space Bunny'의 정체</figcaption>
+</figure>
+
+<p>흐름을 정리하면 이렇다. 9월 27일, <strong>M3.1-Flash-Preview</strong>가 MiniMax Code에 조용히 탑재됐다(#2957). 같은 시기 OpenRouter에 <strong>'stealth/space-bunny-alpha'</strong>라는 익명 모델이 무료로 등장해 200조 토큰 넘게 처리되며 정체가 화제가 됐다. 커뮤니티는 토크나이저 지문 분석으로 MiniMax 계열임을 추정했지만(The Neuron·CellCog 보도), 회사는 침묵을 지켰다.</p>
+
+<p>그리고 10월 17일, 경쟁작 <strong>DeepSeek V4.1-Flash-1017</strong>이 공개됐다(#3327). 이틀 뒤 MiniMax가 정식 발표·벤치마크·가격을 한 번에 공개하며 응수한 셈이다. 경량 에이전트 모델 3파전(DeepSeek V4.1 Flash · GLM 5.3 Flash · MiniMax M3.1 Flash)이 본격화되는 모양새다.</p>
+
+<h2>벤치마크 수치</h2>
+
+<figure>
+<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3348-benchmarks.png" alt="DeepSWE v1.1 73.7%, OSWorld V2 61.7, ALE 29.6, BankerToolBench 76.2, CyberGym 82%" loading="lazy">
+<figcaption>벤치마크 — 모두 MiniMax 자체 발표 수치</figcaption>
+</figure>
+
+<table>
+<thead><tr><th>벤치마크</th><th>수치</th><th>비고</th></tr></thead>
+<tbody>
+<tr><td>DeepSWE v1.1</td><td><strong>73.7%</strong></td><td>복잡한 소프트웨어 개발 태스크</td></tr>
+<tr><td>OSWorld V2</td><td><strong>61.7</strong></td><td>중국 모델 중 1위 주장</td></tr>
+<tr><td>Agents' Last Exam (ALE)</td><td><strong>29.6</strong></td><td>중국 모델 중 1위 주장</td></tr>
+<tr><td>BankerToolBench</td><td><strong>76.2</strong></td><td>툴 사용 벤치마크</td></tr>
+<tr><td>CyberGym</td><td><strong>82%</strong></td><td>취약점 발견·검증</td></tr>
+</tbody>
+</table>
+
+<h2>가격과 속도</h2>
+
+<figure>
+<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3348-price.png" alt="70% cost cut, $0.15 in / $0.60 out, $0.015 cache input, 3x faster, 200+ TPS" loading="lazy">
+<figcaption>가격·속도 — 전작 대비 70% 비용 절감</figcaption>
+</figure>
+
+<p>가격은 정액제다. <strong>입력 $0.15 / 출력 $0.60 / 캐시 입력 $0.015</strong> (100만 토큰당). 속도도 명시했다. 온라인 추론 속도는 <strong>거의 3배</strong>, 출력 속도 <strong>200+ TPS · 중앙값 170+ TPS</strong>. 에이전트 태스크 전체 사용 비용이 전작 대비 <strong>70% 감소</strong>했다고 주장한다.</p>
+
+<p>사용 경로는 이미 열려 있다. <strong>MiniMax API · M Plan · MiniMax Code</strong>에서 즉시 이용 가능하다. 모델 가중치는 "will be released later"(구체 일정 미공개)이고, 더 큰 <strong>'Pro' 모델도 추후 출시</strong> 예정이다.</p>
+
+<div class="warn">
+<strong>⚠️ 미확인:</strong> 모든 벤치마크 수치는 <strong>MiniMax 자체 발표 수치로 제3자 독립 검증은 아직 없다</strong>. 모델 가중치 공개의 구체 일정은 미공개다. Space Bunny가 익명 운영 중 처리한 200조 토큰의 성격(어떤 워크로드·품질이었는지)도 공개되지 않았다. $0.15/$0.60 가격의 지속 가능성·레이트 리밋 같은 한계 조건도 미공개다.
+</div>
+
+<h2>왜 중요한지</h2>
+
+<p>에이전틱 코딩용 경량 모델 티어에서 <strong>DeepSWE 73.7%급 성능을 Claude Sonnet 5($2/$10) 대비 1/20 수준 비용</strong>으로 쓸 수 있다는 점은, 에이전트 기반 개발 워크플로우의 <strong>러닝코스트 구조를 바꿀 수 있다</strong>. AX TF 입장에서는 모델 라우팅·폴백 체인 설계 시 저비용 고속 티어의 실전 옵션이 하나 더 늘어난 셈이며, Android 개발 워크플로우에 코딩 에이전트를 붙이는 비용 허들도 낮아진다.</p>
+
+<p>관련 이슈: <a href="https://github.com/roomedia/ax-trend/issues/2957">#2957</a> (MiniMax, 코딩 모델 M3.1-Flash-Preview를 MiniMax Code에 무상 탑재), <a href="https://github.com/roomedia/ax-trend/issues/3327">#3327</a> (DeepSeek, V4.1-Flash 마이너 업데이트 '1017' 공개).</p>
+
+<h2>원문 이슈</h2>
+<p>이 글은 <a href="https://github.com/roomedia/ax-trend/issues/3348">ax-trend 이슈 #3348</a>을 바탕으로 작성됐다. 핵심 링크: <a href="https://www.minimax.io/blog/minimax-m31f">MiniMax 공식 블로그 (2026-10-19)</a>, <a href="https://ailetter.ai.kr/en/d/2026-10-19/13">ailetter.ai.kr 정리 (2026-10-19)</a>.</p>
+
+<p class="tags"><a href="/ax/tag/ai-coding/">AI 코딩</a><a href="/ax/tag/agent-model/">에이전트 모델</a><a href="/ax/tag/ax-trend/">AX Trend</a></p>
+
+<footer>
+<p>enghyu.com AX 트렌드 · <a href="/ax/">목록으로</a></p>
+</footer>
+</main>
+<script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
+</body>
+</html>

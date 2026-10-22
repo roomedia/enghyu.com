@@ -7,9 +7,16 @@
     <description>AI/AX 트렌드를 개발자 관점에서 정리한 글 모음.</description>
     <language>ko</language>
     <item>
+      <title>Microsoft, AI 코딩 에이전트 평가 오픈소스 플랫폼 &#x27;Scope&#x27; 공개 — Copilot·Claude Code 반복 과제로 테스트, DevAx 개념 제시</title>
+      <link>https://enghyu.com/ax/3378-microsoft-scope/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3378-microsoft-scope/</guid>
+      <description>Microsoft가 AI 코딩 에이전트 평가 플랫폼 Scope를 오픈소스로 공개했다. 핵심 개념은 DevAx(Developer Agent Experience). 작업과 에이전트 설정(프로필)을 주고 Copilot·Claude Code 같은 기존 에이전트를 반복 투입해 채점하는 구조다</description>
+    </item>
+    <item>
       <title>Google·Meta, TPU용 네이티브 PyTorch 백엔드 &#x27;TorchTPU&#x27; 오픈소스 — PyTorch/XLA 대체, Qwen 3 8B에서 52% MFU</title>
       <link>https://enghyu.com/ax/3377-torchtpu/</link>
       <guid isPermaLink="true">https://enghyu.com/ax/3377-torchtpu/</guid>
+      <pubDate>Fri, 23 Oct 2026 01:20:00 +0900</pubDate>
       <description>Google이 PyTorch Conference 2026에서 TorchTPU를 오픈소스로 공개했다. TPU용 네이티브 PyTorch 백엔드로, Google·Meta PyTorch 팀이 공동 개발. eager 실행 우선, .to(&quot;cuda&quot;) → .to(&quot;tpu&quot;) 수준의 최소 변경으로</description>
     </item>
     <item>
@@ -137,13 +144,6 @@
       <guid isPermaLink="true">https://enghyu.com/ax/3336-jev-vercel-fastest-adopted/</guid>
       <pubDate>Wed, 21 Oct 2026 00:40:00 +0900</pubDate>
       <description>Vercel AI Gateway 10월 Production Index: TypeSafe 디시전 모델 Jev가 출시 첫 2주 만에 유료 팀의 35.3%에 도달해 게이트웨이 역사상 최속 채택을 기록했다. 채택률은 압도적이지만 지출 점유율은 0.27%에 불과 — 텍스트를 쓰지 않고 정해진</description>
-    </item>
-    <item>
-      <title>DeepSeek, 자체 검색엔진 기반 Search·Fetch API 전면 개방 — 성공 요청 1,000건당 $0.75, 11/1 과금 시작</title>
-      <link>https://enghyu.com/ax/3335-deepseek-search-fetch/</link>
-      <guid isPermaLink="true">https://enghyu.com/ax/3335-deepseek-search-fetch/</guid>
-      <pubDate>Tue, 20 Oct 2026 21:50:00 +0900</pubDate>
-      <description>DeepSeek이 자체 검색엔진 기반 Search API·Fetch API를 모든 개발자에게 개방. Search는 쿼리→구조화 웹페이지 결과, Fetch는 단일 URL→Markdown. 성공 요청 1,000건당 $0.75, 11/1(베이징 시간) 과금 시작. 서버사이드 도구 경유</description>
     </item>
   </channel>
 </rss>

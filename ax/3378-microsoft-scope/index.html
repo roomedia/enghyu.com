@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G5WKCES0DY"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G5WKCES0DY');</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Microsoft, AI 코딩 에이전트 평가 오픈소스 플랫폼 'Scope' 공개 — Copilot·Claude Code 반복 과제로 테스트, DevAx 개념 제시</title>
+<meta name="description" content="Microsoft가 AI 코딩 에이전트 평가 플랫폼 Scope를 오픈소스로 공개했다. 핵심 개념은 DevAx(Developer Agent Experience). 작업과 에이전트 설정(프로필)을 주고 Copilot·Claude Code 같은 기존 에이전트를 반복 투입해 채점하는 구조다">
+<meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3378-title.png">
+<meta property="og:title" content="Microsoft, AI 코딩 에이전트 평가 오픈소스 플랫폼 &#x27;Scope&#x27; 공개 — DevAx 개념 제시">
+<meta property="og:description" content="코딩 에이전트가 소프트웨어의 &#x27;사용자&#x27;가 된 시대의 평가 플랫폼. 작업·프로필·DAG 기준·LLM Judge로 반복 측정하는 DevAx 학습 루프 (Microsoft, 2026-10-19).">
+<meta property="og:url" content="https://enghyu.com/ax/3378-microsoft-scope/">
+<meta property="og:type" content="article">
+<style>
+:root{--bg:#ffffff;--text:#1a1a1a;--muted:#666;--border:#e5e5e5;--accent:#0891b2;--code-bg:#f6f8fa;}
+@media (prefers-color-scheme: dark){:root{--bg:#0f1115;--text:#e8eaf0;--muted:#9aa0ad;--border:#2a2e38;--accent:#22d3ee;--code-bg:#181c24;}}
+*{box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:24px 20px;}
+main{max-width:800px;margin:0 auto;}
+.topnav{margin-bottom:20px;}.topnav a{color:var(--muted);font-size:14px;text-decoration:none;}.topnav a:hover{color:var(--accent);text-decoration:underline;}
+h1{font-size:1.9rem;line-height:1.35;margin:0 0 8px;}
+.meta{color:var(--muted);font-size:14px;margin-bottom:28px;}
+h2{font-size:1.3rem;margin:44px 0 12px;padding-top:8px;border-top:1px solid var(--border);}
+h3{font-size:1.05rem;margin:28px 0 8px;}
+p{margin:0 0 16px;}
+img{max-width:100%;height:auto;border-radius:10px;margin:20px 0;border:1px solid var(--border);}
+figure{margin:0;}figcaption{color:var(--muted);font-size:13px;text-align:center;margin:-8px 0 24px;}
+ul{margin:0 0 16px;padding-left:22px;}
+li{margin-bottom:8px;}
+strong{font-weight:700;}
+.callout{background:var(--code-bg);border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+.warn{background:var(--code-bg);border-left:3px solid #f59e0b;padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.9em;}
+pre{background:var(--code-bg);padding:16px;border-radius:8px;overflow-x:auto;border:1px solid var(--border);font-size:.85em;line-height:1.6;}
+pre code{background:none;padding:0;}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.92em;}
+th,td{border:1px solid var(--border);padding:8px 12px;text-align:left;}
+th{background:var(--code-bg);}
+a{color:var(--accent);}
+.tags a{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:3px 12px;font-size:13px;margin:0 6px 6px 0;color:var(--text);text-decoration:none;}.tags a:hover{border-color:var(--accent);color:var(--accent);}
+footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:14px;}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Microsoft, AI 코딩 에이전트 평가 오픈소스 플랫폼 'Scope' 공개 — Copilot·Claude Code 반복 과제로 테스트, DevAx 개념 제시",
+  "mainEntityOfPage": "https://enghyu.com/ax/3378-microsoft-scope/",
+  "url": "https://enghyu.com/ax/3378-microsoft-scope/",
+  "author": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "publisher": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "description": "Microsoft가 AI 코딩 에이전트 평가 플랫폼 Scope를 오픈소스로 공개했다. 핵심 개념은 DevAx(Developer Agent Experience). 작업과 에이전트 설정(프로필)을 주고 Copilot·Claude Code 같은 기존 에이전트를 반복 투입해 채점하는 구조다",
+  "image": "https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3378-title.png",
+  "datePublished": "2026-10-23T03:30:00+09:00",
+  "dateModified": "2026-10-23T03:30:00+09:00"
+}
+</script>
+<link rel="canonical" href="https://enghyu.com/ax/3378-microsoft-scope/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Microsoft, AI 코딩 에이전트 평가 오픈소스 플랫폼 &#x27;Scope&#x27; 공개 — DevAx 개념 제시">
+<meta name="twitter:description" content="코딩 에이전트가 소프트웨어의 &#x27;사용자&#x27;가 된 시대의 평가 플랫폼. 작업·프로필·DAG 기준·LLM Judge로 반복 측정하는 DevAx 학습 루프 (Microsoft, 2026-10-19).">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3378-title.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://enghyu.com/ax/3378-microsoft-scope/#breadcrumb",
+  "headline": "Microsoft, AI 코딩 에이전트 평가 오픈소스 플랫폼 'Scope' 공개 — Copilot·Claude Code 반복 과제로 테스트, DevAx 개념 제시"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://enghyu.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AX 트렌드",
+      "item": "https://enghyu.com/ax/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Microsoft, AI 코딩 에이전트 평가 오픈소스 플랫폼 'Scope' 공개 — Copilot·Claude Code 반복 과제로 테스트, DevAx 개념 제시",
+      "item": "https://enghyu.com/ax/3378-microsoft-scope/"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<main>
+<nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
+
+<h1>Microsoft, AI 코딩 에이전트 평가 오픈소스 플랫폼 'Scope' 공개 — Copilot·Claude Code 반복 과제로 테스트, DevAx 개념 제시</h1>
+<div class="meta">2026-10-23 · AX 트렌드 · 원문 이슈 #3378</div>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3378-title.png" alt="Microsoft Scope — AI 코딩 에이전트 평가 오픈소스 플랫폼, MIT 라이선스·리서치 프리뷰·2026-10-19" loading="lazy">
+<figcaption>Microsoft Scope — AI 코딩 에이전트 평가 오픈소스 플랫폼, MIT 라이선스·리서치 프리뷰</figcaption>
+</figure>
+
+<p>2026년 10월 19일, Microsoft가 AI 코딩 에이전트 평가 플랫폼 <strong>Scope</strong>를 오픈소스로 공개했다. <strong>Microsoft Developer Relations</strong>가 1년 넘게 개발해 온 프로젝트로, <strong>MIT 라이선스·리서치 프리뷰</strong> 상태다 (opensource.microsoft.com, 2026-10-19).</p>
+
+<p>핵심은 플랫폼 자체보다 Microsoft가 함께 제시한 개념 <strong>DevAx (Developer Agent Experience)</strong> 다. 코딩 에이전트가 이제 소프트웨어의 "사용자"가 됐다. API를 찾고, SDK를 고르고, 문서를 읽고, 도구를 호출하면서 일하는 사용자다. 사람에게 잘 동작하는 개발자 경험(DevEx)만으로는 이 새로운 사용자의 실패를 잡을 수 없다는 것이 Microsoft의 문제의식이다.</p>
+
+<div class="callout">
+<strong>DevAx의 핵심 주장.</strong> 모델·에이전트 런타임·스킬·플러그인·MCP 서버·커스텀 지시가 모두 행동에 영향을 주고, 시도마다 결과가 달라지며, 설정 자체가 계속 바뀐다. 단일 데모나 CI 테스트 한 번으로는 에이전트 품질을 평가할 수 없다.
+</div>
+
+<h2>DevAx: "코딩 에이전트가 소프트웨어의 사용자가 된 시대"</h2>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3378-devax.png" alt="DevEx(사람)에서 DevAx(에이전트)로 — 코딩 에이전트가 소프트웨어의 사용자가 됐다" loading="lazy">
+<figcaption>DevEx(사람) → DevAx(에이전트): 코딩 에이전트가 소프트웨어의 사용자가 됐다</figcaption>
+</figure>
+
+<p>SDK·API·문서를 만드는 팀의 질문이 바뀐다. "사람이 쓰기 좋은가"에서 <strong>"에이전트가 잘 쓰는가"</strong>로. 문서를 읽기 좋게 쓰는 것과 에이전트가 실수 없이 호출할 수 있게 쓰는 것은 다른 설계다. DevAx라는 어휘 자체가 TF 내 평가 문화 논의에 쓸 만한 개념이다.</p>
+
+<h2>동작 방식: 반복 투입 → DAG 기준 → LLM Judge 채점</h2>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3378-howitworks.png" alt="Scope 동작 방식 — 작업과 에이전트 프로필 정의, Copilot·Claude Code 반복 투입, DAG 기준과 LLM Judge로 채점" loading="lazy">
+<figcaption>Scope 동작 방식: 프로필 정의 → 반복 투입 → DAG 기준 + LLM Judge 채점</figcaption>
+</figure>
+
+<p>Scope의 입력은 두 가지다. <strong>평가할 작업</strong>과 <strong>에이전트 설정</strong>(worker, 모델, 에이전트 버전, MCP 서버, 스킬, 확장)이다. Scope는 GitHub Copilot·Claude Code·VS Code + Copilot 같은 <strong>기존 에이전트를 그 작업에 투입해 반복 실행하고 결과를 채점</strong>한다 (itsfoss.com, 2026-10-20).</p>
+
+<p>성공 기준은 <strong>의존성 그래프(DAG)</strong>로 정의된다. 한 검사가 다른 검사를 게이트할 수 있다. 예컨대 Node.js 서버 요청에 <code>GET /health</code>가 JSON을 반환하는지 확인하는 식이다. <strong>LLM 기반 Judge 서비스</strong>가 각 실행을 기준에 따라 채점한다. Judge가 틀릴 수 있으니 중요한 결론은 사람이 검토해야 한다고 Microsoft가 명시했다.</p>
+
+<p>실행마다 <strong>라이브 로그·생성 파일·워크스페이스 스냅샷·도구 호출 내역</strong>을 보관한다. 실패한 기준은 어떤 단계에서 어긋났는지 추적할 수 있다. 에이전트·모델·스킬·MCP 서버·확장을 묶은 "프로필"을 버전 관리해 동일한 설정을 반복 실행한다. 하나씩 바꿔 끼우며 비교도 가능하다 (itsfoss.com).</p>
+
+<pre><code># Scope 프로필의 개념 (공식 문서 용어 재구성)
+profile:
+  agent: claude-code        # worker
+  model: <모델>            # 프로필에 묶인 모델
+  skills: [...]
+  mcp_servers: [...]
+  extensions: [...]
+  # 하나씩 바꿔 끼우며 비교, 동일한 설정은 반복 실행</code></pre>
+
+<h2>지속 학습 루프: 과제 → 관찰 → 개선 → 재평가</h2>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3378-loop.png" alt="DevAx 지속 학습 루프 — 과제 부여→상호작용 관찰→제품 개선→재평가, 프로필 버전 관리" loading="lazy">
+<figcaption>지속 DevAx 학습 루프: 과제 부여 → 상호작용 관찰 → 제품 개선 → 재평가</figcaption>
+</figure>
+
+<p>Microsoft의 목표는 일회성 평가가 아니라 <strong>반복 실험에 근거한 지속적 DevAx 학습 루프</strong>다. 작업 부여 → 상호작용 관찰 → 제품·가이드 개선 → 재평가의 순환이다. 플랫폼은 <strong>Kubernetes</strong> 위에 구축됐다 (opensource.microsoft.com).</p>
+
+<p>부대 기능도 있다. 시뮬레이션 사용자의 관점·톤을 설정하는 <strong>페르소나</strong>, 결과를 보는 <strong>웹 포털</strong>, 자동화를 위한 <strong>CLI와 REST API</strong>. 프롬프트 특성 감지(예: "API를 묻는가", "TypeScript를 묻는가")로 작업 간 교차 비교도 지원한다 (microsoft.github.io, 공식 문서).</p>
+
+<div class="warn">
+<strong>미확인·쟁점.</strong> Judge 자체의 정확도에 대한 독립 검증은 없다. Microsoft도 Judge가 틀릴 수 있다고 명시했으므로, 채점 신뢰도는 사용자가 자체 검증해야 한다. 호스팅 서비스 가격은 미공개다. 직접 운영하려면 Kubernetes 인프라와 Copilot 크레딧·모델 API 비용이 든다 (trendintech.com). 리서치 프리뷰라 안정 릴리스 전 변경 가능성이 크다.
+</div>
+
+<h2>실무 함의</h2>
+
+<p>AX TF의 에이전트 도입 평가에 직접 차용할 만한 패턴이 있다. <strong>작업·프로필·기준을 버전 관리해 에이전트·모델 교체 시 회귀 테스트처럼 돌리는 방식</strong>이다. "우리 제품의 DevAx는 몇 점인가"를 주기적으로 재측정하는 문화로 이어지면, 평가 인프라가 없는 기업 배포 병목(#3354 Guardian Agents 같은 관측 흐름과도 맞닿은 문제)을 여는 실마리가 된다.</p>
+
+<p>이 글은 <a href="https://github.com/roomedia/ax-trend/issues/3378">ax-trend 이슈 #3378</a>을 바탕으로 작성됐다. 핵심 링크: <a href="https://opensource.microsoft.com/blog/2026/10/19/introducing-scope-open-source-evaluation-for-ai-coding-agents/">Microsoft 공식 발표 — Scope 오픈소스 공개 (2026-10-19)</a>, <a href="https://microsoft.github.io/scope/introduction/what-is-scope/">공식 문서 — Scope란</a>. 관련 이슈: <a href="https://github.com/roomedia/ax-trend/issues/3373">#3373 — BMAD+ v0.23.1 공개, 7종 코딩 도구 어댑터</a>, <a href="https://github.com/roomedia/ax-trend/issues/3354">#3354 — Microsoft, Project Perception에 Guardian Agents 추가</a>.</p>
+
+<p class="tags"><a href="/ax/tag/ai-coding/">AI 코딩</a><a href="/ax/tag/agentic-benchmark/">agentic benchmark</a><a href="/ax/tag/ax-trend/">AX Trend</a></p>
+
+<footer>
+<p>enghyu.com AX 트렌드 · <a href="/ax/">목록으로</a></p>
+</footer>
+
+<section class="related">
+  <h2>관련 글</h2>
+  <ul>
+    <li><a href="/ax/3341-harness2/">google-research &#x27;harness2&#x27; — 에이전트 하네스 자체를 재귀 최적화하는 프레임워크, 단일 스텝에 WorkBuddy-Bench +11.5점 주장</a></li>
+    <li><a href="/ax/3327-deepseek-flash-1017/">DeepSeek V4.1-Flash &#x27;1017&#x27; — &#x27;마이너 업데이트&#x27;가 Terminal-Bench +35%를 낸 방법</a></li>
+    <li><a href="/ax/3365-yomiyasu/">yomiyasu &#x27;4일 4릴리스&#x27; — 서브에이전트 1,200개가 만든 일본어 교정 스킬, 루프+하네스 엔지니어링 3층 설계</a></li>
+  </ul>
+</section>
+</main>
+<script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
+</body>
+</html>

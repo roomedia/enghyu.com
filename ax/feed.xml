@@ -7,9 +7,16 @@
     <description>AI/AX 트렌드를 개발자 관점에서 정리한 글 모음.</description>
     <language>ko</language>
     <item>
+      <title>ElevenLabs &#x27;Eleven Realtime&#x27; — 말로 듣고 추론하고 바로 답하는 speech-to-speech 음성 에이전트 모델</title>
+      <link>https://enghyu.com/ax/3379-eleven-realtime/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3379-eleven-realtime/</guid>
+      <description>ElevenLabs가 실시간 음성 에이전트용 speech-to-speech 모델 &#x27;Eleven Realtime v1&#x27;(Mini/Max)을 공개했다. v1 Max는 Big Bench Audio 98.8%, 첫 오디오 응답 0.57초. OpenAI Realtime API 호환이라</description>
+    </item>
+    <item>
       <title>Microsoft, AI 코딩 에이전트 평가 오픈소스 플랫폼 &#x27;Scope&#x27; 공개 — Copilot·Claude Code 반복 과제로 테스트, DevAx 개념 제시</title>
       <link>https://enghyu.com/ax/3378-microsoft-scope/</link>
       <guid isPermaLink="true">https://enghyu.com/ax/3378-microsoft-scope/</guid>
+      <pubDate>Fri, 23 Oct 2026 03:35:00 +0900</pubDate>
       <description>Microsoft가 AI 코딩 에이전트 평가 플랫폼 Scope를 오픈소스로 공개했다. 핵심 개념은 DevAx(Developer Agent Experience). 작업과 에이전트 설정(프로필)을 주고 Copilot·Claude Code 같은 기존 에이전트를 반복 투입해 채점하는 구조다</description>
     </item>
     <item>
@@ -137,13 +144,6 @@
       <guid isPermaLink="true">https://enghyu.com/ax/3337-claude-writes-90pct/</guid>
       <pubDate>Wed, 21 Oct 2026 03:38:07 +0900</pubDate>
       <description>@ClaudeDevs가 공개한 도그푸딩 수치: Claude가 Claude Code 코드의 약 90%를 작성 중이며, 6~9월 병합 PR은 2배 이상 늘고 revert 비중은 40% 이상 감소했다. 함께 공개된 코드 리뷰 변경 가이드는 팀 단위 에이전트 코딩 도입의 실무 레퍼런스다.</description>
-    </item>
-    <item>
-      <title>TypeSafe Jev, Vercel AI Gateway 사상 최속 채택 — 출시 2주 만에 유료 팀 35%, 2위 Sonnet 5.5(18.1%)의 2배</title>
-      <link>https://enghyu.com/ax/3336-jev-vercel-fastest-adopted/</link>
-      <guid isPermaLink="true">https://enghyu.com/ax/3336-jev-vercel-fastest-adopted/</guid>
-      <pubDate>Wed, 21 Oct 2026 00:40:00 +0900</pubDate>
-      <description>Vercel AI Gateway 10월 Production Index: TypeSafe 디시전 모델 Jev가 출시 첫 2주 만에 유료 팀의 35.3%에 도달해 게이트웨이 역사상 최속 채택을 기록했다. 채택률은 압도적이지만 지출 점유율은 0.27%에 불과 — 텍스트를 쓰지 않고 정해진</description>
     </item>
   </channel>
 </rss>

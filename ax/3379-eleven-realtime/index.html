@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G5WKCES0DY"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G5WKCES0DY');</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ElevenLabs 'Eleven Realtime' — 말로 듣고 추론하고 바로 답하는 speech-to-speech 음성 에이전트 모델</title>
+<meta name="description" content="ElevenLabs가 실시간 음성 에이전트용 speech-to-speech 모델 &#x27;Eleven Realtime v1&#x27;(Mini/Max)을 공개했다. v1 Max는 Big Bench Audio 98.8%, 첫 오디오 응답 0.57초. OpenAI Realtime API 호환이라">
+<meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3379-overview.png">
+<meta property="og:title" content="ElevenLabs &#x27;Eleven Realtime&#x27; — 말로 듣고 추론하고 바로 답하는 speech-to-speech 음성 에이전트 모델">
+<meta property="og:description" content="v1 Max — Big Bench Audio 98.8%, 첫 오디오 응답 0.57초. v1 Mini — 75.9%, 0.62초. 90개 이상 언어, 17,000개 이상 음성. 토큰 단가는 미공개.">
+<meta property="og:url" content="https://enghyu.com/ax/3379-eleven-realtime/">
+<meta property="og:type" content="article">
+<style>
+:root{--bg:#ffffff;--text:#1a1a1a;--muted:#666;--border:#e5e5e5;--accent:#0891b2;--code-bg:#f6f8fa;}
+@media (prefers-color-scheme: dark){:root{--bg:#0f1115;--text:#e8eaf0;--muted:#9aa0ad;--border:#2a2e38;--accent:#22d3ee;--code-bg:#181c24;}}
+*{box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:24px 20px;}
+main{max-width:800px;margin:0 auto;}
+.topnav{margin-bottom:20px;}.topnav a{color:var(--muted);font-size:14px;text-decoration:none;}.topnav a:hover{color:var(--accent);text-decoration:underline;}
+h1{font-size:1.9rem;line-height:1.35;margin:0 0 8px;}
+.meta{color:var(--muted);font-size:14px;margin-bottom:28px;}
+h2{font-size:1.3rem;margin:44px 0 12px;padding-top:8px;border-top:1px solid var(--border);}
+h3{font-size:1.05rem;margin:28px 0 8px;}
+p{margin:0 0 16px;}
+img{max-width:100%;height:auto;border-radius:10px;margin:20px 0;border:1px solid var(--border);}
+figure{margin:0;}figcaption{color:var(--muted);font-size:13px;text-align:center;margin:-8px 0 24px;}
+ul{margin:0 0 16px;padding-left:22px;}
+li{margin-bottom:8px;}
+strong{font-weight:700;}
+.callout{background:var(--code-bg);border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+.warn{background:var(--code-bg);border-left:3px solid #f59e0b;padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.9em;}
+pre{background:var(--code-bg);padding:16px;border-radius:8px;overflow-x:auto;border:1px solid var(--border);font-size:.85em;line-height:1.6;}
+pre code{background:none;padding:0;}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.92em;}
+th,td{border:1px solid var(--border);padding:8px 12px;text-align:left;}
+th{background:var(--code-bg);}
+a{color:var(--accent);}
+.tags a{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:3px 12px;font-size:13px;margin:0 6px 6px 0;color:var(--text);text-decoration:none;}.tags a:hover{border-color:var(--accent);color:var(--accent);}
+footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:14px;}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "ElevenLabs 'Eleven Realtime' — 말로 듣고 추론하고 바로 답하는 speech-to-speech 음성 에이전트 모델",
+  "mainEntityOfPage": "https://enghyu.com/ax/3379-eleven-realtime/",
+  "url": "https://enghyu.com/ax/3379-eleven-realtime/",
+  "author": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "publisher": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "description": "ElevenLabs가 실시간 음성 에이전트용 speech-to-speech 모델 'Eleven Realtime v1'(Mini/Max)을 공개했다. v1 Max는 Big Bench Audio 98.8%, 첫 오디오 응답 0.57초. OpenAI Realtime API 호환이라",
+  "image": "https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3379-overview.png",
+  "datePublished": "2026-10-23T05:40:00+09:00",
+  "dateModified": "2026-10-23T05:40:00+09:00"
+}
+</script>
+<link rel="canonical" href="https://enghyu.com/ax/3379-eleven-realtime/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ElevenLabs &#x27;Eleven Realtime&#x27; — 말로 듣고 추론하고 바로 답하는 speech-to-speech 음성 에이전트 모델">
+<meta name="twitter:description" content="v1 Max — Big Bench Audio 98.8%, 첫 오디오 응답 0.57초. v1 Mini — 75.9%, 0.62초. 90개 이상 언어, 17,000개 이상 음성. 토큰 단가는 미공개.">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3379-overview.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://enghyu.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AX 트렌드",
+      "item": "https://enghyu.com/ax/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "ElevenLabs 'Eleven Realtime' — 말로 듣고 추론하고 바로 답하는 speech-to-speech 음성 에이전트 모델",
+      "item": "https://enghyu.com/ax/3379-eleven-realtime/"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<main>
+<nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
+
+<h1>ElevenLabs 'Eleven Realtime' — 말로 듣고 추론하고 바로 답하는 speech-to-speech 음성 에이전트 모델</h1>
+<div class="meta">2026-10-23 · AX 트렌드 · 원문 이슈 #3379</div>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3379-overview.png" alt="Eleven Realtime v1 — v1 Mini/v1 Max, 90개 이상 언어, 17,000개 이상 음성" loading="lazy">
+<figcaption>Eleven Realtime v1 — 음성 인식·턴테이킹·음성 활동 감지·음성 생성을 하나의 시스템으로 통합</figcaption>
+</figure>
+
+<p>2026년 10월 20일, ElevenLabs가 실시간 음성 에이전트용 speech-to-speech(말→말) 모델 패밀리 <strong>Eleven Realtime</strong>을 공개했다. <strong>v1 Mini</strong>와 <strong>v1 Max</strong> 2종으로 출시됐다 (the-decoder, 2026-10-20).</p>
+
+<p>음성 인식·턴테이킹·음성 활동 감지·음성 생성을 하나의 시스템으로 통합한 구조다. ElevenLabs는 "설정 전문가가 되지 않아도 자연스러운 음성 에이전트를 만들 수 있다"는 점을 내세운다.</p>
+
+<div class="callout">
+<strong>핵심 수치.</strong> v1 Max — Big Bench Audio <strong>98.8%</strong>, 평균 첫 오디오 응답 <strong>0.57초</strong>. v1 Mini — <strong>75.9%</strong>, <strong>0.62초</strong>. 90개 이상 언어, 17,000개 이상 음성 사용 가능.
+</div>
+
+<h2>모델 두 종: Mini는 대화용, Max는 추론용</h2>
+
+<ul>
+<li><strong>v1 Mini</strong> — AI 어시스턴트·교사·인터랙티브 캐릭터 같은 자연스러운 대화용</li>
+<li><strong>v1 Max</strong> — 고객 지원·리드 검증·다단계 툴 사용 워크플로 같은 추론이 필요한 작업용</li>
+</ul>
+
+<p>둘 다 <strong>90개 이상 언어</strong>를 지원하고, ElevenLabs 라이브러리의 <strong>17,000개 이상 음성</strong>을 쓸 수 있다 (analyticsindiamag).</p>
+
+<h2>숫자로 읽는 Eleven Realtime</h2>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3379-accuracy.png" alt="Big Bench Audio 정확도 — v1 Max 98.8%(3위), StepAudio 3 99.7%, Qwen Audio 3.0 99.2%" loading="lazy">
+<figcaption>Big Bench Audio — v1 Max 98.8%(43개 모델 중 3위) vs StepAudio 3 Realtime 99.7%, Qwen Audio 3.0 Realtime Plus 99.2%</figcaption>
+</figure>
+
+<table>
+<tr><th>항목</th><th>값</th></tr>
+<tr><td>Big Bench Audio (v1 Max)</td><td><strong>98.8%</strong> — 43개 평가 모델 중 3위</td></tr>
+<tr><td>Big Bench Audio (v1 Mini)</td><td><strong>75.9%</strong></td></tr>
+<tr><td>앞서간 모델</td><td>StepAudio 3 Realtime 99.7% · Qwen Audio 3.0 Realtime Plus 99.2%</td></tr>
+<tr><td>평균 첫 오디오 응답</td><td>Max <strong>0.57초</strong> · Mini <strong>0.62초</strong></td></tr>
+<tr><td>Speech Agent Arena (블라인드 사용자 비교)</td><td>Max <strong>998점</strong> · Mini <strong>988점</strong></td></tr>
+<tr><td>Full-Duplex-Bench (턴테이킹·백채널)</td><td>Mini <strong>95.8%</strong> · Max <strong>94.1%</strong></td></tr>
+</table>
+
+<p>ElevenLabs는 "Artificial Analysis 리더보드에서 Max보다 빠르고 정확한 모델은 현재 없다"고 주장했다. 단, 43개 평가 모델 중 Max는 <strong>3위</strong>다. StepAudio 3 Realtime(99.7%)과 Qwen Audio 3.0 Realtime Plus(99.2%)가 앞섰다 (the-decoder; iaenunminuto).</p>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3379-latency.png" alt="첫 오디오 응답 시간 — v1 Max 0.57초, v1 Mini 0.62초" loading="lazy">
+<figcaption>첫 오디오 응답 시간 — v1 Max 0.57초, v1 Mini 0.62초</figcaption>
+</figure>
+
+<h2>OpenAI 호환: 코드 2줄로 갈아타기</h2>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3379-migration.png" alt="OpenAI 호환 마이그레이션 — 엔드포인트·모델명 2줄 변경, Speech Agent Arena 998/988" loading="lazy">
+<figcaption>OpenAI Realtime API 호환 — 엔드포인트와 모델명 2줄만 바꾸면 마이그레이션</figcaption>
+</figure>
+
+<p>ElevenAgents 플랫폼과 <strong>OpenAI 호환 Realtime API</strong>(WebSocket, WebRTC는 출시 시점 미지원)로 제공된다. OpenAI Realtime API를 쓰던 팀은 <strong>엔드포인트와 모델명 2가지만 바꾸면</strong> 마이그레이션할 수 있다. OpenAI SDK도 그대로 쓴다 (journaldunet).</p>
+
+<pre><code>// 개념 코드: OpenAI Realtime API → Eleven Realtime 마이그레이션
+val client = RealtimeClient(
+    endpoint = "https://api.elevenlabs.io/v1/realtime",  // ① 엔드포인트만 변경
+    model    = "eleven-realtime-v1",                      // ② 모델명만 변경
+)
+// OpenAI SDK 호출부는 그대로</code></pre>
+
+<h2>요금: 분당 과금 + 토큰 과금 — 단가는 미공개</h2>
+
+<p>요금은 <strong>분당 오디오 연결 시간 + 토큰 사용량</strong> 기준이다. v1 Max가 v1 Mini보다 비싸다. 구체적인 토큰 단가는 아직 공개되지 않았다 (the-decoder; journaldunet). 이중 과금 구조에서 에이전트 워크로드의 총비용 산정은 검증이 필요하다.</p>
+
+<h2>배경: 10월 셋째 주, 음성 AI 릴리스가 몰렸다</h2>
+
+<p>음성 에이전트는 그동안 STT→LLM→TTS를 따로 붙이는 조립식 구조가 표준이었다. ElevenLabs는 하나로 튜닝한 단일 시스템으로 맞섰다. 같은 날 Mistral이 Voxtral 3(음성 에이전트 스택)을 내놓았다. 10월 셋째 주는 음성 AI 릴리스가 몰린 주간이 됐다 (관련 글: <a href="/ax/3376-voxtral-3/">Mistral 'Voxtral 3'</a>).</p>
+
+<div class="warn">
+<strong>⚠️ 미확인:</strong> 98.8%·0.57초는 ElevenLabs가 제공한 조건에서의 Artificial Analysis 독립 측정이다. 실제 프로덕션(네트워크 지연·프롬프트 처리·툴 호출 포함)에서의 체감 지연은 미확인이다. 토큰 단가가 미공개라 실제 운영 비용 산정이 불가능하다. Mini가 Full-Duplex-Bench(일시정지·중단·턴테이킹·백채널 평가)에서 95.8%로 Max(94.1%)를 앞섰다. 추론이 강한 Max가 대화 역학에서는 오히려 뒤처지는 이유에 대한 설명은 없다 (analyticsindiamag). 전사(transcript)를 제공하지 않는 구조라 기존 기업의 안전·컴플라이언스 툴링과 충돌할 수 있다는 지적도 있다 (techtimes).
+</div>
+
+<div class="callout">
+<strong>AX TF 관점.</strong> Android 앱에 음성 에이전트(고객 상담·튜터·음성 비서)를 붙이는 팀에게 즉시 써먹을 수 있는 선택지다. OpenAI Realtime API 호환이라 기존 OpenAI 기반 음성 워크플로가 있다면 코드 2줄 변경으로 갈아탈 수 있어 도입 장벽이 낮다. 다만 전사 미제공·토큰 단가 미공개는 엔터프라이즈 도입 전 확인이 필요한 리스크다.
+</div>
+
+<h2>원문 이슈</h2>
+<p>이 글은 <a href="https://github.com/roomedia/ax-trend/issues/3379">ax-trend 이슈 #3379</a>를 바탕으로 작성됐다. 핵심 링크: <a href="https://the-decoder.com/elevenlabs-releases-two-new-speech-to-speech-models-designed-for-real-time-ai-conversations/">the-decoder.com — ElevenLabs, speech-to-speech 모델 2종 공개 (2026-10-20)</a>, <a href="https://analyticsindiamag.com/ai-news/elevenlabs-launches-real-time-voice-ai-models-with-up-to-988-speech-reasoning-accuracy">analyticsindiamag — 최대 98.8% 음성 추론 정확도 (2026-10-21)</a>, <a href="https://www.journaldunet.com/en/1556895-elevenlabs-unveils-faster-more-accurate-speech-to-speech-models/">journaldunet — 더 빠르고 정확한 speech-to-speech (2026-10-20)</a>. 관련 이슈: <a href="https://github.com/roomedia/ax-trend/issues/3376">#3376 — Mistral 'Voxtral 3'</a>, <a href="https://github.com/roomedia/ax-trend/issues/3115">#3115 — ElevenLabs 'Architect'</a>, <a href="https://github.com/roomedia/ax-trend/issues/3250">#3250 — debpalash 'VoiceStudio'</a>.</p>
+
+<p class="tags"><a href="/ax/tag/voice-agent/">음성 에이전트</a><a href="/ax/tag/performance/">성능 최적화</a><a href="/ax/tag/ax-trend/">AX Trend</a></p>
+
+<footer>
+<p>enghyu.com AX 트렌드 · <a href="/ax/">목록으로</a></p>
+</footer>
+
+<section class="related">
+  <h2>관련 글</h2>
+  <ul>
+    <li><a href="/ax/3377-torchtpu/">Google·Meta, TPU용 네이티브 PyTorch 백엔드 &#x27;TorchTPU&#x27; 오픈소스 — PyTorch/XLA 대체, Qwen 3 8B에서 52% MFU</a></li>
+    <li><a href="/ax/3376-voxtral-3/">Mistral &#x27;Voxtral 3&#x27; — STT·TTS·SDK를 한 벤더로 묶은 실시간 음성 에이전트 스택</a></li>
+    <li><a href="/ax/3375-kanana-2-vision-encoder/">카카오 &#x27;Kanana-2-vision-encoder&#x27; 2종 오픈소스 공개 — medium 4.26억·tiny 9,800만, 지연 60% 감소</a></li>
+  </ul>
+</section>
+</main>
+<script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
+</body>
+</html>

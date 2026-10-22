@@ -10,7 +10,7 @@
 <meta name="description" content="Google Research가 에이전트 하네스 자체를 재귀 최적화하는 오픈 프레임워크 Harness²를 공개했다. Propose–Probe–Compose(태스크 수준 재귀)와 improvement harness(하네싱 수준 재귀)의 2단계 구조, 단일 스텝에">
 <meta property="og:title" content="Harness² — 하네스 자체를 재귀 최적화하는 프레임워크">
 <meta property="og:description" content="Google Research 공개. Task-level 재귀(Propose–Probe–Compose) + harnessing-level 재귀(improvement harness). 단일 스텝에 WorkBuddy-Bench +11.5점(저자 주장).">
-<meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3341-cover.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3341-overview.png">
 <style>
   :root {
     color-scheme: light dark;
@@ -124,9 +124,9 @@
     "@id": "https://enghyu.com/#org"
   },
   "description": "Google Research가 에이전트 하네스 자체를 재귀 최적화하는 오픈 프레임워크 Harness²를 공개했다. Propose–Probe–Compose(태스크 수준 재귀)와 improvement harness(하네싱 수준 재귀)의 2단계 구조, 단일 스텝에",
-  "image": "https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3341-cover.png",
-  "datePublished": "2026-10-21T15:45:00+09:00",
-  "dateModified": "2026-10-21T15:45:00+09:00"
+  "image": "https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3341-overview.png",
+  "datePublished": "2026-10-22T23:25:00+09:00",
+  "dateModified": "2026-10-22T23:25:00+09:00"
 }
 </script>
 <link rel="canonical" href="https://enghyu.com/ax/3341-harness2/">
@@ -135,7 +135,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Harness² — 하네스 자체를 재귀 최적화하는 프레임워크">
 <meta name="twitter:description" content="Google Research 공개. Task-level 재귀(Propose–Probe–Compose) + harnessing-level 재귀(improvement harness). 단일 스텝에 WorkBuddy-Bench +11.5점(저자 주장).">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3341-cover.png">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3341-overview.png">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="/site-logo.png">
 <script type="application/ld+json">
@@ -171,11 +171,11 @@
   <header>
     <div class="kicker">AX Trend</div>
     <h1>google-research 'harness2' — 에이전트 하네스 자체를 재귀 최적화하는 프레임워크, 단일 스텝에 WorkBuddy-Bench +11.5점 주장</h1>
-    <p class="meta">2026-10-21 · <a href="https://github.com/roomedia/ax-trend/issues/3341">원문 이슈 #3341</a> · 소스: GitHub (10/6)</p>
+    <p class="meta">2026-10-22 · <a href="https://github.com/roomedia/ax-trend/issues/3341">원문 이슈 #3341</a> · 소스: GitHub (10/6)</p>
   </header>
 
   <figure>
-    <img width="1000" height="563" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3341-cover.png" alt="HARNESS² Recursive Agent Harnessing — Google Research 2026 커버">
+    <img width="1000" height="563" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3341-overview.png" alt="HARNESS² Recursive Agent Harnessing — Google Research 2026 커버">
     <figcaption>Harness² — "Recursive Agent Harnessing for an Open World", Google Research</figcaption>
   </figure>
 
@@ -186,7 +186,7 @@
   <h2>두 단계 재귀: 태스크 수준 × 하네싱 수준</h2>
 
   <figure>
-    <img width="1000" height="563" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3341-recursion.png" alt="Propose-Probe-Compose 3단계와 persistent improvement harness 다이어그램">
+    <img width="1000" height="563" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3341-taskloop.png" alt="Propose-Probe-Compose 3단계와 persistent improvement harness 다이어그램">
     <figcaption>STEP 1은 현재 태스크의 하네스를 정제하고, STEP 2는 교훈을 영속 하네스에 축적해 미래 태스크에 활용한다</figcaption>
   </figure>
 
@@ -214,7 +214,7 @@ $ uv pip install -e '.[render]'   # Linux · Python 3.12 · uv</code></pre>
   <h2>성능 주장: 단일 스텝에 +11.5점 (단, 저자 주장)</h2>
 
   <figure>
-    <img width="1000" height="563" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3341-benchmarks.png" alt="WorkBuddy-Bench +11.5점, JobBench +4.5점, LAB pass rate +11.8pp">
+    <img width="1000" height="563" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3341-gains.png" alt="WorkBuddy-Bench +11.5점, JobBench +4.5점, LAB pass rate +11.8pp">
     <figcaption>저자 주장 수치: 단일 Harness² 스텝의 개선폭. GLM-5·Gemini 3.5 Flash 기준, 제3자 재현 없음</figcaption>
   </figure>
 
@@ -230,7 +230,7 @@ $ uv pip install -e '.[render]'   # Linux · Python 3.12 · uv</code></pre>
   <h2>급성장 중: 13일에 스타 6,178개</h2>
 
   <figure>
-    <img width="1000" height="563" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3341-adoption.png" alt="공개 13일 만에 GitHub 스타 6,178개, 일평균 493개">
+    <img width="1000" height="563" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3341-persistgains.png" alt="공개 13일 만에 GitHub 스타 6,178개, 일평균 493개">
     <figcaption>10-19 09:00 KST 기준 6,178 스타, 일평균 약 493개씩 증가 — 하네스 생태계 관심의 바로미터</figcaption>
   </figure>
 

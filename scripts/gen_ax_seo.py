@@ -80,6 +80,7 @@ def gen_sitemap(posts, published):
 
     add(f"{SITE}/", latest)
     add(f"{SITE}/ax/", latest)
+    add(f"{SITE}/about/")
     add(f"{SITE}/ax/tags/")
     tag_root = os.path.join(AX_DIR, "tag")
     if os.path.isdir(tag_root):

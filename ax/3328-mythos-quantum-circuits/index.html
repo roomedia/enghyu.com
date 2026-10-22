@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Claude Mythos 5, 양자 회로를 스스로 설계하다 — Toffoli 게이트 17배 감소, 8개 태스크 중 7개 SOTA 능가</title>
-<meta name="description" content="Anthropic이 10월 16일 Claude Mythos 5의 양자 회로 자율 설계 연구를 공개했다. 평문 스펙 + 자동 평가기의 클로즈드 루프가 53시간 동안 인간 개입 없이 돌아 8개 태스크 중 7개에서 기존 최고 설계를 능가했다. 모듈러 역원 회로의 Toffoli 게이트 17배 감소, DQI 디코더 12배 감소 — generator-judge 패턴이 과학 영역에서도 통한다는 증거다.">
+<meta name="description" content="Anthropic이 10월 16일 Claude Mythos 5의 양자 회로 자율 설계 연구를 공개했다. 평문 스펙 + 자동 평가기의 클로즈드 루프가 53시간 동안 인간 개입 없이 돌아 8개 태스크 중 7개에서 기존 최고 설계를 능가했다. 모듈러 역원 회로의 Toffoli 게이트 17배">
 <meta property="og:title" content="Claude Mythos 5, 양자 회로를 스스로 설계하다 — Toffoli 게이트 17배 감소, 8개 태스크 중 7개 SOTA 능가">
 <meta property="og:description" content="평문 스펙 + 자동 평가기 클로즈드 루프, 53시간 무인 run. 모듈러 역원 회로 Toffoli 17배↓, DQI 디코더 12배↓, Lean 형식 증명까지. generator-judge가 과학 영역에서도 통한다.">
 <meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3328-cover.png">
@@ -129,9 +129,45 @@
   "publisher": {
     "@id": "https://enghyu.com/#org"
   },
-  "description": "Anthropic이 10월 16일 Claude Mythos 5의 양자 회로 자율 설계 연구를 공개했다. 평문 스펙 + 자동 평가기의 클로즈드 루프가 53시간 동안 인간 개입 없이 돌아 8개 태스크 중 7개에서 기존 최고 설계를 능가했다. 모듈러 역원 회로의 Toffoli 게이트 17배 감소, DQI 디코더 12배 감소 — generator-judge 패턴이 과학 영역에서도 통한다는 증거다.",
+  "description": "Anthropic이 10월 16일 Claude Mythos 5의 양자 회로 자율 설계 연구를 공개했다. 평문 스펙 + 자동 평가기의 클로즈드 루프가 53시간 동안 인간 개입 없이 돌아 8개 태스크 중 7개에서 기존 최고 설계를 능가했다. 모듈러 역원 회로의 Toffoli 게이트 17배",
   "image": "https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3328-cover.png",
-  "datePublished": "2026-10-20T00:33:00+09:00"
+  "datePublished": "2026-10-20T00:33:00+09:00",
+  "dateModified": "2026-10-20T00:33:00+09:00"
+}
+</script>
+<link rel="canonical" href="https://enghyu.com/ax/3328-mythos-quantum-circuits/">
+<meta property="og:url" content="https://enghyu.com/ax/3328-mythos-quantum-circuits/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Claude Mythos 5, 양자 회로를 스스로 설계하다 — Toffoli 게이트 17배 감소, 8개 태스크 중 7개 SOTA 능가">
+<meta name="twitter:description" content="평문 스펙 + 자동 평가기 클로즈드 루프, 53시간 무인 run. 모듈러 역원 회로 Toffoli 17배↓, DQI 디코더 12배↓, Lean 형식 증명까지. generator-judge가 과학 영역에서도 통한다.">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3328-cover.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://enghyu.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AX 트렌드",
+      "item": "https://enghyu.com/ax/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Claude Mythos 5, 양자 회로를 스스로 설계하다 — Toffoli 게이트 17배 감소, 8개 태스크 중 7개 SOTA 능가",
+      "item": "https://enghyu.com/ax/3328-mythos-quantum-circuits/"
+    }
+  ]
 }
 </script>
 </head>
@@ -143,7 +179,7 @@
     <h1>Claude Mythos 5, 양자 회로를 스스로 설계하다 — Toffoli 게이트 17배 감소, 8개 태스크 중 7개 SOTA 능가</h1>
     <p class="meta">2026-10-16 · <a href="https://github.com/roomedia/ax-trend/issues/3328">원문 이슈 #3328</a></p>
     <figure>
-      <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3328-cover.png" alt="Claude Mythos 5 양자 회로 자율 설계: 8개 태스크 중 7개에서 기존 최고 설계를 능가 — Toffoli 게이트 17배 감소, DQI 디코더 게이트 12배 감소, 단일 run 53시간">
+      <img width="2048" height="1152" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3328-cover.png" alt="Claude Mythos 5 양자 회로 자율 설계: 8개 태스크 중 7개에서 기존 최고 설계를 능가 — Toffoli 게이트 17배 감소, DQI 디코더 게이트 12배 감소, 단일 run 53시간">
     </figure>
   </header>
 
@@ -155,7 +191,7 @@
 
   <h2>실험 설정: 평문 스펙 → 제안 → 채점 → 개선</h2>
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3328-loop.png" alt="클로즈드 루프: 평문 스펙(one-paragraph brief) → Claude 회로 제안 → 자동 평가기(정답 여부·게이트 수·큐비트 수 채점) → 피드백 → 개선. 라운드 사이 인간 개입 없음, 단일 53시간 run.">
+    <img width="2048" height="1152" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3328-loop.png" alt="클로즈드 루프: 평문 스펙(one-paragraph brief) → Claude 회로 제안 → 자동 평가기(정답 여부·게이트 수·큐비트 수 채점) → 피드백 → 개선. 라운드 사이 인간 개입 없음, 단일 53시간 run.">
     <figcaption>평문 스펙 + 자동 평가기의 클로즈드 루프 — 라운드 사이 인간 개입 없음</figcaption>
   </figure>
 
@@ -165,7 +201,7 @@
 
   <h2>대표 성과: 모듈러 역원에서 Toffoli 17배 감소</h2>
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3328-comparison.png" alt="모듈러 역원 회로 비교: Toffoli 게이트 수 기존 7,000만 → Claude 400만 (17배 감소), 큐비트 수 기존 838 → Claude 935 (12% 증가). 분기 히스토리를 저장하지 않는 새로운 reversible 아키텍처 발견.">
+    <img width="2048" height="1152" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3328-comparison.png" alt="모듈러 역원 회로 비교: Toffoli 게이트 수 기존 7,000만 → Claude 400만 (17배 감소), 큐비트 수 기존 838 → Claude 935 (12% 증가). 분기 히스토리를 저장하지 않는 새로운 reversible 아키텍처 발견.">
     <figcaption>모듈러 역원 회로 — Toffoli 게이트 7,000만 → 400만</figcaption>
   </figure>
 
@@ -181,7 +217,7 @@
 
   <h2>검증: 평가기 + 시뮬레이션 + Lean 형식 증명</h2>
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3328-verify.png" alt="3단계 검증 파이프라인: 1) 자동 평가기 — 정답 여부·게이트·큐비트 비용 채점, 2) 대규모 시뮬레이션 — 수만 run 스케일 검증, 3) Lean 형식 증명 — 일부 주장 수학적으로 증명. DQI 디코더 실패율 약 1/10,000 run, 태스크 허용 오차 내.">
+    <img width="2048" height="1152" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3328-verify.png" alt="3단계 검증 파이프라인: 1) 자동 평가기 — 정답 여부·게이트·큐비트 비용 채점, 2) 대규모 시뮬레이션 — 수만 run 스케일 검증, 3) Lean 형식 증명 — 일부 주장 수학적으로 증명. DQI 디코더 실패율 약 1/10,000 run, 태스크 허용 오차 내.">
     <figcaption>3단계 검증 — 평가기, 대규모 시뮬레이션, Lean 형식 증명</figcaption>
   </figure>
 
@@ -224,6 +260,15 @@ verify(candidate, stages=["simulation", "lean_proof"])</code></pre>
     <p><a href="https://github.com/roomedia/ax-trend/issues/3328">원문 이슈 #3328</a> · 핵심 링크: <a href="https://www.anthropic.com/research/designing-efficient-quantum-circuits">Anthropic 공식 리서치 포스트 (10/16)</a> · <a href="https://www.unite.ai/anthropic-says-claude-beat-best-published-quantum-circuit-designs/">unite.ai 보도 — arXiv 동행 논문 (10/15 제출)</a> · <a href="https://explainx.ai/blog/claude-quantum-circuits-anthropic-research-fewer-qubits-gates-53-hour-run-2026">explainx.ai 분석 요약</a> · 관련 이슈: <a href="https://github.com/roomedia/ax-trend/issues/2887">#2887</a> Claude Fable 5.1·Mythos 5.1 출시 (같은 모델 계열)</p>
     <p class="tags"><a href="/ax/tag/ax-trend/">AX Trend</a><a href="/ax/tag/anthropic/">Anthropic</a><a href="/ax/tag/quantum-circuits/">quantum circuits</a><a href="/ax/tag/code-maintenance/">코드 유지보수</a><a href="/ax/tag/ai-for-science/">AI for science</a></p>
   </footer>
+
+<section class="related">
+  <h2>관련 글</h2>
+  <ul>
+    <li><a href="/ax/3346-claude-code-fork-subagent/">Claude Code v2.1.302 — fork 서브에이전트 `claude -p`·SDK·데스크톱·VS Code 기본 활성화, Claude Design 12/14 종료 예고</a></li>
+    <li><a href="/ax/3344-public-benefit-fund/">Anthropic, &#x27;Public Benefit Fund&#x27; 신설 — 지분 5% 출자, 가치 50% 상승마다 2% 추가, 로비·정치헌금 금지</a></li>
+    <li><a href="/ax/3337-claude-writes-90pct/">Anthropic, Claude Code 코드의 90%를 Claude가 작성 중 — 6~9월 병합 PR 2배+, revert 비중 40%↓</a></li>
+  </ul>
+</section>
 </main>
 <script>
 (function(){

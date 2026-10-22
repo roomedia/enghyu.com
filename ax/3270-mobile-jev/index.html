@@ -133,7 +133,43 @@
   },
   "description": "droidrun의 mobile-jev는 TypeSafe Jev 판단 모델과 Mobilerun 클라우드 디바이스 API를 결합한 Android 에이전트다. Uber 데모 21초/9액션, ADB 없이 실기기를 조작하고, 완료는 모델의 DONE 응답이 아닌 화면 검증으로 증명한다.",
   "image": "https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3270-cover.png",
-  "datePublished": "2026-10-19T06:40:00+09:00"
+  "datePublished": "2026-10-19T06:40:00+09:00",
+  "dateModified": "2026-10-19T06:40:00+09:00"
+}
+</script>
+<link rel="canonical" href="https://enghyu.com/ax/3270-mobile-jev/">
+<meta property="og:url" content="https://enghyu.com/ax/3270-mobile-jev/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="mobile-jev: Jev 판단 모델이 구동하는 실기기 Android 에이전트">
+<meta name="twitter:description" content="판단은 빠른 Jev, 실행은 Mobilerun. ADB 없이 클라우드 실기기를 조작하는 Android 에이전트의 분업 구조를 개발자 관점에서 정리한다.">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3270-cover.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://enghyu.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AX 트렌드",
+      "item": "https://enghyu.com/ax/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "mobile-jev: Jev 판단 모델이 구동하는 실기기 Android 에이전트",
+      "item": "https://enghyu.com/ax/3270-mobile-jev/"
+    }
+  ]
 }
 </script>
 </head>
@@ -145,7 +181,7 @@
     <h1>mobile-jev: Jev 판단 모델이 구동하는 실기기 Android 에이전트</h1>
     <p class="meta">2026-10-14 · <a href="https://github.com/roomedia/ax-trend/issues/3270">원문 이슈 #3270</a></p>
     <figure>
-      <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3270-cover.png" alt="mobile-jev 인포그래픽: AI가 판단하고 클라우드 폰이 실행한다">
+      <img width="2048" height="1152" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3270-cover.png" alt="mobile-jev 인포그래픽: AI가 판단하고 클라우드 폰이 실행한다">
     </figure>
   </header>
 
@@ -163,7 +199,7 @@
   <h2>분업 구조: 판단은 Jev, 실행은 Mobilerun</h2>
 
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3270-arch.png" alt="mobile-jev 분업 구조 다이어그램: Jev 판단 → Mobilerun 실행 → 목표 달성">
+    <img width="2048" height="1152" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3270-arch.png" alt="mobile-jev 분업 구조 다이어그램: Jev 판단 → Mobilerun 실행 → 목표 달성">
     <figcaption>판단은 빠른 Jev, 실행은 Mobilerun — 판단 모델과 디바이스 API의 분리</figcaption>
   </figure>
 
@@ -178,7 +214,7 @@
   <h2>Uber 데모: 21초, 9개 액션</h2>
 
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3270-demo.png" alt="Uber 데모 9단계 액션 타임라인">
+    <img width="2048" height="1152" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3270-demo.png" alt="Uber 데모 9단계 액션 타임라인">
     <figcaption>샌프란시스코 공항 → 골든게이트 경로 입력, 결제 선택 화면까지</figcaption>
   </figure>
 
@@ -189,7 +225,7 @@
   <h2>검증 설계: 모델의 DONE을 증거로 받지 않는다</h2>
 
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3270-verify.png" alt="모델 DONE 응답과 화면 재검증 비교 인포그래픽">
+    <img width="2048" height="1152" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3270-verify.png" alt="모델 DONE 응답과 화면 재검증 비교 인포그래픽">
     <figcaption>완료 선언이 아니라 실제 화면 상태로 증명한다</figcaption>
   </figure>
 
@@ -232,6 +268,15 @@ pnpm dev
   <footer>
     <p class="tags"><a href="/ax/tag/jev/">Jev</a><a href="/ax/tag/android/">Android</a><a href="/ax/tag/ax-trend/">AX Trend</a></p>
   </footer>
+
+<section class="related">
+  <h2>관련 글</h2>
+  <ul>
+    <li><a href="/ax/3269-jevtest/">jevtest: Jev 판단 모델이 구동하는 평문 모바일 E2E 테스트</a></li>
+    <li><a href="/ax/3345-tv-vibehack/">Gathin23 &#x27;tv-vibehack&#x27; — Claude Code로 Android TV 광고·블로트웨어 제거, 공개 1.5일 만에 1,900스타</a></li>
+    <li><a href="/ax/3336-jev-vercel-fastest-adopted/">TypeSafe Jev, Vercel AI Gateway 사상 최속 채택 — 출시 2주 만에 유료 팀 35%, 2위 Sonnet 5.5(18.1%)의 2배</a></li>
+  </ul>
+</section>
 </main>
 <script>
 (function(){

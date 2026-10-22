@@ -7,8 +7,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DeepSeek V4.1-Flash '1017' — '마이너 업데이트'가 Terminal-Bench +35%를 낸 방법</title>
-<meta name="description" content="DeepSeek가 10월 17일 V4.1-Flash-1017 체크포인트를 MIT 라이선스로 공개했다. 스스로 'minor update'라 불렀지만 Terminal-Bench 42.3(+35%), DeepSWE 77.0으로 GPT-6급·Opus급을 넘나든다. 더 빠르고 짧은 출력, Rust 인코딩 툴킷 deepseek-recipe, 로컬 추론 가이드를 개발자 관점에서 정리한다.">
-<meta property="og:title" content="DeepSeek V4.1-Flash '1017' — '마이너 업데이트'가 Terminal-Bench +35%를 낸 방법">
+<meta name="description" content="DeepSeek가 10월 17일 V4.1-Flash-1017 체크포인트를 MIT 라이선스로 공개했다. 스스로 &#x27;minor update&#x27;라 불렀지만 Terminal-Bench 42.3(+35%), DeepSWE 77.0으로 GPT-6급·Opus급을 넘나든다. 더 빠르고 짧은 출력">
+<meta property="og:title" content="DeepSeek V4.1-Flash &#x27;1017&#x27; — &#x27;마이너 업데이트&#x27;가 Terminal-Bench +35%를 낸 방법">
 <meta property="og:description" content="Terminal-Bench 42.3(+35%), DeepSWE 77.0으로 GPT-6·Opus급을 넘나드는 MIT 오픈 모델. 더 빠르고 짧게, deepseek-recipe Rust 툴킷과 로컬 추론 가이드까지.">
 <meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3327-cover.png">
 <style>
@@ -129,9 +129,45 @@
   "publisher": {
     "@id": "https://enghyu.com/#org"
   },
-  "description": "DeepSeek가 10월 17일 V4.1-Flash-1017 체크포인트를 MIT 라이선스로 공개했다. 스스로 'minor update'라 불렀지만 Terminal-Bench 42.3(+35%), DeepSWE 77.0으로 GPT-6급·Opus급을 넘나든다. 더 빠르고 짧은 출력, Rust 인코딩 툴킷 deepseek-recipe, 로컬 추론 가이드를 개발자 관점에서 정리한다.",
+  "description": "DeepSeek가 10월 17일 V4.1-Flash-1017 체크포인트를 MIT 라이선스로 공개했다. 스스로 'minor update'라 불렀지만 Terminal-Bench 42.3(+35%), DeepSWE 77.0으로 GPT-6급·Opus급을 넘나든다. 더 빠르고 짧은 출력",
   "image": "https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3327-cover.png",
-  "datePublished": "2026-10-19T21:45:00+09:00"
+  "datePublished": "2026-10-19T21:45:00+09:00",
+  "dateModified": "2026-10-19T21:45:00+09:00"
+}
+</script>
+<link rel="canonical" href="https://enghyu.com/ax/3327-deepseek-flash-1017/">
+<meta property="og:url" content="https://enghyu.com/ax/3327-deepseek-flash-1017/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="DeepSeek V4.1-Flash &#x27;1017&#x27; — &#x27;마이너 업데이트&#x27;가 Terminal-Bench +35%를 낸 방법">
+<meta name="twitter:description" content="Terminal-Bench 42.3(+35%), DeepSWE 77.0으로 GPT-6·Opus급을 넘나드는 MIT 오픈 모델. 더 빠르고 짧게, deepseek-recipe Rust 툴킷과 로컬 추론 가이드까지.">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3327-cover.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://enghyu.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AX 트렌드",
+      "item": "https://enghyu.com/ax/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "DeepSeek V4.1-Flash '1017' — '마이너 업데이트'가 Terminal-Bench +35%를 낸 방법",
+      "item": "https://enghyu.com/ax/3327-deepseek-flash-1017/"
+    }
+  ]
 }
 </script>
 </head>
@@ -143,7 +179,7 @@
     <h1>DeepSeek V4.1-Flash '1017' — '마이너 업데이트'가 Terminal-Bench +35%를 낸 방법</h1>
     <p class="meta">2026-10-17 · <a href="https://github.com/roomedia/ax-trend/issues/3327">원문 이슈 #3327</a></p>
     <figure>
-      <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3327-cover.png" alt="DeepSeek V4.1-Flash-1017: 마이너 업데이트 · 메이저 벤치마크 도약 — Terminal-Bench +35%, 1M 컨텍스트 · MIT 라이선스, 더 빠르고 · 더 짧게">
+      <img width="1920" height="1280" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3327-cover.png" alt="DeepSeek V4.1-Flash-1017: 마이너 업데이트 · 메이저 벤치마크 도약 — Terminal-Bench +35%, 1M 컨텍스트 · MIT 라이선스, 더 빠르고 · 더 짧게">
     </figure>
   </header>
 
@@ -155,7 +191,7 @@
 
   <h2>벤치마크: 'minor'라는 표현이 무색한 구간</h2>
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3327-benchmark.png" alt="agentic 벤치마크 비교 (1017 vs 기존 Flash): Terminal-Bench 4.0 31.2→42.3(+35%), DeepSWE v1.1 74.2→77.0, ProgramBench 20.3→29.1, Automation-Bench 54.8→60.5 — Terminal-Bench는 Claude Code 하네스, DeepSWE는 Mini-SWE-V2 하네스 측정">
+    <img width="1920" height="1280" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3327-benchmark.png" alt="agentic 벤치마크 비교 (1017 vs 기존 Flash): Terminal-Bench 4.0 31.2→42.3(+35%), DeepSWE v1.1 74.2→77.0, ProgramBench 20.3→29.1, Automation-Bench 54.8→60.5 — Terminal-Bench는 Claude Code 하네스, DeepSWE는 Mini-SWE-V2 하네스 측정">
     <figcaption>1017 vs 기존 Flash — 에이전틱 벤치마크에서 전 항목 상승</figcaption>
   </figure>
 
@@ -175,7 +211,7 @@
 
   <h2>인코딩이 바뀌었다: Jinja 아웃, Python 레퍼런스 인</h2>
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3327-encoding.png" alt="deepseek-recipe: Rust 라이브러리 + Python 바인딩으로 Messages·Chat Completions·Responses API 요청을 Conversation 포맷으로 변환 후 DeepSeek V4/V4.1 프롬프트 또는 토큰 ID로 인코딩 — multi-turn, tool calling, thinking mode, numeric reasoning effort 지원, Jinja 템플릿 제거하고 Python 레퍼런스 encoding.py 제공">
+    <img width="2048" height="1152" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3327-encoding.png" alt="deepseek-recipe: Rust 라이브러리 + Python 바인딩으로 Messages·Chat Completions·Responses API 요청을 Conversation 포맷으로 변환 후 DeepSeek V4/V4.1 프롬프트 또는 토큰 ID로 인코딩 — multi-turn, tool calling, thinking mode, numeric reasoning effort 지원, Jinja 템플릿 제거하고 Python 레퍼런스 encoding.py 제공">
     <figcaption>deepseek-recipe — 프롬프트 인코딩을 Rust 툴킷으로</figcaption>
   </figure>
 
@@ -202,7 +238,7 @@ token_ids = enc.encode_messages(
 
   <h2>로컬 추론: 1M 컨텍스트, temp 1.0</h2>
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3327-local.png" alt="로컬 추론 권장 설정: 컨텍스트 윈도우 1M, temperature 1.0, top_p 1.0, max_tokens ≥ 256K — MIT License, 더 짧은 출력 · 더 빠른 실행으로 에이전트 하네스 성능-비용 파레토 프론티어 전진">
+    <img width="1920" height="1280" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3327-local.png" alt="로컬 추론 권장 설정: 컨텍스트 윈도우 1M, temperature 1.0, top_p 1.0, max_tokens ≥ 256K — MIT License, 더 짧은 출력 · 더 빠른 실행으로 에이전트 하네스 성능-비용 파레토 프론티어 전진">
     <figcaption>로컬·프라이빗 하네스 실험의 진입 장벽을 낮춘 권장 설정</figcaption>
   </figure>
 
@@ -229,6 +265,15 @@ response = client.chat.completions.create(
     <p><a href="https://github.com/roomedia/ax-trend/issues/3327">원문 이슈 #3327</a> · 핵심 링크: <a href="https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017">HF 공식 모델 카드 (10/17)</a> · <a href="https://lmmarketcap.com/llm-updates">The Decoder 보도 (10/17)</a> · 관련 이슈: <a href="https://github.com/roomedia/ax-trend/issues/2876">#2876</a> DeepSeek v4.1 Flash 오리지널 릴리스 (9/12)</p>
     <p class="tags"><a href="/ax/tag/ax-trend/">AX Trend</a><a href="/ax/tag/deepseek/">DeepSeek</a><a href="/ax/tag/agentic-benchmark/">agentic benchmark</a><a href="/ax/tag/ai-coding/">AI 코딩</a></p>
   </footer>
+
+<section class="related">
+  <h2>관련 글</h2>
+  <ul>
+    <li><a href="/ax/3341-harness2/">google-research &#x27;harness2&#x27; — 에이전트 하네스 자체를 재귀 최적화하는 프레임워크, 단일 스텝에 WorkBuddy-Bench +11.5점 주장</a></li>
+    <li><a href="/ax/3365-yomiyasu/">yomiyasu &#x27;4일 4릴리스&#x27; — 서브에이전트 1,200개가 만든 일본어 교정 스킬, 루프+하네스 엔지니어링 3층 설계</a></li>
+    <li><a href="/ax/3353-uniichat/">UniiChat — &#x27;새 채팅&#x27; 없는 영원한 하나의 대화, 메모리 트리로 무한 컨텍스트를 구현한 오픈소스 에이전트</a></li>
+  </ul>
+</section>
 </main>
 <script>
 (function(){

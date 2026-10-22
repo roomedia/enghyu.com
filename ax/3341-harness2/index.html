@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>google-research 'harness2' — 에이전트 하네스 자체를 재귀 최적화하는 프레임워크, 단일 스텝에 WorkBuddy-Bench +11.5점 주장</title>
-<meta name="description" content="Google Research가 에이전트 하네스 자체를 재귀 최적화하는 오픈 프레임워크 Harness²를 공개했다. Propose–Probe–Compose(태스크 수준 재귀)와 improvement harness(하네싱 수준 재귀)의 2단계 구조, 단일 스텝에 WorkBuddy-Bench +11.5점·JobBench +4.5점 주장. 공개 13일 만에 6,178스타.">
+<meta name="description" content="Google Research가 에이전트 하네스 자체를 재귀 최적화하는 오픈 프레임워크 Harness²를 공개했다. Propose–Probe–Compose(태스크 수준 재귀)와 improvement harness(하네싱 수준 재귀)의 2단계 구조, 단일 스텝에">
 <meta property="og:title" content="Harness² — 하네스 자체를 재귀 최적화하는 프레임워크">
 <meta property="og:description" content="Google Research 공개. Task-level 재귀(Propose–Probe–Compose) + harnessing-level 재귀(improvement harness). 단일 스텝에 WorkBuddy-Bench +11.5점(저자 주장).">
 <meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3341-cover.png">
@@ -123,9 +123,45 @@
   "publisher": {
     "@id": "https://enghyu.com/#org"
   },
-  "description": "Google Research가 에이전트 하네스 자체를 재귀 최적화하는 오픈 프레임워크 Harness²를 공개했다. Propose–Probe–Compose(태스크 수준 재귀)와 improvement harness(하네싱 수준 재귀)의 2단계 구조, 단일 스텝에 WorkBuddy-Bench +11.5점·JobBench +4.5점 주장. 공개 13일 만에 6,178스타.",
+  "description": "Google Research가 에이전트 하네스 자체를 재귀 최적화하는 오픈 프레임워크 Harness²를 공개했다. Propose–Probe–Compose(태스크 수준 재귀)와 improvement harness(하네싱 수준 재귀)의 2단계 구조, 단일 스텝에",
   "image": "https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3341-cover.png",
-  "datePublished": "2026-10-21T15:45:00+09:00"
+  "datePublished": "2026-10-21T15:45:00+09:00",
+  "dateModified": "2026-10-21T15:45:00+09:00"
+}
+</script>
+<link rel="canonical" href="https://enghyu.com/ax/3341-harness2/">
+<meta property="og:url" content="https://enghyu.com/ax/3341-harness2/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Harness² — 하네스 자체를 재귀 최적화하는 프레임워크">
+<meta name="twitter:description" content="Google Research 공개. Task-level 재귀(Propose–Probe–Compose) + harnessing-level 재귀(improvement harness). 단일 스텝에 WorkBuddy-Bench +11.5점(저자 주장).">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3341-cover.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://enghyu.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AX 트렌드",
+      "item": "https://enghyu.com/ax/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "google-research 'harness2' — 에이전트 하네스 자체를 재귀 최적화하는 프레임워크, 단일 스텝에 WorkBuddy-Bench +11.5점 주장",
+      "item": "https://enghyu.com/ax/3341-harness2/"
+    }
+  ]
 }
 </script>
 </head>
@@ -139,7 +175,7 @@
   </header>
 
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3341-cover.png" alt="HARNESS² Recursive Agent Harnessing — Google Research 2026 커버">
+    <img width="1000" height="563" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3341-cover.png" alt="HARNESS² Recursive Agent Harnessing — Google Research 2026 커버">
     <figcaption>Harness² — "Recursive Agent Harnessing for an Open World", Google Research</figcaption>
   </figure>
 
@@ -150,7 +186,7 @@
   <h2>두 단계 재귀: 태스크 수준 × 하네싱 수준</h2>
 
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3341-recursion.png" alt="Propose-Probe-Compose 3단계와 persistent improvement harness 다이어그램">
+    <img width="1000" height="563" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3341-recursion.png" alt="Propose-Probe-Compose 3단계와 persistent improvement harness 다이어그램">
     <figcaption>STEP 1은 현재 태스크의 하네스를 정제하고, STEP 2는 교훈을 영속 하네스에 축적해 미래 태스크에 활용한다</figcaption>
   </figure>
 
@@ -178,7 +214,7 @@ $ uv pip install -e '.[render]'   # Linux · Python 3.12 · uv</code></pre>
   <h2>성능 주장: 단일 스텝에 +11.5점 (단, 저자 주장)</h2>
 
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3341-benchmarks.png" alt="WorkBuddy-Bench +11.5점, JobBench +4.5점, LAB pass rate +11.8pp">
+    <img width="1000" height="563" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3341-benchmarks.png" alt="WorkBuddy-Bench +11.5점, JobBench +4.5점, LAB pass rate +11.8pp">
     <figcaption>저자 주장 수치: 단일 Harness² 스텝의 개선폭. GLM-5·Gemini 3.5 Flash 기준, 제3자 재현 없음</figcaption>
   </figure>
 
@@ -194,7 +230,7 @@ $ uv pip install -e '.[render]'   # Linux · Python 3.12 · uv</code></pre>
   <h2>급성장 중: 13일에 스타 6,178개</h2>
 
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3341-adoption.png" alt="공개 13일 만에 GitHub 스타 6,178개, 일평균 493개">
+    <img width="1000" height="563" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3341-adoption.png" alt="공개 13일 만에 GitHub 스타 6,178개, 일평균 493개">
     <figcaption>10-19 09:00 KST 기준 6,178 스타, 일평균 약 493개씩 증가 — 하네스 생태계 관심의 바로미터</figcaption>
   </figure>
 
@@ -216,6 +252,15 @@ $ uv pip install -e '.[render]'   # Linux · Python 3.12 · uv</code></pre>
     <p><a href="https://github.com/roomedia/ax-trend/issues/3341">원문 이슈 #3341</a> · 핵심 링크: <a href="https://github.com/google-research/harness2">google-research/harness2 (GitHub)</a> · <a href="https://harness2.github.io">harness2.github.io</a> · <a href="https://arxiv.org/pdf/2610.14224">arXiv 논문</a></p>
     <p class="tags"><a href="/ax/tag/ai-coding/">AI 코딩</a><a href="/ax/tag/agentic-benchmark/">agentic benchmark</a></p>
   </footer>
+
+<section class="related">
+  <h2>관련 글</h2>
+  <ul>
+    <li><a href="/ax/3327-deepseek-flash-1017/">DeepSeek V4.1-Flash &#x27;1017&#x27; — &#x27;마이너 업데이트&#x27;가 Terminal-Bench +35%를 낸 방법</a></li>
+    <li><a href="/ax/3365-yomiyasu/">yomiyasu &#x27;4일 4릴리스&#x27; — 서브에이전트 1,200개가 만든 일본어 교정 스킬, 루프+하네스 엔지니어링 3층 설계</a></li>
+    <li><a href="/ax/3353-uniichat/">UniiChat — &#x27;새 채팅&#x27; 없는 영원한 하나의 대화, 메모리 트리로 무한 컨텍스트를 구현한 오픈소스 에이전트</a></li>
+  </ul>
+</section>
 </main>
 <script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
 </body>

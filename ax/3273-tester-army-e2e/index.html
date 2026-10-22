@@ -7,8 +7,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>tester-army 'e2e': 에이전틱 E2E 프레임워크에 검증·마이그레이션 스킬 2종 추가</title>
-<meta name="description" content="tester-army의 오픈소스 E2E 프레임워크 e2e에 두 개의 실전 스킬이 붙었다. /create-verification-skill은 코딩 에이전트에게 자기 작업물을 스스로 검증하는 증거 루프를 장착하고, /migrate-to-e2e는 기존 Playwright·Cypress 스위트를 한 조각씩 옮기는 '둘 다 green' 경로를 제공한다.">
-<meta property="og:title" content="tester-army 'e2e': 에이전틱 E2E 프레임워크에 검증·마이그레이션 스킬 2종 추가">
+<meta name="description" content="tester-army의 오픈소스 E2E 프레임워크 e2e에 두 개의 실전 스킬이 붙었다. /create-verification-skill은 코딩 에이전트에게 자기 작업물을 스스로 검증하는 증거 루프를 장착하고, /migrate-to-e2e는 기존 Playwright·Cypress">
+<meta property="og:title" content="tester-army &#x27;e2e&#x27;: 에이전틱 E2E 프레임워크에 검증·마이그레이션 스킬 2종 추가">
 <meta property="og:description" content="에이전트가 자기 작업물을 스스로 검증하고, 기존 테스트 스위트를 한 조각씩 agentic E2E로 옮기는 두 스킬의 구조를 개발자 관점에서 정리한다.">
 <meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3273-cover.png">
 <style>
@@ -131,9 +131,45 @@
   "publisher": {
     "@id": "https://enghyu.com/#org"
   },
-  "description": "tester-army의 오픈소스 E2E 프레임워크 e2e에 두 개의 실전 스킬이 붙었다. /create-verification-skill은 코딩 에이전트에게 자기 작업물을 스스로 검증하는 증거 루프를 장착하고, /migrate-to-e2e는 기존 Playwright·Cypress 스위트를 한 조각씩 옮기는 '둘 다 green' 경로를 제공한다.",
+  "description": "tester-army의 오픈소스 E2E 프레임워크 e2e에 두 개의 실전 스킬이 붙었다. /create-verification-skill은 코딩 에이전트에게 자기 작업물을 스스로 검증하는 증거 루프를 장착하고, /migrate-to-e2e는 기존 Playwright·Cypress",
   "image": "https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3273-cover.png",
-  "datePublished": "2026-10-19T09:45:00+09:00"
+  "datePublished": "2026-10-19T09:45:00+09:00",
+  "dateModified": "2026-10-19T09:45:00+09:00"
+}
+</script>
+<link rel="canonical" href="https://enghyu.com/ax/3273-tester-army-e2e/">
+<meta property="og:url" content="https://enghyu.com/ax/3273-tester-army-e2e/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="tester-army &#x27;e2e&#x27;: 에이전틱 E2E 프레임워크에 검증·마이그레이션 스킬 2종 추가">
+<meta name="twitter:description" content="에이전트가 자기 작업물을 스스로 검증하고, 기존 테스트 스위트를 한 조각씩 agentic E2E로 옮기는 두 스킬의 구조를 개발자 관점에서 정리한다.">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3273-cover.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://enghyu.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AX 트렌드",
+      "item": "https://enghyu.com/ax/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "tester-army 'e2e': 에이전틱 E2E 프레임워크에 검증·마이그레이션 스킬 2종 추가",
+      "item": "https://enghyu.com/ax/3273-tester-army-e2e/"
+    }
+  ]
 }
 </script>
 </head>
@@ -145,7 +181,7 @@
     <h1>tester-army 'e2e': 에이전틱 E2E 프레임워크에 검증·마이그레이션 스킬 2종 추가</h1>
     <p class="meta">2026-10-15 · <a href="https://github.com/roomedia/ax-trend/issues/3273">원문 이슈 #3273</a></p>
     <figure>
-      <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3273-cover.png" alt="tester-army e2e 인포그래픽: 에이전트가 스스로 테스트한다">
+      <img width="2048" height="1152" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3273-cover.png" alt="tester-army e2e 인포그래픽: 에이전트가 스스로 테스트한다">
     </figure>
   </header>
 
@@ -163,7 +199,7 @@
   <h2>프레임워크: 에이전트 스텝과 결정적 어서션의 공존</h2>
 
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3273-flow.png" alt="e2e 작동 방식: 에이전트 스텝 → 액션 캐시 저장 → 캐시 리플레이">
+    <img width="2048" height="1152" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3273-flow.png" alt="e2e 작동 방식: 에이전트 스텝 → 액션 캐시 저장 → 캐시 리플레이">
     <figcaption>에이전트 스텝이 통과하면 액션을 캐시해 다음 run부터 모델 호출 없이 리플레이</figcaption>
   </figure>
 
@@ -178,7 +214,7 @@
   <h2>/create-verification-skill: 에이전트에게 "증거 남기기" 장착</h2>
 
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3273-verify.png" alt="/create-verification-skill 인포그래픽: 에이전트가 자기 작업물을 스스로 검증">
+    <img width="2048" height="1152" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3273-verify.png" alt="/create-verification-skill 인포그래픽: 에이전트가 자기 작업물을 스스로 검증">
     <figcaption>verify-&lt;앱&gt; 스킬 생성 — 기능별 explore charter와 feature map으로 한 번 증명</figcaption>
   </figure>
 
@@ -192,7 +228,7 @@ npx skills add tester-army/e2e --skill create-verification-skill</code></pre>
   <h2>/migrate-to-e2e: 기존 스위트를 한 조각씩 옮기기</h2>
 
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3273-migrate.png" alt="/migrate-to-e2e 인포그래픽: '둘 다 green' 원칙으로 기존 스위트를 한 조각씩 포팅">
+    <img width="2048" height="1152" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3273-migrate.png" alt="/migrate-to-e2e 인포그래픽: '둘 다 green' 원칙으로 기존 스위트를 한 조각씩 포팅">
     <figcaption>'둘 다 green' 원칙 — 증명될 때까지新旧 스위트 모두 유지</figcaption>
   </figure>
 
@@ -227,6 +263,13 @@ npx skills add tester-army/e2e --skill migrate-to-e2e</code></pre>
   <footer>
     <p class="tags"><a href="/ax/tag/e2e-test/">E2E 테스트</a><a href="/ax/tag/ax-trend/">AX Trend</a></p>
   </footer>
+
+<section class="related">
+  <h2>관련 글</h2>
+  <ul>
+    <li><a href="/ax/3269-jevtest/">jevtest: Jev 판단 모델이 구동하는 평문 모바일 E2E 테스트</a></li>
+  </ul>
+</section>
 </main>
 <script>
 (function(){

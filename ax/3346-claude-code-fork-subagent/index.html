@@ -7,7 +7,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Claude Code v2.1.302 — fork 서브에이전트 `claude -p`·SDK·데스크톱·VS Code 기본 활성화, Claude Design 12/14 종료 예고</title>
-<meta name="description" content="Claude Code v2.1.302(2026-10-18)가 fork 서브에이전트를 claude -p·Agent SDK·데스크톱·VS Code에서 기본 활성화했다. 끄는 법은 CLAUDE_CODE_FORK_SUBAGENT=0. 훅은 이벤트당 최대 12개 동시 실행, Read 도구는 128MB 초과 이미지를 거부한다. standalone Claude Design은 2026-12-14에 종료된다.">
+<meta name="description" content="Claude Code v2.1.302(2026-10-18)가 fork 서브에이전트를 claude -p·Agent SDK·데스크톱·VS Code에서 기본 활성화했다. 끄는 법은 CLAUDE_CODE_FORK_SUBAGENT=0. 훅은 이벤트당 최대 12개 동시 실행, Read 도구는">
 <meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3346-hero.png">
 <meta property="og:title" content="Claude Code v2.1.302 — fork 서브에이전트 `claude -p`·SDK·데스크톱·VS Code 기본 활성화, Claude Design 12/14 종료 예고">
 <meta property="og:description" content="fork 서브에이전트가 전 서피스에서 기본값. 끄기·설정 플래그·종료 일정 정리.">
@@ -55,9 +55,43 @@ footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color
   "publisher": {
     "@id": "https://enghyu.com/#org"
   },
-  "description": "Claude Code v2.1.302(2026-10-18)가 fork 서브에이전트를 claude -p·Agent SDK·데스크톱·VS Code에서 기본 활성화했다. 끄는 법은 CLAUDE_CODE_FORK_SUBAGENT=0. 훅은 이벤트당 최대 12개 동시 실행, Read 도구는 128MB 초과 이미지를 거부한다. standalone Claude Design은 2026-12-14에 종료된다.",
+  "description": "Claude Code v2.1.302(2026-10-18)가 fork 서브에이전트를 claude -p·Agent SDK·데스크톱·VS Code에서 기본 활성화했다. 끄는 법은 CLAUDE_CODE_FORK_SUBAGENT=0. 훅은 이벤트당 최대 12개 동시 실행, Read 도구는",
   "image": "https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3346-hero.png",
-  "datePublished": "2026-10-22T04:05:00+09:00"
+  "datePublished": "2026-10-22T04:05:00+09:00",
+  "dateModified": "2026-10-22T04:05:00+09:00"
+}
+</script>
+<link rel="canonical" href="https://enghyu.com/ax/3346-claude-code-fork-subagent/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Claude Code v2.1.302 — fork 서브에이전트 `claude -p`·SDK·데스크톱·VS Code 기본 활성화, Claude Design 12/14 종료 예고">
+<meta name="twitter:description" content="fork 서브에이전트가 전 서피스에서 기본값. 끄기·설정 플래그·종료 일정 정리.">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3346-hero.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://enghyu.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AX 트렌드",
+      "item": "https://enghyu.com/ax/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Claude Code v2.1.302 — fork 서브에이전트 `claude -p`·SDK·데스크톱·VS Code 기본 활성화, Claude Design 12/14 종료 예고",
+      "item": "https://enghyu.com/ax/3346-claude-code-fork-subagent/"
+    }
+  ]
 }
 </script>
 </head>
@@ -69,7 +103,7 @@ footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color
 <div class="meta">2026-10-22 · AX 트렌드 · 원문 이슈 #3346</div>
 
 <figure>
-<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3346-hero.png" alt="Claude Code v2.1.302 — Fork subagents: default everywhere, 2026-10-18 릴리스" loading="lazy">
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3346-hero.png" alt="Claude Code v2.1.302 — Fork subagents: default everywhere, 2026-10-18 릴리스" loading="lazy">
 <figcaption>Claude Code v2.1.302 — Fork subagents: default everywhere (2026-10-18)</figcaption>
 </figure>
 
@@ -82,7 +116,7 @@ footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color
 <h2>이번 릴리스에서 바뀐 것</h2>
 
 <figure>
-<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3346-whats-new.png" alt="What's new: fork 기본 활성화 4서피스, 백그라운드·포그라운드 실행 규칙, 새 환경변수, 훅 스로틀링 12" loading="lazy">
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3346-whats-new.png" alt="What's new: fork 기본 활성화 4서피스, 백그라운드·포그라운드 실행 규칙, 새 환경변수, 훅 스로틀링 12" loading="lazy">
 <figcaption>What's new — 4서피스 기본 활성화 · 백그라운드-포그라운드 규칙 · 새 환경변수 · 훅 스로틀링 12</figcaption>
 </figure>
 
@@ -99,7 +133,7 @@ footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color
 <h2>설정 플래그 — 켜기·끄기</h2>
 
 <figure>
-<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3346-config.png" alt="Config & flags: CLAUDE_CODE_FORK_SUBAGENT=0, CLAUDE_CODE_AUTO_MODE_MODEL, /config Idle compaction, claude mcp serve 미제공" loading="lazy">
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3346-config.png" alt="Config & flags: CLAUDE_CODE_FORK_SUBAGENT=0, CLAUDE_CODE_AUTO_MODE_MODEL, /config Idle compaction, claude mcp serve 미제공" loading="lazy">
 <figcaption>Config & flags — 환경변수·<code>/config</code>·<code>mcp serve</code> 예외</figcaption>
 </figure>
 
@@ -116,7 +150,7 @@ export CLAUDE_CODE_AUTO_MODE_MODEL=&lt;model&gt;</code></pre>
 <h2>숫자와 마감일</h2>
 
 <figure>
-<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3346-numbers.png" alt="Numbers & deadlines: Dec 14 2026 Claude Design 종료, 128MB Read 제한, 12 훅, 과금 영향 미확인" loading="lazy">
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3346-numbers.png" alt="Numbers & deadlines: Dec 14 2026 Claude Design 종료, 128MB Read 제한, 12 훅, 과금 영향 미확인" loading="lazy">
 <figcaption>Numbers & deadlines — 2026-12-14 Claude Design 종료 · 128MB · 12 훅 · 과금 영향 미확인</figcaption>
 </figure>
 
@@ -149,6 +183,15 @@ export CLAUDE_CODE_AUTO_MODE_MODEL=&lt;model&gt;</code></pre>
 <footer>
 <p>enghyu.com AX 트렌드 · <a href="/ax/">목록으로</a></p>
 </footer>
+
+<section class="related">
+  <h2>관련 글</h2>
+  <ul>
+    <li><a href="/ax/3337-claude-writes-90pct/">Anthropic, Claude Code 코드의 90%를 Claude가 작성 중 — 6~9월 병합 PR 2배+, revert 비중 40%↓</a></li>
+    <li><a href="/ax/3329-claude-code-latency/">Anthropic, Claude Code 응답 속도 대폭 개선 — 로컬 첫 토큰 지연 4.07초→1.33초, gzip 압축+프리워밍</a></li>
+    <li><a href="/ax/3365-yomiyasu/">yomiyasu &#x27;4일 4릴리스&#x27; — 서브에이전트 1,200개가 만든 일본어 교정 스킬, 루프+하네스 엔지니어링 3층 설계</a></li>
+  </ul>
+</section>
 </main>
 <script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
 </body>

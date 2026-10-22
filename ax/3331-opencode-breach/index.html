@@ -7,9 +7,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OpenCode 보안 침해 공지 — '대규모 증류 공격'으로 Console 사용자 1.4%의 OpenAI·Anthropic·Google API 키 노출 가능</title>
-<meta name="description" content="OpenCode가 10월 17일 보안 침해를 공개했다. '대규모 증류 공격'으로 폐기 중이던 레거시 시스템을 통해 OpenCode Console 사용자 약 1.4%의 서드파티 API 키(OpenAI·Anthropic·Google)가 노출됐을 수 있다. 증류 공격의 구조, BYOK 구조적 리스크, 그리고 개발자가 지금 해야 할 3가지를 정리한다.">
-<meta property="og:title" content="OpenCode 보안 침해 공지 — '대규모 증류 공격'으로 Console 사용자 1.4%의 API 키 노출 가능">
-<meta property="og:description" content="단순 키 유출이 아니라, 탈취한 키로 프론티어 모델을 대량 쿼리해 학습 데이터를 뽑아내는 '증류 공격'. BYOK 에이전트를 쓰는 개발자의 대응 체크리스트.">
+<meta name="description" content="OpenCode가 10월 17일 보안 침해를 공개했다. &#x27;대규모 증류 공격&#x27;으로 폐기 중이던 레거시 시스템을 통해 OpenCode Console 사용자 약 1.4%의 서드파티 API 키(OpenAI·Anthropic·Google)가 노출됐을 수 있다. 증류 공격의 구조, BYOK">
+<meta property="og:title" content="OpenCode 보안 침해 공지 — &#x27;대규모 증류 공격&#x27;으로 Console 사용자 1.4%의 API 키 노출 가능">
+<meta property="og:description" content="단순 키 유출이 아니라, 탈취한 키로 프론티어 모델을 대량 쿼리해 학습 데이터를 뽑아내는 &#x27;증류 공격&#x27;. BYOK 에이전트를 쓰는 개발자의 대응 체크리스트.">
 <meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3331-cover.png">
 <style>
   :root {
@@ -128,9 +128,45 @@
   "publisher": {
     "@id": "https://enghyu.com/#org"
   },
-  "description": "OpenCode가 10월 17일 보안 침해를 공개했다. '대규모 증류 공격'으로 폐기 중이던 레거시 시스템을 통해 OpenCode Console 사용자 약 1.4%의 서드파티 API 키(OpenAI·Anthropic·Google)가 노출됐을 수 있다. 증류 공격의 구조, BYOK 구조적 리스크, 그리고 개발자가 지금 해야 할 3가지를 정리한다.",
+  "description": "OpenCode가 10월 17일 보안 침해를 공개했다. '대규모 증류 공격'으로 폐기 중이던 레거시 시스템을 통해 OpenCode Console 사용자 약 1.4%의 서드파티 API 키(OpenAI·Anthropic·Google)가 노출됐을 수 있다. 증류 공격의 구조, BYOK",
   "image": "https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3331-cover.png",
-  "datePublished": "2026-10-20T09:40:00+09:00"
+  "datePublished": "2026-10-20T09:40:00+09:00",
+  "dateModified": "2026-10-20T09:40:00+09:00"
+}
+</script>
+<link rel="canonical" href="https://enghyu.com/ax/3331-opencode-breach/">
+<meta property="og:url" content="https://enghyu.com/ax/3331-opencode-breach/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="OpenCode 보안 침해 공지 — &#x27;대규모 증류 공격&#x27;으로 Console 사용자 1.4%의 API 키 노출 가능">
+<meta name="twitter:description" content="단순 키 유출이 아니라, 탈취한 키로 프론티어 모델을 대량 쿼리해 학습 데이터를 뽑아내는 &#x27;증류 공격&#x27;. BYOK 에이전트를 쓰는 개발자의 대응 체크리스트.">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3331-cover.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://enghyu.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AX 트렌드",
+      "item": "https://enghyu.com/ax/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "OpenCode 보안 침해 공지 — '대규모 증류 공격'으로 Console 사용자 1.4%의 OpenAI·Anthropic·Google API 키 노출 가능",
+      "item": "https://enghyu.com/ax/3331-opencode-breach/"
+    }
+  ]
 }
 </script>
 </head>
@@ -142,7 +178,7 @@
     <h1>OpenCode 보안 침해 공지 — '대규모 증류 공격'으로 Console 사용자 1.4%의 OpenAI·Anthropic·Google API 키 노출 가능</h1>
     <p class="meta">2026-10-17 · <a href="https://github.com/roomedia/ax-trend/issues/3331">원문 이슈 #3331</a></p>
     <figure>
-      <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3331-cover.png" alt="OpenCode 보안 침해 — 대규모 증류 공격, Console 사용자 1.4%의 API 키 노출 가능, 침해 경로는 레거시 시스템">
+      <img width="2048" height="1152" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3331-cover.png" alt="OpenCode 보안 침해 — 대규모 증류 공격, Console 사용자 1.4%의 API 키 노출 가능, 침해 경로는 레거시 시스템">
     </figure>
   </header>
 
@@ -163,7 +199,7 @@
 
   <h2>증류 공격의 구조: 단순 키 유출이 아니다</h2>
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3331-distill.png" alt="증류 공격 3단계 구조: 1) 레거시 시스템에서 API 키 탈취 → 2) 탈취한 키로 프론티어 모델에 대량 쿼리 → 3) 모델 출력으로 소형 모델 학습">
+    <img width="2048" height="1152" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3331-distill.png" alt="증류 공격 3단계 구조: 1) 레거시 시스템에서 API 키 탈취 → 2) 탈취한 키로 프론티어 모델에 대량 쿼리 → 3) 모델 출력으로 소형 모델 학습">
     <figcaption>증류 공격의 3단계 — 키 탈취 → 대량 쿼리 → 학습 데이터 추출</figcaption>
   </figure>
 
@@ -177,7 +213,7 @@
 
   <h2>BYOK의 구조적 리스크: 편의의 대가</h2>
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3331-byok.png" alt="BYOK 허브-스포크 구조: OpenCode Console 중앙 허브에 OpenAI·Anthropic·Google의 API 키가 모여 있고, 하나의 앱이 뚫리면 여러 AI 계정이 동시에 노출된다는 경고">
+    <img width="2048" height="1152" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3331-byok.png" alt="BYOK 허브-스포크 구조: OpenCode Console 중앙 허브에 OpenAI·Anthropic·Google의 API 키가 모여 있고, 하나의 앱이 뚫리면 여러 AI 계정이 동시에 노출된다는 경고">
     <figcaption>하나의 앱이 뚫리면 여러 AI 계정이 동시에 노출 — BYOK의 단일 실패점</figcaption>
   </figure>
 
@@ -191,7 +227,7 @@
 
   <h2>개발자가 지금 해야 할 3가지</h2>
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3331-checklist.png" alt="대응 체크리스트 3가지: 1) 키 폐기·교체 — 노출 가능 키는 즉시 재생성, 2) 사용량 로그 확인 — 각 프로바이더 대시보드에서 비정상 쿼리 점검, 3) 키 분리·스코프 제한 — 에이전트별 키 분리, 최소 권한">
+    <img width="2048" height="1152" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3331-checklist.png" alt="대응 체크리스트 3가지: 1) 키 폐기·교체 — 노출 가능 키는 즉시 재생성, 2) 사용량 로그 확인 — 각 프로바이더 대시보드에서 비정상 쿼리 점검, 3) 키 분리·스코프 제한 — 에이전트별 키 분리, 최소 권한">
     <figcaption>증류 공격 대응 체크리스트 — 순서대로 즉시 실행</figcaption>
   </figure>
 
@@ -224,6 +260,13 @@ for provider in ["openai", "anthropic", "google"]:
     <p><a href="https://github.com/roomedia/ax-trend/issues/3331">원문 이슈 #3331</a> · 핵심 링크: <a href="https://officechai.com/ai/opencode-discloses-security-breach-says-attackers-may-have-accessed-users-openai-anthropic-and-google-api-keys/">officechai — OpenCode Discloses Security Breach (10/17~18)</a> · 관련 이슈: <a href="https://github.com/roomedia/ax-trend/issues/3236">#3236</a> Anthropic, Claude 증류 공격 방어 대책 공개</p>
     <p class="tags"><a href="/ax/tag/ax-trend/">AX Trend</a><a href="/ax/tag/opencode/">OpenCode</a><a href="/ax/tag/security/">security</a></p>
   </footer>
+
+<section class="related">
+  <h2>관련 글</h2>
+  <ul>
+    <li><a href="/ax/3343-agentic-brain/">rohithhn &#x27;Agentic Brain&#x27; 공개 — Claude Code·Cursor·Codex 세션을 공유하는 오픈소스 셀프호스팅 AI 코딩 메모리, Apache-2.0</a></li>
+  </ul>
+</section>
 </main>
 <script>
 (function(){

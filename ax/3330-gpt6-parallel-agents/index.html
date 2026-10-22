@@ -7,9 +7,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OpenAI, GPT-6 Pro 병렬 에이전트 — 하나의 요청을 여러 에이전트가 동시 처리</title>
-<meta name="description" content="OpenAI가 10월 16일 릴리스 노트에서 GPT-6 Pro 병렬 에이전트를 공개했다. 하나의 요청을 여러 에이전트에 동시에 보내 동시 처리하고, per-agent progress 표시로 활동을 확인하고, 완료된 결과를 열어 개별 검토할 수 있다. 같은 묶음에 ChatGPT Slides도 출시 — Space에서 프레젠테이션을 만들고 편집·공동 작업하는 기능이다.">
+<meta name="description" content="OpenAI가 10월 16일 릴리스 노트에서 GPT-6 Pro 병렬 에이전트를 공개했다. 하나의 요청을 여러 에이전트에 동시에 보내 동시 처리하고, per-agent progress 표시로 활동을 확인하고, 완료된 결과를 열어 개별 검토할 수 있다. 같은 묶음에 ChatGPT">
 <meta property="og:title" content="OpenAI, GPT-6 Pro 병렬 에이전트 — 하나의 요청을 여러 에이전트가 동시 처리">
-<meta property="og:description" content="병렬 에이전트 + per-agent progress 표시 + ChatGPT Slides. 긴 에이전트 작업의 '침묵'을 겨냥한 가시성 설계와 Responses API 병렬 서브에이전트 흐름의 ChatGPT 확장을 정리한다.">
+<meta property="og:description" content="병렬 에이전트 + per-agent progress 표시 + ChatGPT Slides. 긴 에이전트 작업의 &#x27;침묵&#x27;을 겨냥한 가시성 설계와 Responses API 병렬 서브에이전트 흐름의 ChatGPT 확장을 정리한다.">
 <meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3330-cover.png">
 <style>
   :root {
@@ -128,9 +128,45 @@
   "publisher": {
     "@id": "https://enghyu.com/#org"
   },
-  "description": "OpenAI가 10월 16일 릴리스 노트에서 GPT-6 Pro 병렬 에이전트를 공개했다. 하나의 요청을 여러 에이전트에 동시에 보내 동시 처리하고, per-agent progress 표시로 활동을 확인하고, 완료된 결과를 열어 개별 검토할 수 있다. 같은 묶음에 ChatGPT Slides도 출시 — Space에서 프레젠테이션을 만들고 편집·공동 작업하는 기능이다.",
+  "description": "OpenAI가 10월 16일 릴리스 노트에서 GPT-6 Pro 병렬 에이전트를 공개했다. 하나의 요청을 여러 에이전트에 동시에 보내 동시 처리하고, per-agent progress 표시로 활동을 확인하고, 완료된 결과를 열어 개별 검토할 수 있다. 같은 묶음에 ChatGPT",
   "image": "https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3330-cover.png",
-  "datePublished": "2026-10-20T06:40:00+09:00"
+  "datePublished": "2026-10-20T06:40:00+09:00",
+  "dateModified": "2026-10-20T06:40:00+09:00"
+}
+</script>
+<link rel="canonical" href="https://enghyu.com/ax/3330-gpt6-parallel-agents/">
+<meta property="og:url" content="https://enghyu.com/ax/3330-gpt6-parallel-agents/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="OpenAI, GPT-6 Pro 병렬 에이전트 — 하나의 요청을 여러 에이전트가 동시 처리">
+<meta name="twitter:description" content="병렬 에이전트 + per-agent progress 표시 + ChatGPT Slides. 긴 에이전트 작업의 &#x27;침묵&#x27;을 겨냥한 가시성 설계와 Responses API 병렬 서브에이전트 흐름의 ChatGPT 확장을 정리한다.">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3330-cover.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://enghyu.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AX 트렌드",
+      "item": "https://enghyu.com/ax/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "OpenAI, GPT-6 Pro 병렬 에이전트 — 하나의 요청을 여러 에이전트가 동시 처리",
+      "item": "https://enghyu.com/ax/3330-gpt6-parallel-agents/"
+    }
+  ]
 }
 </script>
 </head>
@@ -142,7 +178,7 @@
     <h1>OpenAI, GPT-6 Pro 병렬 에이전트 — 하나의 요청을 여러 에이전트가 동시 처리</h1>
     <p class="meta">2026-10-16 · <a href="https://github.com/roomedia/ax-trend/issues/3330">원문 이슈 #3330</a></p>
     <figure>
-      <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3330-cover.png" alt="GPT-6 Pro 병렬 에이전트 — 하나의 요청이 세 개의 에이전트에 동시에 분기되어 병렬 처리되는 개념도">
+      <img width="2048" height="1152" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3330-cover.png" alt="GPT-6 Pro 병렬 에이전트 — 하나의 요청이 세 개의 에이전트에 동시에 분기되어 병렬 처리되는 개념도">
     </figure>
   </header>
 
@@ -154,7 +190,7 @@
 
   <h2>병렬 에이전트: 동작 방식</h2>
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3330-progress.png" alt="per-agent progress 표시 UI 모크업 — 여러 에이전트의 작업 상태(working, done, reviewing)를 개별 진행률 바와 상태 라벨로 보여주는 화면">
+    <img width="2048" height="1152" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3330-progress.png" alt="per-agent progress 표시 UI 모크업 — 여러 에이전트의 작업 상태(working, done, reviewing)를 개별 진행률 바와 상태 라벨로 보여주는 화면">
     <figcaption>per-agent progress 표시 — 어떤 에이전트가 뭘 하는지 각각 보여준다</figcaption>
   </figure>
 
@@ -187,7 +223,7 @@ interface ParallelAgentOrchestrator {
 
   <h2>ChatGPT Slides: 같은 묶음의 두 번째 기능</h2>
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3330-slides.png" alt="ChatGPT Slides 개념도 — Space 안에서 AI가 슬라이드를 생성하고 두 사람이 실시간으로 공동 편집하는 협업 화면">
+    <img width="2048" height="1152" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3330-slides.png" alt="ChatGPT Slides 개념도 — Space 안에서 AI가 슬라이드를 생성하고 두 사람이 실시간으로 공동 편집하는 협업 화면">
     <figcaption>ChatGPT Slides — Space 기반 프레젠테이션 생성·편집·공동 작업</figcaption>
   </figure>
 
@@ -215,7 +251,7 @@ interface ParallelAgentOrchestrator {
   <div class="callout warn">
     <p><strong>보안 시사점:</strong> 병렬 에이전트는 도구 권한 스코핑 없이는 도달 범위가 에이전트 수만큼 배가된다. 자사 앱에 fan-out 패턴을 도입한다면, 에이전트별 <strong>최소 권한 도구 화이트리스트</strong>를 의무화해야 한다.</p>
     <figure>
-      <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3330-scope.png" alt="병렬 에이전트 보안 스코프 개념도 — 여러 에이전트가 각각 다른 도구 권한 배지를 들고 있고, 그 주변에 점선 보안 경계가 표시된 다이어그램">
+      <img width="2048" height="1152" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3330-scope.png" alt="병렬 에이전트 보안 스코프 개념도 — 여러 에이전트가 각각 다른 도구 권한 배지를 들고 있고, 그 주변에 점선 보안 경계가 표시된 다이어그램">
       <figcaption>에이전트 × 도구 권한 = 실제 도달 범위. 병렬일수록 스코핑이 중요하다</figcaption>
     </figure>
   </div>
@@ -233,6 +269,15 @@ interface ParallelAgentOrchestrator {
     <p><a href="https://github.com/roomedia/ax-trend/issues/3330">원문 이슈 #3330</a> · 핵심 링크: <a href="https://econotimes.com/OpenAI-Begins-Rolling-Out-Parallel-Agents-to-Eligible-ChatGPT-Pro-Users-1755952">EconoTimes — OpenAI Begins Rolling Out Parallel Agents to Eligible ChatGPT Pro Users (10/17)</a> · <a href="https://dailyaibrief.com/news/openai-adds-collaborative-slide-creation-to-chatgpt-qNFmvJtV">DailyAIBrief — OpenAI Adds Slides and Parallel Agents to ChatGPT (10/17)</a> · <a href="https://rrtechpulse.com/stories/chatgpt-gpt-6-pro-faster-multi-agent-update/">RR Tech Pulse — GPT-6 Pro update: faster, multi-agent (10/17)</a> · 관련 이슈: <a href="https://github.com/roomedia/ax-trend/issues/3113">#3113</a> GPT-6 + 인텔리전트 UI · <a href="https://github.com/roomedia/ax-trend/issues/3277">#3277</a> GPT-6 family 소프트웨어 유지보수 · <a href="https://github.com/roomedia/ax-trend/issues/3091">#3091</a> Decisions API 퍼블릭 베타</p>
     <p class="tags"><a href="/ax/tag/ax-trend/">AX Trend</a><a href="/ax/tag/openai/">OpenAI</a><a href="/ax/tag/parallel-agents/">parallel-agents</a><a href="/ax/tag/agent-ux/">agent-UX</a></p>
   </footer>
+
+<section class="related">
+  <h2>관련 글</h2>
+  <ul>
+    <li><a href="/ax/3365-yomiyasu/">yomiyasu &#x27;4일 4릴리스&#x27; — 서브에이전트 1,200개가 만든 일본어 교정 스킬, 루프+하네스 엔지니어링 3층 설계</a></li>
+    <li><a href="/ax/3353-uniichat/">UniiChat — &#x27;새 채팅&#x27; 없는 영원한 하나의 대화, 메모리 트리로 무한 컨텍스트를 구현한 오픈소스 에이전트</a></li>
+    <li><a href="/ax/3347-earshot/">Leonxlnx &#x27;earshot&#x27; — 코딩 에이전트용 오디오 리뷰·사운드 생성 툴킷, CPU 온리·MCP 지원, 공개 4일 만에 1,100+스타</a></li>
+  </ul>
+</section>
 </main>
 <script>
 (function(){

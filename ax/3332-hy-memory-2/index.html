@@ -7,8 +7,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>텐센트 Hy Memory 2.0 — 에이전트 '기억'을 3B 특화 모델에 맡기는 메모리 라이터</title>
-<meta name="description" content="텐센트 Hunyuan이 에이전트 메모리 프레임워크 Hy Memory 2.0을 공개했다. 메모리 쓰기 경로를 전담하는 Hy-Memory-30B-A3B(활성 파라미터 3B)가 4개 하네스 평균 55.49로 Claude Opus 5(54.62)를 앞섰다는 주장. 쓰기 경로 오프로드, Mem0·MemOS 드롭인 교체, 그리고 벤치마크의 한계를 정리한다.">
-<meta property="og:title" content="텐센트 Hy Memory 2.0 — 에이전트 '기억'을 3B 특화 모델에 맡기는 메모리 라이터">
+<meta name="description" content="텐센트 Hunyuan이 에이전트 메모리 프레임워크 Hy Memory 2.0을 공개했다. 메모리 쓰기 경로를 전담하는 Hy-Memory-30B-A3B(활성 파라미터 3B)가 4개 하네스 평균 55.49로 Claude Opus 5(54.62)를 앞섰다는 주장. 쓰기 경로 오프로드">
+<meta property="og:title" content="텐센트 Hy Memory 2.0 — 에이전트 &#x27;기억&#x27;을 3B 특화 모델에 맡기는 메모리 라이터">
 <meta property="og:description" content="활성 파라미터 3B의 메모리 라이터 모델이 Opus 5급 범용 모델을 앞섰다는 텐센트의 주장. 에이전트 메모리 쓰기 경로를 오프로드하는 구조와 실무 도입 관점을 정리.">
 <meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3332-cover.png">
 <style>
@@ -123,9 +123,45 @@
   "publisher": {
     "@id": "https://enghyu.com/#org"
   },
-  "description": "텐센트 Hunyuan이 에이전트 메모리 프레임워크 Hy Memory 2.0을 공개했다. 메모리 쓰기 경로를 전담하는 Hy-Memory-30B-A3B(활성 파라미터 3B)가 4개 하네스 평균 55.49로 Claude Opus 5(54.62)를 앞섰다는 주장. 쓰기 경로 오프로드, Mem0·MemOS 드롭인 교체, 그리고 벤치마크의 한계를 정리한다.",
+  "description": "텐센트 Hunyuan이 에이전트 메모리 프레임워크 Hy Memory 2.0을 공개했다. 메모리 쓰기 경로를 전담하는 Hy-Memory-30B-A3B(활성 파라미터 3B)가 4개 하네스 평균 55.49로 Claude Opus 5(54.62)를 앞섰다는 주장. 쓰기 경로 오프로드",
   "image": "https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3332-cover.png",
-  "datePublished": "2026-10-20T12:45:00+09:00"
+  "datePublished": "2026-10-20T12:45:00+09:00",
+  "dateModified": "2026-10-20T12:45:00+09:00"
+}
+</script>
+<link rel="canonical" href="https://enghyu.com/ax/3332-hy-memory-2/">
+<meta property="og:url" content="https://enghyu.com/ax/3332-hy-memory-2/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="텐센트 Hy Memory 2.0 — 에이전트 &#x27;기억&#x27;을 3B 특화 모델에 맡기는 메모리 라이터">
+<meta name="twitter:description" content="활성 파라미터 3B의 메모리 라이터 모델이 Opus 5급 범용 모델을 앞섰다는 텐센트의 주장. 에이전트 메모리 쓰기 경로를 오프로드하는 구조와 실무 도입 관점을 정리.">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3332-cover.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://enghyu.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AX 트렌드",
+      "item": "https://enghyu.com/ax/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "텐센트 Hy Memory 2.0 — 에이전트 '기억'을 3B 특화 모델에 맡기는 메모리 라이터",
+      "item": "https://enghyu.com/ax/3332-hy-memory-2/"
+    }
+  ]
 }
 </script>
 </head>
@@ -137,7 +173,7 @@
     <h1>텐센트 Hy Memory 2.0 — 에이전트 '기억'을 3B 특화 모델에 맡기는 메모리 라이터</h1>
     <p class="meta">2026-10-16 · <a href="https://github.com/roomedia/ax-trend/issues/3332">원문 이슈 #3332</a></p>
     <figure>
-      <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3332-cover.png" alt="Hy Memory 2.0 — 텐센트 에이전트 메모리 프레임워크 커버">
+      <img width="1920" height="1280" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3332-cover.png" alt="Hy Memory 2.0 — 텐센트 에이전트 메모리 프레임워크 커버">
     </figure>
   </header>
 
@@ -158,7 +194,7 @@
 
   <h2>3층 레이어 아키텍처</h2>
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3332-arch.png" alt="Hy Memory 3층 레이어 아키텍처: 메모리 라이터 모델 → 메모리 프레임워크 → MemHub 앱">
+    <img width="1920" height="1280" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3332-arch.png" alt="Hy Memory 3층 레이어 아키텍처: 메모리 라이터 모델 → 메모리 프레임워크 → MemHub 앱">
     <figcaption>3층 레이어 — 라이터 모델(쓰기 전담) → 메모리 프레임워크 → MemHub(공유 앱)</figcaption>
   </figure>
 
@@ -166,7 +202,7 @@
 
   <h2>벤치마크: 55.49 vs Opus 5 54.62</h2>
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3332-bench.png" alt="4개 하네스 평균 점수 비교: Hy-Memory-30B-A3B 55.49, Claude Opus 5 54.62, DeepSeek V4.1 Flash 53.64, Hy3 51.63, Qwen3.6-35B-A3B 50.37">
+    <img width="2224" height="1136" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3332-bench.png" alt="4개 하네스 평균 점수 비교: Hy-Memory-30B-A3B 55.49, Claude Opus 5 54.62, DeepSeek V4.1 Flash 53.64, Hy3 51.63, Qwen3.6-35B-A3B 50.37">
     <figcaption>4개 하네스 평균 — 텐센트 제시 수치. 전량 벤더 자체 측정이다.</figcaption>
   </figure>
 
@@ -187,7 +223,7 @@
 
   <h2>개발자가 바로 써볼 수 있는 실무 포인트</h2>
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3332-dev.png" alt="개발자 워크플로우: vLLM으로 OpenAI 호환 API 배포 후 기존 Mem0·MemOS 프레임워크에 드롭인 교체">
+    <img width="1920" height="1280" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3332-dev.png" alt="개발자 워크플로우: vLLM으로 OpenAI 호환 API 배포 후 기존 Mem0·MemOS 프레임워크에 드롭인 교체">
     <figcaption>vLLM으로 OpenAI 호환 API로 서빙 → 기존 프레임워크에 드롭인 교체</figcaption>
   </figure>
 
@@ -219,6 +255,15 @@ memory_writer = LLM(
     <p><a href="https://github.com/roomedia/ax-trend/issues/3332">원문 이슈 #3332</a> · 핵심 링크: <a href="https://longbridge.com/en/news/302088460">Longbridge/wallstreetcn (10/16)</a> · <a href="https://huggingface.co/tencent/Hy-Memory-30B-A3B">HF 모델 카드</a> · <a href="https://github.com/Tencent-Hunyuan/Hy-Memory">GitHub Tencent-Hunyuan/Hy-Memory</a> · <a href="https://dev.to/teolex2020/tencents-hy-memory-is-only-as-good-as-the-llm-that-writes-it-i-measured-it-on-longmemeval-4bj4">dev.to 실측 리뷰</a></p>
     <p class="tags"><a href="/ax/tag/ax-trend/">AX Trend</a><a href="/ax/tag/performance/">성능 최적화</a><a href="/ax/tag/ai-coding/">AI 코딩</a></p>
   </footer>
+
+<section class="related">
+  <h2>관련 글</h2>
+  <ul>
+    <li><a href="/ax/3349-exa-3/">Exa, AI 에이전트용 검색 API &#x27;Exa 3.0&#x27; 출시 — 역대 최대 검색 품질 개선·신규 저가 티어 &#x27;Exa Lite&#x27; $4/1,000요청</a></li>
+    <li><a href="/ax/3340-obsidian-pele/">Obsidian, 오픈소스 Mermaid 렌더러 &#x27;Pele&#x27; 공개 — Mermaid.js 대비 번들 1/6·최대 500배 빠른 렌더 주장, CSS 변수 테마 지원</a></li>
+    <li><a href="/ax/3338-leanrea/">aicodeking &#x27;leanrea&#x27; — REA 대체 8KB 에이전트 스킬, MCP 없이 순수 CLI로 38% 빠름·35% 저렴</a></li>
+  </ul>
+</section>
 </main>
 <script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
 </body>

@@ -7,9 +7,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>pstack — 에이전트용 엄격 엔지니어링 스킬 모음, Cursor 공식 플러그인 등록</title>
-<meta name="description" content="Meta·Netflix·Cursor 출신 lauren의 에이전트용 엔지니어링 스킬 모음 'pstack'이 Cursor 공식 플러그인 레포에 등록됐다. /setup-pstack·/poteto-mode·/poteto-help 10초 시작법, 23개 플레이북(재현→근본원인→런타임 증거)의 구조, grok/opus 5.5 멀티모델 분배 전략을 개발자 관점에서 정리한다.">
+<meta name="description" content="Meta·Netflix·Cursor 출신 lauren의 에이전트용 엔지니어링 스킬 모음 &#x27;pstack&#x27;이 Cursor 공식 플러그인 레포에 등록됐다. /setup-pstack·/poteto-mode·/poteto-help 10초 시작법, 23개 플레이북(재현→근본원인→런타임 증거)의">
 <meta property="og:title" content="pstack — 에이전트용 엄격 엔지니어링 스킬 모음, Cursor 공식 플러그인 등록">
-<meta property="og:description" content="X 조회수 20.1만, Taylor Otwell 'pstack is the new solid'. 23개 플레이북과 멀티모델 분배로 '적을 쓰되, 더 좋은 코드를' — 에이전트 코딩의 병목이 속도에서 품질·검증으로 넘어가는 대표 사례.">
+<meta property="og:description" content="X 조회수 20.1만, Taylor Otwell &#x27;pstack is the new solid&#x27;. 23개 플레이북과 멀티모델 분배로 &#x27;적을 쓰되, 더 좋은 코드를&#x27; — 에이전트 코딩의 병목이 속도에서 품질·검증으로 넘어가는 대표 사례.">
 <meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3293-cover.png">
 <style>
   :root {
@@ -131,9 +131,45 @@
   "publisher": {
     "@id": "https://enghyu.com/#org"
   },
-  "description": "Meta·Netflix·Cursor 출신 lauren의 에이전트용 엔지니어링 스킬 모음 'pstack'이 Cursor 공식 플러그인 레포에 등록됐다. /setup-pstack·/poteto-mode·/poteto-help 10초 시작법, 23개 플레이북(재현→근본원인→런타임 증거)의 구조, grok/opus 5.5 멀티모델 분배 전략을 개발자 관점에서 정리한다.",
+  "description": "Meta·Netflix·Cursor 출신 lauren의 에이전트용 엔지니어링 스킬 모음 'pstack'이 Cursor 공식 플러그인 레포에 등록됐다. /setup-pstack·/poteto-mode·/poteto-help 10초 시작법, 23개 플레이북(재현→근본원인→런타임 증거)의",
   "image": "https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3293-cover.png",
-  "datePublished": "2026-10-19T15:45:00+09:00"
+  "datePublished": "2026-10-19T15:45:00+09:00",
+  "dateModified": "2026-10-19T15:45:00+09:00"
+}
+</script>
+<link rel="canonical" href="https://enghyu.com/ax/3293-pstack/">
+<meta property="og:url" content="https://enghyu.com/ax/3293-pstack/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="pstack — 에이전트용 엄격 엔지니어링 스킬 모음, Cursor 공식 플러그인 등록">
+<meta name="twitter:description" content="X 조회수 20.1만, Taylor Otwell &#x27;pstack is the new solid&#x27;. 23개 플레이북과 멀티모델 분배로 &#x27;적을 쓰되, 더 좋은 코드를&#x27; — 에이전트 코딩의 병목이 속도에서 품질·검증으로 넘어가는 대표 사례.">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3293-cover.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://enghyu.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AX 트렌드",
+      "item": "https://enghyu.com/ax/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "pstack — 에이전트용 엄격 엔지니어링 스킬 모음, Cursor 공식 플러그인 등록",
+      "item": "https://enghyu.com/ax/3293-pstack/"
+    }
+  ]
 }
 </script>
 </head>
@@ -145,7 +181,7 @@
     <h1>pstack — 에이전트용 엄격 엔지니어링 스킬 모음, Cursor 공식 플러그인 등록</h1>
     <p class="meta">2026-10-16 · <a href="https://github.com/roomedia/ax-trend/issues/3293">원문 이슈 #3293</a></p>
     <figure>
-      <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3293-cover.png" alt="pstack: 23개 플레이북 내장, X 조회수 20.1만, Taylor Otwell 'pstack is the new solid', 저자 lauren (Meta·Netflix·Cursor 출신)">
+      <img width="2048" height="1152" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3293-cover.png" alt="pstack: 23개 플레이북 내장, X 조회수 20.1만, Taylor Otwell 'pstack is the new solid', 저자 lauren (Meta·Netflix·Cursor 출신)">
     </figure>
   </header>
 
@@ -162,7 +198,7 @@
 
   <h2>10초 시작법</h2>
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3293-quickstart.png" alt="pstack 시작하기: 1단계 /setup-pstack(추론 예산·모델 선택) → 2단계 /poteto-mode(플레이북 실행) → 3단계 /poteto-help(스킬 선택 질문), 설치는 /add-plugin pstack">
+    <img width="2048" height="1152" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3293-quickstart.png" alt="pstack 시작하기: 1단계 /setup-pstack(추론 예산·모델 선택) → 2단계 /poteto-mode(플레이북 실행) → 3단계 /poteto-help(스킬 선택 질문), 설치는 /add-plugin pstack">
     <figcaption>설치부터 플레이북 실행까지의 10초 튜토리얼</figcaption>
   </figure>
 
@@ -180,7 +216,7 @@
 
   <h2>동작 방식: 23개 플레이북 + 멀티모델 분배</h2>
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3293-workflow.png" alt="pstack 작동 방식: 1단계 /setup-pstack → 2단계 /poteto-mode → 3단계 23개 플레이북 → 4단계 멀티모델 실행, grok는 코드 위임 작업, opus 5.5는 판단 작업 담당">
+    <img width="1200" height="760" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3293-workflow.png" alt="pstack 작동 방식: 1단계 /setup-pstack → 2단계 /poteto-mode → 3단계 23개 플레이북 → 4단계 멀티모델 실행, grok는 코드 위임 작업, opus 5.5는 판단 작업 담당">
     <figcaption><code>/setup-pstack</code>으로 모델 패널을 설정하고, <code>/poteto-mode</code>가 작업에 맞는 플레이북을 고른다</figcaption>
   </figure>
 
@@ -205,7 +241,7 @@
 
   <h2>핵심 원칙: "추측으로 코드를 고치지 않는다"</h2>
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3293-playbook.png" alt="bug fix 플레이북: 1단계 재현 → 2단계 근본원인 → 3단계 런타임 증거로 수정 → 4단계 검증. 핵심 원칙: 추측으로 코드를 고치지 않는다, 모든 수정은 런타임 증거 위에서만">
+    <img width="1200" height="560" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3293-playbook.png" alt="bug fix 플레이북: 1단계 재현 → 2단계 근본원인 → 3단계 런타임 증거로 수정 → 4단계 검증. 핵심 원칙: 추측으로 코드를 고치지 않는다, 모든 수정은 런타임 증거 위에서만">
     <figcaption><code>bug fix</code> 플레이북 — 에이전트 코딩의 검증 게이트 설계에 바로 참고할 만한 패턴</figcaption>
   </figure>
 
@@ -228,6 +264,15 @@
     <p><a href="https://github.com/roomedia/ax-trend/issues/3293">원문 이슈 #3293</a> · 핵심 링크: <a href="https://x.com/poteto/status/2110757066709356851">X 홍보글 (10/16)</a> · <a href="https://github.com/cursor/plugins/tree/main/pstack">GitHub 공식 플러그인</a></p>
     <p class="tags"><a href="/ax/tag/ax-trend/">AX Trend</a><a href="/ax/tag/ai-coding/">AI 코딩</a></p>
   </footer>
+
+<section class="related">
+  <h2>관련 글</h2>
+  <ul>
+    <li><a href="/ax/3365-yomiyasu/">yomiyasu &#x27;4일 4릴리스&#x27; — 서브에이전트 1,200개가 만든 일본어 교정 스킬, 루프+하네스 엔지니어링 3층 설계</a></li>
+    <li><a href="/ax/3353-uniichat/">UniiChat — &#x27;새 채팅&#x27; 없는 영원한 하나의 대화, 메모리 트리로 무한 컨텍스트를 구현한 오픈소스 에이전트</a></li>
+    <li><a href="/ax/3349-exa-3/">Exa, AI 에이전트용 검색 API &#x27;Exa 3.0&#x27; 출시 — 역대 최대 검색 품질 개선·신규 저가 티어 &#x27;Exa Lite&#x27; $4/1,000요청</a></li>
+  </ul>
+</section>
 </main>
 <script>
 (function(){

@@ -13,6 +13,9 @@ const mountDir = "ktheme";
 // [원본, public/ 안의 목적지]
 const entries = [
   ["hub.html", "index.html"],
+  ["about.html", "about/index.html"],
+  ["404.html", "404.html"],
+  ["favicon.ico", "favicon.ico"],
   ["index.html", `${mountDir}/index.html`],
   ["privacy.html", `${mountDir}/privacy.html`],
   ["base.apk", `${mountDir}/base.apk`],

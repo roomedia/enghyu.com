@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DeepSeek, 자체 검색엔진 기반 Search·Fetch API 전면 개방 — 성공 요청 1,000건당 $0.75, 11/1 과금 시작</title>
-<meta name="description" content="DeepSeek이 자체 검색엔진 기반 Search API·Fetch API를 모든 개발자에게 개방. Search는 쿼리→구조화 웹페이지 결과, Fetch는 단일 URL→Markdown. 성공 요청 1,000건당 $0.75, 11/1(베이징 시간) 과금 시작. 서버사이드 도구 경유 호출은 무료 구간.">
+<meta name="description" content="DeepSeek이 자체 검색엔진 기반 Search API·Fetch API를 모든 개발자에게 개방. Search는 쿼리→구조화 웹페이지 결과, Fetch는 단일 URL→Markdown. 성공 요청 1,000건당 $0.75, 11/1(베이징 시간) 과금 시작. 서버사이드 도구 경유">
 <meta property="og:title" content="DeepSeek Search·Fetch API 전면 개방 — API 키 하나로 검색까지, $0.75/1k">
 <meta property="og:description" content="자체 검색엔진 기반 Search·Fetch API 개방. 성공 요청 1,000건당 $0.75, 11/1 과금 시작. 서버사이드 도구 경유는 지금 무료.">
 <meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3335-cover.png">
@@ -123,9 +123,45 @@
   "publisher": {
     "@id": "https://enghyu.com/#org"
   },
-  "description": "DeepSeek이 자체 검색엔진 기반 Search API·Fetch API를 모든 개발자에게 개방. Search는 쿼리→구조화 웹페이지 결과, Fetch는 단일 URL→Markdown. 성공 요청 1,000건당 $0.75, 11/1(베이징 시간) 과금 시작. 서버사이드 도구 경유 호출은 무료 구간.",
+  "description": "DeepSeek이 자체 검색엔진 기반 Search API·Fetch API를 모든 개발자에게 개방. Search는 쿼리→구조화 웹페이지 결과, Fetch는 단일 URL→Markdown. 성공 요청 1,000건당 $0.75, 11/1(베이징 시간) 과금 시작. 서버사이드 도구 경유",
   "image": "https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3335-cover.png",
-  "datePublished": "2026-10-20T21:50:00+09:00"
+  "datePublished": "2026-10-20T21:50:00+09:00",
+  "dateModified": "2026-10-20T21:50:00+09:00"
+}
+</script>
+<link rel="canonical" href="https://enghyu.com/ax/3335-deepseek-search-fetch/">
+<meta property="og:url" content="https://enghyu.com/ax/3335-deepseek-search-fetch/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="DeepSeek Search·Fetch API 전면 개방 — API 키 하나로 검색까지, $0.75/1k">
+<meta name="twitter:description" content="자체 검색엔진 기반 Search·Fetch API 개방. 성공 요청 1,000건당 $0.75, 11/1 과금 시작. 서버사이드 도구 경유는 지금 무료.">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3335-cover.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://enghyu.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AX 트렌드",
+      "item": "https://enghyu.com/ax/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "DeepSeek, 자체 검색엔진 기반 Search·Fetch API 전면 개방 — 성공 요청 1,000건당 $0.75, 11/1 과금 시작",
+      "item": "https://enghyu.com/ax/3335-deepseek-search-fetch/"
+    }
+  ]
 }
 </script>
 </head>
@@ -137,7 +173,7 @@
     <h1>DeepSeek, 자체 검색엔진 기반 Search·Fetch API 전면 개방 — 성공 요청 1,000건당 $0.75, 11/1 과금 시작</h1>
     <p class="meta">2026-10-17 · <a href="https://github.com/roomedia/ax-trend/issues/3335">원문 이슈 #3335</a></p>
     <figure>
-      <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3335-cover.png" alt="DeepSeek Search·Fetch API 전면 개방 커버 — 자체 검색엔진을 중심으로 에이전트들이 검색을 호출하는 개념도">
+      <img width="2048" height="1152" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3335-cover.png" alt="DeepSeek Search·Fetch API 전면 개방 커버 — 자체 검색엔진을 중심으로 에이전트들이 검색을 호출하는 개념도">
     </figure>
   </header>
 
@@ -159,7 +195,7 @@
 
   <h2>두 엔드포인트의 역할 분담</h2>
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3335-howto.png" alt="Search API vs Fetch API 개념도 — Search는 쿼리→구조화 결과, Fetch는 단일 URL→Markdown">
+    <img width="2048" height="1152" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3335-howto.png" alt="Search API vs Fetch API 개념도 — Search는 쿼리→구조화 결과, Fetch는 단일 URL→Markdown">
     <figcaption>Search API(쿼리→구조화 웹페이지 결과)와 Fetch API(단일 URL→Markdown 콘텐츠)</figcaption>
   </figure>
 
@@ -167,7 +203,7 @@
 
   <h2>가격 구조: 성공 건에만 과금</h2>
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3335-pricing.png" alt="가격 구조 인포그래픽 — 성공 요청 1,000건당 $0.75, HTTP 200+결과 있을 때만 과금, 5 QPS, 11/1 과금 시작">
+    <img width="2048" height="1152" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3335-pricing.png" alt="가격 구조 인포그래픽 — 성공 요청 1,000건당 $0.75, HTTP 200+결과 있을 때만 과금, 5 QPS, 11/1 과금 시작">
     <figcaption>$0.75/성공 요청 1,000건 — 실패·빈 결과·타임아웃은 과금 안 됨, 반환 결과 수 무관</figcaption>
   </figure>
 
@@ -177,7 +213,7 @@
 
   <h2>무료 vs 유료: 배선 방식에 따라 갈린다</h2>
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3335-agent.png" alt="에이전트 검색 호출 플로우 — 서버사이드 도구 경유는 11/1까지 무료, 엔드포인트 직접 호출은 즉시 과금">
+    <img width="2096" height="1184" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3335-agent.png" alt="에이전트 검색 호출 플로우 — 서버사이드 도구 경유는 11/1까지 무료, 엔드포인트 직접 호출은 즉시 과금">
     <figcaption>같은 검색도 배선 방식에 따라 무료/유료가 갈린다 — 서버사이드 도구 경유는 11/1까지 무료</figcaption>
   </figure>
 
@@ -214,6 +250,14 @@ doc = fetch(url=results[0].url)
     <p><a href="https://github.com/roomedia/ax-trend/issues/3335">원문 이슈 #3335</a> · 핵심 링크: <a href="https://api-docs.deepseek.com/guides/search">DeepSeek API 문서 — Search 가이드</a> · <a href="https://fourweekmba.com/ai-deepseek-opens-its-search-api-at-0-75-per-1000-calls/">FourWeekMBA 정리</a> · <a href="https://ailetter.ai.kr/en/d/2026-10-17/11">AI Letter 한국어 정리</a> · 관련: <a href="https://github.com/roomedia/ax-trend/issues/3327">#3327 V4.1-Flash 1017</a></p>
     <p class="tags"><a href="/ax/tag/deepseek/">DeepSeek</a><a href="/ax/tag/search-api/">검색 API</a></p>
   </footer>
+
+<section class="related">
+  <h2>관련 글</h2>
+  <ul>
+    <li><a href="/ax/3349-exa-3/">Exa, AI 에이전트용 검색 API &#x27;Exa 3.0&#x27; 출시 — 역대 최대 검색 품질 개선·신규 저가 티어 &#x27;Exa Lite&#x27; $4/1,000요청</a></li>
+    <li><a href="/ax/3327-deepseek-flash-1017/">DeepSeek V4.1-Flash &#x27;1017&#x27; — &#x27;마이너 업데이트&#x27;가 Terminal-Bench +35%를 낸 방법</a></li>
+  </ul>
+</section>
 </main>
 <script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
 </body>

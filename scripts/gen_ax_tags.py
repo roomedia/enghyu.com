@@ -138,7 +138,9 @@ def parse_post(slug):
 
 def card(p):
     img_tag = (
-        f'<img src="{html.escape(p["img"])}" alt="" loading="lazy">' if p["img"] else ""
+        f'<img src="{html.escape(p["img"])}" '
+        f'alt="{html.escape(p["title"], quote=True)}" loading="lazy">'
+        if p["img"] else ""
     )
     return f"""      <a class="card" href="/ax/{p['slug']}/">
         {img_tag}
@@ -150,23 +152,31 @@ def card(p):
       </a>"""
 
 
-def page(title, desc, body_html, path=""):
+def page(title, desc, body_html, path="", noindex=False):
     og = ""
     if path:
         og = f"""
-<meta property="og:title" content="{html.escape(title)}">
-<meta property="og:description" content="{html.escape(desc)}">
+<meta property="og:title" content="{html.escape(title, quote=True)}">
+<meta property="og:description" content="{html.escape(desc, quote=True)}">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://enghyu.com{path}">
 <meta property="og:image" content="https://enghyu.com/site-cover.png">
+<link rel="canonical" href="https://enghyu.com{path}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{html.escape(title, quote=True)}">
+<meta name="twitter:description" content="{html.escape(desc, quote=True)}">
+<meta name="twitter:image" content="https://enghyu.com/site-cover.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
 <link rel="alternate" type="application/rss+xml" title="AX 트렌드 RSS" href="/ax/feed.xml">"""
+    robots = '\n<meta name="robots" content="noindex,follow">' if noindex else ""
     return f"""<!DOCTYPE html>
 <html lang="ko">
 <head>
 {GA_SNIPPET}<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{html.escape(title)}</title>
-<meta name="description" content="{html.escape(desc)}">{og}
+<meta name="description" content="{html.escape(desc)}">{robots}{og}
 <style>{BASE_STYLE}</style>
 </head>
 <body>
@@ -212,7 +222,8 @@ def main():
         with open(os.path.join(out, "index.html"), "w", encoding="utf-8") as fp:
             fp.write(page(f"#{info['name']} — AX 트렌드 태그",
                           f"'{info['name']}' 태그가 붙은 AX 트렌드 글 모음.", body,
-                          path=f"/ax/tag/{slug}/"))
+                          path=f"/ax/tag/{slug}/",
+                          noindex=len(info["posts"]) < 3))
     print(f"태그별 페이지: {len(tag_map)}개")
 
     # 2. 태그 모아보기 페이지

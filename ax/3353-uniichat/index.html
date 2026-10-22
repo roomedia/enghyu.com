@@ -9,7 +9,7 @@
 <title>UniiChat — '새 채팅' 없는 영원한 하나의 대화, 메모리 트리로 무한 컨텍스트를 구현한 오픈소스 에이전트</title>
 <meta name="description" content="Victor Taelin이 2026-10-19 공개한 오픈소스 AI 에이전트 UniiChat. 하나의 대화가 수일·수주·수년 계속되고 에이전트가 전부 기억한다. 메모리 트리(이진 요약 트리)+Zoom으로 compaction의 기억 손실 없이 최대 128KB 뷰를 유지한다.">
 <meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3353-hero.png">
-<meta property="og:title" content="UniiChat — '새 채팅' 없는 영원한 하나의 대화, 메모리 트리로 무한 컨텍스트를 구현한 오픈소스 에이전트">
+<meta property="og:title" content="UniiChat — &#x27;새 채팅&#x27; 없는 영원한 하나의 대화, 메모리 트리로 무한 컨텍스트를 구현한 오픈소스 에이전트">
 <meta property="og:description" content="메모리 트리+Zoom — 요약은 원본을 대체하지 않고 가리킨다. 하루 만에 ★330, 공개 10/19 (Victor Taelin).">
 <meta property="og:url" content="https://enghyu.com/ax/3353-uniichat/">
 <meta property="og:type" content="article">
@@ -57,7 +57,41 @@ footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color
   },
   "description": "Victor Taelin이 2026-10-19 공개한 오픈소스 AI 에이전트 UniiChat. 하나의 대화가 수일·수주·수년 계속되고 에이전트가 전부 기억한다. 메모리 트리(이진 요약 트리)+Zoom으로 compaction의 기억 손실 없이 최대 128KB 뷰를 유지한다.",
   "image": "https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3353-hero.png",
-  "datePublished": "2026-10-22T15:30:00+09:00"
+  "datePublished": "2026-10-22T15:30:00+09:00",
+  "dateModified": "2026-10-22T15:30:00+09:00"
+}
+</script>
+<link rel="canonical" href="https://enghyu.com/ax/3353-uniichat/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="UniiChat — &#x27;새 채팅&#x27; 없는 영원한 하나의 대화, 메모리 트리로 무한 컨텍스트를 구현한 오픈소스 에이전트">
+<meta name="twitter:description" content="메모리 트리+Zoom — 요약은 원본을 대체하지 않고 가리킨다. 하루 만에 ★330, 공개 10/19 (Victor Taelin).">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3353-hero.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://enghyu.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AX 트렌드",
+      "item": "https://enghyu.com/ax/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "UniiChat — '새 채팅' 없는 영원한 하나의 대화, 메모리 트리로 무한 컨텍스트를 구현한 오픈소스 에이전트",
+      "item": "https://enghyu.com/ax/3353-uniichat/"
+    }
+  ]
 }
 </script>
 </head>
@@ -69,7 +103,7 @@ footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color
 <div class="meta">2026-10-22 · AX 트렌드 · 원문 이슈 #3353</div>
 
 <figure>
-<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3353-hero.png" alt="UniiChat — no New Chat button, one endless conversation, fully remembered" loading="lazy">
+<img width="1048" height="592" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3353-hero.png" alt="UniiChat — no New Chat button, one endless conversation, fully remembered" loading="lazy">
 <figcaption>UniiChat — "새 채팅" 버튼이 없다. 하나의 대화가 계속되고 에이전트가 전부 기억한다</figcaption>
 </figure>
 
@@ -88,7 +122,7 @@ footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color
 <h2>메모리 트리</h2>
 
 <figure>
-<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3353-memory-tree.png" alt="Memory Tree — rows of one-line summaries merge pairwise into a binary tree, max 128KB view per call" loading="lazy">
+<img width="1048" height="592" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3353-memory-tree.png" alt="Memory Tree — rows of one-line summaries merge pairwise into a binary tree, max 128KB view per call" loading="lazy">
 <figcaption>메모리 트리 — 한 줄 요약이 쌍으로 합쳐지며 이진 트리를 만든다</figcaption>
 </figure>
 
@@ -99,7 +133,7 @@ footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color
 <h2>Zoom — 요약은 인덱스</h2>
 
 <figure>
-<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3353-zoom.png" alt="Zoom — a summary line expands into the two lines that formed it, down to the original message" loading="lazy">
+<img width="1048" height="592" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3353-zoom.png" alt="Zoom — a summary line expands into the two lines that formed it, down to the original message" loading="lazy">
 <figcaption>Zoom — 어떤 요약 줄이든 펼쳐서 원본 메시지까지 되돌아간다</figcaption>
 </figure>
 
@@ -110,7 +144,7 @@ footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color
 <h2>비용 설계: 백그라운드 컴팩터와 프롬프트 캐시</h2>
 
 <figure>
-<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3353-numbers.png" alt="Key numbers: 330 stars in 1 day, 128KB view, TypeScript + Bun, Apache 2.0, This repo is vibe-coded" loading="lazy">
+<img width="1048" height="592" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3353-numbers.png" alt="Key numbers: 330 stars in 1 day, 128KB view, TypeScript + Bun, Apache 2.0, This repo is vibe-coded" loading="lazy">
 <figcaption>숫자로 보는 UniiChat — 핵심은 128KB 뷰와 캐시 친화 구조</figcaption>
 </figure>
 
@@ -136,6 +170,15 @@ footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color
 <footer>
 <p>enghyu.com AX 트렌드 · <a href="/ax/">목록으로</a></p>
 </footer>
+
+<section class="related">
+  <h2>관련 글</h2>
+  <ul>
+    <li><a href="/ax/3365-yomiyasu/">yomiyasu &#x27;4일 4릴리스&#x27; — 서브에이전트 1,200개가 만든 일본어 교정 스킬, 루프+하네스 엔지니어링 3층 설계</a></li>
+    <li><a href="/ax/3347-earshot/">Leonxlnx &#x27;earshot&#x27; — 코딩 에이전트용 오디오 리뷰·사운드 생성 툴킷, CPU 온리·MCP 지원, 공개 4일 만에 1,100+스타</a></li>
+    <li><a href="/ax/3349-exa-3/">Exa, AI 에이전트용 검색 API &#x27;Exa 3.0&#x27; 출시 — 역대 최대 검색 품질 개선·신규 저가 티어 &#x27;Exa Lite&#x27; $4/1,000요청</a></li>
+  </ul>
+</section>
 </main>
 <script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
 </body>

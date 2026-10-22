@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>aicodeking 'leanrea' — REA 대체 8KB 에이전트 스킬, MCP 없이 순수 CLI로 38% 빠름·35% 저렴</title>
-<meta name="description" content="리버스엔지니어링 에이전트 스킬 REA(25MB 패키지+MCP 서버+207개 도구)를 SKILL.md 단일 파일(8KB)로 대체한 leanrea. 컨텍스트 오버헤드는 400.7k→34.5k 토큰, 벤치마크는 38% 빠름·35% 저렴·60% 토큰 절감, 점수는 74/75로 REA와 대동소이.">
+<meta name="description" content="리버스엔지니어링 에이전트 스킬 REA(25MB 패키지+MCP 서버+207개 도구)를 SKILL.md 단일 파일(8KB)로 대체한 leanrea. 컨텍스트 오버헤드는 400.7k→34.5k 토큰, 벤치마크는 38% 빠름·35% 저렴·60% 토큰 절감, 점수는 74/75로 REA와">
 <meta property="og:title" content="leanrea — REA를 8KB SKILL.md로 대체: MCP 없이 38% 빠르게">
 <meta property="og:description" content="MCP 서버 없이 Bash+CLI만으로 에이전트 스킬을 만들면 어떻게 될까. 시간 −38%, 비용 −35%, 턴 −56%, 토큰 −60%.">
 <meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3338-cover.png">
@@ -123,9 +123,45 @@
   "publisher": {
     "@id": "https://enghyu.com/#org"
   },
-  "description": "리버스엔지니어링 에이전트 스킬 REA(25MB 패키지+MCP 서버+207개 도구)를 SKILL.md 단일 파일(8KB)로 대체한 leanrea. 컨텍스트 오버헤드는 400.7k→34.5k 토큰, 벤치마크는 38% 빠름·35% 저렴·60% 토큰 절감, 점수는 74/75로 REA와 대동소이.",
+  "description": "리버스엔지니어링 에이전트 스킬 REA(25MB 패키지+MCP 서버+207개 도구)를 SKILL.md 단일 파일(8KB)로 대체한 leanrea. 컨텍스트 오버헤드는 400.7k→34.5k 토큰, 벤치마크는 38% 빠름·35% 저렴·60% 토큰 절감, 점수는 74/75로 REA와",
   "image": "https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3338-cover.png",
-  "datePublished": "2026-10-21T06:45:00+09:00"
+  "datePublished": "2026-10-21T06:45:00+09:00",
+  "dateModified": "2026-10-21T06:45:00+09:00"
+}
+</script>
+<link rel="canonical" href="https://enghyu.com/ax/3338-leanrea/">
+<meta property="og:url" content="https://enghyu.com/ax/3338-leanrea/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="leanrea — REA를 8KB SKILL.md로 대체: MCP 없이 38% 빠르게">
+<meta name="twitter:description" content="MCP 서버 없이 Bash+CLI만으로 에이전트 스킬을 만들면 어떻게 될까. 시간 −38%, 비용 −35%, 턴 −56%, 토큰 −60%.">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3338-cover.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://enghyu.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AX 트렌드",
+      "item": "https://enghyu.com/ax/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "aicodeking 'leanrea' — REA 대체 8KB 에이전트 스킬, MCP 없이 순수 CLI로 38% 빠름·35% 저렴",
+      "item": "https://enghyu.com/ax/3338-leanrea/"
+    }
+  ]
 }
 </script>
 </head>
@@ -139,7 +175,7 @@
   </header>
 
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3338-cover.png" alt="REA의 207개 도구를 8KB SKILL.md 하나로 대체하는 leanrea 컨셉">
+    <img width="1920" height="1280" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3338-cover.png" alt="REA의 207개 도구를 8KB SKILL.md 하나로 대체하는 leanrea 컨셉">
     <figcaption>207개 MCP 도구 대신 SKILL.md 단일 파일 — leanrea의 설계 철학</figcaption>
   </figure>
 
@@ -154,7 +190,7 @@
   </ul>
 
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3338-compare.png" alt="REA vs leanrea 비교표 — 설치물, 지시문 크기, 추가 도구, 컨텍스트 오버헤드">
+    <img width="1920" height="1280" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3338-compare.png" alt="REA vs leanrea 비교표 — 설치물, 지시문 크기, 추가 도구, 컨텍스트 오버헤드">
     <figcaption>REA vs leanrea — 무거운 쪽과 가벼운 쪽의 정량 비교 (출처: GitHub README)</figcaption>
   </figure>
 
@@ -174,7 +210,7 @@
   </table>
 
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3338-bench.png" alt="REA vs leanrea 벤치마크 막대 그래프 — 시간, 비용, 턴, 토큰, 점수">
+    <img width="1920" height="1280" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3338-bench.png" alt="REA vs leanrea 벤치마크 막대 그래프 — 시간, 비용, 턴, 토큰, 점수">
     <figcaption>벤치마크 5개 축 — 정확도 1점 차이로 네 축이 모두 절감 (출처: GitHub README, 2026-10)</figcaption>
   </figure>
 
@@ -187,7 +223,7 @@
   </div>
 
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3338-cli.png" alt="에이전트가 MCP 없이 직접 실행하는 원시 CLI 도구들 — asar, otool, jadx, apktool, Ghidra 등">
+    <img width="1920" height="1280" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3338-cli.png" alt="에이전트가 MCP 없이 직접 실행하는 원시 CLI 도구들 — asar, otool, jadx, apktool, Ghidra 등">
     <figcaption>leanrea가 에이전트에게 안내하는 원시 CLI — MCP 레이어 없이 Bash로 직접 실행</figcaption>
   </figure>
 
@@ -228,6 +264,15 @@ $ sqlite3 data.db "SELECT * FROM meta LIMIT 5;"</code></pre>
     <p><a href="https://github.com/roomedia/ax-trend/issues/3338">원문 이슈 #3338</a> · 핵심 링크: <a href="https://github.com/aicodeking/leanrea">aicodeking/leanrea (GitHub, MIT)</a> · 벤치마크 상세: <a href="https://github.com/aicodeking/leanrea/tree/main/bench">leanrea bench/ 디렉터리</a> · 관련: <a href="https://github.com/roomedia/ax-trend/issues/3141">#3141 REA</a> · <a href="https://github.com/roomedia/ax-trend/issues/3204">#3204 rea-agents</a> · <a href="https://github.com/roomedia/ax-trend/issues/3322">#3322 REA 클린룸 워크플로우</a></p>
     <p class="tags"><a href="/ax/tag/ai-coding/">AI 코딩</a><a href="/ax/tag/performance/">성능 최적화</a></p>
   </footer>
+
+<section class="related">
+  <h2>관련 글</h2>
+  <ul>
+    <li><a href="/ax/3349-exa-3/">Exa, AI 에이전트용 검색 API &#x27;Exa 3.0&#x27; 출시 — 역대 최대 검색 품질 개선·신규 저가 티어 &#x27;Exa Lite&#x27; $4/1,000요청</a></li>
+    <li><a href="/ax/3340-obsidian-pele/">Obsidian, 오픈소스 Mermaid 렌더러 &#x27;Pele&#x27; 공개 — Mermaid.js 대비 번들 1/6·최대 500배 빠른 렌더 주장, CSS 변수 테마 지원</a></li>
+    <li><a href="/ax/3332-hy-memory-2/">텐센트 Hy Memory 2.0 — 에이전트 &#x27;기억&#x27;을 3B 특화 모델에 맡기는 메모리 라이터</a></li>
+  </ul>
+</section>
 </main>
 <script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
 </body>

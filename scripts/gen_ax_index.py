@@ -61,7 +61,8 @@ def main():
     cards = []
     for p in posts:
         img_tag = (
-            f'<img src="{html.escape(p["img"])}" alt="" loading="lazy">'
+            f'<img src="{html.escape(p["img"])}" '
+            f'alt="{html.escape(p["title"], quote=True)}" loading="lazy">'
             if p["img"] else ""
         )
         cards.append(f"""      <a class="card" href="/ax/{p['slug']}/">
@@ -85,6 +86,13 @@ def main():
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://enghyu.com/ax/">
 <meta property="og:image" content="https://enghyu.com/site-cover.png">
+<link rel="canonical" href="https://enghyu.com/ax/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AX 트렌드 — enghyu">
+<meta name="twitter:description" content="AI/AX 트렌드를 개발자 관점에서 정리한 글 모음.">
+<meta name="twitter:image" content="https://enghyu.com/site-cover.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
 <link rel="alternate" type="application/rss+xml" title="AX 트렌드 RSS" href="/ax/feed.xml">
 {LD_SNIPPET}
 <style>

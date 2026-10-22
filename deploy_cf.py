@@ -137,7 +137,10 @@ def deploy_worker(completion_jwt):
         "compatibility_date": "2026-08-16",
         "assets": {
             "jwt": completion_jwt,
-            "config": {"html_handling": "auto-trailing-slash"},
+            "config": {
+                "html_handling": "auto-trailing-slash",
+                "not_found_handling": "404-page",
+            },
         },
         "bindings": [
             {"type": "assets", "name": "ASSETS"},
@@ -175,6 +178,13 @@ def deploy_worker(completion_jwt):
 
 
 def main():
+    # 0a-0. 포스트 SEO 전수 패치 (canonical·OG·twitter·LD·치수·관련 글, 멱등).
+    # 목록·태그 생성기가 포스트 메타(설명 등)를 읽으므로 패치를 먼저 돌린다.
+    print("== ax 포스트 SEO 패치 ==")
+    rc = os.system(f"cd {PROJECT_ROOT} && python3 scripts/patch_ax_seo.py")
+    if rc != 0:
+        raise RuntimeError("ax 포스트 SEO 패치 실패")
+
     # 0a. ax 글 목록 페이지 갱신
     print("== ax 목록 갱신 ==")
     rc = os.system(f"cd {PROJECT_ROOT} && python3 scripts/gen_ax_index.py")
@@ -186,12 +196,6 @@ def main():
     rc = os.system(f"cd {PROJECT_ROOT} && python3 scripts/gen_ax_tags.py")
     if rc != 0:
         raise RuntimeError("ax 태그 생성 실패")
-
-    # 0a-3. 포스트 SEO 주입 (JSON-LD·og:url, 멱등)
-    print("== ax 포스트 SEO 패치 ==")
-    rc = os.system(f"cd {PROJECT_ROOT} && python3 scripts/patch_ax_seo.py")
-    if rc != 0:
-        raise RuntimeError("ax 포스트 SEO 패치 실패")
 
     # 0a-4. sitemap·RSS 생성
     print("== sitemap·피드 생성 ==")

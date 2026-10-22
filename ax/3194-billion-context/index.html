@@ -133,7 +133,43 @@
   },
   "description": "에이전트와 모델 API 사이에 끼는 컨텍스트 압축 프록시 billion-context. 모델이 직접 압축 타이밍을 정하는 구조, 4개의 컨텍스트 관리 도구, 그리고 주장 뒤의 미확인 수치를 개발자 관점에서 정리한다.",
   "image": "https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3194-cover.png",
-  "datePublished": "2026-10-19T00:33:00+09:00"
+  "datePublished": "2026-10-19T00:33:00+09:00",
+  "dateModified": "2026-10-19T00:33:00+09:00"
+}
+</script>
+<link rel="canonical" href="https://enghyu.com/ax/3194-billion-context/">
+<meta property="og:url" content="https://enghyu.com/ax/3194-billion-context/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="billion-context: 코딩 에이전트 컨텍스트를 5배 아껴 쓰는 압축 프록시">
+<meta name="twitter:description" content="모델이 직접 컨텍스트 압축을 결정하는 프록시. 토큰 5배 절감 주장과 미검증 수치, 실무 도입 전 체크포인트.">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3194-cover.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://enghyu.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AX 트렌드",
+      "item": "https://enghyu.com/ax/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "billion-context: 코딩 에이전트 컨텍스트를 5배 아껴 쓰는 압축 프록시",
+      "item": "https://enghyu.com/ax/3194-billion-context/"
+    }
+  ]
 }
 </script>
 </head>
@@ -145,7 +181,7 @@
     <h1>billion-context: 코딩 에이전트 컨텍스트를 5배 아껴 쓰는 압축 프록시</h1>
     <p class="meta">2026-10-11 · <a href="https://github.com/roomedia/ax-trend/issues/3194">원문 이슈 #3194</a></p>
     <figure>
-      <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3194-cover.png" alt="코딩 에이전트 컨텍스트 압축 프록시 인포그래픽">
+      <img width="1920" height="1280" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3194-cover.png" alt="코딩 에이전트 컨텍스트 압축 프록시 인포그래픽">
     </figure>
   </header>
 
@@ -156,7 +192,7 @@
   <h2>동작 방식: 에이전트와 모델 API 사이에 끼어든다</h2>
   <p>아키텍처는 단순하다. 에이전트(Claude Code, Codex, Cursor, Aider 등)의 base URL을 이 프록시로 향하게 하면 된다. 이후 요청은 다음 다섯 단계를 거친다.</p>
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3194-arch.png" alt="billion-context 프록시 아키텍처: 에이전트 → 프록시(요청 파싱→대화 압축→compress 도구 주입→모델 API 전달→스트리밍 재작성) → 모델 API">
+    <img width="1920" height="1280" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3194-arch.png" alt="billion-context 프록시 아키텍처: 에이전트 → 프록시(요청 파싱→대화 압축→compress 도구 주입→모델 API 전달→스트리밍 재작성) → 모델 API">
     <figcaption>에이전트와 모델 API 사이의 5단계 처리 파이프라인</figcaption>
   </figure>
   <ol>
@@ -181,7 +217,7 @@ bili hermes                   # 런처: 프록시를 띄우고 클라이언트 �
   <h2>차별점: 압축의 주도권이 모델에게 있다</h2>
   <p>호스트 내장 요약기(compact 계열)는 컨텍스트가 차면 일괄 잘라내는 하드 트렁케이션 성격이 강하고, 맥락 손실이 잦다. billion-context는 그 주도권을 모델에게 넘긴다. 프록시가 대화에 네 가지 컨텍스트 관리 도구를 주입하고, 모델이 컨텍스트가 찰 때 스스로 판단한다.</p>
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3194-tools.png" alt="모델이 직접 쓰는 컨텍스트 관리 도구 4종: compress, decompress, search_context, acp_status">
+    <img width="1920" height="1280" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3194-tools.png" alt="모델이 직접 쓰는 컨텍스트 관리 도구 4종: compress, decompress, search_context, acp_status">
     <figcaption>프록시가 주입하는 컨텍스트 관리 도구 4종</figcaption>
   </figure>
   <ul>
@@ -195,7 +231,7 @@ bili hermes                   # 런처: 프록시를 띄우고 클라이언트 �
   <h2>주장하는 수치, 그리고 미확인 딱지</h2>
   <p>근거로 제시하는 것은 동봉된 페이퍼(버전 v0.2, MIT, living document)에 실린 4.5개월 종단 연구다.</p>
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3194-numbers.png" alt="개발자가 주장하는 종단 연구 수치: 모델 호출 174,327회, 누적 입력 18.76B 토큰, 윈도우 위반 0건, 캐시 히트율 95~97%">
+    <img width="1920" height="1280" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3194-numbers.png" alt="개발자가 주장하는 종단 연구 수치: 모델 호출 174,327회, 누적 입력 18.76B 토큰, 윈도우 위반 0건, 캐시 히트율 95~97%">
     <figcaption>개발자가 제시하는 종단 연구 수치 — 전부 자가 측정치</figcaption>
   </figure>
   <div class="stat-grid">
@@ -225,6 +261,15 @@ bili hermes                   # 런처: 프록시를 띄우고 클라이언트 �
     <a href="https://www.npmjs.com/package/billion-context">npm billion-context</a></p>
     <p class="tags"><a href="/ax/tag/ax-trend/">AX Trend</a><a href="/ax/tag/ai-coding/">AI 코딩</a><a href="/ax/tag/performance/">성능 최적화</a></p>
   </footer>
+
+<section class="related">
+  <h2>관련 글</h2>
+  <ul>
+    <li><a href="/ax/3349-exa-3/">Exa, AI 에이전트용 검색 API &#x27;Exa 3.0&#x27; 출시 — 역대 최대 검색 품질 개선·신규 저가 티어 &#x27;Exa Lite&#x27; $4/1,000요청</a></li>
+    <li><a href="/ax/3340-obsidian-pele/">Obsidian, 오픈소스 Mermaid 렌더러 &#x27;Pele&#x27; 공개 — Mermaid.js 대비 번들 1/6·최대 500배 빠른 렌더 주장, CSS 변수 테마 지원</a></li>
+    <li><a href="/ax/3338-leanrea/">aicodeking &#x27;leanrea&#x27; — REA 대체 8KB 에이전트 스킬, MCP 없이 순수 CLI로 38% 빠름·35% 저렴</a></li>
+  </ul>
+</section>
 </main>
 <script>
 (function(){

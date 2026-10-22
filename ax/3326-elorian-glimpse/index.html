@@ -7,8 +7,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Elorian 'Glimpse' — 이미지를 보고 추론하는 비주얼 리즈닝 모델, GPT-6 Astra 대비 94% 저렴</title>
-<meta name="description" content="Elorian의 첫 모델 Glimpse는 'visual scratch space' 메커니즘으로 추론 중간에 원본 이미지를 다시 들여다본다. 입력 $0.60·출력 $3.00/1M tokens, GPT-6 Astra 대비 94% 저렴, 자체 평가에서 과학 차트 추론·쇼트폼 캡셔닝은 Astra 능가. 개발자 관점에서 비용 구조와 쟁점을 정리한다.">
-<meta property="og:title" content="Elorian 'Glimpse' — 이미지를 보고 추론하는 비주얼 리즈닝 모델, GPT-6 Astra 대비 94% 저렴">
+<meta name="description" content="Elorian의 첫 모델 Glimpse는 &#x27;visual scratch space&#x27; 메커니즘으로 추론 중간에 원본 이미지를 다시 들여다본다. 입력 $0.60·출력 $3.00/1M tokens, GPT-6 Astra 대비 94% 저렴, 자체 평가에서 과학 차트 추론·쇼트폼 캡셔닝은">
+<meta property="og:title" content="Elorian &#x27;Glimpse&#x27; — 이미지를 보고 추론하는 비주얼 리즈닝 모델, GPT-6 Astra 대비 94% 저렴">
 <meta property="og:description" content="추론 중간에 이미지로 복귀하는 visual scratch space. 입력 $0.60·출력 $3.00, Astra 대비 94% 저렴. 멀티모달 에이전트 비용 구조가 바뀌는 지점.">
 <meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3326-cover.png">
 <style>
@@ -128,9 +128,45 @@
   "publisher": {
     "@id": "https://enghyu.com/#org"
   },
-  "description": "Elorian의 첫 모델 Glimpse는 'visual scratch space' 메커니즘으로 추론 중간에 원본 이미지를 다시 들여다본다. 입력 $0.60·출력 $3.00/1M tokens, GPT-6 Astra 대비 94% 저렴, 자체 평가에서 과학 차트 추론·쇼트폼 캡셔닝은 Astra 능가. 개발자 관점에서 비용 구조와 쟁점을 정리한다.",
+  "description": "Elorian의 첫 모델 Glimpse는 'visual scratch space' 메커니즘으로 추론 중간에 원본 이미지를 다시 들여다본다. 입력 $0.60·출력 $3.00/1M tokens, GPT-6 Astra 대비 94% 저렴, 자체 평가에서 과학 차트 추론·쇼트폼 캡셔닝은",
   "image": "https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3326-cover.png",
-  "datePublished": "2026-10-19T18:45:00+09:00"
+  "datePublished": "2026-10-19T18:45:00+09:00",
+  "dateModified": "2026-10-19T18:45:00+09:00"
+}
+</script>
+<link rel="canonical" href="https://enghyu.com/ax/3326-elorian-glimpse/">
+<meta property="og:url" content="https://enghyu.com/ax/3326-elorian-glimpse/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Elorian &#x27;Glimpse&#x27; — 이미지를 보고 추론하는 비주얼 리즈닝 모델, GPT-6 Astra 대비 94% 저렴">
+<meta name="twitter:description" content="추론 중간에 이미지로 복귀하는 visual scratch space. 입력 $0.60·출력 $3.00, Astra 대비 94% 저렴. 멀티모달 에이전트 비용 구조가 바뀌는 지점.">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3326-cover.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://enghyu.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AX 트렌드",
+      "item": "https://enghyu.com/ax/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Elorian 'Glimpse' — 이미지를 보고 추론하는 비주얼 리즈닝 모델, GPT-6 Astra 대비 94% 저렴",
+      "item": "https://enghyu.com/ax/3326-elorian-glimpse/"
+    }
+  ]
 }
 </script>
 </head>
@@ -142,7 +178,7 @@
     <h1>Elorian 'Glimpse' — 이미지를 보고 추론하는 비주얼 리즈닝 모델, GPT-6 Astra 대비 94% 저렴</h1>
     <p class="meta">2026-10-16 · <a href="https://github.com/roomedia/ax-trend/issues/3326">원문 이슈 #3326</a></p>
     <figure>
-      <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3326-cover.png" alt="Glimpse: Elorian의 첫 비주얼 리즈닝 모델 — visual scratch space로 추론 중 이미지 복귀·크롭·코드 실행, 입력 $0.60·출력 $3.00, GPT-6 Astra 대비 94% 저렴, $55M 시드 라운드, 전 Google DeepMind Andrew Dai 창업">
+      <img width="2048" height="1152" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3326-cover.png" alt="Glimpse: Elorian의 첫 비주얼 리즈닝 모델 — visual scratch space로 추론 중 이미지 복귀·크롭·코드 실행, 입력 $0.60·출력 $3.00, GPT-6 Astra 대비 94% 저렴, $55M 시드 라운드, 전 Google DeepMind Andrew Dai 창업">
     </figure>
   </header>
 
@@ -156,7 +192,7 @@
 
   <h2>기존 멀티모달 vs Glimpse: 추론 루프가 다르다</h2>
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3326-scratchspace.png" alt="기존 멀티모달 vs Glimpse: 기존 모델은 이미지 한 번 보고 토큰 변환 후 텍스트로만 추론(one-shot), Glimpse는 추론 중간에 원본 이미지로 복귀(multi-round), 크롭·줌 후 코드 실행으로 측정·비교 연산">
+    <img width="2048" height="1152" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3326-scratchspace.png" alt="기존 멀티모달 vs Glimpse: 기존 모델은 이미지 한 번 보고 토큰 변환 후 텍스트로만 추론(one-shot), Glimpse는 추론 중간에 원본 이미지로 복귀(multi-round), 크롭·줌 후 코드 실행으로 측정·비교 연산">
     <figcaption>visual scratch space — 인간처럼 이미지를 다시 들여다본다</figcaption>
   </figure>
 
@@ -171,7 +207,7 @@
 
   <h2>가격: GPT-6 Astra 대비 94% 저렴</h2>
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3326-price.png" alt="Glimpse 가격: 입력 $0.60/1M tokens (Astra $10.00의 6%), 출력 $3.00/1M tokens (Astra $50.00의 6%), 94% 저렴 — Sonnet·Sol보다 저렴, Haiku·Luna보다 비싼 mid-level 포지셔닝">
+    <img width="2048" height="1152" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3326-price.png" alt="Glimpse 가격: 입력 $0.60/1M tokens (Astra $10.00의 6%), 출력 $3.00/1M tokens (Astra $50.00의 6%), 94% 저렴 — Sonnet·Sol보다 저렴, Haiku·Luna보다 비싼 mid-level 포지셔닝">
     <figcaption>Elorian Glimpse의 공격적인 가격 정책</figcaption>
   </figure>
 
@@ -204,7 +240,7 @@ print(f"Opus 5.5:  ${cost(4.00, 20.00):,.0f}")   # $520
 
   <h2>평가 결과: Astra를 넘은 두 영역</h2>
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3326-benchmark.png" alt="자체 평가: 과학 차트 추론과 쇼트폼 비디오 캡셔닝에서 GPT-6 Astra 능가(wins), 나머지 비주얼 리즈닝 태스크는 competitive — 회사 자체 평가, runtimewire: wins are narrow, independent validation needed">
+    <img width="2048" height="1152" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3326-benchmark.png" alt="자체 평가: 과학 차트 추론과 쇼트폼 비디오 캡셔닝에서 GPT-6 Astra 능가(wins), 나머지 비주얼 리즈닝 태스크는 competitive — 회사 자체 평가, runtimewire: wins are narrow, independent validation needed">
     <figcaption>자체 평가 기준 Astra를 넘은 영역과 독립 검증이 필요한 이유</figcaption>
   </figure>
 
@@ -228,6 +264,14 @@ print(f"Opus 5.5:  ${cost(4.00, 20.00):,.0f}")   # $520
     <p><a href="https://github.com/roomedia/ax-trend/issues/3326">원문 이슈 #3326</a> · 핵심 링크: <a href="https://techcrunch.com/2026/10/16/elorians-first-ai-model-wants-to-reason-with-images-not-just-about-them/">TechCrunch 단독 보도 (10/16)</a> · <a href="https://fourweekmba.com/ai-nvidia-backed-elorian-prices-glimpse-94-below-gpt-6-astra/">fourweekmba 가격·벤치마크 분석</a> · <a href="https://runtimewire.com/article/elorian-glimpse-visual-reasoning-model-launch">runtimewire 비판적 리뷰</a></p>
     <p class="tags"><a href="/ax/tag/ax-trend/">AX Trend</a><a href="/ax/tag/multimodal/">멀티모달</a></p>
   </footer>
+
+<section class="related">
+  <h2>관련 글</h2>
+  <ul>
+    <li><a href="/ax/3376-voxtral-3/">Mistral &#x27;Voxtral 3&#x27; — STT·TTS·SDK를 한 벤더로 묶은 실시간 음성 에이전트 스택</a></li>
+    <li><a href="/ax/3375-kanana-2-vision-encoder/">카카오 &#x27;Kanana-2-vision-encoder&#x27; 2종 오픈소스 공개 — medium 4.26억·tiny 9,800만, 지연 60% 감소</a></li>
+  </ul>
+</section>
 </main>
 <script>
 (function(){

@@ -125,7 +125,43 @@
   },
   "description": "@ClaudeDevs가 공개한 도그푸딩 수치: Claude가 Claude Code 코드의 약 90%를 작성 중이며, 6~9월 병합 PR은 2배 이상 늘고 revert 비중은 40% 이상 감소했다. 함께 공개된 코드 리뷰 변경 가이드는 팀 단위 에이전트 코딩 도입의 실무 레퍼런스다.",
   "image": "https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3337-cover.png",
-  "datePublished": "2026-10-21T03:38:07+09:00"
+  "datePublished": "2026-10-21T03:38:07+09:00",
+  "dateModified": "2026-10-21T03:38:07+09:00"
+}
+</script>
+<link rel="canonical" href="https://enghyu.com/ax/3337-claude-writes-90pct/">
+<meta property="og:url" content="https://enghyu.com/ax/3337-claude-writes-90pct/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Claude가 Claude Code 코드의 90%를 쓴다 — 병합 PR 2배+, revert 40%↓">
+<meta name="twitter:description" content="Anthropic 공식 도그푸딩 수치 공개. 속도만 빨라진 게 아니라 품질도 좋아졌다는 주장, 그리고 코드 리뷰 방식을 어떻게 바꿨는지 담은 가이드.">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3337-cover.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://enghyu.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AX 트렌드",
+      "item": "https://enghyu.com/ax/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Anthropic, Claude Code 코드의 90%를 Claude가 작성 중 — 6~9월 병합 PR 2배+, revert 비중 40%↓",
+      "item": "https://enghyu.com/ax/3337-claude-writes-90pct/"
+    }
+  ]
 }
 </script>
 </head>
@@ -139,7 +175,7 @@
   </header>
 
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3337-cover.png" alt="Claude가 Claude Code 코드의 90%를 작성 — AI가 코드를 생성하고 사람이 리뷰한다">
+    <img width="2048" height="1152" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3337-cover.png" alt="Claude가 Claude Code 코드의 90%를 작성 — AI가 코드를 생성하고 사람이 리뷰한다">
     <figcaption>Claude가 생성하고 사람이 게이트를 지키는 구조 — Anthropic의 도그푸딩 수치</figcaption>
   </figure>
 
@@ -153,7 +189,7 @@
   </ul>
 
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3337-stats.png" alt="6~9월: 병합 PR 2배+, revert 비중 40% 감소 — @ClaudeDevs 공개 수치">
+    <img width="2048" height="1152" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3337-stats.png" alt="6~9월: 병합 PR 2배+, revert 비중 40% 감소 — @ClaudeDevs 공개 수치">
     <figcaption>공개된 두 핵심 지표 — 병합 PR 수와 revert 비중 (출처: @ClaudeDevs, 2026-10-16)</figcaption>
   </figure>
 
@@ -169,7 +205,7 @@
   <p>게시물의 또 다른 축은 프로세스다. Anthropic은 이 수치를 달성하기 위해 <strong>코드 리뷰 방식을 어떻게 바꿨는지 설명한 글</strong>을 함께 공개했고, 거기엔 외부 팀이 이 방식을 도입하는 방법도 담겨 있다. 세부 규칙(어떤 규칙을 어떻게 바꿨는지)은 링크된 글을 직접 읽어야 확인할 수 있으며, 이슈 요약본에는 빠져 있다.</p>
 
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3337-review.png" alt="바뀐 코드 리뷰 방식 — Claude가 코드 작성, AI 코드 리뷰, 사람이 최종 승인">
+    <img width="2096" height="1184" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3337-review.png" alt="바뀐 코드 리뷰 방식 — Claude가 코드 작성, AI 코드 리뷰, 사람이 최종 승인">
     <figcaption>개념 구조: AI가 먼저 리뷰하고 사람이 게이트를 지킨다 (세부 규칙은 공개 가이드 참조)</figcaption>
   </figure>
 
@@ -202,7 +238,7 @@ if merged:
 # 정량으로 비교할 수 있다. Anthropic이 공개한 것과 같은 축이다.</code></pre>
 
   <figure>
-    <img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3337-apply.png" alt="팀에 도입하는 방법 — 코드 리뷰 규칙 명문화, AI 자동 리뷰+사람 승인 게이트, 지표 주간 추적, 도그푸딩">
+    <img width="2048" height="1152" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3337-apply.png" alt="팀에 도입하는 방법 — 코드 리뷰 규칙 명문화, AI 자동 리뷰+사람 승인 게이트, 지표 주간 추적, 도그푸딩">
     <figcaption>팀 도입 체크리스트 — 규칙 명문화 → AI 리뷰+사람 게이트 → 지표 추적 → 도그푸딩</figcaption>
   </figure>
 
@@ -225,6 +261,15 @@ if merged:
     <p><a href="https://github.com/roomedia/ax-trend/issues/3337">원문 이슈 #3337</a> · 핵심 링크: <a href="https://x.com/ClaudeDevs/status/2111168901723906176">@ClaudeDevs 원문 게시물 (2026-10-16)</a> · 관련: <a href="https://github.com/roomedia/ax-trend/issues/3329">#3329 Claude Code 응답 속도 개선</a> · <a href="https://github.com/roomedia/ax-trend/issues/3292">#3292 Code Review GA</a> · <a href="https://github.com/roomedia/ax-trend/issues/3280">#3280 데스크톱 앱 멀티 세션</a></p>
     <p class="tags"><a href="/ax/tag/ai-coding/">AI 코딩</a><a href="/ax/tag/anthropic/">Anthropic</a></p>
   </footer>
+
+<section class="related">
+  <h2>관련 글</h2>
+  <ul>
+    <li><a href="/ax/3346-claude-code-fork-subagent/">Claude Code v2.1.302 — fork 서브에이전트 `claude -p`·SDK·데스크톱·VS Code 기본 활성화, Claude Design 12/14 종료 예고</a></li>
+    <li><a href="/ax/3329-claude-code-latency/">Anthropic, Claude Code 응답 속도 대폭 개선 — 로컬 첫 토큰 지연 4.07초→1.33초, gzip 압축+프리워밍</a></li>
+    <li><a href="/ax/3365-yomiyasu/">yomiyasu &#x27;4일 4릴리스&#x27; — 서브에이전트 1,200개가 만든 일본어 교정 스킬, 루프+하네스 엔지니어링 3층 설계</a></li>
+  </ul>
+</section>
 </main>
 <script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
 </body>

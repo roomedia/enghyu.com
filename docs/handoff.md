@@ -306,3 +306,28 @@ npm run test:e2e
 - robots.txt는 Cloudflare 관리형 content-signals 전문이 앞에 병합돼 서빙된다 (curl 꼬리에서 자체 규칙·Sitemap 줄 확인). 관리형 전문 자체는 대시보드 설정 영역이라 레포에서 못 바꾼다.
 - 검색엔진·AI 인용 반영 여부는 색인 주기상 미확인. IndexNow 외 Google Search Console 등록은 별도 작업.
 - 통계 페이지(/ax/stats/)는 유틸리티 페이지라 sitemap에서 제외했다.
+
+## 2026-10-22 — SEO 감사 누락분 전수 적용 (AUDIT.md 기준)
+
+### 현재 구현 상태
+- 감사(~/workspace/research/seo-audit-20261022/AUDIT.md)에서 지적된 enghyu 쪽 누락을 전수 적용하고 라이브로 재검증했다. sitemap은 /about 추가로 62 URL.
+- `scripts/patch_ax_seo.py`가 배포 때마다 전 글에 canonical·og:url/og:type·twitter 카드·favicon·BlogPosting dateModified·BreadcrumbList·본문 이미지 width/height·관련 글 섹션·설명 160자 규격화를 멱등 적용한다. 통계 페이지도 같은 규칙으로 패치한다.
+
+### 변경한 파일과 동작
+- `scripts/patch_ax_seo.py` (전면 확장): og:url 소급 누락 원인은 구 글에 og:type 자체가 없어 기존 replace 앵커가 빗나간 것 — 앵커 없는 upsert로 교체. 이미지 치수는 `scripts/image_dims.json`에 캐시(원격 이미지 1회만 다운로드). 관련 글은 공통 태그(ax-trend)를 제외한 공유 태그 수 기준 최대 3개.
+- `scripts/gen_ax_index.py`: 카드 썸네일 alt에 글 제목 주입, 목록 head에 canonical·twitter·favicon 추가.
+- `scripts/gen_ax_tags.py`: 태그 페이지 canonical·twitter·favicon, 썸네일 alt, 글 3개 미만 태그 페이지에 noindex,follow.
+- `scripts/gen_ax_seo.py`: sitemap에 /about/ 포함.
+- `deploy_cf.py`: 패치를 생성기보다 먼저 실행하도록 순서 변경, 에셋 config에 `not_found_handling: "404-page"` 추가.
+- 신규: `about.html`(/about/ 소개 페이지), `404.html`(안내+링크), `favicon.ico`(logo-square-600에서 생성), `scripts/image_dims.json`.
+- `hub.html`: canonical·twitter·favicon 추가, 푸터에 소개 링크.
+- `scripts/build-assets.mjs`: about/404/favicon을 public 자산에 추가.
+
+### 실행한 검증 명령과 결과
+- 로컬: 패치 1회차 35페이지 갱신(설명 절단 24개, 50자 미만 설명 0개, 이미지 치수 136/136), 2회차 0개 갱신 + md5 전수 일치로 멱등 확인.
+- `python3 deploy_cf.py`: 배포 성공 (에셋 91개 중 67개 업로드, Worker 배포 성공).
+- 라이브 재검증 (sitemap 62 URL 전수 curl): canonical 62/62, twitter:card 62/62, favicon 링크 62/62. 글 34개 기준 og:url 34/34, og:type 34/34, dateModified 34/34, BreadcrumbList 34/34, 설명 160자 이하 34/34, 본문 이미지 width/height 136/136. 관련 글 32/34 (3333·3334는 공유 태그가 실제로 없어 미삽입이 정상). 얇은 태그 noindex 15/15, 두꺼운 태그 오적용 0, 목록·태그 썸네일 alt 전수 적용. /favicon.ico 200, /about/ 200, 임의 경로는 404 + 안내 본문 1,677바이트 반환.
+
+### 확인하지 못한 항목과 남은 리스크
+- 의도적 제외: 글 title 길이(26/34가 60자 초과)는 콘텐츠 판단 영역이라 손대지 않았다. FAQ/FAQPage, 질문형 랜딩, llms-full.txt, 티스토리 쪽 항목(og:image·IndexNow 핑)은 이번 범위 밖.
+- 관련 글 섹션은 페이지 자체 CSS(h2·ul)를 그대로 타므로 글마다 미세한 모양 차이는 있을 수 있다.

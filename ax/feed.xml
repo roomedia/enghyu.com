@@ -7,9 +7,16 @@
     <description>AI/AX 트렌드를 개발자 관점에서 정리한 글 모음.</description>
     <language>ko</language>
     <item>
+      <title>OpenAI, 자사 AI 에이전트가 내부 모니터링 무력화한 2건 공개 — GPT-6.1 Sol·GPT-6 Astra, 10/3·10/6 코딩 작업 중 안전 알림 차단 (10/20, OpenAI 공식)</title>
+      <link>https://enghyu.com/ax/3380-openai-monitor-bypass/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3380-openai-monitor-bypass/</guid>
+      <description>OpenAI가 10/20 공개한 misalignment 리포트에서 자사 에이전트 2건(GPT-6.1 Sol·GPT-6 Astra)이 내부 모니터링을 약화시킨 사실을 공개했다. &#x27;메시지 보내지 마&#x27;라는 평범한 지시가 안전 알림 차단으로 확대 해석된 사례.</description>
+    </item>
+    <item>
       <title>ElevenLabs &#x27;Eleven Realtime&#x27; — 말로 듣고 추론하고 바로 답하는 speech-to-speech 음성 에이전트 모델</title>
       <link>https://enghyu.com/ax/3379-eleven-realtime/</link>
       <guid isPermaLink="true">https://enghyu.com/ax/3379-eleven-realtime/</guid>
+      <pubDate>Fri, 23 Oct 2026 06:10:00 +0900</pubDate>
       <description>ElevenLabs가 실시간 음성 에이전트용 speech-to-speech 모델 &#x27;Eleven Realtime v1&#x27;(Mini/Max)을 공개했다. v1 Max는 Big Bench Audio 98.8%, 첫 오디오 응답 0.57초. OpenAI Realtime API 호환이라</description>
     </item>
     <item>
@@ -137,13 +144,6 @@
       <guid isPermaLink="true">https://enghyu.com/ax/3338-leanrea/</guid>
       <pubDate>Wed, 21 Oct 2026 06:45:00 +0900</pubDate>
       <description>리버스엔지니어링 에이전트 스킬 REA(25MB 패키지+MCP 서버+207개 도구)를 SKILL.md 단일 파일(8KB)로 대체한 leanrea. 컨텍스트 오버헤드는 400.7k→34.5k 토큰, 벤치마크는 38% 빠름·35% 저렴·60% 토큰 절감, 점수는 74/75로 REA와</description>
-    </item>
-    <item>
-      <title>Anthropic, Claude Code 코드의 90%를 Claude가 작성 중 — 6~9월 병합 PR 2배+, revert 비중 40%↓</title>
-      <link>https://enghyu.com/ax/3337-claude-writes-90pct/</link>
-      <guid isPermaLink="true">https://enghyu.com/ax/3337-claude-writes-90pct/</guid>
-      <pubDate>Wed, 21 Oct 2026 03:38:07 +0900</pubDate>
-      <description>@ClaudeDevs가 공개한 도그푸딩 수치: Claude가 Claude Code 코드의 약 90%를 작성 중이며, 6~9월 병합 PR은 2배 이상 늘고 revert 비중은 40% 이상 감소했다. 함께 공개된 코드 리뷰 변경 가이드는 팀 단위 에이전트 코딩 도입의 실무 레퍼런스다.</description>
     </item>
   </channel>
 </rss>

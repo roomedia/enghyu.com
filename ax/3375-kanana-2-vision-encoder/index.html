@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G5WKCES0DY"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G5WKCES0DY');</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>카카오 'Kanana-2-vision-encoder' 2종 오픈소스 공개 — medium 4.26억·tiny 9,800만, 지연 60% 감소</title>
+<meta name="description" content="카카오가 AI 비전 인코더 Kanana-2-vision-encoder 2종을 오픈소스로 공개했다. medium 4.26억·tiny 9,800만 파라미터, 지연 60% 감소 주장. 온디바이스 멀티모달 파이프라인에 쓸 만한 경량 옵션이 하나 늘었다.">
+<meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3375-overview.png">
+<meta property="og:title" content="카카오 'Kanana-2-vision-encoder' 2종 오픈소스 공개 — medium 4.26억·tiny 9,800만, 지연 60% 감소">
+<meta property="og:description" content="medium 4.26억·tiny 9,800만 파라미터. 지연 60% 감소 주장. 온디바이스 비전 파이프라인의 새로운 경량 옵션.">
+<meta property="og:type" content="article">
+<style>
+:root{--bg:#ffffff;--text:#1a1a1a;--muted:#666;--border:#e5e5e5;--accent:#0891b2;--code-bg:#f6f8fa;}
+@media (prefers-color-scheme: dark){:root{--bg:#0f1115;--text:#e8eaf0;--muted:#9aa0ad;--border:#2a2e38;--accent:#22d3ee;--code-bg:#181c24;}}
+*{box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:24px 20px;}
+main{max-width:800px;margin:0 auto;}
+.topnav{margin-bottom:20px;}.topnav a{color:var(--muted);font-size:14px;text-decoration:none;}.topnav a:hover{color:var(--accent);text-decoration:underline;}
+h1{font-size:1.9rem;line-height:1.35;margin:0 0 8px;}
+.meta{color:var(--muted);font-size:14px;margin-bottom:28px;}
+h2{font-size:1.3rem;margin:44px 0 12px;padding-top:8px;border-top:1px solid var(--border);}
+h3{font-size:1.05rem;margin:28px 0 8px;}
+p{margin:0 0 16px;}
+img{max-width:100%;height:auto;border-radius:10px;margin:20px 0;border:1px solid var(--border);}
+figure{margin:0;}figcaption{color:var(--muted);font-size:13px;text-align:center;margin:-8px 0 24px;}
+ul{margin:0 0 16px;padding-left:22px;}
+li{margin-bottom:8px;}
+strong{font-weight:700;}
+.callout{background:var(--code-bg);border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+.warn{background:var(--code-bg);border-left:3px solid #f59e0b;padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.9em;}
+pre{background:var(--code-bg);padding:16px;border-radius:8px;overflow-x:auto;border:1px solid var(--border);font-size:.85em;line-height:1.6;}
+pre code{background:none;padding:0;}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.92em;}
+th,td{border:1px solid var(--border);padding:8px 12px;text-align:left;}
+th{background:var(--code-bg);}
+a{color:var(--accent);}
+.tags a{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:3px 12px;font-size:13px;margin:0 6px 6px 0;color:var(--text);text-decoration:none;}.tags a:hover{border-color:var(--accent);color:var(--accent);}
+footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:14px;}
+</style>
+</head>
+<body>
+<main>
+<nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
+
+<h1>카카오 'Kanana-2-vision-encoder' 2종 오픈소스 공개 — medium 4.26억·tiny 9,800만, 지연 60% 감소</h1>
+<div class="meta">2026-10-22 · AX 트렌드 · 원문 이슈 #3375</div>
+
+<figure>
+<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3375-overview.png" alt="Kanana-2-vision-encoder — medium 426M, tiny 98M, 오픈소스" loading="lazy">
+<figcaption>Kanana-2-vision-encoder — medium 4.26억, tiny 9,800만 파라미터, 오픈소스 공개</figcaption>
+</figure>
+
+<p>2026년 10월 21일, 카카오가 자체 개발 AI 비전 인코더 <strong>Kanana-2-vision-encoder</strong> 2종을 오픈소스로 공개했다. <strong>medium(4.26억 파라미터)</strong>과 <strong>tiny(9,800만 파라미터)</strong>, 두 가지 크기로 나왔다 (뉴스핌, 2026-10-21).</p>
+
+<p>카카오는 성능을 기존 오픈 비전 모델인 <strong>SigLIP 2·Perception Encoder·AIMv2·Qwen3.5-ViT</strong>와 비교해 향상됐다고 주장한다. 라이선스는 <strong>Kanana Open License</strong>다.</p>
+
+<div class="callout">
+<strong>핵심 수치.</strong> medium <strong>4.26억</strong>, tiny <strong>9,800만</strong> 파라미터. 카카오의 성능 주장: 기존 비전 인코더 대비 성능 향상 + <strong>지연 60% 감소</strong>. 지연 감소 주장이 실제 환경에서 재현되는지는 확인이 필요하다.
+</div>
+
+<h2>아키텍처: 오픈 학습 패러다임</h2>
+
+<figure>
+<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3375-arch.png" alt="아키텍처 — Vision Transformer 인코더 블록, SigLIP 2·Perception Encoder·AIMv2·Qwen3.5-ViT 비교, 지연 60% 감소" loading="lazy">
+<figcaption>Vision Transformer 인코더 — 비교 대상은 SigLIP 2·Perception Encoder·AIMv2·Qwen3.5-ViT</figcaption>
+</figure>
+
+<p>카카오는 <strong>오픈 학습 패러다임 기반</strong> 아키텍처라고 설명했다. 구체적인 구조 상세는 공개 자료에 자세히 나와 있지 않다. 비교 대상에 <strong>SigLIP 2·Perception Encoder·AIMv2·Qwen3.5-ViT</strong>를 직접 올린 건, 멀티모달 스택의 비전 쪽 표준 인코더들과 붙어서 평가받겠다는 뜻이다.</p>
+
+<p>비전 인코더는 멀티모달 모델의 "눈"이다. 이미지·영상을 이해해 언어 모델에 넘기는 역할을 맡는다. 인코더를 바꾸면 멀티모달 모델 전체의 속도와 품질이 바뀐다. 그래서 카카오는 지연 감소를 앞세운 것으로 보인다.</p>
+
+<h2>숫자로 읽는 카나나 비전 인코더</h2>
+
+<figure>
+<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3375-numbers.png" alt="핵심 수치 — medium 426M, tiny 98M, 지연 60% 감소" loading="lazy">
+<figcaption>핵심 수치 — medium 4.26억, tiny 9,800만 파라미터, 지연 60% 감소 주장</figcaption>
+</figure>
+
+<table>
+<tr><th>항목</th><th>값</th></tr>
+<tr><td>medium</td><td><strong>4.26억</strong> 파라미터</td></tr>
+<tr><td>tiny</td><td><strong>9,800만</strong> 파라미터</td></tr>
+<tr><td>지연</td><td><strong>60% 감소</strong> 주장 (카카오 발표 기준)</td></tr>
+<tr><td>라이선스</td><td>Kanana Open License</td></tr>
+<tr><td>비교 대상</td><td>SigLIP 2·Perception Encoder·AIMv2·Qwen3.5-ViT</td></tr>
+</table>
+
+<p><strong>tiny 9,800만</strong>이 눈에 띈다. 모바일·엣지에서 돌릴 수 있는 무게다. 기존 오픈 비전 인코더 중에서도 이 정도 크기에 오픈소스인 선택지는 많지 않다. 지연 60% 감소 주장이 맞다면, 온디바이스 비전 파이프라인에서 바로 체감할 수 있는 차이다.</p>
+
+<h2>온디바이스 적용 포인트</h2>
+
+<figure>
+<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3375-mobile.png" alt="온디바이스 배포 — 디바이스에서 직접 추론, 클라우드 불필요" loading="lazy">
+<figcaption>온디바이스 배포 — tiny 모델로 디바이스에서 직접 추론</figcaption>
+</figure>
+
+<p>Android 개발자 관점에서 tiny 모델의 쓰임새는 분명하다. 온디바이스 비전 파이프라인의 개념 구조는 이렇다.</p>
+
+<pre><code>// 개념 코드: 온디바이스 비전 인코더 파이프라인
+val encoder = VisionEncoder.load("kanana-2-tiny")  // tiny 9,800만
+
+fun onFrame(frame: Bitmap) {
+    val embedding = encoder.encode(frame)  // 지연 60%↓ 주장
+    val result = localModel.query(embedding)
+    if (result.confidence &lt; threshold) {
+        cloudModel.query(frame)            // fallback
+    }
+}</code></pre>
+
+<p>이 구조의 포인트는 두 가지다. 첫째, <strong>지연 감소는 클라우드 왕복을 피하는 것보다 파이프라인 내부에서 이득</strong>이다. 카메라 프레임을 실시간으로 처리하는 앱에서는 인코더 1회 호출 시간이 전체 체감 속도를 정한다. 둘째, <strong>tiny급 오픈 인코더가 생기면 앱 번들에 넣는 선택지가 열린다</strong>. 기존에는 이 무게대의 오픈 비전 인코더가 드물어서 선택지가 좁았다.</p>
+
+<div class="callout">
+<strong>AX TF 관점.</strong> 에이전트가 스크린샷·카메라 이미지를 이해하는 모바일 에이전트 구조에서, 비전 인코더는 가장 자주 도는 부품이다. 60% 감소 주장이 재현된다면 에이전트 응답 속도에 바로 반영된다. 실제 가중치가 공개되는 대로 벤치마크해 볼 가치가 있다.
+</div>
+
+<h2>배경: 카카오의 멀티모달 스택 확장</h2>
+
+<p>이번 공개는 갑작스럽지 않다. 카카오는 <strong>10월 중순 ifkakao 26</strong>에서 AI 에이전트 전략과 카나나 스페이스·칸바스를 공개했고(ax-trend #3232), <strong>8월 COLM 2026</strong>에서는 학습 경량화 기술도 발표했다(ax-trend #3126). 자체 모델을 공개하며 생태계 참여를 유도하는 흐름이다.</p>
+
+<p>연내 정식 출시를 예고한 <strong>'모두의 AI'</strong>(ax-trend #3246)와도 연결된다. 비전 인코더 공개는 카나나 모델 패밀리를 채우는 조각이다.</p>
+
+<div class="warn">
+<strong>⚠️ 미확인:</strong> 실제 가중치·벤치마크 데이터셋 공개 여부는 확인되지 않았다. 오픈소스 공개 범위(학습 코드·데이터인지, 추론 가중치만인지)도 모른다. 상용 서비스 탑재 로드맵도 발표되지 않았다. 지연 60% 감소는 카카오 주장이며 <strong>독립 검증 없음</strong>.
+</div>
+
+<h2>왜 중요한지</h2>
+
+<p>한국에서 만든 <strong>오픈소스 비전 인코더</strong>가 나왔다는 점 자체가 의미 있다. 멀티모달 모델을 만드는 팀은 "눈"을 직접 고를 수 있게 됐다. 특히 <strong>tiny 9,800만</strong>은 모바일·엣지에서 쓸 수 있는 무게라, 온디바이스 vision pipeline의 선택지가 하나 늘었다.</p>
+
+<p>다만 성능 주장은 <strong>카카오 발표 기준</strong>이다. 가중치가 공개되는 대로 직접 돌려보고 숫자를 검증해야 한다. 그전까지는 "선택지가 늘었다" 정도로 받아들이는 게 맞다.</p>
+
+<h2>원문 이슈</h2>
+<p>이 글은 <a href="https://github.com/roomedia/ax-trend/issues/3375">ax-trend 이슈 #3375</a>를 바탕으로 작성됐다. 핵심 링크: <a href="https://www.newspim.com/news/view/20261021000206">뉴스핌 — 카카오, Kanana-2-vision-encoder 2종 공개 (2026-10-21)</a>. 관련 이슈: <a href="https://github.com/roomedia/ax-trend/issues/3232">#3232 — ifkakao 26 AI 에이전트 전략</a>, <a href="https://github.com/roomedia/ax-trend/issues/3126">#3126 — 카나나 학습 최적화·경량화</a>, <a href="https://github.com/roomedia/ax-trend/issues/3246">#3246 — '모두의 AI' 연내 정식 출시</a>.</p>
+
+<p class="tags"><a href="/ax/tag/multimodal/">멀티모달</a><a href="/ax/tag/performance/">성능 최적화</a><a href="/ax/tag/ax-trend/">AX Trend</a></p>
+
+<footer>
+<p>enghyu.com AX 트렌드 · <a href="/ax/">목록으로</a></p>
+</footer>
+</main>
+<script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
+</body>
+</html>

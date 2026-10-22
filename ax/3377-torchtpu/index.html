@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G5WKCES0DY"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G5WKCES0DY');</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Google·Meta, TPU용 네이티브 PyTorch 백엔드 'TorchTPU' 오픈소스 — PyTorch/XLA 대체, Qwen 3 8B에서 52% MFU</title>
+<meta name="description" content="Google이 PyTorch Conference 2026에서 TorchTPU를 오픈소스로 공개했다. TPU용 네이티브 PyTorch 백엔드로, Google·Meta PyTorch 팀이 공동 개발. eager 실행 우선, .to(&quot;cuda&quot;) → .to(&quot;tpu&quot;) 수준의 최소 변경으로">
+<meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3377-overview.png">
+<meta property="og:title" content="Google·Meta, TPU용 네이티브 PyTorch 백엔드 &#x27;TorchTPU&#x27; 오픈소스 — PyTorch/XLA 대체, Qwen 3 8B에서 52% MFU">
+<meta property="og:description" content="Google·Meta PyTorch 팀이 공동 개발한 TPU용 네이티브 PyTorch 백엔드. eager 실행 우선, Qwen 3 8B 학습에서 52% MFU 주장 (Google 발표).">
+<meta property="og:url" content="https://enghyu.com/ax/3377-torchtpu/">
+<meta property="og:type" content="article">
+<style>
+:root{--bg:#ffffff;--text:#1a1a1a;--muted:#666;--border:#e5e5e5;--accent:#0891b2;--code-bg:#f6f8fa;}
+@media (prefers-color-scheme: dark){:root{--bg:#0f1115;--text:#e8eaf0;--muted:#9aa0ad;--border:#2a2e38;--accent:#22d3ee;--code-bg:#181c24;}}
+*{box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:24px 20px;}
+main{max-width:800px;margin:0 auto;}
+.topnav{margin-bottom:20px;}.topnav a{color:var(--muted);font-size:14px;text-decoration:none;}.topnav a:hover{color:var(--accent);text-decoration:underline;}
+h1{font-size:1.9rem;line-height:1.35;margin:0 0 8px;}
+.meta{color:var(--muted);font-size:14px;margin-bottom:28px;}
+h2{font-size:1.3rem;margin:44px 0 12px;padding-top:8px;border-top:1px solid var(--border);}
+h3{font-size:1.05rem;margin:28px 0 8px;}
+p{margin:0 0 16px;}
+img{max-width:100%;height:auto;border-radius:10px;margin:20px 0;border:1px solid var(--border);}
+figure{margin:0;}figcaption{color:var(--muted);font-size:13px;text-align:center;margin:-8px 0 24px;}
+ul{margin:0 0 16px;padding-left:22px;}
+li{margin-bottom:8px;}
+strong{font-weight:700;}
+.callout{background:var(--code-bg);border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+.warn{background:var(--code-bg);border-left:3px solid #f59e0b;padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.9em;}
+pre{background:var(--code-bg);padding:16px;border-radius:8px;overflow-x:auto;border:1px solid var(--border);font-size:.85em;line-height:1.6;}
+pre code{background:none;padding:0;}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.92em;}
+th,td{border:1px solid var(--border);padding:8px 12px;text-align:left;}
+th{background:var(--code-bg);}
+a{color:var(--accent);}
+.tags a{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:3px 12px;font-size:13px;margin:0 6px 6px 0;color:var(--text);text-decoration:none;}.tags a:hover{border-color:var(--accent);color:var(--accent);}
+footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:14px;}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Google·Meta, TPU용 네이티브 PyTorch 백엔드 'TorchTPU' 오픈소스 — PyTorch/XLA 대체, Qwen 3 8B에서 52% MFU",
+  "mainEntityOfPage": "https://enghyu.com/ax/3377-torchtpu/",
+  "url": "https://enghyu.com/ax/3377-torchtpu/",
+  "author": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "publisher": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "description": "Google이 PyTorch Conference 2026에서 TorchTPU를 오픈소스로 공개했다. TPU용 네이티브 PyTorch 백엔드로, Google·Meta PyTorch 팀이 공동 개발. eager 실행 우선, .to(\"cuda\") → .to(\"tpu\") 수준의 최소 변경으로",
+  "image": "https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3377-overview.png",
+  "datePublished": "2026-10-23T01:20:00+09:00",
+  "dateModified": "2026-10-23T01:20:00+09:00"
+}
+</script>
+<link rel="canonical" href="https://enghyu.com/ax/3377-torchtpu/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Google·Meta, TPU용 네이티브 PyTorch 백엔드 &#x27;TorchTPU&#x27; 오픈소스 — PyTorch/XLA 대체, Qwen 3 8B에서 52% MFU">
+<meta name="twitter:description" content="Google·Meta PyTorch 팀이 공동 개발한 TPU용 네이티브 PyTorch 백엔드. eager 실행 우선, Qwen 3 8B 학습에서 52% MFU 주장 (Google 발표).">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3377-overview.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://enghyu.com/ax/3377-torchtpu/#breadcrumb",
+  "headline": "Google·Meta, TPU용 네이티브 PyTorch 백엔드 'TorchTPU' 오픈소스 — PyTorch/XLA 대체, Qwen 3 8B에서 52% MFU"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://enghyu.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AX 트렌드",
+      "item": "https://enghyu.com/ax/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Google·Meta, TPU용 네이티브 PyTorch 백엔드 'TorchTPU' 오픈소스 — PyTorch/XLA 대체, Qwen 3 8B에서 52% MFU",
+      "item": "https://enghyu.com/ax/3377-torchtpu/"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<main>
+<nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
+
+<h1>Google·Meta, TPU용 네이티브 PyTorch 백엔드 'TorchTPU' 오픈소스 — PyTorch/XLA 대체, Qwen 3 8B에서 52% MFU</h1>
+<div class="meta">2026-10-23 · AX 트렌드 · 원문 이슈 #3377</div>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3377-overview.png" alt="TorchTPU — TPU용 네이티브 PyTorch 백엔드, Google×Meta 공동 개발, Apache 2.0 오픈소스" loading="lazy">
+<figcaption>TorchTPU — Google·Meta PyTorch 팀 공동 개발, PyTorch Conference 2026에서 공개</figcaption>
+</figure>
+
+<p>2026년 10월 20일, Google이 <strong>PyTorch Conference 2026</strong>에서 <strong>TorchTPU</strong>를 오픈소스로 공개했다. Google TPU용 네이티브 PyTorch 백엔드로, Google이 2025년 중반에 시작한 프로젝트를 <strong>Google과 Meta의 PyTorch 팀이 공동 개발</strong>한 결과물이다. 발표는 Google Cloud 블로그(Mark Lohmeyer, VP &amp; GM AI &amp; Computing Infrastructure · Bill Jia, VP Engineering)와 pytorch.org 블로그를 통해 나왔다 (2026-10-20).</p>
+
+<p>배경은 단순하다. TPU는 10년간 TensorFlow/JAX 생태계에 묶여 있었고, PyTorch 사용자는 PyTorch/XLA의 마찰을 감수해야 했다. 같은 행사·같은 블로그 포스트에서 분산 추론 스택 <strong>llm-d 1.0</strong>(ax-trend #3369)도 함께 발표됐다 — Google이 "TPU를 PyTorch의 GPU·CPU 옆 네이티브 옵션"으로 만드는 패키지 전략이다. 밑바탕에는 CUDA 락인의 소프트웨어 비용을 낮추려는 움직임이 있다.</p>
+
+<div class="callout">
+<strong>핵심 수치 (Google 주장).</strong> TorchTitan 경유 학습에서 <strong>Qwen 3 8B 기준 최대 52% MFU</strong>(Model Flops Utilization), 최대 <strong>8,192개 Ironwood TPU까지 거의 선형 스케일링</strong>.
+</div>
+
+<h2>해결하려는 문제: PyTorch/XLA의 마찰</h2>
+
+<p>기존 PyTorch/XLA(2020년 도입)는 세 가지가 아팠다. <strong>명시적 컴파일 영역 정의 등 소스 코드의 침습적 수정</strong>이 필요했고, <strong>컴파일 지연이 심했으며</strong>, PyTorch의 네이티브 <strong>명령형(eager) 실행을 지원하지 않았다</strong>. 분산 컴퓨팅 프리미티브 지원도 뒤처졌다.</p>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3377-xla.png" alt="PyTorch/XLA에서 TorchTPU로 — eager-first, .to(cuda)를 .to(tpu)로 교체하는 수준의 최소 변경" loading="lazy">
+<figcaption>PyTorch/XLA → TorchTPU: eager 우선, PrivateUse1 위에 구축</figcaption>
+</figure>
+
+<p>TorchTPU는 <strong>eager 실행을 최우선</strong>으로 하고 PyTorch의 <strong>PrivateUse1 메커니즘</strong> 위에 구축됐다. 기존 PyTorch 코드는 <code>.to("cuda")</code> → <code>.to("tpu")</code> 수준의 최소 변경으로 TPU에서 동작한다. 컴파일 경로는 <strong>TorchDynamo → StableHLO → XLA</strong>로, 디버그는 eager 모드에서 하고 프로덕션 성능은 <code>torch.compile</code>로 전환하는 표준 PyTorch 워크플로우를 그대로 따른다.</p>
+
+<pre><code>import torch
+
+model = load_qwen3_8b()
+model = model.to("tpu")          # 기존 .to("cuda")에서 한 글자 차이
+# 디버그: eager로 그대로 돌린다
+loss = train_step(model, batch)
+# 프로덕션: torch.compile으로 TorchDynamo → StableHLO → XLA
+model = torch.compile(model)</code></pre>
+
+<h2>성능 수치: 52% MFU, 8,192 칩 스케일링</h2>
+
+<div class="warn">
+<strong>주의.</strong> 아래 수치는 Google의 자체 주장으로, 독립 검증은 아직 없다. 테스트된 TPU 세대의 정확한 범위도 미디어 비교표 기준이라 미확인이다.
+</div>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3377-numbers.png" alt="TorchTPU 주장 수치 — 52% MFU (Qwen 3 8B), 8,192 Ironwood TPU 근사 선형 스케일링" loading="lazy">
+<figcaption>Google 주장 수치 (2026-10-20) — 독립 검증 전</figcaption>
+</figure>
+
+<p>Google이 제시한 두 축의 수치는 의미가 있다. 학습 효율 지표(MFU) 52%는 TPU가 "GPU 대비 싸지만 돌리기 어려운 칩"이라는 인식을 직접 겨냥하고, <strong>8,192 칩 선형 스케일링</strong>은 대규모 학습 클러스터 설계에서 TPU를 1순위 후보로 올리는 근거가 된다. 둘 다 사실이라면 GPU 일변도의 학습 인프라 설계에 균열이 생긴다 — "만약"이 아직 붙지만 말이다.</p>
+
+<h2>생태계: 학습→서빙→온디바이스 한 줄기</h2>
+
+<p>서빙 스택 연동이 이번 발표의 진짜 무게다.</p>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3377-ecosystem.png" alt="TorchTPU 생태계 — TorchTitan 학습, vLLM·SGLang 서빙, Hugging Face device_map=tpu 배포, LiteRT 온디바이스" loading="lazy">
+<figcaption>학습→서빙→온디바이스를 PyTorch 단일 스택으로</figcaption>
+</figure>
+
+<ul>
+<li><strong>서빙</strong>: vLLM·SGLang이 각각 vLLM-TorchTPU·SGLang-TorchTPU로 연동. llm-d·TorchTitan·Ray·TorchRec·VeRL·Diffusers도 함께.</li>
+<li><strong>배포</strong>: Hugging Face Transformers v5에서는 <code>device_map="tpu"</code> 전달만으로 TPU 배포가 가능하다 (webpronews.com, 2026-10-20).</li>
+<li><strong>온디바이스</strong>: LiteRT(구 TFLite)가 PyTorch 생태계에 합류 — 모델 학습→서빙→온디바이스로 이어지는 파이프라인을 PyTorch 단일 스택으로 통일하는 그림.</li>
+<li><strong>프로덕션 사용</strong>: Meta가 실제 프로덕션에서 사용 중. Jana van Greunen(Meta PyTorch 엔지니어링 디렉터)은 "단일 하드웨어 아키텍처에 묶일 수 없다"며 LLM·광고·추천 워크로드를 TorchTPU로 올린다고 밝혔다 (unite.ai). 다만 Meta의 프로덕션 사용 범위(모델 규모·워크로드 비중)는 구체적으로 공개되지 않았다.</li>
+<li><strong>라이선스</strong>: Apache 2.0 (marktechpost.com, 2026-10-20). TPU 에이전트 스위트(온보딩·진단·추론 튜닝 자동화)는 GitHub에서 프리뷰 중.</li>
+</ul>
+
+<pre><code>from transformers import AutoModelForCausalLM
+
+model = AutoModelForCausalLM.from_pretrained(
+    "Qwen/Qwen3-8B",
+    device_map="tpu",   # Transformers v5: 한 줄로 TPU 배포
+)</code></pre>
+
+<h2>실무 함의</h2>
+
+<p>서빙 스택(vLLM·SGLang)이 TPU를 네이티브로 지원하면, 추론 비용 설계에서 GPU 일변도에서 벗어날 선택지가 생긴다. HF Transformers의 <code>device_map="tpu"</code> 한 줄 지원은 실험 진입 장벽을 크게 낮춘다. 온디바이스(LiteRT가 PyTorch 생태계 합류)까지 같은 흐름이라, 모델 학습→서빙→온디바이스로 이어지는 파이프라인을 PyTorch 단일 스택으로 통일하는 그림이 보인다.</p>
+
+<p>이 글은 <a href="https://github.com/roomedia/ax-trend/issues/3377">ax-trend 이슈 #3377</a>을 바탕으로 작성됐다. 핵심 링크: <a href="https://cloud.google.com/blog/topics/ai-infrastructure/torchtpu-is-now-open-source-run-native-pytorch-on-tpus">Google Cloud 블로그 — TorchTPU 오픈소스 발표 (2026-10-20)</a>, <a href="https://pytorch.org/blog/introducing-torchtpu/">pytorch.org — TorchTPU 소개 (2026-10-20)</a>. 관련 이슈: <a href="https://github.com/roomedia/ax-trend/issues/3369">#3369 — Google·Red Hat·IBM, 분산 LLM 추론 스택 'llm-d 1.0' 출시</a>.</p>
+
+<p class="tags"><a href="/ax/tag/performance/">성능 최적화</a><a href="/ax/tag/ax-trend/">AX Trend</a></p>
+
+<footer>
+<p>enghyu.com AX 트렌드 · <a href="/ax/">목록으로</a></p>
+</footer>
+
+<section class="related">
+  <h2>관련 글</h2>
+  <ul>
+    <li><a href="/ax/3375-kanana-2-vision-encoder/">카카오 &#x27;Kanana-2-vision-encoder&#x27; 2종 오픈소스 공개 — medium 4.26억·tiny 9,800만, 지연 60% 감소</a></li>
+    <li><a href="/ax/3349-exa-3/">Exa, AI 에이전트용 검색 API &#x27;Exa 3.0&#x27; 출시 — 역대 최대 검색 품질 개선·신규 저가 티어 &#x27;Exa Lite&#x27; $4/1,000요청</a></li>
+    <li><a href="/ax/3340-obsidian-pele/">Obsidian, 오픈소스 Mermaid 렌더러 &#x27;Pele&#x27; 공개 — Mermaid.js 대비 번들 1/6·최대 500배 빠른 렌더 주장, CSS 변수 테마 지원</a></li>
+  </ul>
+</section>
+</main>
+<script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
+</body>
+</html>

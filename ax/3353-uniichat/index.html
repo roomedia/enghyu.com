@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G5WKCES0DY"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G5WKCES0DY');</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UniiChat — '새 채팅' 없는 영원한 하나의 대화, 메모리 트리로 무한 컨텍스트를 구현한 오픈소스 에이전트</title>
+<meta name="description" content="Victor Taelin이 2026-10-19 공개한 오픈소스 AI 에이전트 UniiChat. 하나의 대화가 수일·수주·수년 계속되고 에이전트가 전부 기억한다. 메모리 트리(이진 요약 트리)+Zoom으로 compaction의 기억 손실 없이 최대 128KB 뷰를 유지한다.">
+<meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3353-hero.png">
+<meta property="og:title" content="UniiChat — '새 채팅' 없는 영원한 하나의 대화, 메모리 트리로 무한 컨텍스트를 구현한 오픈소스 에이전트">
+<meta property="og:description" content="메모리 트리+Zoom — 요약은 원본을 대체하지 않고 가리킨다. 하루 만에 ★330, 공개 10/19 (Victor Taelin).">
+<meta property="og:type" content="article">
+<style>
+:root{--bg:#ffffff;--text:#1a1a1a;--muted:#666;--border:#e5e5e5;--accent:#0891b2;--code-bg:#f6f8fa;}
+@media (prefers-color-scheme: dark){:root{--bg:#0f1115;--text:#e8eaf0;--muted:#9aa0ad;--border:#2a2e38;--accent:#22d3ee;--code-bg:#181c24;}}
+*{box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:24px 20px;}
+main{max-width:800px;margin:0 auto;}
+.topnav{margin-bottom:20px;}.topnav a{color:var(--muted);font-size:14px;text-decoration:none;}.topnav a:hover{color:var(--accent);text-decoration:underline;}
+h1{font-size:1.9rem;line-height:1.35;margin:0 0 8px;}
+.meta{color:var(--muted);font-size:14px;margin-bottom:28px;}
+h2{font-size:1.3rem;margin:44px 0 12px;padding-top:8px;border-top:1px solid var(--border);}
+h3{font-size:1.05rem;margin:28px 0 8px;}
+p{margin:0 0 16px;}
+img{max-width:100%;height:auto;border-radius:10px;margin:20px 0;border:1px solid var(--border);}
+figure{margin:0;}figcaption{color:var(--muted);font-size:13px;text-align:center;margin:-8px 0 24px;}
+ul{margin:0 0 16px;padding-left:22px;}
+li{margin-bottom:8px;}
+strong{font-weight:700;}
+.callout{background:var(--code-bg);border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+.warn{background:var(--code-bg);border-left:3px solid #f59e0b;padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.9em;}
+pre{background:var(--code-bg);padding:16px;border-radius:8px;overflow-x:auto;border:1px solid var(--border);font-size:.85em;line-height:1.6;}
+pre code{background:none;padding:0;}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.92em;}
+th,td{border:1px solid var(--border);padding:8px 12px;text-align:left;}
+th{background:var(--code-bg);}
+a{color:var(--accent);}
+.tags a{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:3px 12px;font-size:13px;margin:0 6px 6px 0;color:var(--text);text-decoration:none;}.tags a:hover{border-color:var(--accent);color:var(--accent);}
+footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:14px;}
+</style>
+</head>
+<body>
+<main>
+<nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
+
+<h1>UniiChat — '새 채팅' 없는 영원한 하나의 대화, 메모리 트리로 무한 컨텍스트를 구현한 오픈소스 에이전트</h1>
+<div class="meta">2026-10-22 · AX 트렌드 · 원문 이슈 #3353</div>
+
+<figure>
+<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3353-hero.png" alt="UniiChat — no New Chat button, one endless conversation, fully remembered" loading="lazy">
+<figcaption>UniiChat — "새 채팅" 버튼이 없다. 하나의 대화가 계속되고 에이전트가 전부 기억한다</figcaption>
+</figure>
+
+<p>2026년 10월 19일, <strong>Victor Taelin</strong>이 오픈소스 AI 에이전트 <strong>UniiChat</strong>을 공개했다. Taelin은 Higher-order Virtual Machine(HVM)과 병렬 함수형 언어 Bend의 저자로, 상호작용망·최적 평가(optimal evaluation) 연구로 알려진 인물이다. 핵심 컨셉은 한 줄이다. <strong>"새 채팅" 버튼이 없다.</strong> 하나의 대화가 수일·수주·수년간 계속되고, 에이전트가 전부 기억한다. 호스팅 버전은 uniichat.com, 이 레포는 자기 API 키로 돌리는 셀프호스팅용 소스다.</p>
+
+<div class="callout">
+<strong>핵심 수치.</strong> 공개 하루 만에 GitHub <strong>★330, 포크 28</strong>. 매 호출마다 에이전트는 전체 대화를 <strong>최대 128KB 뷰</strong>로 본다. 스택은 <strong>TypeScript + Bun</strong>, 라이선스는 <strong>Apache 2.0</strong>. Anthropic 또는 OpenAI API 키가 필요하다. 저자가 README 첫머리에 <strong>"This repo is vibe-coded"</strong>라고 명시 — AI 에이전트가 거의 전부 작성·리뷰했고 버그를 기대하라고 경고한다.
+</div>
+
+<h2>"새 채팅" 버튼이 없다</h2>
+
+<p>기존 에이전트들의 표준 해법은 이렇다. 컨텍스트가 차면 요약하고, 원본을 버리는 compaction. UniiChat은 이 방식이 만드는 <strong>기억 손실</strong>을 정면으로 문제 삼는다. 대화는 하나로 이어지고, <strong>서버가 채팅을 소유</strong>한다. 브라우저 탭이든 터미널(<code>unii</code>)이든 같은 대화를 실시간으로 보고, 메시지 전송·중지·모델 교체가 가능하다.</p>
+
+<p>에이전트 기능은 셸 실행, 파일 읽기·편집, Mac 화면 제어(<code>UNII_COMPUTER=1</code>), 백그라운드 서브에이전트 스폰. Claude·ChatGPT 과거 대화(Claude Code·Codex 폴더, 웹사이트 export)의 <strong>임포트</strong>도 지원한다.</p>
+
+<h2>메모리 트리</h2>
+
+<figure>
+<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3353-memory-tree.png" alt="Memory Tree — rows of one-line summaries merge pairwise into a binary tree, max 128KB view per call" loading="lazy">
+<figcaption>메모리 트리 — 한 줄 요약이 쌍으로 합쳐지며 이진 트리를 만든다</figcaption>
+</figure>
+
+<p>구조는 단순하다. 모든 메시지를 <strong>한 줄로 요약</strong>하고, 이웃한 줄끼리 쌍으로 합치기를 반복해 <strong>이진 트리</strong>를 만든다. 매 호출마다 에이전트는 전체 대화를 <strong>최대 128KB 뷰</strong>로 본다. 최근 메시지는 한 줄씩, 오래된 건 더 적고 넓은 요약으로. 디테일은 나이와 함께 옅어지지만 <strong>아무것도 버려지지 않는다</strong>.</p>
+
+<p>흥미로운 지점은 이 설계가 RAG(검색 증강)도, 무한 컨텍스트 윈도우도 아닌 <strong>제3의 해법</strong>이라는 점이다. 요약이 원본을 대체하지 않고, 원본을 가리키는 인덱스가 된다.</p>
+
+<h2>Zoom — 요약은 인덱스</h2>
+
+<figure>
+<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3353-zoom.png" alt="Zoom — a summary line expands into the two lines that formed it, down to the original message" loading="lazy">
+<figcaption>Zoom — 어떤 요약 줄이든 펼쳐서 원본 메시지까지 되돌아간다</figcaption>
+</figure>
+
+<p><strong>Zoom</strong>은 트리 위의 이동 기능이다. 에이전트는 어떤 요약 줄이든 펼쳐서 그것이 만들어진 두 줄로, 최종적으로 <strong>원본 메시지까지 되돌아갈</strong> 수 있다. 과거를 버리는 compaction 없이 컨텍스트 로트(context rot)를 피하는 설계다.</p>
+
+<p>실무적으로 읽으면 이렇다. 장기 실행 에이전트에서 "3주 전에 한 결정을 왜 했지?"를 묻는 순간, 요약은 답이 아니라 <strong>경로</strong>가 된다. 근거가 필요하면 줌으로 내려간다.</p>
+
+<h2>비용 설계: 백그라운드 컴팩터와 프롬프트 캐시</h2>
+
+<figure>
+<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3353-numbers.png" alt="Key numbers: 330 stars in 1 day, 128KB view, TypeScript + Bun, Apache 2.0, This repo is vibe-coded" loading="lazy">
+<figcaption>숫자로 보는 UniiChat — 핵심은 128KB 뷰와 캐시 친화 구조</figcaption>
+</figure>
+
+<p><strong>백그라운드 컴팩터</strong>가 있다. 저렴한 모델(기본값 Haiku급)이 메시지가 도착하는 대로 요약을 미리 쓴다. 그리고 뷰는 <strong>끝부분만 바뀌는</strong> 구조라 벤더 프롬프트 캐시 히트율이 높다. 장기 실행 에이전트에서 API 비용 구조를 직접 건드리는 설계다. 캐시 히트율이 곧 단가다.</p>
+
+<p>이 부분은 UniiChat의 가장 실무적인 주장이다. 메모리 구조가 맞더라도, 매 호출 비용이 비싸면 장기 실행이 성립하지 않는다. 트리+캐시 친화 뷰는 <strong>메모리 문제를 비용 문제로 이어</strong> 풀어낸다.</p>
+
+<div class="warn">
+<strong>⚠️ 미확인:</strong> 트리가 깊어질수록(수개월~수년 분량) 다단계 요약의 품질이 실제 장기 대화에서 유지되는지는 <strong>검증 없음</strong>. 128KB 뷰 상한 안에서 오래된 대화를 "넓은 요약"으로 덮는 방식이 실무에서 충분한지도 미검증. vibe-coded 특성상 <strong>보안·안정성 검증이 부족</strong>할 수 있음 (저자 본인 경고). 공개 하루 만에 오픈 이슈 <strong>27개</strong>가 쌓인 상태다.
+</div>
+
+<h2>왜 중요한지</h2>
+
+<p>"무한 메모리"를 계층 요약 트리+줌으로 푸는 접근은 <strong>에이전트 메모리 설계의 새 레퍼런스</strong>가 될 수 있다. 특히 요약이 원본을 대체하지 않고 가리킨다는 점이 기존 compaction과 결정적으로 다르다.</p>
+
+<p>두 번째는 <strong>프롬프트 캐시 친화 설계</strong>다. 장기 실행 에이전트의 API 비용 구조에 직접 영향을 준다. 세 번째는 <strong>서버 소유 채팅</strong> 구조 — 멀티 디바이스·터미널 동시 접속을 자연스럽게 만든다. 셋 중 하나라도 장기 에이전트를 돌리는 팀이면 읽어볼 가치가 있다.</p>
+
+<h2>원문 이슈</h2>
+<p>이 글은 <a href="https://github.com/roomedia/ax-trend/issues/3353">ax-trend 이슈 #3353</a>를 바탕으로 작성됐다. 핵심 링크: <a href="https://github.com/VictorTaelin/UniiChat">GitHub — VictorTaelin/UniiChat</a>, <a href="https://x.com/VictorTaelin/status/2108200878553588091">발표 영상 (X, 2026-10-19)</a>, <a href="https://uniichat.com">호스팅 버전 — uniichat.com</a>.</p>
+
+<p class="tags"><a href="/ax/tag/ai-coding/">AI 코딩</a><a href="/ax/tag/agent-ux/">agent-UX</a><a href="/ax/tag/ax-trend/">AX Trend</a></p>
+
+<footer>
+<p>enghyu.com AX 트렌드 · <a href="/ax/">목록으로</a></p>
+</footer>
+</main>
+<script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
+</body>
+</html>

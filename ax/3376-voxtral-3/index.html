@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G5WKCES0DY"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G5WKCES0DY');</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mistral 'Voxtral 3' — STT·TTS·SDK를 한 벤더로 묶은 실시간 음성 에이전트 스택</title>
+<meta name="description" content="Mistral이 실시간 음성 에이전트 스택 Voxtral 3를 출시했다. STT/TTS 모델군 + LiveKit 기반 SDK. FLEURS WER 4.1%(Whisper large-v3 16.0%) 주장, 분당 $0.0035부터.">
+<meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3376-overview.png">
+<meta property="og:title" content="Mistral 'Voxtral 3' — STT·TTS·SDK를 한 벤더로 묶은 실시간 음성 에이전트 스택">
+<meta property="og:description" content="FLEURS WER 4.1% 주장 (Whisper large-v3 16.0%). 분당 $0.0035~$0.008, 1초 이내 턴, 즉각 barge-in. EU 호스팅 소버린 배포 옵션.">
+<meta property="og:type" content="article">
+<style>
+:root{--bg:#ffffff;--text:#1a1a1a;--muted:#666;--border:#e5e5e5;--accent:#0891b2;--code-bg:#f6f8fa;}
+@media (prefers-color-scheme: dark){:root{--bg:#0f1115;--text:#e8eaf0;--muted:#9aa0ad;--border:#2a2e38;--accent:#22d3ee;--code-bg:#181c24;}}
+*{box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:24px 20px;}
+main{max-width:800px;margin:0 auto;}
+.topnav{margin-bottom:20px;}.topnav a{color:var(--muted);font-size:14px;text-decoration:none;}.topnav a:hover{color:var(--accent);text-decoration:underline;}
+h1{font-size:1.9rem;line-height:1.35;margin:0 0 8px;}
+.meta{color:var(--muted);font-size:14px;margin-bottom:28px;}
+h2{font-size:1.3rem;margin:44px 0 12px;padding-top:8px;border-top:1px solid var(--border);}
+h3{font-size:1.05rem;margin:28px 0 8px;}
+p{margin:0 0 16px;}
+img{max-width:100%;height:auto;border-radius:10px;margin:20px 0;border:1px solid var(--border);}
+figure{margin:0;}figcaption{color:var(--muted);font-size:13px;text-align:center;margin:-8px 0 24px;}
+ul{margin:0 0 16px;padding-left:22px;}
+li{margin-bottom:8px;}
+strong{font-weight:700;}
+.callout{background:var(--code-bg);border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+.warn{background:var(--code-bg);border-left:3px solid #f59e0b;padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.9em;}
+pre{background:var(--code-bg);padding:16px;border-radius:8px;overflow-x:auto;border:1px solid var(--border);font-size:.85em;line-height:1.6;}
+pre code{background:none;padding:0;}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.92em;}
+th,td{border:1px solid var(--border);padding:8px 12px;text-align:left;}
+th{background:var(--code-bg);}
+a{color:var(--accent);}
+.tags a{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:3px 12px;font-size:13px;margin:0 6px 6px 0;color:var(--text);text-decoration:none;}.tags a:hover{border-color:var(--accent);color:var(--accent);}
+footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:14px;}
+</style>
+</head>
+<body>
+<main>
+<nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
+
+<h1>Mistral 'Voxtral 3' — STT·TTS·SDK를 한 벤더로 묶은 실시간 음성 에이전트 스택</h1>
+<div class="meta">2026-10-22 · AX 트렌드 · 원문 이슈 #3376</div>
+
+<figure>
+<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3376-overview.png" alt="Voxtral 3 — Mistral의 실시간 음성 에이전트 스택, 듣기·추론·말하기 파이프라인" loading="lazy">
+<figcaption>Voxtral 3 — 듣기·추론·말하기를 하나의 실시간 경험으로 묶는 스택</figcaption>
+</figure>
+
+<p>2026년 10월 20일, Mistral이 실시간 음성 에이전트 스택 <strong>Voxtral 3</strong>를 출시했다. 음성 인식(STT)·음성 합성(TTS) 모델군에 <strong>LiveKit 기반 음성 에이전트 SDK</strong>를 얹은 구성이다. "듣기·추론·도구 호출·말하기를 하나의 실시간 경험으로" 묶는 게 핵심 제품이라고 Mistral은 말한다 (aiweekly.co, 2026-10-20).</p>
+
+<p>전날(10/19) 시계열 파운데이션 모델 Timestral을 공개한 지 하루 만에 나온 <strong>두 번째 연속 릴리스</strong>다 (ax-trend #3374). 음성 에이전트 시장은 OpenAI Realtime API·ElevenLabs 같은 단일 벤더 스택 경쟁으로 굳어가는 중이고, Mistral은 전사·추론·TTS·SDK를 한 벤더에서 묶는 전략으로 들어왔다.</p>
+
+<div class="callout">
+<strong>핵심 수치.</strong> FLEURS 45 다국어 벤치마크에서 <strong>WER 4.1%</strong> 주장 (언어 지정 기준, Whisper large-v3 16.0%). 전사 <strong>분당 $0.0035</strong>부터, 실시간 전사 지연 <strong>500ms 미만</strong>, 에이전트 턴 <strong>1초 이내</strong>.
+</div>
+
+<h2>스택 구성: 모델군 + SDK</h2>
+
+<p>모델은 세 가지다.</p>
+
+<ul>
+<li><code>Voxtral Small Transcribe 3</code> — 음성→텍스트</li>
+<li><code>Voxtral Mini TTS 3</code> — 텍스트→음성</li>
+<li>둘을 실시간 스트리밍 파이프라인으로 묶는 <strong>음성 에이전트 SDK</strong> (LiveKit 기반)</li>
+</ul>
+
+<p>전사는 <strong>50개 이상 언어</strong>를 지원하고 24개 EU 공식 언어를 포함한다. TTS는 <strong>35개 이상 언어·50개 이상 방언</strong>이다. TTS <code>Voxtral Speech 3</code>는 감정·속도·강세 지시 따르기(instruction following)와 <strong>30분 분량 음성으로 화자를 복제</strong>하는 Pro Voice 기능을 제공한다.</p>
+
+<h2>숫자로 읽는 Voxtral 3</h2>
+
+<figure>
+<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3376-accuracy.png" alt="전사 정확도 — FLEURS WER 4.1%, Whisper large-v3 16.0%와 비교" loading="lazy">
+<figcaption>FLEURS 45 다국어 벤치마크 WER — Voxtral Small 3(4.1%) vs Whisper large-v3(16.0%)</figcaption>
+</figure>
+
+<table>
+<tr><th>항목</th><th>값</th></tr>
+<tr><td>FLEURS WER (언어 지정)</td><td><strong>4.1%</strong> (Mistral 발표)</td></tr>
+<tr><td>Whisper large-v3 (같은 기준)</td><td>16.0% / 언어 추론 14.9%</td></tr>
+<tr><td>앞서간다고 주장</td><td>Gemini 3.5 Transcribe·Scribe v2·GPT Transcribe</td></tr>
+<tr><td>전사 요금</td><td><strong>$0.0035/분</strong> (Mini) · $0.004/분 (Small) · $0.008/분 (Realtime)</td></tr>
+<tr><td>TTS 요금</td><td><strong>$13/100만 문자</strong></td></tr>
+<tr><td>에이전트 턴</td><td>1초 이내, barge-in 시 즉시 말 멈춤→듣기 전환</td></tr>
+</table>
+
+<figure>
+<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3376-pricing.png" alt="요금 — 분당 $0.0035/$0.004/$0.008, TTS 100만 문자당 $13" loading="lazy">
+<figcaption>요금 체계 — Mini $0.0035/분, Small $0.004/분, Realtime $0.008/분(500ms 미만)</figcaption>
+</figure>
+
+<p>Mistral은 TTS 쪽에서 <strong>OpenAI TTS-1·Deepgram·ElevenLabs Flash·Gemini Flash보다 비용 효율적</strong>이라고 주장한다 (aiweekly.co). 숫자가 맞다면 음성 에이전트의 운영 단가를 끌어내리는 요인이다. 다만 정확도·가격 주장은 <strong>전부 Mistral 발표 기준</strong>이다. FLEURS의 언어별 세부 결과는 미공개고 고객 사례도 언급 없다.</p>
+
+<h2>에이전트 루프: 1초 이내 턴 + barge-in</h2>
+
+<figure>
+<img src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3376-tts.png" alt="SDK + TTS — LiveKit 기반 SDK, 1초 이내 턴, 즉각 barge-in, 35개 이상 언어" loading="lazy">
+<figcaption>LiveKit 기반 SDK — 1초 이내 턴, 즉각 barge-in, EU 호스팅 소버린 배포 옵션</figcaption>
+</figure>
+
+<p>에이전트 루프의 매 턴이 <strong>1초 이내</strong>에 끝난다. 사용자가 말하는 중 끼어들면(barge-in) 에이전트가 즉시 말을 멈추고 듣기로 전환한다. 전화 같은 실시간 대화에서 체감이 가장 큰 부분이다.</p>
+
+<p>배포는 <strong>EU 호스팅 API 또는 자체 인프라 배포</strong> 중 선택이다. Mistral은 이를 "sovereign deployment"로 포지셔닝한다 — 음성 처리 위치와 오디오 보관 통제권을 고객에게 준다는 뜻이다. API는 EU·US·글로벌 엔드포인트로 이날부터 제공됐고 Studio 플레이그라운드에서 체험할 수 있다 (glonce.com).</p>
+
+<h2>개발자가 보면</h2>
+
+<p>콜센터·서비스 데스크·음성 비서처럼 "전화 중 업무 처리"형 에이전트를 만들 때, 전사·TTS·SDK를 따로 꿰매지 않고 한 스택으로 가져갈 수 있다는 게 포인트다. 음성 파이프라인의 개념 구조는 이렇다.</p>
+
+<pre><code>// 개념 코드: Voxtral 3 음성 에이전트 루프
+val sdk = Voxtral3.sdk()  // LiveKit 기반 실시간 파이프라인
+
+sdk.onTurn { turn ->
+    val text = sdk.transcribe(turn.audio)  // Voxtral Small Transcribe 3
+    val reply = agent.run(text)            // 추론 + 도구 호출
+    sdk.speak(reply, voice = "pro-voice")  // Voxtral Mini TTS 3
+}
+
+sdk.onBargeIn {
+    sdk.stopSpeaking()  // 즉시 말을 멈추고 듣기로 전환
+}</code></pre>
+
+<div class="callout">
+<strong>AX TF 관점.</strong> <strong>$0.0035/분</strong>이라는 전사 가격은 ElevenLabs·OpenAI TTS 대비 인하 시도다. EU 호스팅 옵션은 오디오 보관 규제가 있는 조직에 의미 있다. 다만 <strong>한국어 방언·저자원 언어 품질은 자체 테스트가 필요</strong>하다. 4.1%라는 숫자는 FLEURS 다국어 평균이고, 한국어 세부 결과는 공개되지 않았다.
+</div>
+
+<h2>배경: 이틀 연속 릴리스의 의미</h2>
+
+<p>Timestral(10/19)에 이어 Voxtral 3(10/20) — Mistral은 <strong>파운데이션 모델 + 실시간 제품 스택</strong>을 연달아 내고 있다. 음성 에이전트 시장이 단일 벤더 스택 경쟁으로 굳어가는 타이밍에, "stitching 없이 끝까지"라는 문구로 차별화를 노린다.</p>
+
+<div class="warn">
+<strong>⚠️ 미확인:</strong> 정확도·가격 주장(Whisper 대비 WER, 경쟁 TTS 대비 비용)은 <strong>전부 Mistral 발표 기준</strong>이며 독립 검증이 없다. 음성 전성 시대 주장과 별개로, 전화 통합(telephony)은 공지보다 출시 제한이 엄격하고 모델 카드는 <strong>Public Preview</strong> 표기라는 분석도 있다 (blog.invidelabs.com). EU 호스팅이 실제 데이터 주권 요구사항을 얼마나 만족시키는지는 계약 조건별 확인이 필요하다.
+</div>
+
+<h2>원문 이슈</h2>
+<p>이 글은 <a href="https://github.com/roomedia/ax-trend/issues/3376">ax-trend 이슈 #3376</a>을 바탕으로 작성됐다. 핵심 링크: <a href="https://the-decoder.com/mistral-ai-launches-voxtral-3-a-full-voice-agent-stack-that-listens-thinks-and-talks-in-real-time/">the-decoder.com — Mistral, Voxtral 3 출시 (2026-10-20)</a>, <a href="https://aiweekly.co/alerts/mistral-voxtral-3-posts-41-wer-on-fleurs-beating-whisper">aiweekly.co — FLEURS 4.1% WER (2026-10-20)</a>. 관련 이슈: <a href="https://github.com/roomedia/ax-trend/issues/3374">#3374 — Mistral 'Timestral' 시계열 파운데이션 모델</a>.</p>
+
+<p class="tags"><a href="/ax/tag/voice-agent/">음성 에이전트</a><a href="/ax/tag/multimodal/">멀티모달</a><a href="/ax/tag/ax-trend/">AX Trend</a></p>
+
+<footer>
+<p>enghyu.com AX 트렌드 · <a href="/ax/">목록으로</a></p>
+</footer>
+</main>
+<script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
+</body>
+</html>

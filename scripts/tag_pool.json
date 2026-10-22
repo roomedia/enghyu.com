@@ -89,7 +89,8 @@
   "이미지 생성": "image-gen",
   "검색 API": "search-api",
   "AI 영상 생성": "ai-video",
-  "에이전트 모델": "agent-model"
+  "에이전트 모델": "agent-model",
+  "음성 에이전트": "voice-agent"
  },
  "_dropped": [
   "MIT",
@@ -108,5 +109,6 @@
   "launch video",
   "huashu-motion",
   "영상생성"
- ]
+ ],
+ "음성 에이전트": []
 }

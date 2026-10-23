@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G5WKCES0DY"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G5WKCES0DY');</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>크래프톤, 자체 개발 30B급 LLM &#x27;라온-1 미니&#x27; 프리뷰 공개 — MoE+선형 어텐션, Apache 2.0으로 HF 배포 (10/21)</title>
+<meta name="description" content="크래프톤이 10/21 자체 개발 30B급 LLM &#x27;라온-1 미니&#x27; 프리뷰를 Apache 2.0으로 공개했다. 전체 300억 매개변수 중 추론 시 40억만 활성화하는 MoE+선형 어텐션 구조라 단일 GPU 서버에서도 돌리기 현실적인 규모.">
+<meta property="og:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3381-overview.png">
+<meta property="og:title" content="크래프톤, 자체 개발 30B급 LLM &#x27;라온-1 미니&#x27; 프리뷰 공개 — MoE+선형 어텐션, Apache 2.0으로 HF 배포 (10/21)">
+<meta property="og:description" content="전체 300억 매개변수 중 추론 시 40억만 활성화하는 MoE+선형 어텐션 구조. 한국어 대화·지시 이행·에이전트 수행에 개발 역량 집중. Apache 2.0으로 허깅페이스 배포.">
+<meta property="og:url" content="https://enghyu.com/ax/3381-krafton-raon1-mini/">
+<meta property="og:type" content="article">
+<style>
+:root{--bg:#ffffff;--text:#1a1a1a;--muted:#666;--border:#e5e5e5;--accent:#0891b2;--code-bg:#f6f8fa;}
+@media (prefers-color-scheme: dark){:root{--bg:#0f1115;--text:#e8eaf0;--muted:#9aa0ad;--border:#2a2e38;--accent:#22d3ee;--code-bg:#181c24;}}
+*{box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:24px 20px;}
+main{max-width:800px;margin:0 auto;}
+.topnav{margin-bottom:20px;}.topnav a{color:var(--muted);font-size:14px;text-decoration:none;}.topnav a:hover{color:var(--accent);text-decoration:underline;}
+h1{font-size:1.9rem;line-height:1.35;margin:0 0 8px;}
+.meta{color:var(--muted);font-size:14px;margin-bottom:28px;}
+h2{font-size:1.3rem;margin:44px 0 12px;padding-top:8px;border-top:1px solid var(--border);}
+h3{font-size:1.05rem;margin:28px 0 8px;}
+p{margin:0 0 16px;}
+img{max-width:100%;height:auto;border-radius:10px;margin:20px 0;border:1px solid var(--border);}
+figure{margin:0;}figcaption{color:var(--muted);font-size:13px;text-align:center;margin:-8px 0 24px;}
+ul{margin:0 0 16px;padding-left:22px;}
+li{margin-bottom:8px;}
+strong{font-weight:700;}
+.callout{background:var(--code-bg);border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+.warn{background:var(--code-bg);border-left:3px solid #f59e0b;padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.9em;}
+pre{background:var(--code-bg);padding:16px;border-radius:8px;overflow-x:auto;border:1px solid var(--border);font-size:.85em;line-height:1.6;}
+pre code{background:none;padding:0;}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.92em;}
+th,td{border:1px solid var(--border);padding:8px 12px;text-align:left;}
+th{background:var(--code-bg);}
+a{color:var(--accent);}
+.tags a{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:3px 12px;font-size:13px;margin:0 6px 6px 0;color:var(--text);text-decoration:none;}.tags a:hover{border-color:var(--accent);color:var(--accent);}
+footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:14px;}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "크래프톤, 자체 개발 30B급 LLM '라온-1 미니' 프리뷰 공개 — MoE+선형 어텐션, Apache 2.0으로 HF 배포 (10/21)",
+  "mainEntityOfPage": "https://enghyu.com/ax/3381-krafton-raon1-mini/",
+  "url": "https://enghyu.com/ax/3381-krafton-raon1-mini/",
+  "author": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "publisher": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "description": "크래프톤이 10/21 자체 개발 30B급 LLM '라온-1 미니' 프리뷰를 Apache 2.0으로 공개했다. 전체 300억 매개변수 중 추론 시 40억만 활성화하는 MoE+선형 어텐션 구조라 단일 GPU 서버에서도 돌리기 현실적인 규모.",
+  "image": "https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3381-overview.png",
+  "datePublished": "2026-10-23T09:15:00+09:00",
+  "dateModified": "2026-10-23T09:15:00+09:00"
+}
+</script>
+<link rel="canonical" href="https://enghyu.com/ax/3381-krafton-raon1-mini/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="크래프톤, 자체 개발 30B급 LLM &#x27;라온-1 미니&#x27; 프리뷰 공개 — MoE+선형 어텐션, Apache 2.0으로 HF 배포 (10/21)">
+<meta name="twitter:description" content="전체 300억 매개변수 중 추론 시 40억만 활성화하는 MoE+선형 어텐션 구조. 한국어 대화·지시 이행·에이전트 수행에 개발 역량 집중. Apache 2.0으로 허깅페이스 배포.">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3381-overview.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://enghyu.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AX 트렌드",
+      "item": "https://enghyu.com/ax/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "크래프톤, 자체 개발 30B급 LLM '라온-1 미니' 프리뷰 공개 — MoE+선형 어텐션, Apache 2.0으로 HF 배포 (10/21)",
+      "item": "https://enghyu.com/ax/3381-krafton-raon1-mini/"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<main>
+<nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
+
+<h1>크래프톤, 자체 개발 30B급 LLM &#x27;라온-1 미니&#x27; 프리뷰 공개 — MoE+선형 어텐션, Apache 2.0으로 HF 배포 (10/21)</h1>
+<div class="meta">2026-10-23 · AX 트렌드 · 원문 이슈 #3381</div>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3381-overview.png" alt="Raon-1 mini — 크래프톤 30B급 LLM 프리뷰 2026-10-21 공개, From Scratch, Apache 2.0, Hugging Face" loading="lazy">
+<figcaption>라온-1 미니 프리뷰 — 2026-10-21 공개, From Scratch 독자 개발, Apache 2.0, Hugging Face</figcaption>
+</figure>
+
+<p>2026년 10월 21일, 크래프톤이 자체 개발한 30B급(300억 개 매개변수) 거대언어모델(LLM) <strong>라온-1 미니(Raon-1 mini)</strong>의 프리뷰 버전을 공개했다. 모델 구조 설계부터 초기 학습까지 전 과정을 크래프톤이 독자적으로 수행한 <strong>프롬 스크래치(From Scratch)</strong> 방식이다. AI 플랫폼 허깅페이스(Hugging Face)에 <strong>아파치 2.0 라이선스</strong>로 공개됐다. 누구나 무료로 내려받아 연구·상업용 서비스·제품 개발에 쓸 수 있다 (중앙일보, 2026-10-21).</p>
+
+<div class="callout">
+<strong>핵심 수치.</strong> 전체 매개변수 — <strong>300억(30B)</strong>. 추론 시 활성화 — <strong>40억(4B)</strong>만. 공개일 — <strong>10/21</strong>(프리뷰). 라이선스 — <strong>Apache 2.0</strong>. 지원 언어 — <strong>한국어·영어</strong>.
+</div>
+
+<h2>MoE + 선형 어텐션 — 전체 300억 중 추론엔 4B만</h2>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3381-arch.png" alt="MoE 구조 — 300억 중 추론 시 4B만 활성화, 선형 어텐션 결합" loading="lazy">
+<figcaption>MoE 구조 — 300억 중 추론 시 4B만 활성화, 선형 어텐션 결합으로 연산 부담 감소·응답 속도 개선</figcaption>
+</figure>
+
+<ul>
+<li><strong>전문가 혼합(MoE)</strong> 구조를 적용해 전체 300억 개 매개변수 가운데 추론 과정에서 <strong>40억 개(4B)만 활성화</strong>한다. 추론 비용이 4B급 모델 수준이라 단일 GPU 서버에서도 <code>vLLM</code> 등으로 돌리기 현실적인 규모다 (디지털데일리).</li>
+<li>크래프톤이 자체 개발한 <strong>선형 어텐션(Linear Attention)</strong> 기술을 결합해 연산 부담을 줄이고 응답 속도·추론 비용을 개선했다.</li>
+<li>크래프톤은 비용 효율성을 LLM 경쟁력의 핵심으로 설정하고, 단순 벤치마크 점수보다 <strong>실사용 활용성</strong>을 기준으로 모델을 개발했다는 입장이다 (중앙일보).</li>
+</ul>
+
+<p>사이즈 감이 오면 바로 실험할 수 있는 규모다. vLLM으로 띄우는 건 이렇게 단순하다:</p>
+
+<pre><code>from vllm import LLM
+
+# Raon-1 mini (MoE 30B/4B-active) — HF에서 Apache 2.0으로 배포
+llm = LLM(model="krafton-ai/Raon-1-mini-preview")
+out = llm.generate(["한국어 지시를 따르는 에이전트 백엔드로 쓰기 좋은 이유를 설명해줘."])
+print(out[0].outputs[0].text)</code></pre>
+
+<h2>한국어 대화·에이전트 특화 — 개발자가 주목할 지점</h2>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3381-korean.png" alt="한국어 대화·에이전트 특화 — 한국어·영어 지원, 지시 이행·에이전트 수행" loading="lazy">
+<figcaption>한국어 대화·에이전트 특화 — 단일 GPU 서버 + vLLM으로 바로 실험 가능</figcaption>
+</figure>
+
+<ul>
+<li>개발 역량을 <strong>자연스러운 한국어 대화·지시 이행 능력·에이전트 수행 역량·빠른 응답 속도</strong>에 집중했다 (서울경제).</li>
+<li>한국어 기반 AI 에이전트·AX 서비스의 백엔드 모델로 바로 실험해 볼 수 있는 오픈 모델이 하나 더 생긴 셈이다. 카카오 Kanana 계열 등 <strong>한국 기업의 오픈소스 LLM 공개가 이어지는 흐름</strong> 속에서 선택지가 늘어나고 있다.</li>
+<li>이번 공개는 크래프톤이 올해 4월 출범한 AI 모델 브랜드 <strong>라온(Raon)</strong>의 기술 확장이기도 하다. 라온 브랜드로는 이미 음성 언어 모델·실시간 음성 대화 모델·음성 합성 모델·비전 인코더 등 <strong>4종</strong>을 오픈소스로 선보였다 (인더스트리뉴스).</li>
+</ul>
+
+<div class="callout">
+<strong>AX TF 관점.</strong> 한국어 지시 이행이 강점인 Apache 2.0 MoE 모델이 나온 건, 에이전트 백엔드 후보군의 실전 비교가 더 쉬워졌다는 뜻이다. 추론 시 4B 활성화라 비용이 낮으니 실험 서버에 올리고 한국어 지시 이행·툴콜 정확도를 직접 재보는 게 합리적이다.
+</div>
+
+<h2>아직 안 밝혀진 것 — 벤치마크 점수·비교 대상 미공개</h2>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3381-caution.png" alt="아직 미확인 — 벤치마크 점수·비교 대상 미공개, 크래프톤 자체 평가" loading="lazy">
+<figcaption>아직 미확인 — 벤치마크 점수·비교 대상 미공개, 정식 버전 테크니컬 리포트로 검증 필요</figcaption>
+</figure>
+
+<div class="warn">
+<strong>⚠️ 미확인:</strong> "해외 동급 대비 우수·일부 지표 국내 대형 모델 근접"은 <strong>크래프톤 자체 평가</strong>다. 구체적인 벤치마크 점수·측정 조건·비교 대상 모델명은 이번 발표에서 공개하지 않았다 (경향게임스·이데일리). 실제 성능 검증은 정식 버전 출시 시 공개 예정인 <strong>테크니컬 리포트</strong>를 기다려야 한다. 보도에는 허깅페이스 공개가 명시됐지만 구체적인 모델 페이지 주소는 기사에 없어 실제 다운로드 경로도 미확인이다.
+</div>
+
+<h2>배경 — 크래프톤 AI 조직의 연구 역량</h2>
+
+<p>크래프톤 AI 연구 조직은 NeurIPS, ICML, ICLR 등 주요 국제 AI 학회에 지금까지 논문 <strong>54편</strong>을 발표했으며, 올해 NeurIPS 2026에서는 메인 트랙 논문 <strong>9편</strong>이 채택됐다 (중앙일보). 크래프톤은 프리뷰의 성능을 개선해 정식 버전을 출시할 계획이다. 정식 출시 시점에는 학습 과정과 최종 성능 평가 결과를 담은 기술 보고서(테크니컬 리포트)를 공개할 예정이다 (디지털데일리).</p>
+
+<h2>원문 이슈</h2>
+<p>이 글은 <a href="https://github.com/roomedia/ax-trend/issues/3381">ax-trend 이슈 #3381</a>를 바탕으로 작성됐다. 핵심 링크: <a href="https://www.joongang.co.kr/article/25471654">중앙일보 — 크래프톤 자체 개발 30B급 LLM 라온-1 미니 프리뷰 공개 (10/21)</a>, <a href="https://m.ddaily.co.kr/page/view/2026102113542824383">디지털데일리 — MoE+선형 어텐션, Apache 2.0 HF 배포 (10/21)</a>. 관련 이슈: <a href="https://github.com/roomedia/ax-trend/issues/3375">#3375 — 카카오, Kanana-2-vision-encoder 2종 오픈소스 공개</a>.</p>
+
+<p class="tags"><a href="/ax/tag/agent-model/">에이전트 모델</a><a href="/ax/tag/performance/">성능 최적화</a><a href="/ax/tag/ax-trend/">AX Trend</a></p>
+
+<footer>
+<p>enghyu.com AX 트렌드 · <a href="/ax/">목록으로</a></p>
+</footer>
+
+<section class="related">
+  <h2>관련 글</h2>
+  <ul>
+    <li><a href="/ax/3380-openai-monitor-bypass/">OpenAI, 자사 AI 에이전트가 내부 모니터링 무력화한 2건 공개 — GPT-6.1 Sol·GPT-6 Astra, 10/3·10/6 코딩 작업 중 안전 알림 차단 (10/20, OpenAI 공식)</a></li>
+    <li><a href="/ax/3379-eleven-realtime/">ElevenLabs &#x27;Eleven Realtime&#x27; — 말로 듣고 추론하고 바로 답하는 speech-to-speech 음성 에이전트 모델</a></li>
+    <li><a href="/ax/3377-torchtpu/">Google·Meta, TPU용 네이티브 PyTorch 백엔드 &#x27;TorchTPU&#x27; 오픈소스 — PyTorch/XLA 대체, Qwen 3 8B에서 52% MFU</a></li>
+  </ul>
+</section>
+</main>
+<script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
+</body>
+</html>

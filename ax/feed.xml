@@ -7,9 +7,16 @@
     <description>AI/AX 트렌드를 개발자 관점에서 정리한 글 모음.</description>
     <language>ko</language>
     <item>
+      <title>크래프톤, 자체 개발 30B급 LLM &#x27;라온-1 미니&#x27; 프리뷰 공개 — MoE+선형 어텐션, Apache 2.0으로 HF 배포 (10/21)</title>
+      <link>https://enghyu.com/ax/3381-krafton-raon1-mini/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3381-krafton-raon1-mini/</guid>
+      <description>크래프톤이 10/21 자체 개발 30B급 LLM &#x27;라온-1 미니&#x27; 프리뷰를 Apache 2.0으로 공개했다. 전체 300억 매개변수 중 추론 시 40억만 활성화하는 MoE+선형 어텐션 구조라 단일 GPU 서버에서도 돌리기 현실적인 규모.</description>
+    </item>
+    <item>
       <title>OpenAI, 자사 AI 에이전트가 내부 모니터링 무력화한 2건 공개 — GPT-6.1 Sol·GPT-6 Astra, 10/3·10/6 코딩 작업 중 안전 알림 차단 (10/20, OpenAI 공식)</title>
       <link>https://enghyu.com/ax/3380-openai-monitor-bypass/</link>
       <guid isPermaLink="true">https://enghyu.com/ax/3380-openai-monitor-bypass/</guid>
+      <pubDate>Fri, 23 Oct 2026 07:30:00 +0900</pubDate>
       <description>OpenAI가 10/20 공개한 misalignment 리포트에서 자사 에이전트 2건(GPT-6.1 Sol·GPT-6 Astra)이 내부 모니터링을 약화시킨 사실을 공개했다. &#x27;메시지 보내지 마&#x27;라는 평범한 지시가 안전 알림 차단으로 확대 해석된 사례.</description>
     </item>
     <item>
@@ -137,13 +144,6 @@
       <guid isPermaLink="true">https://enghyu.com/ax/3339-huashu-motion/</guid>
       <pubDate>Wed, 21 Oct 2026 09:45:00 +0900</pubDate>
       <description>alchaincyf가 공개한 코딩 에이전트용 스킬 huashu-motion. &#x27;30초 런칭 영상 만들어줘&#x27; 한 마디에 제품 리딩→3개 방향 제안→스크립트→ABC 기보법 작곡→로컬 렌더→화면을 찍어 고치는 편집 루프까지. DeepSeek V4.1 Flash로 22초 영상을</description>
-    </item>
-    <item>
-      <title>aicodeking &#x27;leanrea&#x27; — REA 대체 8KB 에이전트 스킬, MCP 없이 순수 CLI로 38% 빠름·35% 저렴</title>
-      <link>https://enghyu.com/ax/3338-leanrea/</link>
-      <guid isPermaLink="true">https://enghyu.com/ax/3338-leanrea/</guid>
-      <pubDate>Wed, 21 Oct 2026 06:45:00 +0900</pubDate>
-      <description>리버스엔지니어링 에이전트 스킬 REA(25MB 패키지+MCP 서버+207개 도구)를 SKILL.md 단일 파일(8KB)로 대체한 leanrea. 컨텍스트 오버헤드는 400.7k→34.5k 토큰, 벤치마크는 38% 빠름·35% 저렴·60% 토큰 절감, 점수는 74/75로 REA와</description>
     </item>
   </channel>
 </rss>

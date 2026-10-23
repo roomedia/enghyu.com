@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G5WKCES0DY"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G5WKCES0DY');</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chenxi Huang 등 &#x27;SysRB&#x27; — 코딩 에이전트는 시스템 크래시 원인을 아직 못 읽는다 (10/21, arXiv)</title>
+<meta name="description" content="소스 트리 쌍 개입 실험 SysRB에서 최고 코딩 에이전트도 실제 크래시 중 over a quarter를 놓쳤다. 단일 커밋 차이의 트리 쌍 934개로 의심 코드 발견과 진짜 실행 추론을 분리해 재는 벤치마크.">
+<meta property="og:image" content="https://enghyu.com/ax/3445-sysrb/og.png">
+<meta property="og:title" content="Chenxi Huang 등 &#x27;SysRB&#x27; — 코딩 에이전트는 시스템 크래시 원인을 아직 못 읽는다 (10/21, arXiv)">
+<meta property="og:description" content="코딩 에이전트는 실제 버그 수정엔 능숙해도 크래시 원인을 읽는 데는 약하다. 최고 에이전트도 실제 크래시 중 over a quarter를 놓쳤다.">
+<meta property="og:url" content="https://enghyu.com/ax/3445-sysrb/">
+<meta property="og:type" content="article">
+<style>
+:root{--bg:#ffffff;--text:#1a1a1a;--muted:#666;--border:#e5e5e5;--accent:#0891b2;--code-bg:#f6f8fa;}
+@media (prefers-color-scheme: dark){:root{--bg:#0f1115;--text:#e8eaf0;--muted:#9aa0ad;--border:#2a2e38;--accent:#22d3ee;--code-bg:#181c24;}}
+*{box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:24px 20px;}
+main{max-width:800px;margin:0 auto;}
+.topnav{margin-bottom:20px;}.topnav a{color:var(--muted);font-size:14px;text-decoration:none;}.topnav a:hover{color:var(--accent);text-decoration:underline;}
+h1{font-size:1.9rem;line-height:1.35;margin:0 0 8px;}
+.meta{color:var(--muted);font-size:14px;margin-bottom:28px;}
+h2{font-size:1.3rem;margin:44px 0 12px;padding-top:8px;border-top:1px solid var(--border);}
+h3{font-size:1.05rem;margin:28px 0 8px;}
+p{margin:0 0 16px;}
+img{max-width:100%;height:auto;border-radius:10px;margin:20px 0;border:1px solid var(--border);}
+figure{margin:0;}figcaption{color:var(--muted);font-size:13px;text-align:center;margin:-8px 0 24px;}
+ul{margin:0 0 16px;padding-left:22px;}
+li{margin-bottom:8px;}
+strong{font-weight:700;}
+.callout{background:var(--code-bg);border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+.warn{background:var(--code-bg);border-left:3px solid #f59e0b;padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.9em;}
+pre{background:var(--code-bg);padding:16px;border-radius:8px;overflow-x:auto;border:1px solid var(--border);font-size:.85em;line-height:1.6;}
+pre code{background:none;padding:0;}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.92em;}
+th,td{border:1px solid var(--border);padding:8px 12px;text-align:left;}
+th{background:var(--code-bg);}
+a{color:var(--accent);}
+.tags a{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:3px 12px;font-size:13px;margin:0 6px 6px 0;color:var(--text);text-decoration:none;}.tags a:hover{border-color:var(--accent);color:var(--accent);}
+footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:14px;}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Chenxi Huang 등 'SysRB' — 코딩 에이전트는 시스템 크래시 원인을 아직 못 읽는다 (10/21, arXiv)",
+  "mainEntityOfPage": "https://enghyu.com/ax/3445-sysrb/",
+  "url": "https://enghyu.com/ax/3445-sysrb/",
+  "author": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "publisher": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "description": "소스 트리 쌍 개입 실험 SysRB에서 최고 코딩 에이전트도 실제 크래시 중 over a quarter를 놓쳤다. 단일 커밋 차이의 트리 쌍 934개로 의심 코드 발견과 진짜 실행 추론을 분리해 재는 벤치마크.",
+  "image": "https://enghyu.com/ax/3445-sysrb/og.png",
+  "datePublished": "2026-10-23T23:00:00+09:00",
+  "dateModified": "2026-10-23T23:00:00+09:00"
+}
+</script>
+<link rel="canonical" href="https://enghyu.com/ax/3445-sysrb/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Chenxi Huang 등 &#x27;SysRB&#x27; — 코딩 에이전트는 시스템 크래시 원인을 아직 못 읽는다 (10/21, arXiv)">
+<meta name="twitter:description" content="코딩 에이전트는 실제 버그 수정엔 능숙해도 크래시 원인을 읽는 데는 약하다. 최고 에이전트도 실제 크래시 중 over a quarter를 놓쳤다.">
+<meta name="twitter:image" content="https://enghyu.com/ax/3445-sysrb/og.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://enghyu.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AX 트렌드",
+      "item": "https://enghyu.com/ax/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Chenxi Huang 등 'SysRB' — 코딩 에이전트는 시스템 크래시 원인을 아직 못 읽는다 (10/21, arXiv)",
+      "item": "https://enghyu.com/ax/3445-sysrb/"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<main>
+<nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
+
+<h1>Chenxi Huang 등 &#x27;SysRB&#x27; — 코딩 에이전트는 시스템 크래시 원인을 아직 못 읽는다 (10/21, arXiv)</h1>
+<p class="meta">2026-10-21 arXiv 제출 · ax-trend 이슈 #3445 · AI 코딩</p>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3445-overview.png" alt="SysRB 개요 — 코딩 에이전트가 왜 코드가 크래시하는지 아는가?" loading="lazy">
+<figcaption>SysRB — 코딩 에이전트가 &#x27;고친다&#x27;는 것과 &#x27;왜 크래시하는지 안다&#x27;는 것은 다른 능력이다</figcaption>
+</figure>
+
+<h2>핵심 — 패치 성공률은 실행 이해를 보장하지 않는다</h2>
+
+<ul>
+<li>코딩 에이전트는 <strong>실제 버그 수정엔 능숙해졌지만</strong>, Linux 커널 같은 대규모 시스템 코드베이스에서는 <strong>왜 크래시하는지를 못 읽는다</strong> (arXiv).</li>
+<li>최고 에이전트조차 <strong>실제 크래시 중 over a quarter를 놓쳤다</strong> (arXiv). 네 코딩 에이전트로 실험한 결과다.</li>
+<li>에이전트는 <strong>no crash 예측에 편향</strong>돼 있다. 크래시가 날 거라고 말하기를 꺼리는 쪽으로 기운다는 뜻이다 (arXiv).</li>
+<li>크래시를 결정하는 코드를 찾아도 <strong>그 코드의 효과를 자주 오판</strong>한다. 위치는 짚는데 해석이 틀린다 (arXiv).</li>
+</ul>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3445-design.png" alt="벤치마크 설계 — 단일 커밋 차이의 소스 트리 쌍 934개, 양쪽을 모두 맞혀야 통과" loading="lazy">
+<figcaption>벤치마크 설계 — 한 쌍은 하나만 크래시한다. 양쪽을 다 맞혀야 점수다</figcaption>
+</figure>
+
+<h2>설계 — 단일 커밋 차이의 트리 쌍으로 &#x27;눈치&#x27;를 제거한다</h2>
+
+<ul>
+<li>과제는 단순하다: 소스 코드가 주어지고, <strong>주어진 입력이 시스템을 크래시시키는지 예측</strong>하는 것이다 (arXiv). 크래시 추론(crash reasoning)으로 실행 추론(execution reasoning)을 테스트한다.</li>
+<li>문제는 <strong>정답 예측만으로는 이 능력을 입증할 수 없다</strong>는 점이다. 의심스러운 코드를 찾아낸 것만으로 맞힌 것처럼 보일 수 있기 때문이다 (arXiv).</li>
+<li>그래서 연구팀은 <strong>source interventions</strong>를 제안했다. <strong>단일 커밋만 다른 소스 트리 쌍</strong>을 매칭해, 같은 입력이 <strong>하나는 크래시하고 하나는 크래시하지 않게</strong> 만든다 (arXiv).</li>
+<li>SysRB 데이터셋은 <strong>Linux와 OSS-Fuzz 프로젝트의 934개 쌍</strong>이다 (arXiv).</li>
+<li>양쪽을 모두 맞혀야 통과다. 의심 코드 발견으로만 점수를 따는 길이 막혀 있다.</li>
+</ul>
+
+<pre><code># SysRB 쌍 평가 패턴 (의사코드)
+pair = (tree_with_fix, tree_without_fix)  # 단일 커밋 차이, 하나만 크래시
+score = all(agent.predict_crash(t, input_) == t.crashes for t in pair)
+# 한쪽만 맞히면 통과가 아니다. 의심 코드 눈치로 못 버티는 구조다.</code></pre>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3445-results.png" alt="결과 — best agent가 실제 크래시의 1/4 이상을 놓치고, 크래시 코드의 효과를 오판" loading="lazy">
+<figcaption>결과 — 크래시는 있는데 &#x27;안 날 것&#x27;이라고 말하는 게 더 편하다</figcaption>
+</figure>
+
+<h2>결과 — 최고의 에이전트도 크래시의 1/4를 넘게 놓친다</h2>
+
+<ul>
+<li>네 코딩 에이전트 모두 <strong>no crash 쪽으로 편향</strong>됐다. 최고 에이전트도 실제 크래시 중 <strong>over a quarter를 놓쳤다</strong> (arXiv).</li>
+<li>크래시를 결정하는 코드를 정확히 찾아낸 경우에도 <strong>그 효과를 자주 오판</strong>했다 (arXiv). 의심 위치를 짚는 것과 실행 경로를 추적하는 것은 다른 능력이라는 증거다.</li>
+<li>기존 벤치마크가 패치 성공률만 재온 한계가 여기서 드러난다. <strong>&#x27;고쳤다&#x27;는 점수와 &#x27;왜 크래시하는지 안다&#x27;는 점수는 다르다</strong> (이슈 배경).</li>
+</ul>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3445-takeaway.png" alt="실무 처방 — 실행 추론을 따로 재고, 사내 에이전트 평가에 쌍 평가 패턴을 도입" loading="lazy">
+<figcaption>실무 처방 — 에이전트에게 커널급 수정을 맡기기 전에 쌍 평가를 먼저 돌리라</figcaption>
+</figure>
+
+<h2>의미 — 사내 에이전트 평가에 쌍 평가를 도입하라</h2>
+
+<ul>
+<li>코딩 에이전트를 <strong>시스템 코드 리뷰에 투입할 때</strong>, 수정했다는 결과만 믿지 말고 <strong>실행 추론 능력을 별도로 재야 한다</strong>는 경고다 (이슈 배경).</li>
+<li>쌍 평가(paired evaluation) 패턴은 <strong>사내 에이전트 평가에도 그대로 쓸 수 있다</strong>. 같은 코드의 이전·이후 버전을 묶어 양쪽을 다 맞히게 하는 구조다 (이슈 배경).</li>
+<li>의심 코드 발견과 진짜 실행 추론을 구분하지 않으면 <strong>평가 점수가 부풀려진다</strong>. 잘 맞는 게 아니라 눈치가 빠른 걸 수도 있다 (이슈 배경).</li>
+<li>크래시 원인을 못 읽는 에이전트에게 커널급 수정을 맡기면 안 된다는 <strong>판단 근거</strong>가 된다 (이슈 배경).</li>
+</ul>
+
+<div class="callout">
+<strong>AX TF 관점.</strong> 에이전트 도입을 검토할 때 &#x27;버그를 고쳤는가&#x27;만 보면 위험하다. <strong>&#x27;이 입력이 크래시를 일으키는가&#x27;를 별도로 묻는 게이트</strong>를 평가에 넣는 것이 이 연구의 처방이다. 단일 커밋 차이의 쌍을 직접 만들어 돌리는 건 인프라 비용이 크지 않다 — <strong>git diff 하나짜리 쌍</strong>으로 시작할 수 있다. 코딩 에이전트를 프로덕션 코드 리뷰에 넣기 전, SysRB 패턴의 미니 평가를 통과시키라는 것이 이 연구가 주는 가장 실용적인 제안이다 (이슈 배경).
+</div>
+
+<h2>아직 안 밝혀진 것 — 에이전트 명단·정량 수치·공개 여부</h2>
+
+<div class="warn">
+<strong>⚠️ 미확인:</strong> <strong>네 에이전트의 구체적 명단은 초록에 없음</strong> (arXiv). <strong>크래시가 해당 코드에서 멀리 일어날 때 오판이 특히 심하다는 분석의 정량 수치는 초록에 없음</strong> (arXiv). <strong>커널 외 일반 앱 코드베이스로의 일반화는 미확인</strong> (이슈 쟁점). <strong>데이터셋·코드 공개 여부도 초록에 명시되지 않음</strong> (arXiv).
+</div>
+
+<h2>원문 이슈</h2>
+<p>이 글은 <a href="https://github.com/roomedia/ax-trend/issues/3445">ax-trend 이슈 #3445</a>를 바탕으로 작성됐다. 핵심 링크: <a href="https://arxiv.org/abs/2610.29332">arXiv:2610.29332 — SysRB (2026-10-21 제출)</a>.</p>
+
+<p class="tags"><a href="/ax/tag/ai-coding/">AI 코딩</a><a href="/ax/tag/agentic-benchmark/">agentic benchmark</a><a href="/ax/tag/agent-model/">에이전트 모델</a><a href="/ax/tag/ax-trend/">AX Trend</a></p>
+
+<footer>
+<p>enghyu.com AX 트렌드 · <a href="/ax/">목록으로</a></p>
+</footer>
+
+<section class="related">
+  <h2>관련 글</h2>
+  <ul>
+    <li><a href="/ax/3444-self-report-leakage/">Yunfeng Zhu 등 &#x27;Self-Report Leakage&#x27; — 에이전트 자기보고가 완성 판정을 오염시킨다 (10/21, arXiv)</a></li>
+    <li><a href="/ax/3431-memodecode-dsl/">Boqi Chen 등 &#x27;MeMoDecode&#x27; — 메타모델 제약으로 DSL 생성의 의미 일관성 보장 (10/21, arXiv)</a></li>
+    <li><a href="/ax/3380-openai-monitor-bypass/">OpenAI, 자사 AI 에이전트가 내부 모니터링 무력화한 2건 공개 — GPT-6.1 Sol·GPT-6 Astra, 10/3·10/6 코딩 작업 중 안전 알림 차단 (10/20, OpenAI 공식)</a></li>
+  </ul>
+</section>
+</main>
+<script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
+</body>
+</html>

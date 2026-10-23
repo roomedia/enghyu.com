@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G5WKCES0DY"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G5WKCES0DY');</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boqi Chen 등 &#x27;MeMoDecode&#x27; — 메타모델 제약으로 DSL 생성의 의미 일관성 보장 (10/21, arXiv)</title>
+<meta name="description" content="MeMoDecode는 DSL의 concrete syntax·abstract syntax·well-formedness constraints를 디코딩 시점에 함께 강제하는 프레임워크다. 4개 DSL·6개 LLM(0.6B~70B)에서 일관성이 무제약 대비 평균 23%, 문법제약 디코딩 대비">
+<meta property="og:image" content="https://enghyu.com/ax/3431-memodecode-dsl/og.png">
+<meta property="og:title" content="Boqi Chen 등 &#x27;MeMoDecode&#x27; — 메타모델 제약으로 DSL 생성의 의미 일관성 보장 (10/21, arXiv)">
+<meta property="og:description" content="DSL의 concrete syntax·abstract syntax·well-formedness constraints를 디코딩 시점에 강제. 무제약 대비 일관성 23%↑, 문법제약 디코딩 대비 8%↑, runtime overhead는 modest 수준.">
+<meta property="og:url" content="https://enghyu.com/ax/3431-memodecode-dsl/">
+<meta property="og:type" content="article">
+<style>
+:root{--bg:#ffffff;--text:#1a1a1a;--muted:#666;--border:#e5e5e5;--accent:#0891b2;--code-bg:#f6f8fa;}
+@media (prefers-color-scheme: dark){:root{--bg:#0f1115;--text:#e8eaf0;--muted:#9aa0ad;--border:#2a2e38;--accent:#22d3ee;--code-bg:#181c24;}}
+*{box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:24px 20px;}
+main{max-width:800px;margin:0 auto;}
+.topnav{margin-bottom:20px;}.topnav a{color:var(--muted);font-size:14px;text-decoration:none;}.topnav a:hover{color:var(--accent);text-decoration:underline;}
+h1{font-size:1.9rem;line-height:1.35;margin:0 0 8px;}
+.meta{color:var(--muted);font-size:14px;margin-bottom:28px;}
+h2{font-size:1.3rem;margin:44px 0 12px;padding-top:8px;border-top:1px solid var(--border);}
+h3{font-size:1.05rem;margin:28px 0 8px;}
+p{margin:0 0 16px;}
+img{max-width:100%;height:auto;border-radius:10px;margin:20px 0;border:1px solid var(--border);}
+figure{margin:0;}figcaption{color:var(--muted);font-size:13px;text-align:center;margin:-8px 0 24px;}
+ul{margin:0 0 16px;padding-left:22px;}
+li{margin-bottom:8px;}
+strong{font-weight:700;}
+.callout{background:var(--code-bg);border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+.warn{background:var(--code-bg);border-left:3px solid #f59e0b;padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.9em;}
+pre{background:var(--code-bg);padding:16px;border-radius:8px;overflow-x:auto;border:1px solid var(--border);font-size:.85em;line-height:1.6;}
+pre code{background:none;padding:0;}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.92em;}
+th,td{border:1px solid var(--border);padding:8px 12px;text-align:left;}
+th{background:var(--code-bg);}
+a{color:var(--accent);}
+.tags a{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:3px 12px;font-size:13px;margin:0 6px 6px 0;color:var(--text);text-decoration:none;}.tags a:hover{border-color:var(--accent);color:var(--accent);}
+footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:14px;}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Boqi Chen 등 'MeMoDecode' — 메타모델 제약으로 DSL 생성의 의미 일관성 보장 (10/21, arXiv)",
+  "mainEntityOfPage": "https://enghyu.com/ax/3431-memodecode-dsl/",
+  "url": "https://enghyu.com/ax/3431-memodecode-dsl/",
+  "author": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "publisher": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "description": "MeMoDecode는 DSL의 concrete syntax·abstract syntax·well-formedness constraints를 디코딩 시점에 함께 강제하는 프레임워크다. 4개 DSL·6개 LLM(0.6B~70B)에서 일관성이 무제약 대비 평균 23%, 문법제약 디코딩 대비",
+  "image": "https://enghyu.com/ax/3431-memodecode-dsl/og.png",
+  "datePublished": "2026-10-23T11:12:00+09:00",
+  "dateModified": "2026-10-23T11:12:00+09:00"
+}
+</script>
+<link rel="canonical" href="https://enghyu.com/ax/3431-memodecode-dsl/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Boqi Chen 등 &#x27;MeMoDecode&#x27; — 메타모델 제약으로 DSL 생성의 의미 일관성 보장 (10/21, arXiv)">
+<meta name="twitter:description" content="DSL의 concrete syntax·abstract syntax·well-formedness constraints를 디코딩 시점에 강제. 무제약 대비 일관성 23%↑, 문법제약 디코딩 대비 8%↑, runtime overhead는 modest 수준.">
+<meta name="twitter:image" content="https://enghyu.com/ax/3431-memodecode-dsl/og.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://enghyu.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AX 트렌드",
+      "item": "https://enghyu.com/ax/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Boqi Chen 등 'MeMoDecode' — 메타모델 제약으로 DSL 생성의 의미 일관성 보장 (10/21, arXiv)",
+      "item": "https://enghyu.com/ax/3431-memodecode-dsl/"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<main>
+<nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
+
+<h1>Boqi Chen 등 &#x27;MeMoDecode&#x27; — 메타모델 제약으로 DSL 생성의 의미 일관성 보장 (10/21, arXiv)</h1>
+<p class="meta">2026-10-21 arXiv 제출 · ax-trend 이슈 #3431 · constrained decoding</p>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3431-overview.png" alt="MeMoDecode 개요 — Metamodel-Guided Constrained Decoding" loading="lazy">
+<figcaption>MeMoDecode — 디코딩 시점에 메타모델 제약을 강제하는 DSL 생성 프레임워크</figcaption>
+</figure>
+
+<h2>핵심 — 문법이 맞다고 의미가 맞는 게 아니다</h2>
+
+<ul>
+<li>LLM이 생성하는 DSL 산출물은 concrete syntax뿐 아니라 <strong>metamodel이 정의한 abstract syntax와 well-formedness constraints까지</strong> 만족해야 한다. 기존 constrained decoding은 concrete syntax나 텍스트 수준 제약 일부만 보장한다 (arXiv).</li>
+<li>이 논문의 MeMoDecode는 DSL의 <strong>concrete syntax·abstract syntax·well-formedness constraints를 함께 강제</strong>하는 디코딩 프레임워크다 (arXiv).</li>
+<li>코드 생성이나 인프라 설정 같은 DSL 출력은 <strong>문법은 맞는데 의미가 틀리면 쓸모가 없다</strong>. 기존에는 생성 뒤에 검사기를 돌리는 방식이 많았는데, 이 논문은 디코딩 시점에 메타모델 제약을 검사한다 (이슈 배경).</li>
+</ul>
+
+<h2>MeMoDecode가 하는 일 — 3단 제약 + 롤백 재시도</h2>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3431-constraints.png" alt="3단 제약 — concrete syntax, abstract syntax, well-formedness constraints" loading="lazy">
+<figcaption>3단 제약 — concrete syntax · abstract syntax · well-formedness constraints를 동시에 강제</figcaption>
+</figure>
+
+<ul>
+<li>LLM이 <strong>완전한 metamodel concept 하나를 생성할 때마다</strong>, MeMoDecode는 현재 출력을 partial model에 점진적으로 매핑한다 (arXiv).</li>
+<li>그리고 그 partial model이 <strong>일관된 인스턴스로 완성 가능한지</strong> 검증한다 (arXiv).</li>
+</ul>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3431-retry.png" alt="롤백 재시도 — 가장 최근의 completable snapshot부터 디코딩 재개" loading="lazy">
+<figcaption>롤백 재시도 — 불일치 감지 시 가장 최근의 completable snapshot부터 디코딩 재개</figcaption>
+</figure>
+
+<ul>
+<li>불일치가 감지되면 <strong>가장 최근의 completable snapshot부터 디코딩을 재개하는 simple retry mechanism</strong>과 결합한다. 불일치가 생기면 완성 가능한 지점으로 롤백하는 retry라 구현이 단순한 편이다 (arXiv·이슈 배경).</li>
+<li>sound backend verifier 아래에서는 MeMoDecode가 natural assumptions을 만족하는 alignment metrics에서 <strong>grammar-constrained decoding보다 절대 나쁘지 않다</strong> (arXiv).</li>
+</ul>
+
+<h2>측정 결과 — +23% / +8%, 오버헤드는 modest</h2>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3431-benchmark.png" alt="측정 결과 — 4개 DSL·6개 LLM(0.6B~70B), 무제약 대비 23% 향상, 문법제약 디코딩 대비 8% 향상" loading="lazy">
+<figcaption>측정 — 네 개 DSL·여섯 개 open-weight LLM(0.6B~70B)에서 가장 높은 일관성</figcaption>
+</figure>
+
+<ul>
+<li><strong>네 개 DSL</strong>과 <strong>0.6B부터 70B까지 여섯 개 open-weight LLM</strong>에서 가장 높은 일관성을 달성했다 (arXiv).</li>
+<li>일관성은 <strong>unconstrained decoding 대비 평균 23% 향상</strong>했고, <strong>grammar-constrained decoding 대비 평균 8% 향상</strong>했다 (arXiv).</li>
+<li>벤치마크 성능도 올랐고 <strong>runtime overhead는 modest 수준</strong>에 그쳤다 (arXiv).</li>
+</ul>
+
+<div class="callout">
+<strong>AX TF 관점.</strong> Android 개발자도 Gradle 빌드 스크립트나 CI 설정 같은 구조화 출력을 LLM으로 만들 때가 늘었다. 의미가 깨진 DSL을 후처리로 잡는 것보다 디코딩 단계에서 강제하면 검증 비용이 준다. 에이전트가 도구 호출 인자를 만들 때 제약 만족을 보장하는 용도로 응용할 수 있다 (이슈 배경).
+</div>
+
+<h2>아직 안 밝혀진 것 — 4개 DSL 종류·검증기 실체·꼬리 지연·코드 공개 미확인</h2>
+
+<div class="warn">
+<strong>⚠️ 미확인:</strong> 평가한 <strong>네 개 DSL의 구체 종류</strong>는 초록에 없다. <strong>sound backend verifier가 실제로 어떤 검사기</strong>인지, 어떤 DSL에 존재하는지도 미확인이다 (arXiv). retry가 반복될 때의 <strong>최악 지연 시간 같은 꼬리 성능 지표</strong>도 미확인이다 (이슈 쟁점). <strong>코드 공개 여부</strong>도 초록에 언급이 없다 (arXiv).
+</div>
+
+<h2>배경 — 생성 뒤 검사가 아니라 디코딩 중 검사</h2>
+
+<p>코드 생성이나 인프라 설정 같은 DSL 출력은 문법은 맞는데 의미가 틀리면 쓸모가 없다. 기존에는 생성 뒤에 검사기를 돌리는 방식이 많았는데, 이 논문은 디코딩 시점에 메타모델 제약을 검사한다. 불일치가 생기면 완성 가능한 지점으로 롤백하는 retry라 구현이 단순한 편이다 (이슈 배경).</p>
+
+<h2>원문 이슈</h2>
+<p>이 글은 <a href="https://github.com/roomedia/ax-trend/issues/3431">ax-trend 이슈 #3431</a>를 바탕으로 작성됐다. 핵심 링크: <a href="https://arxiv.org/abs/2610.29749">arXiv:2610.29749 — MeMoDecode (2026-10-21 제출)</a>.</p>
+
+<p class="tags"><a href="/ax/tag/ai-coding/">AI 코딩</a><a href="/ax/tag/agent-model/">에이전트 모델</a><a href="/ax/tag/ax-trend/">AX Trend</a></p>
+
+<footer>
+<p>enghyu.com AX 트렌드 · <a href="/ax/">목록으로</a></p>
+</footer>
+
+<section class="related">
+  <h2>관련 글</h2>
+  <ul>
+    <li><a href="/ax/3380-openai-monitor-bypass/">OpenAI, 자사 AI 에이전트가 내부 모니터링 무력화한 2건 공개 — GPT-6.1 Sol·GPT-6 Astra, 10/3·10/6 코딩 작업 중 안전 알림 차단 (10/20, OpenAI 공식)</a></li>
+    <li><a href="/ax/3348-minimax-m31-flash/">MiniMax, &#x27;M3.1 Flash&#x27; 공식 출시 — 익명 모델 &#x27;Space Bunny&#x27;의 정체 공개, DeepSWE 73.7%·가격 $0.15/$0.60</a></li>
+    <li><a href="/ax/3381-krafton-raon1-mini/">크래프톤, 자체 개발 30B급 LLM &#x27;라온-1 미니&#x27; 프리뷰 공개 — MoE+선형 어텐션, Apache 2.0으로 HF 배포 (10/21)</a></li>
+  </ul>
+</section>
+</main>
+<script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
+</body>
+</html>

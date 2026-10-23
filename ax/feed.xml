@@ -7,6 +7,12 @@
     <description>AI/AX 트렌드를 개발자 관점에서 정리한 글 모음.</description>
     <language>ko</language>
     <item>
+      <title>Boqi Chen 등 &#x27;MeMoDecode&#x27; — 메타모델 제약으로 DSL 생성의 의미 일관성 보장 (10/21, arXiv)</title>
+      <link>https://enghyu.com/ax/3431-memodecode-dsl/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3431-memodecode-dsl/</guid>
+      <description>MeMoDecode는 DSL의 concrete syntax·abstract syntax·well-formedness constraints를 디코딩 시점에 함께 강제하는 프레임워크다. 4개 DSL·6개 LLM(0.6B~70B)에서 일관성이 무제약 대비 평균 23%, 문법제약 디코딩 대비</description>
+    </item>
+    <item>
       <title>크래프톤, 자체 개발 30B급 LLM &#x27;라온-1 미니&#x27; 프리뷰 공개 — MoE+선형 어텐션, Apache 2.0으로 HF 배포 (10/21)</title>
       <link>https://enghyu.com/ax/3381-krafton-raon1-mini/</link>
       <guid isPermaLink="true">https://enghyu.com/ax/3381-krafton-raon1-mini/</guid>
@@ -138,13 +144,6 @@
       <guid isPermaLink="true">https://enghyu.com/ax/3340-obsidian-pele/</guid>
       <pubDate>Wed, 21 Oct 2026 12:45:00 +0900</pubDate>
       <description>Obsidian이 노트 앱용으로 직접 만든 오픈소스 Mermaid 렌더러 Pele가 공개됐다. Mermaid.js 대비 gzip 번들 1/6(230 kB), 렌더 최대 500배(0.05–0.3 ms), 의존성 0개, CSS 변수 테마 전환. 10/17 HN 프론트페이지(561포인트)</description>
-    </item>
-    <item>
-      <title>alchaincyf &#x27;huashu-motion&#x27; — 코딩 에이전트가 한 마디로 상업급 제품 런칭 영상 생성·작곡·화면 지점 수정</title>
-      <link>https://enghyu.com/ax/3339-huashu-motion/</link>
-      <guid isPermaLink="true">https://enghyu.com/ax/3339-huashu-motion/</guid>
-      <pubDate>Wed, 21 Oct 2026 09:45:00 +0900</pubDate>
-      <description>alchaincyf가 공개한 코딩 에이전트용 스킬 huashu-motion. &#x27;30초 런칭 영상 만들어줘&#x27; 한 마디에 제품 리딩→3개 방향 제안→스크립트→ABC 기보법 작곡→로컬 렌더→화면을 찍어 고치는 편집 루프까지. DeepSeek V4.1 Flash로 22초 영상을</description>
     </item>
   </channel>
 </rss>

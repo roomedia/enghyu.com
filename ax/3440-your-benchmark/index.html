@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G5WKCES0DY"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G5WKCES0DY');</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yifan Sun 등 'Your Benchmark' — 벤치마크는 난이도 위의 경험적 측도라는 진단 (10/21, arXiv)</title>
+<meta name="description" content="25개 벤치마크를 7개 도메인에서 난이도 축 위에 올려 진단한 연구. 실패 모드 두 가지(measure mismatch·coverage gaps)와 난이도 표적 재작성 알고리즘 BenchFill을 내놨다.">
+<meta property="og:image" content="https://enghyu.com/ax/3440-your-benchmark/og.png">
+<meta property="og:title" content="Yifan Sun 등 &#x27;Your Benchmark&#x27; — 벤치마크는 난이도 위의 경험적 측도라는 진단 (10/21, arXiv)">
+<meta property="og:description" content="25개 벤치마크를 7개 도메인에서 난이도 축 위에 올려 진단한 연구. 실패 모드 두 가지(measure mismatch·coverage gaps)와 난이도 표적 재작성 알고리즘 BenchFill을 내놨다.">
+<meta property="og:url" content="https://enghyu.com/ax/3440-your-benchmark/">
+<meta property="og:type" content="article">
+<style>
+:root{--bg:#ffffff;--text:#1a1a1a;--muted:#666;--border:#e5e5e5;--accent:#0891b2;--code-bg:#f6f8fa;}
+@media (prefers-color-scheme: dark){:root{--bg:#0f1115;--text:#e8eaf0;--muted:#9aa0ad;--border:#2a2e38;--accent:#22d3ee;--code-bg:#181c24;}}
+*{box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:24px 20px;}
+main{max-width:800px;margin:0 auto;}
+.topnav{margin-bottom:20px;}.topnav a{color:var(--muted);font-size:14px;text-decoration:none;}.topnav a:hover{color:var(--accent);text-decoration:underline;}
+h1{font-size:1.9rem;line-height:1.35;margin:0 0 8px;}
+.meta{color:var(--muted);font-size:14px;margin-bottom:28px;}
+h2{font-size:1.3rem;margin:44px 0 12px;padding-top:8px;border-top:1px solid var(--border);}
+h3{font-size:1.05rem;margin:28px 0 8px;}
+p{margin:0 0 16px;}
+img{max-width:100%;height:auto;border-radius:10px;margin:20px 0;border:1px solid var(--border);}
+figure{margin:0;}figcaption{color:var(--muted);font-size:13px;text-align:center;margin:-8px 0 24px;}
+ul{margin:0 0 16px;padding-left:22px;}
+li{margin-bottom:8px;}
+strong{font-weight:700;}
+.callout{background:var(--code-bg);border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+.warn{background:var(--code-bg);border-left:3px solid #f59e0b;padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.9em;}
+pre{background:var(--code-bg);padding:16px;border-radius:8px;overflow-x:auto;border:1px solid var(--border);font-size:.85em;line-height:1.6;}
+pre code{background:none;padding:0;}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.92em;}
+th,td{border:1px solid var(--border);padding:8px 12px;text-align:left;}
+th{background:var(--code-bg);}
+a{color:var(--accent);}
+.tags a{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:3px 12px;font-size:13px;margin:0 6px 6px 0;color:var(--text);text-decoration:none;}.tags a:hover{border-color:var(--accent);color:var(--accent);}
+footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:14px;}
+</style>
+<link rel="canonical" href="https://enghyu.com/ax/3440-your-benchmark/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Yifan Sun 등 &#x27;Your Benchmark&#x27; — 벤치마크는 난이도 위의 경험적 측도라는 진단 (10/21, arXiv)">
+<meta name="twitter:description" content="25개 벤치마크를 7개 도메인에서 난이도 축 위에 올려 진단한 연구. 실패 모드 두 가지(measure mismatch·coverage gaps)와 난이도 표적 재작성 알고리즘 BenchFill을 내놨다.">
+<meta name="twitter:image" content="https://enghyu.com/ax/3440-your-benchmark/og.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Yifan Sun 등 'Your Benchmark' — 벤치마크는 난이도 위의 경험적 측도라는 진단 (10/21, arXiv)",
+  "mainEntityOfPage": "https://enghyu.com/ax/3440-your-benchmark/",
+  "url": "https://enghyu.com/ax/3440-your-benchmark/",
+  "author": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "publisher": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "description": "25개 벤치마크를 7개 도메인에서 난이도 축 위에 올려 진단한 연구. 실패 모드 두 가지(measure mismatch·coverage gaps)와 난이도 표적 재작성 알고리즘 BenchFill을 내놨다.",
+  "image": "https://enghyu.com/ax/3440-your-benchmark/og.png",
+  "datePublished": "2026-10-23T15:17:09+09:00",
+  "dateModified": "2026-10-23T15:17:09+09:00"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://enghyu.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AX 트렌드",
+      "item": "https://enghyu.com/ax/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Yifan Sun 등 'Your Benchmark' — 벤치마크는 난이도 위의 경험적 측도라는 진단 (10/21, arXiv)",
+      "item": "https://enghyu.com/ax/3440-your-benchmark/"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<main>
+<nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
+
+<h1>Yifan Sun 등 'Your Benchmark' — 벤치마크는 난이도 위의 경험적 측도라는 진단 (10/21, arXiv)</h1>
+<p class="meta">2026-10-21 arXiv 제출 · ax-trend 이슈 #3440 · AI 벤치마크</p>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3440-overview.png" alt="Your Benchmark 개요 — 25개 벤치마크·7개 도메인, 난이도 위의 경험적 측도" loading="lazy">
+<figcaption>Your Benchmark — 25개 벤치마크를 7개 도메인에서 난이도 축 위에 올려 진단한 연구</figcaption>
+</figure>
+
+<h2>핵심 — 리더보드는 벤치마크가 아니라 분포를 보고 읽는다</h2>
+
+<ul>
+<li>벤치마크는 문제 모음이 아니다. <strong>난이도 위에 경험적 측도(empirical measure)를 유도한다는 관점</strong>을 정식화한 연구다 (arXiv).</li>
+<li><strong>25개 인기 벤치마크를 7개 도메인에서</strong> 문항 난이도를 정교하게 추정해 분석했다 (arXiv).</li>
+<li>결론은 단순하다. <strong>많은 벤치마크가 특정 난이도 구간에 암묵적으로 가중을 둔다.</strong> 의도한 난이도 분포와 실제 분포가 다르면 점수 해석이 틀어진다 (이슈 배경).</li>
+</ul>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3440-problem.png" alt="두 실패 모드 — measure mismatch와 coverage gaps" loading="lazy">
+<figcaption>두 실패 모드 — measure mismatch(분포 불일치)와 coverage gaps(미커버 구간)</figcaption>
+</figure>
+
+<h2>문제 — 벤치마크가 망가지는 두 가지 방식</h2>
+
+<ul>
+<li><strong>measure mismatch:</strong> 벤치마크의 난이도 분포가 의도한 분포와 다른 경우다 (arXiv).</li>
+<li><strong>coverage gaps:</strong> 난이도 축의 미커버 구간 때문에 의미 있는 국소 훈련 진전 탐지를 못하는 경우다 (arXiv).</li>
+<li>두 실패 모드를 각각 포착하는 <strong>진단 메트릭 2개</strong>와 엄밀한 이론 보장을 제안했다 (arXiv).</li>
+</ul>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3440-numbers.png" alt="진단 메트릭 2개와 난이도 표적 재작성 알고리즘 BenchFill" loading="lazy">
+<figcaption>진단 메트릭 2개 + BenchFill — 난이도 표적 문항 재작성으로 커버리지 갭을 줄인다</figcaption>
+</figure>
+
+<h2>측정에서 실행으로 — BenchFill</h2>
+
+<ul>
+<li><strong>BenchFill은 난이도 표적 문항 재작성 알고리즘</strong>이다. 진단으로 찾은 국소 커버리지 갭을 문항을 다시 써서 메운다 (arXiv).</li>
+<li>진단 메트릭 2개에 엄밀한 이론 보장이 붙어 있으니, 벤치마크 선정 단계에서 이 진단을 거치는 것만으로 <strong>리더보드 해석 오류를 크게 줄일 수 있다</strong> (이슈 배경).</li>
+</ul>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3440-checklist.png" alt="실무 체크리스트 — 난이도 분포를 먼저 묻고, 커버리지 갭 진단을 돌리고, 평가셋을 보강한다" loading="lazy">
+<figcaption>실무 체크리스트 — 난이도 분포를 먼저 묻고, 커버리지 갭 진단을 돌리고, 평가셋을 보강한다</figcaption>
+</figure>
+
+<h2>실무 체크리스트</h2>
+
+<ul>
+<li><strong>리더보드 숫자만 보지 말고 벤치마크의 난이도 분포를 먼저 의심</strong>한다. 내가 관심 있는 분포와 맞는지가 첫 질문이다 (이슈 배경).</li>
+<li>사내에서 에이전트 성능을 측정할 벤치마크를 고를 때 <strong>커버리지 갭 진단부터 돌려본다</strong> (이슈 배경).</li>
+<li><strong>BenchFill 같은 난이도 표적 재작성은 사내 평가셋 보강에 응용</strong>할 만하다 (이슈 배경).</li>
+</ul>
+
+<div class="callout">
+<strong>AX TF 관점.</strong> 모델을 고를 때 "벤치마크 점수 3점 올랐다"는 말보다 "그 벤치마크가 어느 난이도 구간에 가중을 두는지"를 묻는 게 먼저다. 에이전트 성능을 측정할 벤치마크를 고를 땐 커버리지 갭 진단부터 돌리고, 사내 평가셋이 특정 구간에 비어 있으면 BenchFill식 재작성으로 메운다. 벤치마크 선정 단계에 이 진단 한 줄을 넣는 것만으로 해석 오류가 크게 줄어든다 (이슈 배경).
+</div>
+
+<h2>아직 안 밝혀진 것 — 벤치마크 명단·BenchFill 성능 수치·난이도 추정 타당도·코드 공개 미확인</h2>
+
+<div class="warn">
+<strong>⚠️ 미확인:</strong> <strong>25개 벤치마크·7개 도메인의 구체적 명단은 초록에 없다</strong>. <strong>BenchFill의 구체적 성능 수치도 초록에 없다</strong>. <strong>난이도 추정 방법의 타당도는 논문 본문 확인이 필요하다.</strong> <strong>코드 공개 여부도 초록에 명시되지 않았다</strong> (이슈 쟁점).
+</div>
+
+<h2>원문 이슈</h2>
+<p>이 글은 <a href="https://github.com/roomedia/ax-trend/issues/3440">ax-trend 이슈 #3440</a>를 바탕으로 작성됐다. 핵심 링크: <a href="https://arxiv.org/abs/2610.29927">arXiv:2610.29927 — Your Benchmark (2026-10-21 제출)</a>.</p>
+
+<p class="tags"><a href="/ax/tag/agentic-benchmark/">agentic benchmark</a><a href="/ax/tag/ax-trend/">AX Trend</a></p>
+
+<footer>
+<p>enghyu.com AX 트렌드 · <a href="/ax/">목록으로</a></p>
+</footer>
+
+<section class="related">
+  <h2>관련 글</h2>
+  <ul>
+    <li><a href="/ax/3378-microsoft-scope/">Microsoft, AI 코딩 에이전트 평가 오픈소스 플랫폼 &#x27;Scope&#x27; 공개 — Copilot·Claude Code 반복 과제로 테스트, DevAx 개념 제시</a></li>
+    <li><a href="/ax/3342-atria-dawn/">Shanghai AI Lab &#x27;Atria Dawn&#x27; 정식 버전 — 744B MoE 에이전트 모델, MIT 라이선스로 등장</a></li>
+    <li><a href="/ax/3341-harness2/">google-research &#x27;harness2&#x27; — 에이전트 하네스 자체를 재귀 최적화하는 프레임워크, 단일 스텝에 WorkBuddy-Bench +11.5점 주장</a></li>
+  </ul>
+</section>
+</main>
+<script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
+</body>
+</html>

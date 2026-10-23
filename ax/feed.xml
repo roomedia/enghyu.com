@@ -7,9 +7,17 @@
     <description>AI/AX 트렌드를 개발자 관점에서 정리한 글 모음.</description>
     <language>ko</language>
     <item>
+      <title>Yifan Sun 등 &#x27;Your Benchmark&#x27; — 벤치마크는 난이도 위의 경험적 측도라는 진단 (10/21, arXiv)</title>
+      <link>https://enghyu.com/ax/3440-your-benchmark/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3440-your-benchmark/</guid>
+      <pubDate>Fri, 23 Oct 2026 15:17:09 +0900</pubDate>
+      <description>25개 벤치마크를 7개 도메인에서 난이도 축 위에 올려 진단한 연구. 실패 모드 두 가지(measure mismatch·coverage gaps)와 난이도 표적 재작성 알고리즘 BenchFill을 내놨다.</description>
+    </item>
+    <item>
       <title>Luca Zanolini &#x27;Approval Monitors&#x27; — 결제 승인 모니터 12개가 같은 근거원에 동시에 속는다 (10/21, arXiv)</title>
       <link>https://enghyu.com/ax/3436-approval-monitors/</link>
       <guid isPermaLink="true">https://enghyu.com/ax/3436-approval-monitors/</guid>
+      <pubDate>Fri, 23 Oct 2026 13:14:01 +0900</pubDate>
       <description>12개 소형 오픈웨이트 승인 모니터의 연쇄 실패를 실측한 연구. 소스를 세는 규칙이 같은 안전도에서 올바른 결제 차단 0.9%로 최고 카운팅 규칙의 7.4%를 눌렀다.</description>
     </item>
     <item>
@@ -137,13 +145,6 @@
       <guid isPermaLink="true">https://enghyu.com/ax/3342-atria-dawn/</guid>
       <pubDate>Wed, 21 Oct 2026 18:45:00 +0900</pubDate>
       <description>Shanghai AI Lab이 에이전트 모델 Atria Dawn의 정식 버전을 공개했다. 744B MoE, 512K 컨텍스트(주장), MIT 라이선스. 다만 정식 가중치는 아직 &#x27;Coming soon&#x27;이고, 표기 불일치도 있다. 개발자 관점에서 따져본다.</description>
-    </item>
-    <item>
-      <title>google-research &#x27;harness2&#x27; — 에이전트 하네스 자체를 재귀 최적화하는 프레임워크, 단일 스텝에 WorkBuddy-Bench +11.5점 주장</title>
-      <link>https://enghyu.com/ax/3341-harness2/</link>
-      <guid isPermaLink="true">https://enghyu.com/ax/3341-harness2/</guid>
-      <pubDate>Wed, 21 Oct 2026 15:45:00 +0900</pubDate>
-      <description>Google Research가 에이전트 하네스 자체를 재귀 최적화하는 오픈 프레임워크 Harness²를 공개했다. Propose–Probe–Compose(태스크 수준 재귀)와 improvement harness(하네싱 수준 재귀)의 2단계 구조, 단일 스텝에</description>
     </item>
   </channel>
 </rss>

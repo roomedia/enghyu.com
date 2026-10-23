@@ -7,9 +7,16 @@
     <description>AI/AX 트렌드를 개발자 관점에서 정리한 글 모음.</description>
     <language>ko</language>
     <item>
+      <title>Luca Zanolini &#x27;Approval Monitors&#x27; — 결제 승인 모니터 12개가 같은 근거원에 동시에 속는다 (10/21, arXiv)</title>
+      <link>https://enghyu.com/ax/3436-approval-monitors/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3436-approval-monitors/</guid>
+      <description>12개 소형 오픈웨이트 승인 모니터의 연쇄 실패를 실측한 연구. 소스를 세는 규칙이 같은 안전도에서 올바른 결제 차단 0.9%로 최고 카운팅 규칙의 7.4%를 눌렀다.</description>
+    </item>
+    <item>
       <title>Boqi Chen 등 &#x27;MeMoDecode&#x27; — 메타모델 제약으로 DSL 생성의 의미 일관성 보장 (10/21, arXiv)</title>
       <link>https://enghyu.com/ax/3431-memodecode-dsl/</link>
       <guid isPermaLink="true">https://enghyu.com/ax/3431-memodecode-dsl/</guid>
+      <pubDate>Fri, 23 Oct 2026 11:12:00 +0900</pubDate>
       <description>MeMoDecode는 DSL의 concrete syntax·abstract syntax·well-formedness constraints를 디코딩 시점에 함께 강제하는 프레임워크다. 4개 DSL·6개 LLM(0.6B~70B)에서 일관성이 무제약 대비 평균 23%, 문법제약 디코딩 대비</description>
     </item>
     <item>
@@ -137,13 +144,6 @@
       <guid isPermaLink="true">https://enghyu.com/ax/3341-harness2/</guid>
       <pubDate>Wed, 21 Oct 2026 15:45:00 +0900</pubDate>
       <description>Google Research가 에이전트 하네스 자체를 재귀 최적화하는 오픈 프레임워크 Harness²를 공개했다. Propose–Probe–Compose(태스크 수준 재귀)와 improvement harness(하네싱 수준 재귀)의 2단계 구조, 단일 스텝에</description>
-    </item>
-    <item>
-      <title>Obsidian, 오픈소스 Mermaid 렌더러 &#x27;Pele&#x27; 공개 — Mermaid.js 대비 번들 1/6·최대 500배 빠른 렌더 주장, CSS 변수 테마 지원</title>
-      <link>https://enghyu.com/ax/3340-obsidian-pele/</link>
-      <guid isPermaLink="true">https://enghyu.com/ax/3340-obsidian-pele/</guid>
-      <pubDate>Wed, 21 Oct 2026 12:45:00 +0900</pubDate>
-      <description>Obsidian이 노트 앱용으로 직접 만든 오픈소스 Mermaid 렌더러 Pele가 공개됐다. Mermaid.js 대비 gzip 번들 1/6(230 kB), 렌더 최대 500배(0.05–0.3 ms), 의존성 0개, CSS 변수 테마 전환. 10/17 HN 프론트페이지(561포인트)</description>
     </item>
   </channel>
 </rss>

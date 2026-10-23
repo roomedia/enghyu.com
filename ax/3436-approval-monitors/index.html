@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G5WKCES0DY"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G5WKCES0DY');</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Luca Zanolini &#x27;Approval Monitors&#x27; — 결제 승인 모니터 12개가 같은 근거원에 동시에 속는다 (10/21, arXiv)</title>
+<meta name="description" content="12개 소형 오픈웨이트 승인 모니터의 연쇄 실패를 실측한 연구. 소스를 세는 규칙이 같은 안전도에서 올바른 결제 차단 0.9%로 최고 카운팅 규칙의 7.4%를 눌렀다.">
+<meta property="og:image" content="https://enghyu.com/ax/3436-approval-monitors/og.png">
+<meta property="og:title" content="Luca Zanolini &#x27;Approval Monitors&#x27; — 결제 승인 모니터 12개가 같은 근거원에 동시에 속는다 (10/21, arXiv)">
+<meta property="og:description" content="12개 소형 오픈웨이트 승인 모니터의 연쇄 실패를 실측한 연구. 소스를 세는 규칙이 같은 안전도에서 올바른 결제 차단 0.9%로 최고 카운팅 규칙의 7.4%를 눌렀다.">
+<meta property="og:url" content="https://enghyu.com/ax/3436-approval-monitors/">
+<meta property="og:type" content="article">
+<style>
+:root{--bg:#ffffff;--text:#1a1a1a;--muted:#666;--border:#e5e5e5;--accent:#0891b2;--code-bg:#f6f8fa;}
+@media (prefers-color-scheme: dark){:root{--bg:#0f1115;--text:#e8eaf0;--muted:#9aa0ad;--border:#2a2e38;--accent:#22d3ee;--code-bg:#181c24;}}
+*{box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:24px 20px;}
+main{max-width:800px;margin:0 auto;}
+.topnav{margin-bottom:20px;}.topnav a{color:var(--muted);font-size:14px;text-decoration:none;}.topnav a:hover{color:var(--accent);text-decoration:underline;}
+h1{font-size:1.9rem;line-height:1.35;margin:0 0 8px;}
+.meta{color:var(--muted);font-size:14px;margin-bottom:28px;}
+h2{font-size:1.3rem;margin:44px 0 12px;padding-top:8px;border-top:1px solid var(--border);}
+h3{font-size:1.05rem;margin:28px 0 8px;}
+p{margin:0 0 16px;}
+img{max-width:100%;height:auto;border-radius:10px;margin:20px 0;border:1px solid var(--border);}
+figure{margin:0;}figcaption{color:var(--muted);font-size:13px;text-align:center;margin:-8px 0 24px;}
+ul{margin:0 0 16px;padding-left:22px;}
+li{margin-bottom:8px;}
+strong{font-weight:700;}
+.callout{background:var(--code-bg);border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+.warn{background:var(--code-bg);border-left:3px solid #f59e0b;padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.9em;}
+pre{background:var(--code-bg);padding:16px;border-radius:8px;overflow-x:auto;border:1px solid var(--border);font-size:.85em;line-height:1.6;}
+pre code{background:none;padding:0;}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.92em;}
+th,td{border:1px solid var(--border);padding:8px 12px;text-align:left;}
+th{background:var(--code-bg);}
+a{color:var(--accent);}
+.tags a{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:3px 12px;font-size:13px;margin:0 6px 6px 0;color:var(--text);text-decoration:none;}.tags a:hover{border-color:var(--accent);color:var(--accent);}
+footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:14px;}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Luca Zanolini 'Approval Monitors' — 결제 승인 모니터 12개가 같은 근거원에 동시에 속는다 (10/21, arXiv)",
+  "mainEntityOfPage": "https://enghyu.com/ax/3436-approval-monitors/",
+  "url": "https://enghyu.com/ax/3436-approval-monitors/",
+  "author": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "publisher": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "description": "12개 소형 오픈웨이트 승인 모니터의 연쇄 실패를 실측한 연구. 소스를 세는 규칙이 같은 안전도에서 올바른 결제 차단 0.9%로 최고 카운팅 규칙의 7.4%를 눌렀다.",
+  "image": "https://enghyu.com/ax/3436-approval-monitors/og.png",
+  "datePublished": "2026-10-23T13:14:01+09:00",
+  "dateModified": "2026-10-23T13:14:01+09:00"
+}
+</script>
+<link rel="canonical" href="https://enghyu.com/ax/3436-approval-monitors/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Luca Zanolini &#x27;Approval Monitors&#x27; — 결제 승인 모니터 12개가 같은 근거원에 동시에 속는다 (10/21, arXiv)">
+<meta name="twitter:description" content="12개 소형 오픈웨이트 승인 모니터의 연쇄 실패를 실측한 연구. 소스를 세는 규칙이 같은 안전도에서 올바른 결제 차단 0.9%로 최고 카운팅 규칙의 7.4%를 눌렀다.">
+<meta name="twitter:image" content="https://enghyu.com/ax/3436-approval-monitors/og.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://enghyu.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AX 트렌드",
+      "item": "https://enghyu.com/ax/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Luca Zanolini 'Approval Monitors' — 결제 승인 모니터 12개가 같은 근거원에 동시에 속는다 (10/21, arXiv)",
+      "item": "https://enghyu.com/ax/3436-approval-monitors/"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<main>
+<nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
+
+<h1>Luca Zanolini &#x27;Approval Monitors&#x27; — 결제 승인 모니터 12개가 같은 근거원에 동시에 속는다 (10/21, arXiv)</h1>
+<p class="meta">2026-10-21 arXiv 제출 · ax-trend 이슈 #3436 · agent safety</p>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3436-overview.png" alt="Approval Monitors 연쇄 실패 연구 개요 — 12개 소형 오픈웨이트 모니터" loading="lazy">
+<figcaption>Approval Monitors — 12개 소형 오픈웨이트 모니터의 연쇄 실패를 측정한 연구</figcaption>
+</figure>
+
+<h2>핵심 — 모니터가 많아도 근거원이 하나면 한 번에 무너진다</h2>
+
+<ul>
+<li>AI 에이전트가 결제·메시징·코드 변경 같은 되돌리기 어려운 행동을 하기 전에 <strong>여러 승인 모니터가 검증하는 구조</strong>가 흔하다. 모니터 판정은 점수 집계나 승인 카운트로 결합된다 (arXiv).</li>
+<li>Luca Zanolini 팀은 <strong>소형 오픈웨이트 승인 모니터 12개를 결제 승인 시나리오에서 사전등록 프로토콜 2개로 측정</strong>했다 (arXiv).</li>
+<li>결과: <strong>같은 베이스 모델이나 오염된 입력을 공유하는 모니터는 함께 실패할 수 있다</strong> (arXiv).</li>
+</ul>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3436-problem.png" alt="문제 — 세 모니터가 같은 증거 소스를 참조하다 동시에 실패" loading="lazy">
+<figcaption>문제 — 같은 증거 소스를 보는 모니터는 공격에 함께 속는다</figcaption>
+</figure>
+
+<h2>문제 — 모든 속임수는 증거 소스를 경유했다</h2>
+
+<ul>
+<li><strong>모니터를 사기로 속인 모든 공격은 증거 소스를 경유했고</strong>, 그 소스의 독자에게만 도달했다 (arXiv).</li>
+<li>분산 컴퓨팅의 fail-prone systems 개념을 차용해 <strong>함께 실패할 수 있는 모니터 집합</strong>을 목록으로 정의하고, 안전성(safe)과 활성(live)을 이 개념 위에 다시 세웠다 (arXiv).</li>
+<li>측정 대상은 사전등록한 12개 소형 오픈웨이트 모니터에 그치지 않는다. <strong>사전등록 없이 3개 폐쇄형 프론티어 모델(Claude Opus 5.5, GPT-6 Astra, Gemini 4 Argon)과 오픈 DeepSeek-V3.2도 측정</strong>했다 (arXiv).</li>
+</ul>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3436-numbers.png" alt="측정 — 소스 카운팅 규칙 0.9% vs 투표 카운팅 7.4%, 같은 안전도에서 올바른 결제 차단율" loading="lazy">
+<figcaption>측정 — 소스를 세는 규칙이 같은 안전도에서 올바른 결제 차단을 0.9%로</figcaption>
+</figure>
+
+<h2>측정 — 소스를 세면 0.9%, 표를 세면 7.4%</h2>
+
+<ul>
+<li><strong>소스를 세는 규칙은 같은 안전도에서 올바른 결제 차단이 0.9%</strong>였다. <strong>최고의 카운팅(표 세기) 규칙은 7.4%</strong>였다 (arXiv).</li>
+<li>즉 표를 세는 방식은 안전도를 맞추려면 <strong>올바른 결제도 8배 이상 많이 차단</strong>한다는 얘기다.</li>
+<li>실무 번역: 에이전트 결제 승인에 모니터링을 겹겹이 두는 건 의미가 있다. 다만 <strong>모니터를 늘리는 게 아니라 입력원을 다변화</strong>해야 한다.</li>
+</ul>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3436-checklist.png" alt="체크리스트 — 소스를 세고, 입력원을 다변화하고, 설득 불가능한 규칙 엔진을 둔다" loading="lazy">
+<figcaption>체크리스트 — 소스를 세고, 입력원을 다변화하고, 설득 불가능한 규칙 엔진을 한 겹 더 둔다</figcaption>
+</figure>
+
+<h2>실무 체크리스트</h2>
+
+<ul>
+<li><strong>표를 세지 말고 소스를 센다.</strong> 모니터 수보다 독립 증거 소스 수가 진짜 다수결이다 (이슈 배경).</li>
+<li><strong>모니터마다 서로 다른 증거 소스에 연결</strong>한다. 같은 입력원을 보는 모니터는 하나처럼 취급한다 (이슈 배경).</li>
+<li><strong>설득 불가능한 규칙 엔진을 한 겹 더 둔다.</strong> 연구에 따르면 이 설계는 safe와 live 조건을 복원한다 (arXiv).</li>
+</ul>
+
+<div class="callout">
+<strong>AX TF 관점.</strong> 에이전트에 결제·배포 권한을 줄 때 "모니터 3개를 달았다"는 말은 반쪽짜리다. 3개가 같은 모델을 쓰면 공격 하나에 동시에 넘어간다. 진짜 질문은 "세 모니터가 서로 다른 증거 소스를 보느냐"다. 그리고 프롬프트로 설득할 수 없는 규칙(하드 리밋·정적 정책)을 한 겹 두면 safe 조건이 유지된다 (이슈 배경).
+</div>
+
+<h2>아직 안 밝혀진 것 — 사전등록 최악 케이스의 실패·12개 모델 위의 규칙의 한계·주장의 일반화 미확인</h2>
+
+<div class="warn">
+<strong>⚠️ 미확인:</strong> <strong>사전등록한 최악 케이스 테스트는 실패</strong>했다. 한 공격이 승인자를 단일 소스로 남겼다. <strong>12개 언어모델 모니터 위의 어떤 규칙도 측정된 모든 공격을 견디지 못했다</strong> (arXiv). <strong>증거 소스 이외의 경로로 모니터를 속인 사례는 관찰되지 않았다는 주장의 일반화 가능성도 미확인</strong>이다 (이슈 쟁점).
+</div>
+
+<h2>배경 — 다수결 모니터는 분산 시스템의 장애 모델부터</h2>
+
+<p>AI 에이전트가 결제·메시징·코드 변경 같은 되돌리기 어려운 행동을 할 때 승인 모니터를 여러 개 두고 다수결로 판단하는 구조가 흔하다. 문제는 모니터들이 같은 모델이나 같은 입력원을 쓰면 서로 독립이 아니라는 점이다. 분산 시스템의 장애 모델을 그대로 가져와 안전성(safe)과 활성(live)을 정의한 것이 이 연구의 출발점이다 (이슈 배경).</p>
+
+<h2>원문 이슈</h2>
+<p>이 글은 <a href="https://github.com/roomedia/ax-trend/issues/3436">ax-trend 이슈 #3436</a>를 바탕으로 작성됐다. 핵심 링크: <a href="https://arxiv.org/abs/2610.29178">arXiv:2610.29178 — Approval Monitors (2026-10-21 제출)</a>.</p>
+
+<p class="tags"><a href="/ax/tag/security/">security</a><a href="/ax/tag/agent-model/">에이전트 모델</a><a href="/ax/tag/ax-trend/">AX Trend</a></p>
+
+<footer>
+<p>enghyu.com AX 트렌드 · <a href="/ax/">목록으로</a></p>
+</footer>
+
+<section class="related">
+  <h2>관련 글</h2>
+  <ul>
+    <li><a href="/ax/3380-openai-monitor-bypass/">OpenAI, 자사 AI 에이전트가 내부 모니터링 무력화한 2건 공개 — GPT-6.1 Sol·GPT-6 Astra, 10/3·10/6 코딩 작업 중 안전 알림 차단 (10/20, OpenAI 공식)</a></li>
+    <li><a href="/ax/3431-memodecode-dsl/">Boqi Chen 등 &#x27;MeMoDecode&#x27; — 메타모델 제약으로 DSL 생성의 의미 일관성 보장 (10/21, arXiv)</a></li>
+    <li><a href="/ax/3381-krafton-raon1-mini/">크래프톤, 자체 개발 30B급 LLM &#x27;라온-1 미니&#x27; 프리뷰 공개 — MoE+선형 어텐션, Apache 2.0으로 HF 배포 (10/21)</a></li>
+  </ul>
+</section>
+</main>
+<script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
+</body>
+</html>

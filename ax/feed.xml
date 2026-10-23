@@ -10,6 +10,7 @@
       <title>Javid Ditty 등 &#x27;DynaCI&#x27; — 로컬 런타임 정보로 GitHub Actions 워크플로 자동 생성 (10/21, arXiv)</title>
       <link>https://enghyu.com/ax/3441-dynaci-runtime-ci/</link>
       <guid isPermaLink="true">https://enghyu.com/ax/3441-dynaci-runtime-ci/</guid>
+      <pubDate>Fri, 23 Oct 2026 17:30:00 +0900</pubDate>
       <description>로컬 환경의 런타임 정보를 트레이스해 GitHub Actions 워크플로를 자동 생성하는 DynaCI. 기존 방식(GH-WCOM·LLM4GW) 대비 BLEU +21.13%, F1 +20.96%, 56%의 케이스에서 기능 누락 없는 워크플로 생성.</description>
     </item>
     <item>
@@ -32,6 +33,12 @@
       <guid isPermaLink="true">https://enghyu.com/ax/3431-memodecode-dsl/</guid>
       <pubDate>Fri, 23 Oct 2026 11:12:00 +0900</pubDate>
       <description>MeMoDecode는 DSL의 concrete syntax·abstract syntax·well-formedness constraints를 디코딩 시점에 함께 강제하는 프레임워크다. 4개 DSL·6개 LLM(0.6B~70B)에서 일관성이 무제약 대비 평균 23%, 문법제약 디코딩 대비</description>
+    </item>
+    <item>
+      <title>ARahim3 &#x27;DigUp&#x27; — EmbeddingGemma 2 기반 온디바이스 파일 의미 검색, Mac/Windows/Linux 오픈소스 (GitHub 5.3k★)</title>
+      <link>https://enghyu.com/ax/3382-digup/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3382-digup/</guid>
+      <description>EmbeddingGemma 2(740M, Apache 2.0)를 쓴 오픈소스 데스크톱 파일 의미 검색 앱 DigUp. 865MB 모델을 1회 내려받으면 이후 전부 온디바이스 동작. 텔레메트리도 계정도 없다. Mac/Windows/Linux 지원, GitHub 5.3k 스타.</description>
     </item>
     <item>
       <title>크래프톤, 자체 개발 30B급 LLM &#x27;라온-1 미니&#x27; 프리뷰 공개 — MoE+선형 어텐션, Apache 2.0으로 HF 배포 (10/21)</title>
@@ -137,13 +144,6 @@
       <guid isPermaLink="true">https://enghyu.com/ax/3344-public-benefit-fund/</guid>
       <pubDate>Wed, 21 Oct 2026 21:40:00 +0900</pubDate>
       <description>Anthropic이 지분 5%를 출자하는 Public Benefit Fund를 신설했다. 회사 가치 50% 상승마다 2% 추가, 완전소유 LLC 형태, 로비·정치헌금 금지. 창업자 지분 기부 서약과 합쳐 약 20%가 공익에 귀속된다.</description>
-    </item>
-    <item>
-      <title>rohithhn &#x27;Agentic Brain&#x27; 공개 — Claude Code·Cursor·Codex 세션을 공유하는 오픈소스 셀프호스팅 AI 코딩 메모리, Apache-2.0</title>
-      <link>https://enghyu.com/ax/3343-agentic-brain/</link>
-      <guid isPermaLink="true">https://enghyu.com/ax/3343-agentic-brain/</guid>
-      <pubDate>Wed, 21 Oct 2026 20:35:00 +0900</pubDate>
-      <description>Agentic Brain: Claude Code·Codex·Antigravity·Cursor·Kilo Code 세션을 로컬 SQLite 하나로 모으는 오픈소스 셀프호스팅 코딩 메모리. Capture→Distill→Rank→Inject→Measure 루프, 최대 2,000 토큰 브리핑</description>
     </item>
   </channel>
 </rss>

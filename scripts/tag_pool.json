@@ -79,6 +79,11 @@
   "humanizer",
   "글쓰기AI"
  ],
+ "온디바이스": [
+  "on-device",
+  "온디바이스 AI",
+  "DigUp"
+ ],
  "_slugs": {
   "AI 코딩": "ai-coding",
   "E2E 테스트": "e2e-test",
@@ -90,7 +95,8 @@
   "검색 API": "search-api",
   "AI 영상 생성": "ai-video",
   "에이전트 모델": "agent-model",
-  "음성 에이전트": "voice-agent"
+  "음성 에이전트": "voice-agent",
+  "온디바이스": "on-device"
  },
  "_dropped": [
   "MIT",

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G5WKCES0DY"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G5WKCES0DY');</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Markus Krimmel 등 &#x27;pplx-embed-v2-late&#x27; — 0.6B·9B 다국어 멀티모달 late-interaction 임베딩 (10/21, arXiv)</title>
+<meta name="description" content="pplx-embed-v2-late는 0.6B와 9B의 다국어·멀티모달 late-interaction 임베딩 모델 쌍이다. 각 size class에서 text·image·visual document retrieval 벤치마크 전반에 걸쳐 SOTA이며, 0.6B는 자신보다 몇 배 큰">
+<meta property="og:image" content="https://enghyu.com/ax/3448-pplx-embed-v2-late/og.png">
+<meta property="og:title" content="Markus Krimmel 등 &#x27;pplx-embed-v2-late&#x27; — 0.6B·9B 다국어 멀티모달 late-interaction 임베딩 (10/21, arXiv)">
+<meta property="og:description" content="0.6B·9B 쌍으로 각 size class에서 검색 SOTA. 18B teacher 증류, 공유 임베딩 공간, 9B 인덱싱·0.6B 쿼리의 비대칭 배포.">
+<meta property="og:url" content="https://enghyu.com/ax/3448-pplx-embed-v2-late/">
+<meta property="og:type" content="article">
+<style>
+:root{--bg:#ffffff;--text:#1a1a1a;--muted:#666;--border:#e5e5e5;--accent:#0891b2;--code-bg:#f6f8fa;}
+@media (prefers-color-scheme: dark){:root{--bg:#0f1115;--text:#e8eaf0;--muted:#9aa0ad;--border:#2a2e38;--accent:#22d3ee;--code-bg:#181c24;}}
+*{box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:24px 20px;}
+main{max-width:800px;margin:0 auto;}
+.topnav{margin-bottom:20px;}.topnav a{color:var(--muted);font-size:14px;text-decoration:none;}.topnav a:hover{color:var(--accent);text-decoration:underline;}
+h1{font-size:1.9rem;line-height:1.35;margin:0 0 8px;}
+.meta{color:var(--muted);font-size:14px;margin-bottom:28px;}
+h2{font-size:1.3rem;margin:44px 0 12px;padding-top:8px;border-top:1px solid var(--border);}
+h3{font-size:1.05rem;margin:28px 0 8px;}
+p{margin:0 0 16px;}
+img{max-width:100%;height:auto;border-radius:10px;margin:20px 0;border:1px solid var(--border);}
+figure{margin:0;}figcaption{color:var(--muted);font-size:13px;text-align:center;margin:-8px 0 24px;}
+ul{margin:0 0 16px;padding-left:22px;}
+li{margin-bottom:8px;}
+strong{font-weight:700;}
+.callout{background:var(--code-bg);border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+.warn{background:var(--code-bg);border-left:3px solid #f59e0b;padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.9em;}
+pre{background:var(--code-bg);padding:16px;border-radius:8px;overflow-x:auto;border:1px solid var(--border);font-size:.85em;line-height:1.6;}
+pre code{background:none;padding:0;}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.92em;}
+th,td{border:1px solid var(--border);padding:8px 12px;text-align:left;}
+th{background:var(--code-bg);}
+a{color:var(--accent);}
+.tags a{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:3px 12px;font-size:13px;margin:0 6px 6px 0;color:var(--text);text-decoration:none;}.tags a:hover{border-color:var(--accent);color:var(--accent);}
+footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:14px;}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Markus Krimmel 등 'pplx-embed-v2-late' — 0.6B·9B 다국어 멀티모달 late-interaction 임베딩 (10/21, arXiv)",
+  "mainEntityOfPage": "https://enghyu.com/ax/3448-pplx-embed-v2-late/",
+  "url": "https://enghyu.com/ax/3448-pplx-embed-v2-late/",
+  "author": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "publisher": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "description": "pplx-embed-v2-late는 0.6B와 9B의 다국어·멀티모달 late-interaction 임베딩 모델 쌍이다. 각 size class에서 text·image·visual document retrieval 벤치마크 전반에 걸쳐 SOTA이며, 0.6B는 자신보다 몇 배 큰",
+  "image": "https://enghyu.com/ax/3448-pplx-embed-v2-late/og.png",
+  "datePublished": "2026-10-24T05:25:00+09:00",
+  "dateModified": "2026-10-24T05:25:00+09:00"
+}
+</script>
+<link rel="canonical" href="https://enghyu.com/ax/3448-pplx-embed-v2-late/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Markus Krimmel 등 &#x27;pplx-embed-v2-late&#x27; — 0.6B·9B 다국어 멀티모달 late-interaction 임베딩 (10/21, arXiv)">
+<meta name="twitter:description" content="0.6B·9B 쌍으로 각 size class에서 검색 SOTA. 18B teacher 증류, 공유 임베딩 공간, 9B 인덱싱·0.6B 쿼리의 비대칭 배포.">
+<meta name="twitter:image" content="https://enghyu.com/ax/3448-pplx-embed-v2-late/og.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://enghyu.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AX 트렌드",
+      "item": "https://enghyu.com/ax/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Markus Krimmel 등 'pplx-embed-v2-late' — 0.6B·9B 다국어 멀티모달 late-interaction 임베딩 (10/21, arXiv)",
+      "item": "https://enghyu.com/ax/3448-pplx-embed-v2-late/"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<main>
+<nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
+
+<h1>Markus Krimmel 등 &#x27;pplx-embed-v2-late&#x27; — 0.6B·9B 다국어 멀티모달 late-interaction 임베딩 (10/21, arXiv)</h1>
+<p class="meta">2026-10-21 arXiv 제출 · ax-trend 이슈 #3448 · 멀티모달</p>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3448-overview.png" alt="pplx-embed-v2-late 개요 — 0.6B·9B 다국어 멀티모달 late-interaction 임베딩, 각 size class에서 검색 SOTA" loading="lazy">
+<figcaption>pplx-embed-v2-late — 0.6B·9B 쌍, 각 size class에서 text·image·visual document retrieval SOTA</figcaption>
+</figure>
+
+<h2>핵심 — 작은 모델이 검색 SOTA를 가져간다</h2>
+
+<ul>
+<li>검색과 RAG에서 임베딩은 <strong>크기 대 지연의 트레이드오프</strong>가 핵심이었다 (이슈 배경). 정확도를 올리려면 큰 모델을 써야 하고, 큰 모델은 느리다.</li>
+<li>pplx-embed-v2-late는 <strong>0.6B와 9B의 multilingual·multimodal late-interaction 모델 쌍</strong>이다 (arXiv).</li>
+<li>두 모델 모두 <strong>각 size class 안에서 text, image, visual document retrieval 벤치마크 전반에 걸쳐 state-of-the-art</strong>다 (arXiv).</li>
+<li>late-interaction은 정확도가 높지만 무겁다는 인식이 있었는데, <strong>0.6B가 몇 배 큰 모델과 경쟁한다</strong>는 결과가 나왔다 (이슈 배경). 트레이드오프의 한쪽 축이 흔들린 셈이다.</li>
+</ul>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3448-method.png" alt="학습 방식 — 18B teacher로부터 representation distillation로 하나의 공유 임베딩 공간에 증류" loading="lazy">
+<figcaption>학습 방식 — 18B teacher의 표현을 증류해 하나의 공유 임베딩 공간에</figcaption>
+</figure>
+
+<h2>방법 — 18B teacher의 표현을 증류해 같은 공간에 넣는다</h2>
+
+<ul>
+<li><strong>18B teacher로부터 representation distillation</strong>로 학습했다 (arXiv). 큰 teacher의 표현을 작은 학생 모델이 그대로 배우는 방식이다.</li>
+<li>두 모델은 <strong>같은 embedding space를 공유</strong>한다 (arXiv). 0.6B와 9B가 서로 다른 공간의 벡터를 만들지 않으니, 한 쌍으로 움직일 수 있다.</li>
+<li>이 공유 공간 구조가 <strong>asymmetric deployment(비대칭 배포)</strong>를 지원한다 (arXiv). 인덱싱과 쿼리에 다른 크기의 모델을 쓸 수 있다.</li>
+<li><strong>문서는 9B로 인덱싱하고, 쿼리는 저지연 0.6B로 처리</strong>한다 (arXiv). 정확도가 필요한 작업은 큰 모델에, 속도가 필요한 작업은 작은 모델에 맡긴다.</li>
+</ul>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3448-results.png" alt="수치 — visual document retrieval에서 0.6B가 몇 배 큰 모델과 경쟁, 체급을 뛰어넘는 성능" loading="lazy">
+<figcaption>수치 — visual document retrieval에서 0.6B가 체급을 뛰어넘는 성능</figcaption>
+</figure>
+
+<h2>수치 — visual document retrieval에서 0.6B가 몇 배 큰 모델과 경쟁한다</h2>
+
+<ul>
+<li>visual document retrieval에서 <strong>0.6B 모델은 자신보다 몇 배 큰 모델과 경쟁력</strong> 있다 (arXiv). 이 벤치마크는 PDF·슬라이드 같은 시각 문서 검색이다.</li>
+<li>text·image 벤치마크에서도 두 모델은 <strong>각 size class 안에서 SOTA</strong>를 기록했다 (arXiv). 한 영역에 치우치지 않았다.</li>
+<li>두 모델 모두 <strong>Hugging Face에서 공개</strong>되어 있다 (arXiv). 바로 내려받아 실험할 수 있다.</li>
+</ul>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3448-takeaway.png" alt="실무 처방 — 9B로 인덱싱하고 0.6B로 쿼리하는 비대칭 배포, 정확도는 유지하고 서빙 비용은 낮춘다" loading="lazy">
+<figcaption>실무 처방 — 9B로 인덱싱, 0.6B로 쿼리. 정확도는 유지하고 서빙 비용은 낮춘다</figcaption>
+</figure>
+
+<h2>의미 — 인덱싱과 쿼리를 분리하는 비대칭 배포가 실용적이다</h2>
+
+<ul>
+<li>인덱싱은 한 번만 하면 되고, 쿼리는 계속 돈다. <strong>9B로 인덱싱하고 0.6B로 쿼리하면 정확도는 유지하면서 서빙 비용을 낮출 수 있다</strong> (이슈 배경). 이 구조가 설계의 핵심 실용성이다.</li>
+<li>visual document retrieval 강세는 <strong>PDF와 슬라이드 검색</strong>에도 응용할 만하다 (이슈 배경). RAG 소스가 문서 이미지인 경우에 특히 맞는다.</li>
+<li>패턴은 간단하다 — 개념 예시:</li>
+</ul>
+
+<pre><code># 인덱싱은 1회, 정확도 우선
+index  = embed(documents, model="9B")
+# 쿼리는 지속, 저지연 우선
+answer = search(index, embed(query, model="0.6B"))
+# 두 모델은 같은 임베딩 공간을 공유한다 (arXiv)</code></pre>
+
+<div class="callout">
+<strong>AX TF 관점.</strong> RAG 파이프라인에서 임베딩 교체는 모델명 하나 바꾸는 실험이라 A/B가 가장 쉬운 튜닝 축이다. <strong>9B 인덱싱·0.6B 쿼리 조합</strong>을 현행 파이프라인에 바로 꽂아 지연·비용·품질을 실측해볼 수 있다 (이슈 배경).
+</div>
+
+<h2>아직 안 밝혀진 것 — 쿼리 지연 수치·한국어 포함 여부·라이선스</h2>
+
+<div class="warn">
+<strong>⚠️ 미확인:</strong> late-interaction 특성상 <strong>쿼리 시점 연산량이 bi-encoder보다 클 수 있는데, 지연 수치는 초록에 없다</strong> (arXiv). <strong>다국어 범위에 한국어가 포함되는지 미확인</strong>이다 (arXiv). <strong>라이선스 조건은 초록에 언급이 없다</strong> (arXiv).
+</div>
+
+<h2>원문 이슈</h2>
+<p>이 글은 <a href="https://github.com/roomedia/ax-trend/issues/3448">ax-trend 이슈 #3448</a>을 바탕으로 작성됐다. 핵심 링크: <a href="https://arxiv.org/abs/2610.29523">arXiv:2610.29523 — pplx-embed-v2-late (2026-10-21 제출)</a>.</p>
+
+<p class="tags"><a href="/ax/tag/multimodal/">멀티모달</a><a href="/ax/tag/performance/">성능 최적화</a><a href="/ax/tag/ax-trend/">AX Trend</a></p>
+
+<footer>
+<p>enghyu.com AX 트렌드 · <a href="/ax/">목록으로</a></p>
+</footer>
+
+<section class="related">
+  <h2>관련 글</h2>
+  <ul>
+    <li><a href="/ax/3375-kanana-2-vision-encoder/">카카오 &#x27;Kanana-2-vision-encoder&#x27; 2종 오픈소스 공개 — medium 4.26억·tiny 9,800만, 지연 60% 감소</a></li>
+    <li><a href="/ax/3446-target-probability-reuse/">Jungseob Lee 등 &#x27;target probability reuse&#x27; — 타깃 확률 재사용으로 추측 디코딩 가속 (10/21, arXiv)</a></li>
+    <li><a href="/ax/3382-digup/">ARahim3 &#x27;DigUp&#x27; — EmbeddingGemma 2 기반 온디바이스 파일 의미 검색, Mac/Windows/Linux 오픈소스 (GitHub 5.3k★)</a></li>
+  </ul>
+</section>
+</main>
+<script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
+</body>
+</html>

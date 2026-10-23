@@ -7,9 +7,16 @@
     <description>AI/AX 트렌드를 개발자 관점에서 정리한 글 모음.</description>
     <language>ko</language>
     <item>
+      <title>Markus Krimmel 등 &#x27;pplx-embed-v2-late&#x27; — 0.6B·9B 다국어 멀티모달 late-interaction 임베딩 (10/21, arXiv)</title>
+      <link>https://enghyu.com/ax/3448-pplx-embed-v2-late/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3448-pplx-embed-v2-late/</guid>
+      <description>pplx-embed-v2-late는 0.6B와 9B의 다국어·멀티모달 late-interaction 임베딩 모델 쌍이다. 각 size class에서 text·image·visual document retrieval 벤치마크 전반에 걸쳐 SOTA이며, 0.6B는 자신보다 몇 배 큰</description>
+    </item>
+    <item>
       <title>Shota Fujikawa 등 &#x27;Agent Behavior Maps&#x27; — 에이전트를 실행 없이 행동 궤적으로 위치시키는 지도 (10/21, arXiv)</title>
       <link>https://enghyu.com/ax/3447-agent-behavior-maps/</link>
       <guid isPermaLink="true">https://enghyu.com/ax/3447-agent-behavior-maps/</guid>
+      <pubDate>Sat, 24 Oct 2026 03:25:00 +0900</pubDate>
       <description>Agent Behavior Maps는 LLM-하네스 조합을 공유 참조 궤적 위의 중심화된 행동 로그 가능도로 표현한다. 대상 에이전트의 새 환경 롤아웃이 필요 없다. 100개 LLM·4개 환경에서 ALFWorld 기반 좌표가 성능 예측을 지원하고 행동 유사도를 식별했다.</description>
     </item>
     <item>
@@ -137,13 +144,6 @@
       <guid isPermaLink="true">https://enghyu.com/ax/3349-exa-3/</guid>
       <pubDate>Thu, 22 Oct 2026 13:25:00 +0900</pubDate>
       <description>Exa가 2026-10-19 AI 에이전트용 검색 API Exa 3.0을 출시했다. 회사는 &#x27;우리가 내놓은 역대 최대 검색 품질 개선&#x27;이라고 표현한다. 신규 저가 티어 Exa Lite(1,000요청당 $4), Dynamic Highlights GA(토큰 95%↓), 인덱스 대확장이</description>
-    </item>
-    <item>
-      <title>MiniMax, &#x27;M3.1 Flash&#x27; 공식 출시 — 익명 모델 &#x27;Space Bunny&#x27;의 정체 공개, DeepSWE 73.7%·가격 $0.15/$0.60</title>
-      <link>https://enghyu.com/ax/3348-minimax-m31-flash/</link>
-      <guid isPermaLink="true">https://enghyu.com/ax/3348-minimax-m31-flash/</guid>
-      <pubDate>Thu, 22 Oct 2026 09:45:00 +0900</pubDate>
-      <description>MiniMax가 2026-10-19 공식 출시한 M3.1 Flash. 200조 토큰을 익명으로 처리하며 화제가 된 &#x27;Space Bunny&#x27;는 초기 버전이었다. DeepSWE 73.7%, 전작 대비 에이전트 태스크 비용 70% 감소, 속도 3배. 가격은 입력 $0.15·출력 $0.60</description>
     </item>
   </channel>
 </rss>

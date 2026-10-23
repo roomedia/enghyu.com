@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G5WKCES0DY"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G5WKCES0DY');</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jungseob Lee 등 &#x27;target probability reuse&#x27; — 타깃 확률 재사용으로 추측 디코딩 가속 (10/21, arXiv)</title>
+<meta name="description" content="추측 디코딩 검증 과정에서 이미 계산된 next-token 분포를 다음 트리 선택에 재사용한다. 여섯 개 target에서 first-token branch 리랭크가 draft ranking보다 expected acceptance를 높였다. 작은 tree budget에서 효과 두드러.">
+<meta property="og:image" content="https://enghyu.com/ax/3446-target-probability-reuse/og.png">
+<meta property="og:title" content="Jungseob Lee 등 &#x27;target probability reuse&#x27; — 타깃 확률 재사용으로 추측 디코딩 가속 (10/21, arXiv)">
+<meta property="og:description" content="검증 패스에서 이미 계산된 확률을 다음 트리 설계에 재사용. first-token branch 리랭크가 draft ranking보다 expected acceptance를 높인다.">
+<meta property="og:url" content="https://enghyu.com/ax/3446-target-probability-reuse/">
+<meta property="og:type" content="article">
+<style>
+:root{--bg:#ffffff;--text:#1a1a1a;--muted:#666;--border:#e5e5e5;--accent:#0891b2;--code-bg:#f6f8fa;}
+@media (prefers-color-scheme: dark){:root{--bg:#0f1115;--text:#e8eaf0;--muted:#9aa0ad;--border:#2a2e38;--accent:#22d3ee;--code-bg:#181c24;}}
+*{box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:24px 20px;}
+main{max-width:800px;margin:0 auto;}
+.topnav{margin-bottom:20px;}.topnav a{color:var(--muted);font-size:14px;text-decoration:none;}.topnav a:hover{color:var(--accent);text-decoration:underline;}
+h1{font-size:1.9rem;line-height:1.35;margin:0 0 8px;}
+.meta{color:var(--muted);font-size:14px;margin-bottom:28px;}
+h2{font-size:1.3rem;margin:44px 0 12px;padding-top:8px;border-top:1px solid var(--border);}
+h3{font-size:1.05rem;margin:28px 0 8px;}
+p{margin:0 0 16px;}
+img{max-width:100%;height:auto;border-radius:10px;margin:20px 0;border:1px solid var(--border);}
+figure{margin:0;}figcaption{color:var(--muted);font-size:13px;text-align:center;margin:-8px 0 24px;}
+ul{margin:0 0 16px;padding-left:22px;}
+li{margin-bottom:8px;}
+strong{font-weight:700;}
+.callout{background:var(--code-bg);border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+.warn{background:var(--code-bg);border-left:3px solid #f59e0b;padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.9em;}
+pre{background:var(--code-bg);padding:16px;border-radius:8px;overflow-x:auto;border:1px solid var(--border);font-size:.85em;line-height:1.6;}
+pre code{background:none;padding:0;}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.92em;}
+th,td{border:1px solid var(--border);padding:8px 12px;text-align:left;}
+th{background:var(--code-bg);}
+a{color:var(--accent);}
+.tags a{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:3px 12px;font-size:13px;margin:0 6px 6px 0;color:var(--text);text-decoration:none;}.tags a:hover{border-color:var(--accent);color:var(--accent);}
+footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:14px;}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Jungseob Lee 등 'target probability reuse' — 타깃 확률 재사용으로 추측 디코딩 가속 (10/21, arXiv)",
+  "mainEntityOfPage": "https://enghyu.com/ax/3446-target-probability-reuse/",
+  "url": "https://enghyu.com/ax/3446-target-probability-reuse/",
+  "author": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "publisher": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "description": "추측 디코딩 검증 과정에서 이미 계산된 next-token 분포를 다음 트리 선택에 재사용한다. 여섯 개 target에서 first-token branch 리랭크가 draft ranking보다 expected acceptance를 높였다. 작은 tree budget에서 효과 두드러.",
+  "image": "https://enghyu.com/ax/3446-target-probability-reuse/og.png",
+  "datePublished": "2026-10-24T01:15:00+09:00",
+  "dateModified": "2026-10-24T01:15:00+09:00"
+}
+</script>
+<link rel="canonical" href="https://enghyu.com/ax/3446-target-probability-reuse/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Jungseob Lee 등 &#x27;target probability reuse&#x27; — 타깃 확률 재사용으로 추측 디코딩 가속 (10/21, arXiv)">
+<meta name="twitter:description" content="검증 패스에서 이미 계산된 확률을 다음 트리 설계에 재사용. first-token branch 리랭크가 draft ranking보다 expected acceptance를 높인다.">
+<meta name="twitter:image" content="https://enghyu.com/ax/3446-target-probability-reuse/og.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://enghyu.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AX 트렌드",
+      "item": "https://enghyu.com/ax/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Jungseob Lee 등 'target probability reuse' — 타깃 확률 재사용으로 추측 디코딩 가속 (10/21, arXiv)",
+      "item": "https://enghyu.com/ax/3446-target-probability-reuse/"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<main>
+<nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
+
+<h1>Jungseob Lee 등 &#x27;target probability reuse&#x27; — 타깃 확률 재사용으로 추측 디코딩 가속 (10/21, arXiv)</h1>
+<p class="meta">2026-10-21 arXiv 제출 · ax-trend 이슈 #3446 · 성능 최적화</p>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3446-overview.png" alt="Target Probability Reuse 개요 — 추측 디코딩 가속, 6개 target, first-token rerank가 draft ranking을 앞선다" loading="lazy">
+<figcaption>Target Probability Reuse — 검증 패스의 부산물을 다음 라운드의 트리 설계에 쓴다</figcaption>
+</figure>
+
+<h2>핵심 — 검증 패스의 부산물이 다음 트리의 가이드가 된다</h2>
+
+<ul>
+<li>추측 디코딩(speculative decoding)은 <strong>target model이 draft token의 트리를 병렬로 검증</strong>하는 방식으로 LLM 서빙 속도를 올리는 표준 기법이다 (arXiv).</li>
+<li>이 논문은 검증 과정에서 생기는 <strong>next-token distribution이 다음 트리 선택에 도움이 되는지</strong>를 연구했다 (arXiv). 이미 계산된 확률을 다시 쓰는 아이디어다.</li>
+<li>unrestricted target model에서는 <strong>guaranteed exact reuse가 다음 라운드의 완전한 context에서 계산된 분포를 요구</strong>한다 (arXiv). 재사용에 엄격한 조건이 붙는다는 뜻이다.</li>
+<li>이 분포를 유지하려면 <strong>accepted token을 희생해야 하는 조건</strong>과, 그 손실이 <strong>라운드를 넘어 지속되는 조건</strong>을 정립했다 (arXiv).</li>
+<li>코드는 공개되어 있다. arXiv 페이지의 GitHub 링크를 참조한다 (arXiv).</li>
+</ul>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3446-method.png" alt="동작 방식 — Draft tree → Target verifies → Reuse next-token distribution → Pick next tree" loading="lazy">
+<figcaption>동작 방식 — 확률 분포는 이미 계산돼 있다. 새로 만들 필요가 없다</figcaption>
+</figure>
+
+<h2>설계 — 트리를 할당하기 전에 먼저 first token을 뽑는다</h2>
+
+<ul>
+<li><strong>여섯 개 target</strong>에서, 현재 context에서 따로 계산한 분포로 <strong>first-token branch를 rerank</strong>하면 draft ranking보다 <strong>expected acceptance가 좋아졌다</strong> (arXiv).</li>
+<li>특히 <strong>tree budget이 작을 때 효과가 두드러졌다</strong> (arXiv). 작은 예산에서 가이드가 더 값어치를 한다.</li>
+<li>트리를 할당하기 전에 이 분포에서 <strong>first token을 뽑으면</strong>, 미리 고른 트리를 가지치기하는 방식보다 <strong>expected acceptance가 좋아졌다</strong> (arXiv).</li>
+<li><strong>mean tree size가 같아도</strong> 그렇다 (arXiv). 단순히 트리를 크게 만든 효과가 아니다.</li>
+<li>두 선택 규칙 모두 <strong>separate target pass가 standalone drafting과 겹칠 때</strong> draft ranking보다 <strong>빠르게 디코딩</strong>했다 (arXiv).</li>
+</ul>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3446-results.png" alt="결과 — Expected acceptance wins: rerank beats draft ranking, sample first token beats pruning" loading="lazy">
+<figcaption>결과 — draft의 순위 매기기를 target의 확률로 덮어쓴다</figcaption>
+</figure>
+
+<h2>결과 — draft ranking이 아니라 target 분포가 순위를 정한다</h2>
+
+<ul>
+<li>연구의 핵심 질문은 &#x27;검증 과정에서 이미 계산된 분포가 다음 트리 선택에 도움이 되는가&#x27;였다. 답은 <strong>여섯 개 target 전부에서 yes</strong>였다 (arXiv).</li>
+<li>리랭크 방식과 first-token 샘플링 방식 <strong>둘 다 draft ranking을 이겼다</strong>. 분포를 유지하는 조건이 까다롭지만, 지키기만 하면 이득이다 (arXiv).</li>
+<li>작은 tree budget에서 효과가 두드러진다는 점이 실무적이다. <strong>draft가 약한 엣지·온디바이스 환경</strong>에 특히 유리하다 (이슈 배경).</li>
+<li>추가 target pass의 연산 비용과 실제 처리량 이득의 균형은 초록에 수치로 나와 있지 않다 — 도입 전 측정 과제다 (이슈 쟁점).</li>
+</ul>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3446-takeaway.png" alt="실무 처방 — 작은 tree budget에서 저렴한 추론, 약한 draft의 엣지 환경에서 유리" loading="lazy">
+<figcaption>실무 처방 — 비용이 곧 서비스 비용인 시대에 디코딩 효율은 곧 마진이다</figcaption>
+</figure>
+
+<h2>의미 — 추론 비용이 곧 서비스 비용인 시대의 디코딩 처방</h2>
+
+<ul>
+<li>디코딩 효율 개선은 <strong>직접적인 비용 절감</strong>이다. 추론 비용이 곧 서비스 비용인 시대에, 같은 트리 예산에서 더 높은 expected acceptance는 곧 마진이다 (이슈 배경).</li>
+<li>작은 tree budget에서 효과가 크다는 건 <strong>draft가 약한 엣지나 온디바이스 환경</strong>에 특히 유리하다. AX TF에서 LLM 서빙을 다룰 때 draft 전략 선택의 근거가 된다 (이슈 배경).</li>
+<li>EAGLE 계열 draft 모델과의 결합 결과는 미확인이다 (이슈 쟁점). 관련 연구는 <a href="https://github.com/roomedia/ax-trend/issues/3390">ax-trend 이슈 #3390 — eagle-hq 'EAGLE-4'</a>를 참조.</li>
+<li>코드가 공개되어 있으니 실측 검증이 가능하다. 검증 비용이 크지 않은 만큼 도입 검토 가치가 있다 (이슈 배경).</li>
+</ul>
+
+<div class="callout">
+<strong>AX TF 관점.</strong> LLM 서빙 비용을 깎을 때 draft 모델만 바꾸는 게 아니라 <strong>검증 패스의 부산물</strong>을 보는 것이 이 논문의 처방이다. 이미 계산된 확률을 다음 트리 선택에 재사용하는 것은 추가 추론이 아니라 <strong>정보 활용도</strong>의 문제다. 사내 LLM 서빙에 추측 디코딩을 쓰고 있다면, <strong>first-token branch 리랭크</strong>를 현재 draft 전략에 붙여 A/B로 돌려보는 것이 가장 저렴한 실험이다. tree budget이 작은 서빙 환경부터 시작하라 (이슈 배경).
+</div>
+
+<h2>아직 안 밝혀진 것 — 모델 명단·비용 균형·EAGLE 결합</h2>
+
+<div class="warn">
+<strong>⚠️ 미확인:</strong> <strong>여섯 개 target의 구체 모델명은 초록에 없음</strong> (arXiv). <strong>separate target pass의 추가 연산 비용과 실제 처리량 이득의 균형은 미확인</strong> (arXiv). <strong>EAGLE 계열 draft 모델과의 결합 결과는 미확인</strong> (이슈 쟁점).
+</div>
+
+<h2>원문 이슈</h2>
+<p>이 글은 <a href="https://github.com/roomedia/ax-trend/issues/3446">ax-trend 이슈 #3446</a>을 바탕으로 작성됐다. 핵심 링크: <a href="https://arxiv.org/abs/2610.29210">arXiv:2610.29210 — target probability reuse (2026-10-21 제출)</a>.</p>
+
+<p class="tags"><a href="/ax/tag/performance/">성능 최적화</a><a href="/ax/tag/on-device/">온디바이스</a><a href="/ax/tag/ax-trend/">AX Trend</a></p>
+
+<footer>
+<p>enghyu.com AX 트렌드 · <a href="/ax/">목록으로</a></p>
+</footer>
+
+<section class="related">
+  <h2>관련 글</h2>
+  <ul>
+    <li><a href="/ax/3382-digup/">ARahim3 &#x27;DigUp&#x27; — EmbeddingGemma 2 기반 온디바이스 파일 의미 검색, Mac/Windows/Linux 오픈소스 (GitHub 5.3k★)</a></li>
+    <li><a href="/ax/3381-krafton-raon1-mini/">크래프톤, 자체 개발 30B급 LLM &#x27;라온-1 미니&#x27; 프리뷰 공개 — MoE+선형 어텐션, Apache 2.0으로 HF 배포 (10/21)</a></li>
+    <li><a href="/ax/3379-eleven-realtime/">ElevenLabs &#x27;Eleven Realtime&#x27; — 말로 듣고 추론하고 바로 답하는 speech-to-speech 음성 에이전트 모델</a></li>
+  </ul>
+</section>
+</main>
+<script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
+</body>
+</html>

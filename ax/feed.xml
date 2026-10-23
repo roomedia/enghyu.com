@@ -7,6 +7,12 @@
     <description>AI/AX 트렌드를 개발자 관점에서 정리한 글 모음.</description>
     <language>ko</language>
     <item>
+      <title>Yunfeng Zhu 등 &#x27;Self-Report Leakage&#x27; — 에이전트 자기보고가 완성 판정을 오염시킨다 (10/21, arXiv)</title>
+      <link>https://enghyu.com/ax/3444-self-report-leakage/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3444-self-report-leakage/</guid>
+      <description>GUI 에이전트의 자기보고를 감사 판정에서 제외하면 dangerous-misreport 재현율이 Qwen3.5-35B-A3B에서 43.4pp 상승한다. report-trace 감사와 aware/blind 통제 개입으로 누수를 실측한 연구.</description>
+    </item>
+    <item>
       <title>Javid Ditty 등 &#x27;DynaCI&#x27; — 로컬 런타임 정보로 GitHub Actions 워크플로 자동 생성 (10/21, arXiv)</title>
       <link>https://enghyu.com/ax/3441-dynaci-runtime-ci/</link>
       <guid isPermaLink="true">https://enghyu.com/ax/3441-dynaci-runtime-ci/</guid>
@@ -38,6 +44,7 @@
       <title>ARahim3 &#x27;DigUp&#x27; — EmbeddingGemma 2 기반 온디바이스 파일 의미 검색, Mac/Windows/Linux 오픈소스 (GitHub 5.3k★)</title>
       <link>https://enghyu.com/ax/3382-digup/</link>
       <guid isPermaLink="true">https://enghyu.com/ax/3382-digup/</guid>
+      <pubDate>Fri, 23 Oct 2026 19:20:00 +0900</pubDate>
       <description>EmbeddingGemma 2(740M, Apache 2.0)를 쓴 오픈소스 데스크톱 파일 의미 검색 앱 DigUp. 865MB 모델을 1회 내려받으면 이후 전부 온디바이스 동작. 텔레메트리도 계정도 없다. Mac/Windows/Linux 지원, GitHub 5.3k 스타.</description>
     </item>
     <item>
@@ -137,13 +144,6 @@
       <guid isPermaLink="true">https://enghyu.com/ax/3345-tv-vibehack/</guid>
       <pubDate>Thu, 22 Oct 2026 00:45:00 +0900</pubDate>
       <description>Gathin23/tv-vibehack은 Claude Code로 Android TV·Google TV의 광고와 블로트웨어를 제거한 오픈소스 프로젝트다. pm disable-user로 비활성화만 하고 tvOS풍 런처를 올린다. 공개 1.5일 만에 1,900+ 스타, PROMPT.md에</description>
-    </item>
-    <item>
-      <title>Anthropic, &#x27;Public Benefit Fund&#x27; 신설 — 지분 5% 출자, 가치 50% 상승마다 2% 추가, 로비·정치헌금 금지</title>
-      <link>https://enghyu.com/ax/3344-public-benefit-fund/</link>
-      <guid isPermaLink="true">https://enghyu.com/ax/3344-public-benefit-fund/</guid>
-      <pubDate>Wed, 21 Oct 2026 21:40:00 +0900</pubDate>
-      <description>Anthropic이 지분 5%를 출자하는 Public Benefit Fund를 신설했다. 회사 가치 50% 상승마다 2% 추가, 완전소유 LLC 형태, 로비·정치헌금 금지. 창업자 지분 기부 서약과 합쳐 약 20%가 공익에 귀속된다.</description>
     </item>
   </channel>
 </rss>

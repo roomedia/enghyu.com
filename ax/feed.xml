@@ -7,9 +7,16 @@
     <description>AI/AX 트렌드를 개발자 관점에서 정리한 글 모음.</description>
     <language>ko</language>
     <item>
+      <title>Shota Fujikawa 등 &#x27;Agent Behavior Maps&#x27; — 에이전트를 실행 없이 행동 궤적으로 위치시키는 지도 (10/21, arXiv)</title>
+      <link>https://enghyu.com/ax/3447-agent-behavior-maps/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3447-agent-behavior-maps/</guid>
+      <description>Agent Behavior Maps는 LLM-하네스 조합을 공유 참조 궤적 위의 중심화된 행동 로그 가능도로 표현한다. 대상 에이전트의 새 환경 롤아웃이 필요 없다. 100개 LLM·4개 환경에서 ALFWorld 기반 좌표가 성능 예측을 지원하고 행동 유사도를 식별했다.</description>
+    </item>
+    <item>
       <title>Jungseob Lee 등 &#x27;target probability reuse&#x27; — 타깃 확률 재사용으로 추측 디코딩 가속 (10/21, arXiv)</title>
       <link>https://enghyu.com/ax/3446-target-probability-reuse/</link>
       <guid isPermaLink="true">https://enghyu.com/ax/3446-target-probability-reuse/</guid>
+      <pubDate>Sat, 24 Oct 2026 01:20:00 +0900</pubDate>
       <description>추측 디코딩 검증 과정에서 이미 계산된 next-token 분포를 다음 트리 선택에 재사용한다. 여섯 개 target에서 first-token branch 리랭크가 draft ranking보다 expected acceptance를 높였다. 작은 tree budget에서 효과 두드러.</description>
     </item>
     <item>
@@ -137,13 +144,6 @@
       <guid isPermaLink="true">https://enghyu.com/ax/3348-minimax-m31-flash/</guid>
       <pubDate>Thu, 22 Oct 2026 09:45:00 +0900</pubDate>
       <description>MiniMax가 2026-10-19 공식 출시한 M3.1 Flash. 200조 토큰을 익명으로 처리하며 화제가 된 &#x27;Space Bunny&#x27;는 초기 버전이었다. DeepSWE 73.7%, 전작 대비 에이전트 태스크 비용 70% 감소, 속도 3배. 가격은 입력 $0.15·출력 $0.60</description>
-    </item>
-    <item>
-      <title>Leonxlnx &#x27;earshot&#x27; — 코딩 에이전트용 오디오 리뷰·사운드 생성 툴킷, CPU 온리·MCP 지원, 공개 4일 만에 1,100+스타</title>
-      <link>https://enghyu.com/ax/3347-earshot/</link>
-      <guid isPermaLink="true">https://enghyu.com/ax/3347-earshot/</guid>
-      <pubDate>Thu, 22 Oct 2026 06:45:00 +0900</pubDate>
-      <description>Leonxlnx(Leon Lin)가 2026-10-15 공개한 earshot. 코딩 에이전트가 소리를 듣고 리뷰·생성하게 하는 CPU 온리 오픈소스 툴킷. describe·critique·forge·fit 7개 명령, 201개 SFX 뱅크(0.3), 22초 런칭 필름의 모든 사운드는</description>
     </item>
   </channel>
 </rss>

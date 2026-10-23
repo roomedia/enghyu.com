@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G5WKCES0DY"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G5WKCES0DY');</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shota Fujikawa 등 &#x27;Agent Behavior Maps&#x27; — 에이전트를 실행 없이 행동 궤적으로 위치시키는 지도 (10/21, arXiv)</title>
+<meta name="description" content="Agent Behavior Maps는 LLM-하네스 조합을 공유 참조 궤적 위의 중심화된 행동 로그 가능도로 표현한다. 대상 에이전트의 새 환경 롤아웃이 필요 없다. 100개 LLM·4개 환경에서 ALFWorld 기반 좌표가 성능 예측을 지원하고 행동 유사도를 식별했다.">
+<meta property="og:image" content="https://enghyu.com/ax/3447-agent-behavior-maps/og.png">
+<meta property="og:title" content="Shota Fujikawa 등 &#x27;Agent Behavior Maps&#x27; — 에이전트를 실행 없이 행동 궤적으로 위치시키는 지도 (10/21, arXiv)">
+<meta property="og:description" content="참조 궤적 위의 중심화된 행동 로그 가능도로 에이전트를 좌표화. 새 롤아웃 없이 기존 로그로 하네스를 비교한다.">
+<meta property="og:url" content="https://enghyu.com/ax/3447-agent-behavior-maps/">
+<meta property="og:type" content="article">
+<style>
+:root{--bg:#ffffff;--text:#1a1a1a;--muted:#666;--border:#e5e5e5;--accent:#0891b2;--code-bg:#f6f8fa;}
+@media (prefers-color-scheme: dark){:root{--bg:#0f1115;--text:#e8eaf0;--muted:#9aa0ad;--border:#2a2e38;--accent:#22d3ee;--code-bg:#181c24;}}
+*{box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:24px 20px;}
+main{max-width:800px;margin:0 auto;}
+.topnav{margin-bottom:20px;}.topnav a{color:var(--muted);font-size:14px;text-decoration:none;}.topnav a:hover{color:var(--accent);text-decoration:underline;}
+h1{font-size:1.9rem;line-height:1.35;margin:0 0 8px;}
+.meta{color:var(--muted);font-size:14px;margin-bottom:28px;}
+h2{font-size:1.3rem;margin:44px 0 12px;padding-top:8px;border-top:1px solid var(--border);}
+h3{font-size:1.05rem;margin:28px 0 8px;}
+p{margin:0 0 16px;}
+img{max-width:100%;height:auto;border-radius:10px;margin:20px 0;border:1px solid var(--border);}
+figure{margin:0;}figcaption{color:var(--muted);font-size:13px;text-align:center;margin:-8px 0 24px;}
+ul{margin:0 0 16px;padding-left:22px;}
+li{margin-bottom:8px;}
+strong{font-weight:700;}
+.callout{background:var(--code-bg);border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+.warn{background:var(--code-bg);border-left:3px solid #f59e0b;padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.9em;}
+pre{background:var(--code-bg);padding:16px;border-radius:8px;overflow-x:auto;border:1px solid var(--border);font-size:.85em;line-height:1.6;}
+pre code{background:none;padding:0;}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.92em;}
+th,td{border:1px solid var(--border);padding:8px 12px;text-align:left;}
+th{background:var(--code-bg);}
+a{color:var(--accent);}
+.tags a{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:3px 12px;font-size:13px;margin:0 6px 6px 0;color:var(--text);text-decoration:none;}.tags a:hover{border-color:var(--accent);color:var(--accent);}
+footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:14px;}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Shota Fujikawa 등 'Agent Behavior Maps' — 에이전트를 실행 없이 행동 궤적으로 위치시키는 지도 (10/21, arXiv)",
+  "mainEntityOfPage": "https://enghyu.com/ax/3447-agent-behavior-maps/",
+  "url": "https://enghyu.com/ax/3447-agent-behavior-maps/",
+  "author": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "publisher": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "description": "Agent Behavior Maps는 LLM-하네스 조합을 공유 참조 궤적 위의 중심화된 행동 로그 가능도로 표현한다. 대상 에이전트의 새 환경 롤아웃이 필요 없다. 100개 LLM·4개 환경에서 ALFWorld 기반 좌표가 성능 예측을 지원하고 행동 유사도를 식별했다.",
+  "image": "https://enghyu.com/ax/3447-agent-behavior-maps/og.png",
+  "datePublished": "2026-10-24T03:20:00+09:00",
+  "dateModified": "2026-10-24T03:20:00+09:00"
+}
+</script>
+<link rel="canonical" href="https://enghyu.com/ax/3447-agent-behavior-maps/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Shota Fujikawa 등 &#x27;Agent Behavior Maps&#x27; — 에이전트를 실행 없이 행동 궤적으로 위치시키는 지도 (10/21, arXiv)">
+<meta name="twitter:description" content="참조 궤적 위의 중심화된 행동 로그 가능도로 에이전트를 좌표화. 새 롤아웃 없이 기존 로그로 하네스를 비교한다.">
+<meta name="twitter:image" content="https://enghyu.com/ax/3447-agent-behavior-maps/og.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://enghyu.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AX 트렌드",
+      "item": "https://enghyu.com/ax/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Shota Fujikawa 등 'Agent Behavior Maps' — 에이전트를 실행 없이 행동 궤적으로 위치시키는 지도 (10/21, arXiv)",
+      "item": "https://enghyu.com/ax/3447-agent-behavior-maps/"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<main>
+<nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
+
+<h1>Shota Fujikawa 등 &#x27;Agent Behavior Maps&#x27; — 에이전트를 실행 없이 행동 궤적으로 위치시키는 지도 (10/21, arXiv)</h1>
+<p class="meta">2026-10-21 arXiv 제출 · ax-trend 이슈 #3447 · agentic benchmark</p>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3447-overview.png" alt="Agent Behavior Maps 개요 — 100 LLMs / 4 envs, 에이전트를 실행하지 않고 행동 궤적으로 위치시키는 지도" loading="lazy">
+<figcaption>Agent Behavior Maps — 에이전트를 실행하지 않고 행동 궤적으로 위치시키는 지도</figcaption>
+</figure>
+
+<h2>핵심 — 에이전트를 돌리지 않고도 위치를 잡는다</h2>
+
+<ul>
+<li>에이전트 비교는 보통 <strong>성공률 숫자 하나</strong>로 한다. 그런데 같은 점수의 에이전트가 전혀 다르게 행동할 수 있다 (이슈 배경).</li>
+<li>Agent Behavior Maps는 <strong>공유 참조 궤적 위의 중심화된 행동 로그 가능도</strong>로 LLM-하네스 조합을 표현한다 (arXiv). 좌표 하나로 행동의 위치를 찍는 방식이다.</li>
+<li><strong>대상 에이전트의 새 환경 롤아웃이 필요 없다</strong> (arXiv). 새 점수를 매기려고 환경을 다시 돌릴 필요가 없다는 뜻이다. 평가 비용이 낮다.</li>
+<li>궤적 KL에 대한 <strong>거리 제곱 좌표 거리의 오차 한계</strong>를 유도했다 (arXiv). 좌표상 거리가 궤적 KL과 얼마나 어긋날 수 있는지를 정량으로 붙잡았다.</li>
+</ul>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3447-method.png" alt="동작 방식 — 참조 궤적 위의 중심화된 행동 로그 가능도, 새 환경 롤아웃 불필요" loading="lazy">
+<figcaption>동작 방식 — 참조 궤적으로 중심을 맞춘 로그 가능도가 좌표가 된다</figcaption>
+</figure>
+
+<h2>방법 — 참조 궤적에 대한 행동 로그 가능도로 좌표를 찍는다</h2>
+
+<ul>
+<li>좌표는 <strong>공유 참조 궤적 위의 중심화된 행동 로그 가능도</strong>로 만든다 (arXiv). 같은 참조 기준으로 각 에이전트의 행동 로그 가능도를 중심화해 위치를 잡는다.</li>
+<li>새 롤아웃 없이 점수만으로 위치를 잡는 것이 핵심이다 (이슈 배경). 기존에 쌓인 로그만 있으면 새 환경을 돌리지 않아도 된다.</li>
+<li><strong>8개 cross-scored 모델</strong>에서, 지도상 거리의 순위가 <strong>직접 측정한 궤적 KL의 순위와 일치</strong>했다 (arXiv). 지도가 궤적을 얼마나 잘 반영하는지 실측으로 검증했다.</li>
+<li><strong>100개 LLM과 4개 환경</strong>에서 ALFWorld 기반 좌표가 성능 예측을 지원하고 행동 유사도를 식별했다 (arXiv).</li>
+</ul>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3447-results.png" alt="결과 — 거리 순위와 궤적 KL 순위 일치, ALFWorld에서 유사도 유지" loading="lazy">
+<figcaption>결과 — 지도상 거리의 순위가 궤적 KL의 순위와 일치한다</figcaption>
+</figure>
+
+<h2>결과 — 유사도는 성공률·모델 크기를 통제한 뒤에도 유지됐다</h2>
+
+<ul>
+<li>ALFWorld에서 유사도는 <strong>성공률과 모델 크기를 통제한 뒤에도 유지</strong>됐고 <strong>모델 패밀리를 가로질렀다</strong> (arXiv). 비슷한 점수·비슷한 크기·다른 계열이어도 행동 유사도가 보인다.</li>
+<li>하네스 컴포넌트 변위는 <strong>대략 합성 가능</strong>했고, 정확도는 컴포넌트·환경에 따라 달랐다 (arXiv). 컴포넌트를 바꾸면 좌표가 어떻게 움직이는지 예측 가능하지만, 환경마다 편차가 있다.</li>
+<li>비슷한 성공률의 LLM 에이전트도 <strong>다른 행동 시퀀스를 따른다</strong>는 관찰이 출발점이다 (arXiv). 점수만 보는 비교로는 이 차이를 놓친다.</li>
+</ul>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3447-takeaway.png" alt="실무 처방 — 성공률만 보지 마라, 기존 로그로 하네스 비교, 평가 비용 절감" loading="lazy">
+<figcaption>실무 처방 — 성공률만 보지 말고 행동 지도를 그려라</figcaption>
+</figure>
+
+<h2>의미 — 하네스 비교의 진입 장벽이 낮아진다</h2>
+
+<ul>
+<li>사내에서 여러 에이전트 하네스를 비교할 때 <strong>성공률만 보지 말고 행동 지도를 그려볼 수 있다</strong> (이슈 배경). 같은 점수의 하네스가 다르게 행동하는지를 지도로 본다.</li>
+<li>기존 로그만으로 여러 하네스의 행동 지도를 그릴 수 있으니 <strong>비교 실험의 진입 장벽이 낮다</strong> (이슈 배경). 새 롤아웃이 없다는 게 실무 이득이다.</li>
+<li>하네스 컴포넌트 교체 효과를 <strong>미리 가늠하는 용도</strong>로도 쓸 만하다 (이슈 배경). 컴포넌트 변위가 대략 합성 가능하다는 결과와 연결된다.</li>
+</ul>
+
+<div class="callout">
+<strong>AX TF 관점.</strong> 하네스를 고를 때 성공률 표만 보고 결정하면 행동 차이를 놓친다. <strong>기존 실행 로그가 남아 있다면</strong> 새 실험 없이도 행동 지도를 그려 비교 근거를 만들 수 있다. 컴포넌트를 바꿀 때도 지도상 이동 방향을 미리 보는 것이 저렴한 실험 설계다 (이슈 배경).
+</div>
+
+<h2>아직 안 밝혀진 것 — 모델 명단·컴포넌트별 수치·코드 공개 여부</h2>
+
+<div class="warn">
+<strong>⚠️ 미확인:</strong> <strong>오차 한계의 명시적 가정은 논문 본문 확인이 필요</strong> (arXiv). <strong>4개 환경·100개 LLM의 구체 명단은 초록에 없음</strong> (arXiv). <strong>하네스 컴포넌트별 합성 정확도 수치는 초록에 없음</strong> (arXiv). <strong>코드 공개 여부는 초록에 명시되지 않음</strong> (arXiv).
+</div>
+
+<h2>원문 이슈</h2>
+<p>이 글은 <a href="https://github.com/roomedia/ax-trend/issues/3447">ax-trend 이슈 #3447</a>을 바탕으로 작성됐다. 핵심 링크: <a href="https://arxiv.org/abs/2610.30014">arXiv:2610.30014 — Agent Behavior Maps (2026-10-21 제출)</a>.</p>
+
+<p class="tags"><a href="/ax/tag/agentic-benchmark/">agentic benchmark</a><a href="/ax/tag/agent-model/">에이전트 모델</a><a href="/ax/tag/ax-trend/">AX Trend</a></p>
+
+<footer>
+<p>enghyu.com AX 트렌드 · <a href="/ax/">목록으로</a></p>
+</footer>
+
+<section class="related">
+  <h2>관련 글</h2>
+  <ul>
+    <li><a href="/ax/3445-sysrb/">Chenxi Huang 등 &#x27;SysRB&#x27; — 코딩 에이전트는 시스템 크래시 원인을 아직 못 읽는다 (10/21, arXiv)</a></li>
+    <li><a href="/ax/3444-self-report-leakage/">Yunfeng Zhu 등 &#x27;Self-Report Leakage&#x27; — 에이전트 자기보고가 완성 판정을 오염시킨다 (10/21, arXiv)</a></li>
+    <li><a href="/ax/3342-atria-dawn/">Shanghai AI Lab &#x27;Atria Dawn&#x27; 정식 버전 — 744B MoE 에이전트 모델, MIT 라이선스로 등장</a></li>
+  </ul>
+</section>
+</main>
+<script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
+</body>
+</html>

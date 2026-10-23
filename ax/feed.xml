@@ -10,6 +10,7 @@
       <title>크래프톤, 자체 개발 30B급 LLM &#x27;라온-1 미니&#x27; 프리뷰 공개 — MoE+선형 어텐션, Apache 2.0으로 HF 배포 (10/21)</title>
       <link>https://enghyu.com/ax/3381-krafton-raon1-mini/</link>
       <guid isPermaLink="true">https://enghyu.com/ax/3381-krafton-raon1-mini/</guid>
+      <pubDate>Fri, 23 Oct 2026 09:15:00 +0900</pubDate>
       <description>크래프톤이 10/21 자체 개발 30B급 LLM &#x27;라온-1 미니&#x27; 프리뷰를 Apache 2.0으로 공개했다. 전체 300억 매개변수 중 추론 시 40억만 활성화하는 MoE+선형 어텐션 구조라 단일 GPU 서버에서도 돌리기 현실적인 규모.</description>
     </item>
     <item>

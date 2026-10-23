@@ -8,6 +8,9 @@
   og:url 소급 누락의 원인 — 이제 앵커 없이 직접 upsert한다.)
 - twitter:card/title/description/image를 og 값으로 수렴 (없으면 추가,
   있으면 교체).
+- 글 디렉토리에 og.png가 있으면 og:image를 자체 도메인 URL
+  (https://enghyu.com/ax/<슬러그>/og.png)로 수렴 (2026-10-23 —
+  GitHub raw og 이미지가 카카오톡 미리보기에서 깨지는 문제 대응).
 - favicon link 없으면 추가.
 - meta description이 160자를 넘으면 단어 경계에서 절단하고
   BlogPosting LD의 description도 같은 값으로 맞춘다. 50자 미만은
@@ -181,6 +184,9 @@ def patch_blogposting_ld(src, slug, url, published, desc):
         if isinstance(data, dict) and data.get("@type") == "BlogPosting":
             if desc:
                 data["description"] = desc
+            img = get_meta(src, "property", "og:image")
+            if img:
+                data["image"] = img
             if data.get("datePublished"):
                 data["dateModified"] = data["datePublished"]
             new = ('<script type="application/ld+json">\n'
@@ -385,6 +391,11 @@ def patch_post(path, slug, published, metas, dims, stats):
     og_desc = get_meta(src, "property", "og:description") or desc or ""
     og_title = get_meta(src, "property", "og:title") or title
     og_image = get_meta(src, "property", "og:image") or COVER
+    # 자체 도메인 og 수렴 (2026-10-23): 글 디렉토리에 og.png가 있으면
+    # og:image를 자체 도메인 URL로 맞춘다. GitHub raw og 이미지가 카카오톡
+    # 공유 미리보기에서 플레이스홀더로 깨지는 문제 대응.
+    if os.path.isfile(os.path.join(os.path.dirname(path), "og.png")):
+        og_image = f"{url}og.png"
 
     src = social_patch(src, url, "article", og_title, og_desc, og_image)
     src = patch_blogposting_ld(src, slug, url, published, desc)

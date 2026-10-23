@@ -331,3 +331,29 @@ npm run test:e2e
 ### 확인하지 못한 항목과 남은 리스크
 - 의도적 제외: 글 title 길이(26/34가 60자 초과)는 콘텐츠 판단 영역이라 손대지 않았다. FAQ/FAQPage, 질문형 랜딩, llms-full.txt, 티스토리 쪽 항목(og:image·IndexNow 핑)은 이번 범위 밖.
 - 관련 글 섹션은 페이지 자체 CSS(h2·ul)를 그대로 타므로 글마다 미세한 모양 차이는 있을 수 있다.
+
+## 2026-10-23 — ax 글 og:image 자체 도메인 전환
+
+### 현재 구현 상태
+- ax 글의 og:image를 GitHub raw URL에서 enghyu.com 자체 도메인으로 전환하는 규칙을 도입했다. #3381(크래프톤 라온-1 미니) 글에 적용·라이브 검증 완료. 발행 규격의 정본은 `~/workspace/ax-factory/channels/enghyu.md`(글 규격·이미지 규격)에 반영했다.
+- 기존 글 38개는 글 디렉토리에 og.png가 없어 종전대로 GitHub raw og:image를 유지한다 (소급 적용 안 함).
+
+### 변경한 파일과 동작
+- `ax/3381-krafton-raon1-mini/og.png` (신규): blog-assets의 overview 패널을 글 디렉토리에 복사. 빌드(build-assets.mjs가 ax/ 전체를 public/으로 복사)가 그대로 서빙한다.
+- `ax/3381-krafton-raon1-mini/index.html`: og:image를 `https://enghyu.com/ax/3381-krafton-raon1-mini/og.png`로 교체. twitter:image·BlogPosting LD image는 패치가 수렴.
+- `scripts/patch_ax_seo.py`: ① 글 디렉토리에 og.png가 있으면 og:image를 자체 도메인 URL로 수렴 ② 기존 BlogPosting LD가 있어도 image를 현재 og:image 값으로 갱신 (기존에는 description·dateModified만 갱신해 LD image가 옛 URL로 남던 문제).
+- 목록·태그·피드·sitemap은 배포 파이프라인이 재생성 (썸네일이 새 og URL을 읽음).
+
+### 실행한 검증 명령과 결과
+- `python3 deploy_cf.py` 2회 실행, 두 번 다 Worker 배포 성공 (1차 에셋 8개, 2차 1개 업로드).
+- 라이브 curl: og:image·twitter:image·JSON-LD image 전부 자체 도메인 URL로 확인. `og.png` 200, 261,735바이트 (원본과 동일). KakaoTalk-Scrap UA로도 페이지 200.
+- `git diff --check` 통과. 커밋 bed6dcd로 main push 완료.
+
+### 확인하지 못한 항목과 남은 리스크
+- enghyu.com 에셋 응답에 Content-Type 헤더가 없다 (사이트 전체 기존 현상, HTML 포함. Worker가 ASSETS.fetch를 그대로 반환하므로 이 레포 코드 소관은 아님). 카톡 이미지 페처가 Content-Type을 엄격히 요구하면 sniffing에 의존해야 한다.
+- 카카오톡 공유 미리보기가 실제로 갱신되는지는 카톡 캐시 특성상 실기기 공유로만 확인 가능 — 미확인.
+- 브라우저 변환(static/*.js·worker 라우팅) 변경이 아니라 `npm run test:e2e`와 `node --check`는 실행하지 않았다.
+
+### 다음 작업 우선순위
+- 신규 ax 글은 발행 시 og.png를 포함한다 (channels/enghyu.md 규격 반영 완료, 크론이 다음 run부터 적용).
+- 카톡 실기기에서 #3381 미리보기 확인 후에도 깨지면 Content-Type 부재를 다음 원인으로 조사한다.

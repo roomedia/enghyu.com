@@ -7,6 +7,12 @@
     <description>AI/AX 트렌드를 개발자 관점에서 정리한 글 모음.</description>
     <language>ko</language>
     <item>
+      <title>Javid Ditty 등 &#x27;DynaCI&#x27; — 로컬 런타임 정보로 GitHub Actions 워크플로 자동 생성 (10/21, arXiv)</title>
+      <link>https://enghyu.com/ax/3441-dynaci-runtime-ci/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3441-dynaci-runtime-ci/</guid>
+      <description>로컬 환경의 런타임 정보를 트레이스해 GitHub Actions 워크플로를 자동 생성하는 DynaCI. 기존 방식(GH-WCOM·LLM4GW) 대비 BLEU +21.13%, F1 +20.96%, 56%의 케이스에서 기능 누락 없는 워크플로 생성.</description>
+    </item>
+    <item>
       <title>Yifan Sun 등 &#x27;Your Benchmark&#x27; — 벤치마크는 난이도 위의 경험적 측도라는 진단 (10/21, arXiv)</title>
       <link>https://enghyu.com/ax/3440-your-benchmark/</link>
       <guid isPermaLink="true">https://enghyu.com/ax/3440-your-benchmark/</guid>
@@ -138,13 +144,6 @@
       <guid isPermaLink="true">https://enghyu.com/ax/3343-agentic-brain/</guid>
       <pubDate>Wed, 21 Oct 2026 20:35:00 +0900</pubDate>
       <description>Agentic Brain: Claude Code·Codex·Antigravity·Cursor·Kilo Code 세션을 로컬 SQLite 하나로 모으는 오픈소스 셀프호스팅 코딩 메모리. Capture→Distill→Rank→Inject→Measure 루프, 최대 2,000 토큰 브리핑</description>
-    </item>
-    <item>
-      <title>Shanghai AI Lab &#x27;Atria Dawn&#x27; 정식 버전 — 744B MoE 에이전트 모델, MIT 라이선스로 등장</title>
-      <link>https://enghyu.com/ax/3342-atria-dawn/</link>
-      <guid isPermaLink="true">https://enghyu.com/ax/3342-atria-dawn/</guid>
-      <pubDate>Wed, 21 Oct 2026 18:45:00 +0900</pubDate>
-      <description>Shanghai AI Lab이 에이전트 모델 Atria Dawn의 정식 버전을 공개했다. 744B MoE, 512K 컨텍스트(주장), MIT 라이선스. 다만 정식 가중치는 아직 &#x27;Coming soon&#x27;이고, 표기 불일치도 있다. 개발자 관점에서 따져본다.</description>
     </item>
   </channel>
 </rss>

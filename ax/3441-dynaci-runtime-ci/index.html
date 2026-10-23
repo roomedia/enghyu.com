@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G5WKCES0DY"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G5WKCES0DY');</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Javid Ditty 등 &#x27;DynaCI&#x27; — 로컬 런타임 정보로 GitHub Actions 워크플로 자동 생성 (10/21, arXiv)</title>
+<meta name="description" content="로컬 환경의 런타임 정보를 트레이스해 GitHub Actions 워크플로를 자동 생성하는 DynaCI. 기존 방식(GH-WCOM·LLM4GW) 대비 BLEU +21.13%, F1 +20.96%, 56%의 케이스에서 기능 누락 없는 워크플로 생성.">
+<meta property="og:image" content="https://enghyu.com/ax/3441-dynaci-runtime-ci/og.png">
+<meta property="og:title" content="Javid Ditty 등 &#x27;DynaCI&#x27; — 로컬 런타임 정보로 GitHub Actions 워크플로 자동 생성 (10/21, arXiv)">
+<meta property="og:description" content="로컬 환경의 런타임 정보를 트레이스해 GitHub Actions 워크플로를 자동 생성하는 DynaCI. 기존 방식 대비 BLEU +21.13%, F1 +20.96%, 56%의 케이스에서 기능 누락 없는 워크플로 생성.">
+<meta property="og:url" content="https://enghyu.com/ax/3441-dynaci-runtime-ci/">
+<meta property="og:type" content="article">
+<style>
+:root{--bg:#ffffff;--text:#1a1a1a;--muted:#666;--border:#e5e5e5;--accent:#0891b2;--code-bg:#f6f8fa;}
+@media (prefers-color-scheme: dark){:root{--bg:#0f1115;--text:#e8eaf0;--muted:#9aa0ad;--border:#2a2e38;--accent:#22d3ee;--code-bg:#181c24;}}
+*{box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:24px 20px;}
+main{max-width:800px;margin:0 auto;}
+.topnav{margin-bottom:20px;}.topnav a{color:var(--muted);font-size:14px;text-decoration:none;}.topnav a:hover{color:var(--accent);text-decoration:underline;}
+h1{font-size:1.9rem;line-height:1.35;margin:0 0 8px;}
+.meta{color:var(--muted);font-size:14px;margin-bottom:28px;}
+h2{font-size:1.3rem;margin:44px 0 12px;padding-top:8px;border-top:1px solid var(--border);}
+h3{font-size:1.05rem;margin:28px 0 8px;}
+p{margin:0 0 16px;}
+img{max-width:100%;height:auto;border-radius:10px;margin:20px 0;border:1px solid var(--border);}
+figure{margin:0;}figcaption{color:var(--muted);font-size:13px;text-align:center;margin:-8px 0 24px;}
+ul{margin:0 0 16px;padding-left:22px;}
+li{margin-bottom:8px;}
+strong{font-weight:700;}
+.callout{background:var(--code-bg);border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+.warn{background:var(--code-bg);border-left:3px solid #f59e0b;padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.9em;}
+pre{background:var(--code-bg);padding:16px;border-radius:8px;overflow-x:auto;border:1px solid var(--border);font-size:.85em;line-height:1.6;}
+pre code{background:none;padding:0;}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.92em;}
+th,td{border:1px solid var(--border);padding:8px 12px;text-align:left;}
+th{background:var(--code-bg);}
+a{color:var(--accent);}
+.tags a{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:3px 12px;font-size:13px;margin:0 6px 6px 0;color:var(--text);text-decoration:none;}.tags a:hover{border-color:var(--accent);color:var(--accent);}
+footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:14px;}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Javid Ditty 등 'DynaCI' — 로컬 런타임 정보로 GitHub Actions 워크플로 자동 생성 (10/21, arXiv)",
+  "mainEntityOfPage": "https://enghyu.com/ax/3441-dynaci-runtime-ci/",
+  "url": "https://enghyu.com/ax/3441-dynaci-runtime-ci/",
+  "author": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "publisher": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "description": "로컬 환경의 런타임 정보를 트레이스해 GitHub Actions 워크플로를 자동 생성하는 DynaCI. 기존 방식(GH-WCOM·LLM4GW) 대비 BLEU +21.13%, F1 +20.96%, 56%의 케이스에서 기능 누락 없는 워크플로 생성.",
+  "image": "https://enghyu.com/ax/3441-dynaci-runtime-ci/og.png",
+  "datePublished": "2026-10-23T17:30:00+09:00",
+  "dateModified": "2026-10-23T17:30:00+09:00"
+}
+</script>
+<link rel="canonical" href="https://enghyu.com/ax/3441-dynaci-runtime-ci/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Javid Ditty 등 &#x27;DynaCI&#x27; — 로컬 런타임 정보로 GitHub Actions 워크플로 자동 생성 (10/21, arXiv)">
+<meta name="twitter:description" content="로컬 환경의 런타임 정보를 트레이스해 GitHub Actions 워크플로를 자동 생성하는 DynaCI. 기존 방식 대비 BLEU +21.13%, F1 +20.96%, 56%의 케이스에서 기능 누락 없는 워크플로 생성.">
+<meta name="twitter:image" content="https://enghyu.com/ax/3441-dynaci-runtime-ci/og.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://enghyu.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AX 트렌드",
+      "item": "https://enghyu.com/ax/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Javid Ditty 등 'DynaCI' — 로컬 런타임 정보로 GitHub Actions 워크플로 자동 생성 (10/21, arXiv)",
+      "item": "https://enghyu.com/ax/3441-dynaci-runtime-ci/"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<main>
+<nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
+
+<h1>Javid Ditty 등 &#x27;DynaCI&#x27; — 로컬 런타임 정보로 GitHub Actions 워크플로 자동 생성 (10/21, arXiv)</h1>
+<p class="meta">2026-10-21 arXiv 제출 · ax-trend 이슈 #3441 · AI 코딩</p>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3441-overview.png" alt="DynaCI 개요 — 로컬 런타임 정보를 읽어 GitHub Actions 워크플로를 자동 생성" loading="lazy">
+<figcaption>DynaCI — 로컬에서 실제로 도는 환경을 읽어 GitHub Actions 워크플로를 만들어 낸다</figcaption>
+</figure>
+
+<h2>핵심 — 요구사항 문서를 쓰지 말고, 로컬 환경을 보여 줘라</h2>
+
+<ul>
+<li>CI는 빌드와 테스트로 코드 변경을 자동 검증하지만, 복잡한 아키텍처와 수많은 의존성, 다양한 실행 환경 때문에 <strong>워크플로 설정은 여전히 어렵다</strong> (arXiv).</li>
+<li>DynaCI는 개발자의 <strong>로컬 환경에서 수집한 runtime information으로 CI 워크플로를 만든다</strong>. 요구사항을 말로 풀어 쓰는 과정이 없다 (arXiv).</li>
+<li>핵심 발상: 로컬에서 실제로 도는 빌드·테스트 환경을 트레이스하면, 그 안에 <strong>워크플로 작성에 필요한 정보가 이미 다 들어 있다</strong> (이슈 배경).</li>
+</ul>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3441-problem.png" alt="문제 — 플랫폼별 CI DSL 문법이 다르고 설정 에러가 잦다" loading="lazy">
+<figcaption>문제 — CI 플랫폼마다 문법이 다르고, 수작업 설정은 에러가 잦다</figcaption>
+</figure>
+
+<h2>문제 — CI 설정은 DSL이 문제고, 자동 생성은 요구사항이 문제였다</h2>
+
+<ul>
+<li><strong>워크플로는 CI 플랫폼별 DSL로 써야 해서 에러가 잦고 유지보수가 힘들다</strong> (arXiv). GitHub Actions YAML 한 줄 틀리면 파이프라인 전체가 멈춘다.</li>
+<li>기존 자동 생성 연구는 <strong>자연어 명세나 부분 워크플로를 요구</strong>하는데, 개발자는 요구사항을 말로 풀기 어려워하고 CI 기능을 잘 모른다 (arXiv).</li>
+<li>즉 <strong>DSL을 모르면 설정이 안 되고, 요구사항을 못 풀어 쓰면 자동 생성도 안 되는</strong> 구조였다. 양쪽의 병목을 동시에 건드린 게 이 연구다 (이슈 배경).</li>
+</ul>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3441-method.png" alt="방법 — 트레이스→휴리스틱→RAG-LLM 정제의 3단계 파이프라인" loading="lazy">
+<figcaption>방법 — 트레이스 → 휴리스틱 → RAG-LLM 정제의 3단계</figcaption>
+</figure>
+
+<h2>방법 — 3단계: 트레이스, 휴리스틱, RAG 정제</h2>
+
+<ul>
+<li><strong>(i) 로컬 환경을 트레이스해 런타임 정보를 수집</strong>한다 (arXiv). 빌드·테스트가 로컬에서 어떻게 도는지 그대로 관찰한다.</li>
+<li><strong>(ii) runtime-informed heuristics로 초기 워크플로</strong>를 만든다 (arXiv). 트레이스에서 얻은 규칙 기반 추론이 초안의 뼈대를 잡는다.</li>
+<li><strong>(iii) LLM 기반 RAG로 반복 정제</strong>한다 (arXiv). 검색으로 관련 워크플로 패턴을 끌어오고 LLM이 초안을 반복 다듬는다.</li>
+</ul>
+
+<p>개념적으로 최종 산출물은 익숙한 Actions YAML이다. 예를 들어 초안이 이렇게 정제된다:</p>
+
+<pre><code>name: CI
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - run: pytest</code></pre>
+
+<p>차이는 이 YAML을 <strong>사람이 쓰지 않고, 로컬 트레이스에서 도출</strong>했다는 점이다. 개발자는 "테스트는 pytest로 도니 CI에도 그렇게 넣어 줘"라고 설명할 필요가 없다. 로컬에서 pytest가 도는 걸 시스템이 직접 본다 (이슈 배경).</p>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3441-numbers.png" alt="측정 — BLEU +21.13%, F1 +20.96%, 56% zero-gap, 50개 프로젝트" loading="lazy">
+<figcaption>측정 — GH-WCOM·LLM4GW 대비 BLEU +21.13%, F1 +20.96%</figcaption>
+</figure>
+
+<h2>측정 — 기존 방식 대비 BLEU +21.13%, F1 +20.96%</h2>
+
+<ul>
+<li><strong>GitHub Actions를 쓰는 인기 Python 프로젝트 50개</strong>로 평가했고, <strong>GH-WCOM과 LLM4GW와 비교</strong>했다 (arXiv).</li>
+<li><strong>BLEU에서 21.13% 이상, F1에서 20.96% 이상 앞섰다</strong> (arXiv). 둘 다 기존 최선 방식 대비 상당한 격차다.</li>
+<li><strong>기능 누락 없는 워크플로를 56%의 케이스에서 생성</strong>했고, <strong>예외 수리에 필요한 수동 수정도 적었다</strong> (arXiv). 절반이 넘는 케이스에서 손댈 곳이 없거나, 손대더라도 적었다는 얘기다.</li>
+<li>실무 번역: 신규 레포의 CI 구성이 <strong>로컬 빌드 환경을 그대로 읽어 자동으로</strong> 만들어진다. 사내 신규 프로젝트 온보딩에 붙이기 좋은 형태다.</li>
+</ul>
+
+<div class="callout">
+<strong>AX TF 관점.</strong> "CI 워크플로를 왜 매번 수작업으로 쓰지?"라는 질문에 대한 가장 현실적인 답 중 하나다. <strong>자연어 요구사항이 아니라 로컬 실행 기록이 입력</strong>이라는 점이 포인트다. 개발자가 CI 문법을 몰라도, CI 용어를 못 써도 된다. 로컬에서 빌드가 돌면 CI가 따라 나온다. <strong>내부 빌드 시스템에 붙이면 온보딩 자동화</strong>로 이어진다 (이슈 배경).
+</div>
+
+<h2>아직 안 밝혀진 것 — 50개 프로젝트 목록·Python 외 언어·코드 공개 여부</h2>
+
+<div class="warn">
+<strong>⚠️ 미확인:</strong> <strong>50개 프로젝트의 구체 목록과 규모는 초록에 없다</strong> (arXiv). <strong>Python 외의 언어와 다른 CI 플랫폼에 적용 가능한지도 미확인</strong>이다 (arXiv). <strong>코드 공개 여부도 초록에 언급이 없다</strong> (이슈 쟁점).
+</div>
+
+<h2>배경 — LLM 기반 CI 생성의 전제는 "요구사항을 글로 쓰라"였다</h2>
+
+<p>CI 워크플로를 LLM으로 만들려는 시도는 많았지만, <strong>요구사항을 글로 쓰라는 전제가 발목을 잡았다</strong>. 개발자는 요구사항을 글로 풀어 쓰기 어려워하고, CI 플랫폼의 기능도 잘 모른다. 이 논문은 <strong>로컬에서 실제로 도는 환경을 보고 추론</strong>한다. 같은 접근을 <strong>DevOps 설정 자동화 전반으로 넓힐 수 있다</strong> (이슈 배경).</p>
+
+<h2>실무 체크리스트</h2>
+
+<ul>
+<li><strong>신규 레포의 CI 초안은 로컬 트레이스에서.</strong> "CI YAML 처음부터 쓰지 말고 로컬 빌드 로그부터"가 실무 원칙으로 바뀔 수 있다 (이슈 배경).</li>
+<li><strong>예외 케이스 수동 수정량을 기준으로 삼는다.</strong> 연구가 보고한 지표 그대로 — 수리량이 적어야 도입 가치가 있다 (arXiv).</li>
+<li><strong>DSL 문법 의존을 줄인다.</strong> 플랫폼별 문법 차이는 사람이 아니라 파이프라인이 흡수하는 영역으로 넘긴다 (이슈 배경).</li>
+</ul>
+
+<h2>원문 이슈</h2>
+<p>이 글은 <a href="https://github.com/roomedia/ax-trend/issues/3441">ax-trend 이슈 #3441</a>를 바탕으로 작성됐다. 핵심 링크: <a href="https://arxiv.org/abs/2610.29890">arXiv:2610.29890 — DynaCI (2026-10-21 제출)</a>.</p>
+
+<p class="tags"><a href="/ax/tag/ai-coding/">AI 코딩</a><a href="/ax/tag/code-maintenance/">코드 유지보수</a><a href="/ax/tag/ax-trend/">AX Trend</a></p>
+
+<footer>
+<p>enghyu.com AX 트렌드 · <a href="/ax/">목록으로</a></p>
+</footer>
+
+<section class="related">
+  <h2>관련 글</h2>
+  <ul>
+    <li><a href="/ax/3277-gpt6-codebase-maintenance/">OpenAI의 &#x27;GPT-6 family로 소프트웨어 유지보수&#x27; — 죽은 코드·기능 스위치·CI 최적화 실전 프롬프트</a></li>
+    <li><a href="/ax/3431-memodecode-dsl/">Boqi Chen 등 &#x27;MeMoDecode&#x27; — 메타모델 제약으로 DSL 생성의 의미 일관성 보장 (10/21, arXiv)</a></li>
+    <li><a href="/ax/3380-openai-monitor-bypass/">OpenAI, 자사 AI 에이전트가 내부 모니터링 무력화한 2건 공개 — GPT-6.1 Sol·GPT-6 Astra, 10/3·10/6 코딩 작업 중 안전 알림 차단 (10/20, OpenAI 공식)</a></li>
+  </ul>
+</section>
+</main>
+<script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
+</body>
+</html>

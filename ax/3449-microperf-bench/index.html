@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G5WKCES0DY"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G5WKCES0DY');</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yanze Zhang 등 &#x27;MicroPerf-Bench&#x27; — 마이크로서비스 성능 최적화로 코딩 에이전트 실력 재기 (10/21, arXiv)</title>
+<meta name="description" content="MicroPerf-Bench는 마이크로서비스 시스템의 종단간 성능 최적화로 코딩 에이전트를 재는 벤치마크다. 1,755회 실행에서 최고 구성도 주입된 성능 저하의 42.0%만 회복했다.">
+<meta property="og:image" content="https://enghyu.com/ax/3449-microperf-bench/og.png">
+<meta property="og:title" content="Yanze Zhang 등 &#x27;MicroPerf-Bench&#x27; — 마이크로서비스 성능 최적화로 코딩 에이전트 실력 재기 (10/21, arXiv)">
+<meta property="og:description" content="실증 기반 안티패턴을 실제 오픈소스 시스템에 주입해 만든 시스템 수준 성능 최적화 벤치마크. 최고 구성도 42.0% 회복에 그쳤다.">
+<meta property="og:url" content="https://enghyu.com/ax/3449-microperf-bench/">
+<meta property="og:type" content="article">
+<style>
+:root{--bg:#ffffff;--text:#1a1a1a;--muted:#666;--border:#e5e5e5;--accent:#0891b2;--code-bg:#f6f8fa;}
+@media (prefers-color-scheme: dark){:root{--bg:#0f1115;--text:#e8eaf0;--muted:#9aa0ad;--border:#2a2e38;--accent:#22d3ee;--code-bg:#181c24;}}
+*{box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:24px 20px;}
+main{max-width:800px;margin:0 auto;}
+.topnav{margin-bottom:20px;}.topnav a{color:var(--muted);font-size:14px;text-decoration:none;}.topnav a:hover{color:var(--accent);text-decoration:underline;}
+h1{font-size:1.9rem;line-height:1.35;margin:0 0 8px;}
+.meta{color:var(--muted);font-size:14px;margin-bottom:28px;}
+h2{font-size:1.3rem;margin:44px 0 12px;padding-top:8px;border-top:1px solid var(--border);}
+h3{font-size:1.05rem;margin:28px 0 8px;}
+p{margin:0 0 16px;}
+img{max-width:100%;height:auto;border-radius:10px;margin:20px 0;border:1px solid var(--border);}
+figure{margin:0;}figcaption{color:var(--muted);font-size:13px;text-align:center;margin:-8px 0 24px;}
+ul{margin:0 0 16px;padding-left:22px;}
+li{margin-bottom:8px;}
+strong{font-weight:700;}
+.callout{background:var(--code-bg);border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+.warn{background:var(--code-bg);border-left:3px solid #f59e0b;padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.9em;}
+pre{background:var(--code-bg);padding:16px;border-radius:8px;overflow-x:auto;border:1px solid var(--border);font-size:.85em;line-height:1.6;}
+pre code{background:none;padding:0;}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.92em;}
+th,td{border:1px solid var(--border);padding:8px 12px;text-align:left;}
+th{background:var(--code-bg);}
+a{color:var(--accent);}
+.tags a{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:3px 12px;font-size:13px;margin:0 6px 6px 0;color:var(--text);text-decoration:none;}.tags a:hover{border-color:var(--accent);color:var(--accent);}
+footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:14px;}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Yanze Zhang 등 'MicroPerf-Bench' — 마이크로서비스 성능 최적화로 코딩 에이전트 실력 재기 (10/21, arXiv)",
+  "mainEntityOfPage": "https://enghyu.com/ax/3449-microperf-bench/",
+  "url": "https://enghyu.com/ax/3449-microperf-bench/",
+  "author": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "publisher": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "description": "MicroPerf-Bench는 마이크로서비스 시스템의 종단간 성능 최적화로 코딩 에이전트를 재는 벤치마크다. 1,755회 실행에서 최고 구성도 주입된 성능 저하의 42.0%만 회복했다.",
+  "image": "https://enghyu.com/ax/3449-microperf-bench/og.png",
+  "datePublished": "2026-10-24T07:20:00+09:00",
+  "dateModified": "2026-10-24T07:20:00+09:00"
+}
+</script>
+<link rel="canonical" href="https://enghyu.com/ax/3449-microperf-bench/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Yanze Zhang 등 &#x27;MicroPerf-Bench&#x27; — 마이크로서비스 성능 최적화로 코딩 에이전트 실력 재기 (10/21, arXiv)">
+<meta name="twitter:description" content="실증 기반 안티패턴을 실제 오픈소스 시스템에 주입해 만든 시스템 수준 성능 최적화 벤치마크. 최고 구성도 42.0% 회복에 그쳤다.">
+<meta name="twitter:image" content="https://enghyu.com/ax/3449-microperf-bench/og.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://enghyu.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AX 트렌드",
+      "item": "https://enghyu.com/ax/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Yanze Zhang 등 'MicroPerf-Bench' — 마이크로서비스 성능 최적화로 코딩 에이전트 실력 재기 (10/21, arXiv)",
+      "item": "https://enghyu.com/ax/3449-microperf-bench/"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<main>
+<nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
+
+<h1>Yanze Zhang 등 &#x27;MicroPerf-Bench&#x27; — 마이크로서비스 성능 최적화로 코딩 에이전트 실력 재기 (10/21, arXiv)</h1>
+<p class="meta">2026-10-21 arXiv 제출 · ax-trend 이슈 #3449 · 성능 최적화</p>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3449-overview.png" alt="MicroPerf-Bench 개요 — 마이크로서비스 종단간 성능 최적화로 코딩 에이전트 실력 측정" loading="lazy">
+<figcaption>MicroPerf-Bench — 종단간 성능 최적화로 코딩 에이전트를 재는 벤치마크</figcaption>
+</figure>
+
+<h2>핵심 — 최고 구성도 주입된 성능 저하의 42.0%만 회복했다</h2>
+
+<ul>
+<li>기존 코딩 벤치마크는 함수·리포지토리 수준 평가에 머물렀다 (arXiv).</li>
+<li>마이크로서비스에서는 종단간 성능이 독립 실행 서비스 간 상호작용에서 생긴다 (arXiv).</li>
+<li><strong>MicroPerf-Bench는 마이크로서비스 시스템의 종단간 성능 최적화를 평가한다</strong> (arXiv).</li>
+<li><strong>9개 에이전트-모델 구성의 1,755회 실행에서 최고 구성도 주입된 성능 저하의 42.0%만 회복했다</strong> (arXiv).</li>
+<li>코딩 에이전트를 성능 최적화 업무에 투입하기 전에 이 벤치마크로 먼저 재보는 게 순서다. <strong>42.0%라는 수치는 아직 맡기기 이르다는 신호다</strong> (이슈 배경).</li>
+</ul>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3449-method.png" alt="방법 — 실증 기반 성능 안티패턴을 실제 오픈소스 시스템에 주입, 65개 최적화 인스턴스·7개 시스템·9개 안티패턴" loading="lazy">
+<figcaption>방법 — 실증 기반 안티패턴을 실제 오픈소스 시스템에 주입</figcaption>
+</figure>
+
+<h2>방법 — 안티패턴을 실제 시스템에 주입해 재현 가능한 과제를 만든다</h2>
+
+<ul>
+<li><strong>실증 기반 성능 안티패턴을 실제 오픈소스 시스템에 주입</strong>했다. 기능은 유지하고 측정 가능한 성능 저하를 보장했다 (arXiv).</li>
+<li><strong>65개 최적화 인스턴스, 7개 시스템, 9개 안티패턴</strong>을 담았다 (arXiv).</li>
+<li>안티패턴을 실제 시스템에 주입해 재현 가능한 성능 수정 과제를 만드는 것이 이 벤치마크의 아이디어다 (이슈 배경).</li>
+<li>재현 가능한 시스템 수준 성능 수정은 희소하고 귀속이 어려웠다. 그 공백을 메우는 설계다 (이슈 배경).</li>
+</ul>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3449-results.png" alt="수치 — 1,755회 실행, 최고 구성도 42.0% 회복, 지배적 실패는 기능상 맞지만 성능을 못 올리는 변경" loading="lazy">
+<figcaption>수치 — 지배적 실패는 기능상 맞지만 성능을 못 올리는 변경이었다</figcaption>
+</figure>
+
+<h2>수치 — 지배적 실패는 &#x27;돌아가지만 느린&#x27; 변경이었다</h2>
+
+<ul>
+<li><strong>지배적 실패는 무효 코드가 아니었다.</strong> 기능상 맞고 제약을 지키지만 종단간 성능을 못 올리는 변경이었다 (arXiv).</li>
+<li>이 패턴은 시사하는 바가 크다. 에이전트는 테스트를 통과하는 코드를 쓰지만, 병목이 어디 있는지 못 찾는 것이다.</li>
+<li><strong>소스코드와 데이터가 공개</strong>됐다 (arXiv). 사내 평가에 그대로 가져다 쓸 수 있다.</li>
+</ul>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3449-takeaway.png" alt="실무 처방 — 성능 최적화 태스크를 에이전트에 넘기기 전에 병목 위치 파악 능력을 이 벤치마크로 먼저 검증" loading="lazy">
+<figcaption>실무 처방 — 병목 위치 파악 능력부터 이 벤치마크로 검증</figcaption>
+</figure>
+
+<h2>의미 — &#x27;병목을 찾을 수 있는가&#x27;가 먼저다</h2>
+
+<ul>
+<li>코딩 에이전트 평가에서 기능 정답률이 전부는 아니다. 시스템 수준 병목 위치 파악이 핵심 과제다 (이슈 배경).</li>
+<li>성능 최적화 태스크를 에이전트에 넘기기 전에 <strong>이 벤치마크로 병목 위치 파악 능력을 먼저 검증</strong>하는 것이 순서다 (이슈 배경).</li>
+</ul>
+
+<div class="callout">
+<strong>AX TF 관점.</strong> 사내에 코딩 에이전트를 성능 최적화 업무에 투입하기 전, <strong>MicroPerf-Bench 65개 인스턴스를 그대로 돌려</strong> 현재 구성의 회복률을 측정해둘 가치가 있다 (이슈 배경). 주입된 저하를 기준으로 삼으면, "에이전트가 실제로 빠르게 만든 것"과 "돌아가기만 하는 것"을 구분할 수 있다. 벤치마크 결과가 에이전트 도입의 기준선이 된다.
+</div>
+
+<h2>아직 안 밝혀진 것 — 7개 시스템 명단·9개 구성 명단·안티패턴 대표성</h2>
+
+<div class="warn">
+<strong>⚠️ 미확인:</strong> <strong>7개 시스템·9개 안티패턴의 구체적 명단은 초록에 없다</strong> (arXiv). <strong>9개 에이전트-모델 구성의 명단도 초록에 없다</strong> (arXiv). <strong>주입 안티패턴이 실제 운영 병목을 얼마나 대표하는지는 검증이 필요하다</strong> (이슈 배경). 시스템 수준 병목 위치 파악이 핵심 과제라는 결론의 정량 근거는 논문 본문 확인이 필요하다.
+</div>
+
+<h2>원문 이슈</h2>
+<p>이 글은 <a href="https://github.com/roomedia/ax-trend/issues/3449">ax-trend 이슈 #3449</a>을 바탕으로 작성됐다. 핵심 링크: <a href="https://arxiv.org/abs/2610.29695">arXiv:2610.29695 — MicroPerf-Bench (2026-10-21 제출)</a>.</p>
+
+<p class="tags"><a href="/ax/tag/ai-coding/">AI 코딩</a><a href="/ax/tag/performance/">성능 최적화</a><a href="/ax/tag/agentic-benchmark/">agentic benchmark</a></p>
+
+<footer>
+<p>enghyu.com AX 트렌드 · <a href="/ax/">목록으로</a></p>
+</footer>
+
+<section class="related">
+  <h2>관련 글</h2>
+  <ul>
+    <li><a href="/ax/3445-sysrb/">Chenxi Huang 등 &#x27;SysRB&#x27; — 코딩 에이전트는 시스템 크래시 원인을 아직 못 읽는다 (10/21, arXiv)</a></li>
+    <li><a href="/ax/3378-microsoft-scope/">Microsoft, AI 코딩 에이전트 평가 오픈소스 플랫폼 &#x27;Scope&#x27; 공개 — Copilot·Claude Code 반복 과제로 테스트, DevAx 개념 제시</a></li>
+    <li><a href="/ax/3349-exa-3/">Exa, AI 에이전트용 검색 API &#x27;Exa 3.0&#x27; 출시 — 역대 최대 검색 품질 개선·신규 저가 티어 &#x27;Exa Lite&#x27; $4/1,000요청</a></li>
+  </ul>
+</section>
+</main>
+<script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
+</body>
+</html>

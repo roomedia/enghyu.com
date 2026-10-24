@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G5WKCES0DY"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G5WKCES0DY');</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Asymptote Labs &#x27;Beacon&#x27; — 29개 하네스를 가로지르는 에이전트 메모리 레이어, Jev 평가 연동 (10/21, GitHub)</title>
+<meta name="description" content="코딩 에이전트 세션을 hooks·OTLP·폴링으로 모아 OpenTelemetry 이벤트로 정규화하는 오픈소스 메모리 레이어 Beacon. 사람 리뷰를 거친 지식만 재사용하고, Jev 평가로 승격을 가른다.">
+<meta property="og:image" content="https://enghyu.com/ax/3384-beacon-memory/og.png">
+<meta property="og:title" content="Asymptote Labs &#x27;Beacon&#x27; — 29개 하네스를 가로지르는 에이전트 메모리 레이어, Jev 평가 연동 (10/21, GitHub)">
+<meta property="og:description" content="한 에이전트가 겪은 교훈을 다른 에이전트가 재사용하는 층. 캡처는 Beacon이, 평가 판단은 Jev가 맡는다.">
+<meta property="og:url" content="https://enghyu.com/ax/3384-beacon-memory/">
+<meta property="og:type" content="article">
+<style>
+:root{--bg:#ffffff;--text:#1a1a1a;--muted:#666;--border:#e5e5e5;--accent:#0891b2;--code-bg:#f6f8fa;}
+@media (prefers-color-scheme: dark){:root{--bg:#0f1115;--text:#e8eaf0;--muted:#9aa0ad;--border:#2a2e38;--accent:#22d3ee;--code-bg:#181c24;}}
+*{box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:24px 20px;}
+main{max-width:800px;margin:0 auto;}
+.topnav{margin-bottom:20px;}.topnav a{color:var(--muted);font-size:14px;text-decoration:none;}.topnav a:hover{color:var(--accent);text-decoration:underline;}
+h1{font-size:1.9rem;line-height:1.35;margin:0 0 8px;}
+.meta{color:var(--muted);font-size:14px;margin-bottom:28px;}
+h2{font-size:1.3rem;margin:44px 0 12px;padding-top:8px;border-top:1px solid var(--border);}
+h3{font-size:1.05rem;margin:28px 0 8px;}
+p{margin:0 0 16px;}
+img{max-width:100%;height:auto;border-radius:10px;margin:20px 0;border:1px solid var(--border);}
+figure{margin:0;}figcaption{color:var(--muted);font-size:13px;text-align:center;margin:-8px 0 24px;}
+ul{margin:0 0 16px;padding-left:22px;}
+li{margin-bottom:8px;}
+strong{font-weight:700;}
+.callout{background:var(--code-bg);border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+.warn{background:var(--code-bg);border-left:3px solid #f59e0b;padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.9em;}
+pre{background:var(--code-bg);padding:16px;border-radius:8px;overflow-x:auto;border:1px solid var(--border);font-size:.85em;line-height:1.6;}
+pre code{background:none;padding:0;}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.92em;}
+th,td{border:1px solid var(--border);padding:8px 12px;text-align:left;}
+th{background:var(--code-bg);}
+a{color:var(--accent);}
+.tags a{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:3px 12px;font-size:13px;margin:0 6px 6px 0;color:var(--text);text-decoration:none;}.tags a:hover{border-color:var(--accent);color:var(--accent);}
+footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:14px;}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Asymptote Labs 'Beacon' — 29개 하네스를 가로지르는 에이전트 메모리 레이어, Jev 평가 연동 (10/21, GitHub)",
+  "mainEntityOfPage": "https://enghyu.com/ax/3384-beacon-memory/",
+  "url": "https://enghyu.com/ax/3384-beacon-memory/",
+  "author": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "publisher": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "description": "코딩 에이전트 세션을 hooks·OTLP·폴링으로 모아 OpenTelemetry 이벤트로 정규화하는 오픈소스 메모리 레이어 Beacon. 사람 리뷰를 거친 지식만 재사용하고, Jev 평가로 승격을 가른다.",
+  "image": "https://enghyu.com/ax/3384-beacon-memory/og.png",
+  "datePublished": "2026-10-24T17:20:00+09:00",
+  "dateModified": "2026-10-24T17:20:00+09:00"
+}
+</script>
+<link rel="canonical" href="https://enghyu.com/ax/3384-beacon-memory/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Asymptote Labs &#x27;Beacon&#x27; — 29개 하네스를 가로지르는 에이전트 메모리 레이어, Jev 평가 연동 (10/21, GitHub)">
+<meta name="twitter:description" content="한 에이전트가 겪은 교훈을 다른 에이전트가 재사용하는 층. 캡처는 Beacon이, 평가 판단은 Jev가 맡는다.">
+<meta name="twitter:image" content="https://enghyu.com/ax/3384-beacon-memory/og.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://enghyu.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AX 트렌드",
+      "item": "https://enghyu.com/ax/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Asymptote Labs 'Beacon' — 29개 하네스를 가로지르는 에이전트 메모리 레이어, Jev 평가 연동 (10/21, GitHub)",
+      "item": "https://enghyu.com/ax/3384-beacon-memory/"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<main>
+<nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
+
+<h1>Asymptote Labs &#x27;Beacon&#x27; — 29개 하네스를 가로지르는 에이전트 메모리 레이어, Jev 평가 연동 (10/21, GitHub)</h1>
+<p class="meta">2026-10-21 GitHub 공개 · ax-trend 이슈 #3384 · Beacon</p>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3384-overview.png" alt="Beacon 개요 — 에이전트 메모리 레이어, 오픈소스 MIT, 29개 런타임" loading="lazy">
+<figcaption>Beacon — 29개 하네스를 가로지르는 에이전트 메모리 레이어</figcaption>
+</figure>
+
+<h2>핵심 — 한 에이전트의 교훈을 다른 에이전트가 쓴다</h2>
+
+<ul>
+<li>Asymptote Labs가 오픈소스 에이전트 메모리 레이어 <strong>Beacon</strong>을 GitHub에 공개하고 있다 (Asymptote-Labs/agent-beacon, MIT 라이선스).</li>
+<li>지원 로컬 런타임은 README 표 기준 <strong>29개</strong>다. Claude Code, Codex CLI/Desktop, Cursor, OpenCode, Hermes Agent, Gemini CLI, goose 등이 들어간다.</li>
+<li>레포 지표 (2026-10-21 조회): 스타 <strong>2,322</strong>, 포크 208, 생성 2026-05-12, 릴리스 <strong>159건</strong> (최신 v1.3.45, 2026-10-20), PR 909건.</li>
+<li>Avi Chawla가 X에서 Beacon으로 세션을 모으고 Jev로 평가하는 워크플로우를 소개했다 (2026-10-21, 조회 4,450).</li>
+</ul>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3384-capture.png" alt="Beacon 캡처 — hooks, OTLP, 폴링으로 수집해 OpenTelemetry 이벤트로 정규화" loading="lazy">
+<figcaption>캡처 — 세션을 상시 모아 공통 이벤트 형식으로 정규화한다</figcaption>
+</figure>
+
+<h2>캡처 — 세션을 상시 기록해 공통 이벤트로</h2>
+
+<ul>
+<li>코딩 에이전트 하네스의 세션을 <strong>hooks·OTLP·폴링</strong>으로 상시 캡처한다.</li>
+<li>캡처한 기록은 <strong>OpenTelemetry 기반 공통 이벤트 형식</strong>으로 정규화한다.</li>
+<li>원본 기록은 로컬 JSONL(<code>~/.beacon</code>)에, 학습 산출물은 프로젝트별 로컬 <code>memory.db</code>에 저장한다 (README·docs).</li>
+</ul>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3384-promotion.png" alt="Beacon 승격 — 사람 리뷰 게이트와 Jev 임계값 0.50, 평균 0.60" loading="lazy">
+<figcaption>승격 — 사람 리뷰를 통과한 지식만 재사용한다</figcaption>
+</figure>
+
+<h2>승격 — 사람 리뷰를 통과한 것만 재사용</h2>
+
+<ul>
+<li>캡처한 기록에서 재사용할 지식을 뽑는 승격은 <strong>사람 리뷰·승인</strong>을 거친다 (docs: "deliberately review-gated").</li>
+<li>재사용 경로는 두 가지다. 로컬 MCP 서버의 <code>search_memory</code> 같은 도구, 그리고 승인된 메모리를 Agent Skill로 설치하는 방식이다.</li>
+<li>트레이스 평가자로 <strong>TypeSafe의 Jev(System One)</strong>를 외부 연동한다. 가린(redacted) 트레이스를 보내면 유형화된 질문에 확률만 돌려받는다.</li>
+<li>승격 기준은 docs에 명시돼 있다. 성공 확률 <strong>0.50 이상</strong>, 3개 확률 평균 <strong>0.60 이상</strong>이다.</li>
+<li>Jev는 Asymptote 제품이 아니라 별도 회사의 유료 API다. 이 점은 헷갈리기 쉬우니 구분해 둘 필요가 있다.</li>
+</ul>
+
+<div class="callout">
+캡처(Beacon)와 평가(Jev)를 나눈 구조가 핵심이다. 각 층을 갈아끼울 수 있다. 하네스가 여럿인 운영 환경에서 직접 시험해 볼 만한 형태다.
+</div>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3384-limits.png" alt="Beacon 한계 — 효과 수치 없음, Cloud 기본값, 2,322 스타, 159 릴리스" loading="lazy">
+<figcaption>한계 — 효과 수치가 아직 없고, 기본값·보안 이슈가 열려 있다</figcaption>
+</figure>
+
+<h2>아직 안 밝혀진 것 / 쟁점</h2>
+
+<ul>
+<li><strong>효과 수치 없음</strong>: 메모리 재사용이 에이전트 성공률을 얼마나 올리는지, 레포 안에 벤치마크·사례가 없다. 핵심 주장은 아직 미검증이다.</li>
+<li><strong>로컬 우선과의 긴장</strong>: 기본 캡처는 로컬이지만 설치 마법사는 Beacon Cloud를 기본값으로 제시하고 Local은 opt-out이다.</li>
+<li><strong>보안 이슈가 열려 있다</strong>: 비밀정보 가림(redaction) 적용, 세션 로그 접근 제한, 패키지 서명 요구 같은 이슈가 미해결 상태다.</li>
+<li>기여자 커밋에 에이전트 계정(claude 856커밋) 비중이 커서, 코드 품질의 독립 검증은 없다.</li>
+</ul>
+
+<h2>왜 중요한지 — 관측에서 학습으로 넘어가는 부품</h2>
+
+<p>Jev는 이 트래커에서 여러 번 다룬 결정 모델이다 (#3336 등). Beacon은 그 Jev를 단독 도구가 아니라 "캡처 레이어의 평가 부품"으로 붙인 사례다. 에이전트 실행 기록을 관측(observability)에서 학습으로 넘기려는 시도가 부품 단위로 나뉘어 조립되기 시작했다. 여러 코딩 에이전트를 함께 쓰는 실무에서 "한 에이전트가 겪은 교훈을 다른 에이전트가 재사용"하는 층이 표준 부품이 될 수 있다.</p>
+
+<h2>원문 이슈</h2>
+
+<ul>
+<li><a href="https://github.com/Asymptote-Labs/agent-beacon">GitHub: Asymptote-Labs/agent-beacon (2026-10-21 조회, 최신 릴리스 v1.3.45는 2026-10-20)</a></li>
+<li><a href="https://x.com/_avichawla/status/2112862391268688291">X: Avi Chawla의 Beacon + Jev 워크플로우 소개 (2026-10-21)</a></li>
+<li><a href="https://github.com/roomedia/ax-trend/issues/3384">ax-trend 이슈 #3384</a></li>
+<li><a href="https://github.com/roomedia/ax-trend/issues/3336">관련 이슈 #3336 — TypeSafe Jev, Vercel AI Gateway 사상 최속 채택</a></li>
+<li><a href="https://github.com/roomedia/ax-trend/issues/3322">관련 이슈 #3322 — Archive, REA+Jev+Opus 5.5 '클린룸 리빌드' 워크플로우 공개</a></li>
+<li><a href="https://github.com/roomedia/ax-trend/issues/3274">관련 이슈 #3274 — TypeSafe AI, 'Jev 1.14' 발표</a></li>
+</ul>
+
+<p class="tags"><a href="/ax/tag/jev/">Jev</a> <a href="/ax/tag/ai-coding/">AI 코딩</a> <a href="/ax/tag/agent-model/">에이전트 모델</a></p>
+
+<footer>
+<p>AX 트렌드 — AI/AX 업계 소식을 정리하는 자동 리서치 블로그.</p>
+</footer>
+
+<aside class="muse-banner">
+<div class="callout">
+<strong>이 블로그의 리서치·발행을 굴리는 도구 — Muse.</strong> 캘린더 브리핑부터 AX 트렌드 자동 발행, 유튜브 제작, 스마트홈까지 실제로 쓰는 AI 에이전트다. <a href="/ax/muse/">Muse 3주 사용기</a>에 정리해뒀다. 가입 후 48시간 안에 추천인 코드 <strong>QO4J0Q</strong>를 입력하면 된다.
+</div>
+</aside>
+
+<section class="related">
+  <h2>관련 글</h2>
+  <ul>
+    <li><a href="/ax/3471-userswe/">Zhan-Yu Wu 등 &#x27;UserSWE&#x27; — 동적 사용자 시뮬레이션으로 멀티턴 코딩 에이전트 평가 (10/21, arXiv)</a></li>
+    <li><a href="/ax/3470-jev-open-lora/">Yuchuan Weng 등 &#x27;Jev&#x27; — 한 번의 forward pass로 답하는 오픈 LoRA 재현 (10/22, arXiv)</a></li>
+    <li><a href="/ax/3445-sysrb/">Chenxi Huang 등 &#x27;SysRB&#x27; — 코딩 에이전트는 시스템 크래시 원인을 아직 못 읽는다 (10/21, arXiv)</a></li>
+  </ul>
+</section>
+</main>
+<script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
+</body>
+</html>

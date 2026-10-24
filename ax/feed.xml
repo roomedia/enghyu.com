@@ -10,6 +10,7 @@
       <title>Zhan-Yu Wu 등 &#x27;UserSWE&#x27; — 동적 사용자 시뮬레이션으로 멀티턴 코딩 에이전트 평가 (10/21, arXiv)</title>
       <link>https://enghyu.com/ax/3471-userswe/</link>
       <guid isPermaLink="true">https://enghyu.com/ax/3471-userswe/</guid>
+      <pubDate>Sat, 24 Oct 2026 15:16:00 +0900</pubDate>
       <description>코딩 에이전트 평가를 싱글턴 이슈 리포트에서 실제 버그 수정 대화로. 동적 사용자 시뮬레이션과 매 턴 실행 기반 판정으로 11개 에이전트를 평가한 UserSWE.</description>
     </item>
     <item>
@@ -97,6 +98,12 @@
       <description>MeMoDecode는 DSL의 concrete syntax·abstract syntax·well-formedness constraints를 디코딩 시점에 함께 강제하는 프레임워크다. 4개 DSL·6개 LLM(0.6B~70B)에서 일관성이 무제약 대비 평균 23%, 문법제약 디코딩 대비</description>
     </item>
     <item>
+      <title>Asymptote Labs &#x27;Beacon&#x27; — 29개 하네스를 가로지르는 에이전트 메모리 레이어, Jev 평가 연동 (10/21, GitHub)</title>
+      <link>https://enghyu.com/ax/3384-beacon-memory/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3384-beacon-memory/</guid>
+      <description>코딩 에이전트 세션을 hooks·OTLP·폴링으로 모아 OpenTelemetry 이벤트로 정규화하는 오픈소스 메모리 레이어 Beacon. 사람 리뷰를 거친 지식만 재사용하고, Jev 평가로 승격을 가른다.</description>
+    </item>
+    <item>
       <title>Underdog, 음성 모델 &#x27;Bark 3.0&#x27; 출시 — 163MB로 Whisper large-v3보다 낮은 오류율 주장 (10/21, Underdog 공식)</title>
       <link>https://enghyu.com/ax/3383-underdog-bark-3-speech-model/</link>
       <guid isPermaLink="true">https://enghyu.com/ax/3383-underdog-bark-3-speech-model/</guid>
@@ -137,13 +144,6 @@
       <guid isPermaLink="true">https://enghyu.com/ax/3378-microsoft-scope/</guid>
       <pubDate>Fri, 23 Oct 2026 03:35:00 +0900</pubDate>
       <description>Microsoft가 AI 코딩 에이전트 평가 플랫폼 Scope를 오픈소스로 공개했다. 핵심 개념은 DevAx(Developer Agent Experience). 작업과 에이전트 설정(프로필)을 주고 Copilot·Claude Code 같은 기존 에이전트를 반복 투입해 채점하는 구조다</description>
-    </item>
-    <item>
-      <title>Google·Meta, TPU용 네이티브 PyTorch 백엔드 &#x27;TorchTPU&#x27; 오픈소스 — PyTorch/XLA 대체, Qwen 3 8B에서 52% MFU</title>
-      <link>https://enghyu.com/ax/3377-torchtpu/</link>
-      <guid isPermaLink="true">https://enghyu.com/ax/3377-torchtpu/</guid>
-      <pubDate>Fri, 23 Oct 2026 01:20:00 +0900</pubDate>
-      <description>Google이 PyTorch Conference 2026에서 TorchTPU를 오픈소스로 공개했다. TPU용 네이티브 PyTorch 백엔드로, Google·Meta PyTorch 팀이 공동 개발. eager 실행 우선, .to(&quot;cuda&quot;) → .to(&quot;tpu&quot;) 수준의 최소 변경으로</description>
     </item>
   </channel>
 </rss>

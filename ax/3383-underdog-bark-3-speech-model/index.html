@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G5WKCES0DY"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G5WKCES0DY');</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Underdog, 음성 모델 &#x27;Bark 3.0&#x27; 출시 — 163MB로 Whisper large-v3보다 낮은 오류율 주장 (10/21, Underdog 공식)</title>
+<meta name="description" content="Underdog AI가 163MB 음성 인식 모델 Bark 3.0을 출시했다. 회의 녹음 단어 오류율 자사 측정 7.82%로 Whisper large-v3(13.63%)보다 낮다고 주장했다. CC-BY 4.0 오픈소스, 영어 전용.">
+<meta property="og:image" content="https://enghyu.com/ax/3383-underdog-bark-3-speech-model/og.png">
+<meta property="og:title" content="Underdog, 음성 모델 &#x27;Bark 3.0&#x27; 출시 — 163MB로 Whisper large-v3보다 낮은 오류율 주장 (10/21, Underdog 공식)">
+<meta property="og:description" content="163MB 온디바이스 음성 인식 모델. 자사 측정 AMI 오류율 7.82%, CC-BY 4.0 오픈소스, 영어 전용.">
+<meta property="og:url" content="https://enghyu.com/ax/3383-underdog-bark-3-speech-model/">
+<meta property="og:type" content="article">
+<style>
+:root{--bg:#ffffff;--text:#1a1a1a;--muted:#666;--border:#e5e5e5;--accent:#0891b2;--code-bg:#f6f8fa;}
+@media (prefers-color-scheme: dark){:root{--bg:#0f1115;--text:#e8eaf0;--muted:#9aa0ad;--border:#2a2e38;--accent:#22d3ee;--code-bg:#181c24;}}
+*{box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:24px 20px;}
+main{max-width:800px;margin:0 auto;}
+.topnav{margin-bottom:20px;}.topnav a{color:var(--muted);font-size:14px;text-decoration:none;}.topnav a:hover{color:var(--accent);text-decoration:underline;}
+h1{font-size:1.9rem;line-height:1.35;margin:0 0 8px;}
+.meta{color:var(--muted);font-size:14px;margin-bottom:28px;}
+h2{font-size:1.3rem;margin:44px 0 12px;padding-top:8px;border-top:1px solid var(--border);}
+h3{font-size:1.05rem;margin:28px 0 8px;}
+p{margin:0 0 16px;}
+img{max-width:100%;height:auto;border-radius:10px;margin:20px 0;border:1px solid var(--border);}
+figure{margin:0;}figcaption{color:var(--muted);font-size:13px;text-align:center;margin:-8px 0 24px;}
+ul{margin:0 0 16px;padding-left:22px;}
+li{margin-bottom:8px;}
+strong{font-weight:700;}
+.callout{background:var(--code-bg);border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+.warn{background:var(--code-bg);border-left:3px solid #f59e0b;padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.9em;}
+pre{background:var(--code-bg);padding:16px;border-radius:8px;overflow-x:auto;border:1px solid var(--border);font-size:.85em;line-height:1.6;}
+pre code{background:none;padding:0;}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.92em;}
+th,td{border:1px solid var(--border);padding:8px 12px;text-align:left;}
+th{background:var(--code-bg);}
+a{color:var(--accent);}
+.tags a{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:3px 12px;font-size:13px;margin:0 6px 6px 0;color:var(--text);text-decoration:none;}.tags a:hover{border-color:var(--accent);color:var(--accent);}
+footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:14px;}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Underdog, 음성 모델 'Bark 3.0' 출시 — 163MB로 Whisper large-v3보다 낮은 오류율 주장 (10/21, Underdog 공식)",
+  "mainEntityOfPage": "https://enghyu.com/ax/3383-underdog-bark-3-speech-model/",
+  "url": "https://enghyu.com/ax/3383-underdog-bark-3-speech-model/",
+  "author": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "publisher": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "description": "Underdog AI가 163MB 음성 인식 모델 Bark 3.0을 출시했다. 회의 녹음 단어 오류율 자사 측정 7.82%로 Whisper large-v3(13.63%)보다 낮다고 주장했다. CC-BY 4.0 오픈소스, 영어 전용.",
+  "image": "https://enghyu.com/ax/3383-underdog-bark-3-speech-model/og.png",
+  "datePublished": "2026-10-24T09:25:00+09:00",
+  "dateModified": "2026-10-24T09:25:00+09:00"
+}
+</script>
+<link rel="canonical" href="https://enghyu.com/ax/3383-underdog-bark-3-speech-model/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Underdog, 음성 모델 &#x27;Bark 3.0&#x27; 출시 — 163MB로 Whisper large-v3보다 낮은 오류율 주장 (10/21, Underdog 공식)">
+<meta name="twitter:description" content="163MB 온디바이스 음성 인식 모델. 자사 측정 AMI 오류율 7.82%, CC-BY 4.0 오픈소스, 영어 전용.">
+<meta name="twitter:image" content="https://enghyu.com/ax/3383-underdog-bark-3-speech-model/og.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://enghyu.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AX 트렌드",
+      "item": "https://enghyu.com/ax/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Underdog, 음성 모델 'Bark 3.0' 출시 — 163MB로 Whisper large-v3보다 낮은 오류율 주장 (10/21, Underdog 공식)",
+      "item": "https://enghyu.com/ax/3383-underdog-bark-3-speech-model/"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<main>
+<nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
+
+<h1>Underdog, 음성 모델 &#x27;Bark 3.0&#x27; 출시 — 163MB로 Whisper large-v3보다 낮은 오류율 주장 (10/21, Underdog 공식)</h1>
+<p class="meta">2026-10-21 Underdog 공식 발표 · ax-trend 이슈 #3383 · 온디바이스, 음성 에이전트</p>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3383-overview.png" alt="Bark 3.0 개요 — 163MB 음성 인식 모델, Underdog AI" loading="lazy">
+<figcaption>Bark 3.0 — 163MB 온디바이스 음성 인식 모델</figcaption>
+</figure>
+
+<h2>핵심 — 163MB 모델이 Whisper large-v3보다 낮은 오류율을 주장한다</h2>
+
+<ul>
+<li>Underdog AI가 공식 X 계정(@UnderdogAI)으로 음성 인식 모델 <strong>Bark 3.0</strong> 출시를 발표했다 (2026-10-21 게시, Underdog 공식).</li>
+<li>&quot;the #1 frontier speech model&quot;이라고 소개했다 (Underdog 공식 X).</li>
+<li>모델 크기는 <strong>163MB</strong> 다운로드. NVIDIA Parakeet보다 15배, OpenAI Whisper large-v3보다 57배 작다고 밝혔다 (Underdog 공식).</li>
+<li><strong>영어 전용</strong>, 라이선스는 <strong>CC-BY 4.0</strong> 오픈소스다. Hugging Face에서 받을 수 있다 (Underdog 공식).</li>
+<li>패밀리 구성: Clean 180MB, 3.0 163MB, 3.0 Plus 180MB, 3.0 Pro 1.25GB (제품 페이지 underdog.ai/bark, 2026-10-15 게시).</li>
+</ul>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3383-size.png" alt="모델 크기 비교 — Bark 163MB, Parakeet 15배, Whisper large-v3 57배" loading="lazy">
+<figcaption>모델 크기 비교 — Bark는 Whisper large-v3보다 57배 작다고 밝혔다</figcaption>
+</figure>
+
+<h2>크기 — 57배 작다는 주장의 실무 의미</h2>
+
+<ul>
+<li>Whisper large-v3(약 1.5GB급)이 GPU 메모리를 요구하는 것과 달리, <strong>163MB는 CPU·노트북·휴대폰에 올릴 수 있는 범위</strong>다 (이슈 배경).</li>
+<li>녹음이 기기를 떠나지 않는다. 회의 전사처럼 민감한 오디오를 클라우드 API에 보내지 않아도 되는 구조다 (이슈 배경).</li>
+<li>단, 크기 수치 자체도 Underdog의 주장이다. 다운로드 후 실제 바이트로 확인할 수 있는 부분이다.</li>
+</ul>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3383-wer.png" alt="회의 녹음 단어 오류율 비교 — Bark 3.0 7.82%, Parakeet 9.42%, Whisper large-v3 13.63%" loading="lazy">
+<figcaption>회의 녹음 단어 오류율 비교 — 전부 Underdog 자사 측정이다</figcaption>
+</figure>
+
+<h2>오류율 — 자사 측정이라 그대로 믿을 순 없다</h2>
+
+<ul>
+<li>회의 녹음(AMI) 단어 오류율 자사 측정: <strong>Bark 3.0 7.82%</strong>, Parakeet 9.42%, Whisper large-v3 13.63% (Underdog 공식).</li>
+<li><strong>전부 자사 측정이다.</strong> 독립 벤치마크가 아직 없다 (이슈 배경).</li>
+<li>숫자가 사실이라면 회의 전사·받아쓰기의 기본값이 클라우드 API에서 로컬 모델로 옮겨갈 수 있다 (이슈 배경).</li>
+<li>발표 게시물 반응: 조회 10.6만, 좋아요 2.6천, 북마크 2.8천 (게시 당일 확인).</li>
+</ul>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3383-speed.png" alt="속도 — 1분 오디오 전사 0.25초, 실시간 대비 595배, CC-BY 4.0 영어 전용" loading="lazy">
+<figcaption>속도 — 1분 오디오 전사 0.25초, 실시간 대비 595배 (자사 주장)</figcaption>
+</figure>
+
+<h2>속도·라이선스 — 로컬에서 돌릴 조건은 갖췄다</h2>
+
+<ul>
+<li>속도: MacBook에서 1분 오디오 전사에 <strong>0.25초 미만</strong> (Underdog 공식).</li>
+<li>제품 페이지는 M5 Max MacBook Pro에서 5분 오디오를 0.5초에 전사했다고 적었다. 실시간 대비 최대 <strong>595배</strong> (제품 페이지, 2026-10-15 게시).</li>
+<li><strong>CC-BY 4.0</strong>이라 상업 이용이 가능하다. 출처 표기만 지키면 된다.</li>
+<li><strong>영어 전용</strong>이라 한국어 회의록에는 지금은 못 쓴다. 영문 회의·팟캐스트 자막 용도로만 성립한다 (이슈 배경).</li>
+</ul>
+
+<h3>빠르게 받아보기</h3>
+<pre><code># Hugging Face에서 받기 (제품 페이지 안내)
+huggingface-cli download --local-dir ./bark-3.0 \
+  underdog-ai/bark-3.0
+
+ls -lh ./bark-3.0   # 163MB 맞는지 직접 확인
+</code></pre>
+
+<div class="callout">
+<strong>AX TF 관점.</strong> 영어 회의 녹음이 있다면 <strong>163MB 다운로드 → 사내 벤치로 Whisper large-v3와 직접 비교</strong>가 한 시간짜리 실험이다 (이슈 배경). 자사 측정 7.82%가 재현되는지만 확인하면, 회의 전사 파이프라인의 클라우드 API 비용·프라이버시 리스크를 숫자로 다시 계산할 수 있다. 영어 전용이라 범위는 영문 자료로 한정된다.
+</div>
+
+<h2>아직 안 밝혀진 것 — 자사 측정·영어 전용·초기 스타트업</h2>
+
+<div class="warn">
+<strong>⚠️ 미확인:</strong> <strong>AMI 오류율 비교는 Underdog 자체 수치로, 독립 벤치마크가 아직 없다</strong> (이슈 배경). <strong>다국어 성능은 공개되지 않았다</strong> (영어 전용). <strong>회사 규모: 계정은 2026년 9월 개설, 팔로워 8.2천의 초기 스타트업이라 지속 공급 여부는 미확인</strong> (이슈 배경). <strong>제품 페이지 날짜는 10월 15일로, 실제 공개와 발표 게시물 사이에 일주일 간격이 있다</strong> (이슈 배경). Underdog는 &quot;100% 온디바이스&quot;를 내건 개인 AI 앱으로, ax-trend 이슈 #3063에서 초대 베타를 다뤘다.
+</div>
+
+<h2>원문 이슈</h2>
+<p>이 글은 <a href="https://github.com/roomedia/ax-trend/issues/3383">ax-trend 이슈 #3383</a>을 바탕으로 작성됐다. 핵심 링크: <a href="https://x.com/UnderdogAI/status/2112733007484518470">Underdog 공식 X 발표 (2026-10-21)</a> · <a href="https://underdog.ai/bark">제품 페이지 underdog.ai/bark (2026-10-15)</a>.</p>
+
+<p class="tags"><a href="/ax/tag/on-device/">온디바이스</a><a href="/ax/tag/voice-agent/">음성 에이전트</a></p>
+
+<footer>
+<p>enghyu.com AX 트렌드 · <a href="/ax/">목록으로</a></p>
+</footer>
+
+<section class="related">
+  <h2>관련 글</h2>
+  <ul>
+    <li><a href="/ax/3446-target-probability-reuse/">Jungseob Lee 등 &#x27;target probability reuse&#x27; — 타깃 확률 재사용으로 추측 디코딩 가속 (10/21, arXiv)</a></li>
+    <li><a href="/ax/3382-digup/">ARahim3 &#x27;DigUp&#x27; — EmbeddingGemma 2 기반 온디바이스 파일 의미 검색, Mac/Windows/Linux 오픈소스 (GitHub 5.3k★)</a></li>
+    <li><a href="/ax/3379-eleven-realtime/">ElevenLabs &#x27;Eleven Realtime&#x27; — 말로 듣고 추론하고 바로 답하는 speech-to-speech 음성 에이전트 모델</a></li>
+  </ul>
+</section>
+</main>
+<script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
+</body>
+</html>

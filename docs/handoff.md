@@ -380,3 +380,23 @@ npm run test:e2e
 
 ### 다음 작업 우선순위
 - 카톡 실기기 미리보기 확인 시 깨지면 Content-Type 부재를 다음 원인으로 조사 (기존 항목과 동일).
+
+## 2026-10-24 — ax 전 글 Muse 추천 배너 삽입
+
+### 현재 구현 상태
+- ax 포스트 전편(사용기 본인 글 제외 52편)에 Muse 사용기 링크 + 추천인 코드 QO4J0Q 배너를 삽입했다 (사용자 지시). 배너는 `scripts/patch_ax_seo.py`가 배포 때마다 멱등 재생성하므로 신규 글에도 자동 적용된다.
+
+### 변경한 파일과 동작
+- `scripts/patch_ax_seo.py`: `patch_banner()` 추가 — 기존 배너 제거 후 `</main>` 직전에 `<aside class="muse-banner">`(.callout 스타일 재사용) 재생성. 제외 슬러그 `muse`. docstring에 규칙 기재.
+- 포스트 HTML 52개는 패치 실행으로 갱신 (git에는 스크립트가 정본 — 배포 시 재생성됨).
+
+### 실행한 검증 명령과 결과
+- 로컬: 포스트 53개 중 52개 배너 확인, ax/muse는 0개.
+- `python deploy_cf.py` Worker 배포 성공. 라이브: /ax/3449-microperf-bench/·/ax/3270-mobile-jev/ 배너 1개씩, /ax/muse/ 0개 확인.
+
+### 확인하지 못한 항목과 남은 리스크
+- 배너 모양은 각 글 CSS의 .callout 정의를 그대로 타므로 글마다 미세한 차이 가능.
+- 포스트 HTML 갱신분은 이번 커밋에 포함하지 않았다 (배포 시 패치 스크립트가 재생성하는 것이 정본).
+
+### 다음 작업 우선순위
+- 추천 유입 지표는 /ax/stats/의 /ax/muse/ 조회 추이로 확인.

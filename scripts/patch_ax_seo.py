@@ -23,6 +23,8 @@
   치수는 scripts/image_dims.json에 캐시한다 (원격 이미지는 1회만 받는다).
 - 관련 글 섹션: 태그(공통 태그 ax-trend 제외)를 공유하는 다른 글을
   공유 수 내림차순·최신순으로 최대 3개, </main> 직전에 재생성한다.
+- Muse 추천 배너: 사용기 페이지(/ax/muse/)를 제외한 전 포스트에
+  추천인 코드 배너를 </main> 직전에 재생성한다 (2026-10-24, 사용자 지시).
 
 통계 페이지(ax/stats/)도 canonical·OG·twitter·favicon을 같은 규칙으로 맞춘다.
 """
@@ -366,6 +368,31 @@ def patch_related(src, slug, metas):
     return src.replace("</body>", section + "</body>", 1)
 
 
+# ---- Muse 추천 배너 ------------------------------------------------------------
+
+BANNER_PAT = re.compile(r'\n?<aside class="muse-banner">.*?</aside>\n?', re.S)
+BANNER_EXCLUDE = {"muse"}
+BANNER_HTML = (
+    '\n<aside class="muse-banner">\n'
+    '<div class="callout">\n'
+    '<strong>이 블로그의 리서치·발행을 굴리는 도구 — Muse.</strong> '
+    '캘린더 브리핑부터 AX 트렌드 자동 발행, 유튜브 제작, 스마트홈까지 실제로 쓰는 AI 에이전트다. '
+    '<a href="/ax/muse/">Muse 3주 사용기</a>에 정리해뒀다. '
+    '가입 후 48시간 안에 추천인 코드 <strong>QO4J0Q</strong>를 입력하면 된다.\n'
+    '</div>\n'
+    '</aside>\n'
+)
+
+
+def patch_banner(src, slug):
+    src = BANNER_PAT.sub("", src, count=1)
+    if slug in BANNER_EXCLUDE:
+        return src
+    if "</main>" in src:
+        return src.replace("</main>", BANNER_HTML + "</main>", 1)
+    return src.replace("</body>", BANNER_HTML + "</body>", 1)
+
+
 # ---- 포스트 패치 ---------------------------------------------------------------
 
 def patch_post(path, slug, published, metas, dims, stats):
@@ -401,6 +428,7 @@ def patch_post(path, slug, published, metas, dims, stats):
     src = patch_blogposting_ld(src, slug, url, published, desc)
     src = patch_breadcrumb_ld(src, url, title)
     src = patch_images(src, dims)
+    src = patch_banner(src, slug)
     src = patch_related(src, slug, metas)
 
     if src != orig:

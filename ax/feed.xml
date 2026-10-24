@@ -7,9 +7,16 @@
     <description>AI/AX 트렌드를 개발자 관점에서 정리한 글 모음.</description>
     <language>ko</language>
     <item>
+      <title>Yuchuan Weng 등 &#x27;Jev&#x27; — 한 번의 forward pass로 답하는 오픈 LoRA 재현 (10/22, arXiv)</title>
+      <link>https://enghyu.com/ax/3470-jev-open-lora/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3470-jev-open-lora/</guid>
+      <description>Jev를 오픈으로 재현한 논문. 한 번의 forward pass로 증거·질문·고정 옵션을 옵션별 확률로 매핑한다. 1,000세션을 1개 GPU로 약 3분에, 약 $0.06에 판정한다.</description>
+    </item>
+    <item>
       <title>Sujoy Roychowdhury 등 &#x27;Code Comprehensor&#x27; — 대규모 레포의 계층 문서·크로스모달 검색 (10/22, arXiv)</title>
       <link>https://enghyu.com/ax/3469-code-comprehensor/</link>
       <guid isPermaLink="true">https://enghyu.com/ax/3469-code-comprehensor/</guid>
+      <pubDate>Sat, 24 Oct 2026 11:19:17 +0900</pubDate>
       <description>Code Comprehensor는 대규모 코드베이스를 이해하는 검색+추론 하이브리드다. CodeGraph로 호출 관계를 지도화하고, CodeScribe로 계층 문서를 생성하고, CodeContrast로 코드-텍스트를 의미 검색한다.</description>
     </item>
     <item>
@@ -137,13 +144,6 @@
       <guid isPermaLink="true">https://enghyu.com/ax/3376-voxtral-3/</guid>
       <pubDate>Thu, 22 Oct 2026 21:30:00 +0900</pubDate>
       <description>Mistral이 실시간 음성 에이전트 스택 Voxtral 3를 출시했다. STT/TTS 모델군 + LiveKit 기반 SDK. FLEURS WER 4.1%(Whisper large-v3 16.0%) 주장, 분당 $0.0035부터.</description>
-    </item>
-    <item>
-      <title>카카오 &#x27;Kanana-2-vision-encoder&#x27; 2종 오픈소스 공개 — medium 4.26억·tiny 9,800만, 지연 60% 감소</title>
-      <link>https://enghyu.com/ax/3375-kanana-2-vision-encoder/</link>
-      <guid isPermaLink="true">https://enghyu.com/ax/3375-kanana-2-vision-encoder/</guid>
-      <pubDate>Thu, 22 Oct 2026 19:20:00 +0900</pubDate>
-      <description>카카오가 AI 비전 인코더 Kanana-2-vision-encoder 2종을 오픈소스로 공개했다. medium 4.26억·tiny 9,800만 파라미터, 지연 60% 감소 주장. 온디바이스 멀티모달 파이프라인에 쓸 만한 경량 옵션이 하나 늘었다.</description>
     </item>
   </channel>
 </rss>

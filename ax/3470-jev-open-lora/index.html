@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G5WKCES0DY"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G5WKCES0DY');</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yuchuan Weng 등 &#x27;Jev&#x27; — 한 번의 forward pass로 답하는 오픈 LoRA 재현 (10/22, arXiv)</title>
+<meta name="description" content="Jev를 오픈으로 재현한 논문. 한 번의 forward pass로 증거·질문·고정 옵션을 옵션별 확률로 매핑한다. 1,000세션을 1개 GPU로 약 3분에, 약 $0.06에 판정한다.">
+<meta property="og:image" content="https://enghyu.com/ax/3470-jev-open-lora/og.png">
+<meta property="og:title" content="Yuchuan Weng 등 &#x27;Jev&#x27; — 한 번의 forward pass로 답하는 오픈 LoRA 재현 (10/22, arXiv)">
+<meta property="og:description" content="frontier judge 패스당 약 $1,000을 약 $0.06으로. 1,000세션을 1개 GPU로 약 3분에 판정하는 typed decision 재현. JevBench hard 111문항에서 35B 단일 시드 79.3%.">
+<meta property="og:url" content="https://enghyu.com/ax/3470-jev-open-lora/">
+<meta property="og:type" content="article">
+<style>
+:root{--bg:#ffffff;--text:#1a1a1a;--muted:#666;--border:#e5e5e5;--accent:#0891b2;--code-bg:#f6f8fa;}
+@media (prefers-color-scheme: dark){:root{--bg:#0f1115;--text:#e8eaf0;--muted:#9aa0ad;--border:#2a2e38;--accent:#22d3ee;--code-bg:#181c24;}}
+*{box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:24px 20px;}
+main{max-width:800px;margin:0 auto;}
+.topnav{margin-bottom:20px;}.topnav a{color:var(--muted);font-size:14px;text-decoration:none;}.topnav a:hover{color:var(--accent);text-decoration:underline;}
+h1{font-size:1.9rem;line-height:1.35;margin:0 0 8px;}
+.meta{color:var(--muted);font-size:14px;margin-bottom:28px;}
+h2{font-size:1.3rem;margin:44px 0 12px;padding-top:8px;border-top:1px solid var(--border);}
+h3{font-size:1.05rem;margin:28px 0 8px;}
+p{margin:0 0 16px;}
+img{max-width:100%;height:auto;border-radius:10px;margin:20px 0;border:1px solid var(--border);}
+figure{margin:0;}figcaption{color:var(--muted);font-size:13px;text-align:center;margin:-8px 0 24px;}
+ul{margin:0 0 16px;padding-left:22px;}
+li{margin-bottom:8px;}
+strong{font-weight:700;}
+.callout{background:var(--code-bg);border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+.warn{background:var(--code-bg);border-left:3px solid #f59e0b;padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.9em;}
+pre{background:var(--code-bg);padding:16px;border-radius:8px;overflow-x:auto;border:1px solid var(--border);font-size:.85em;line-height:1.6;}
+pre code{background:none;padding:0;}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.92em;}
+th,td{border:1px solid var(--border);padding:8px 12px;text-align:left;}
+th{background:var(--code-bg);}
+a{color:var(--accent);}
+.tags a{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:3px 12px;font-size:13px;margin:0 6px 6px 0;color:var(--text);text-decoration:none;}.tags a:hover{border-color:var(--accent);color:var(--accent);}
+footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:14px;}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Yuchuan Weng 등 'Jev' — 한 번의 forward pass로 답하는 오픈 LoRA 재현 (10/22, arXiv)",
+  "mainEntityOfPage": "https://enghyu.com/ax/3470-jev-open-lora/",
+  "url": "https://enghyu.com/ax/3470-jev-open-lora/",
+  "author": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "publisher": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "description": "Jev를 오픈으로 재현한 논문. 한 번의 forward pass로 증거·질문·고정 옵션을 옵션별 확률로 매핑한다. 1,000세션을 1개 GPU로 약 3분에, 약 $0.06에 판정한다.",
+  "image": "https://enghyu.com/ax/3470-jev-open-lora/og.png",
+  "datePublished": "2026-10-24T13:15:00+09:00",
+  "dateModified": "2026-10-24T13:15:00+09:00"
+}
+</script>
+<link rel="canonical" href="https://enghyu.com/ax/3470-jev-open-lora/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Yuchuan Weng 등 &#x27;Jev&#x27; — 한 번의 forward pass로 답하는 오픈 LoRA 재현 (10/22, arXiv)">
+<meta name="twitter:description" content="frontier judge 패스당 약 $1,000을 약 $0.06으로. 1,000세션을 1개 GPU로 약 3분에 판정하는 typed decision 재현. JevBench hard 111문항에서 35B 단일 시드 79.3%.">
+<meta name="twitter:image" content="https://enghyu.com/ax/3470-jev-open-lora/og.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://enghyu.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AX 트렌드",
+      "item": "https://enghyu.com/ax/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Yuchuan Weng 등 'Jev' — 한 번의 forward pass로 답하는 오픈 LoRA 재현 (10/22, arXiv)",
+      "item": "https://enghyu.com/ax/3470-jev-open-lora/"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<main>
+<nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
+
+<h1>Yuchuan Weng 등 &#x27;Jev&#x27; — 한 번의 forward pass로 답하는 오픈 LoRA 재현 (10/22, arXiv)</h1>
+<p class="meta">2026-10-22 arXiv 제출 · ax-trend 이슈 #3470 · Jev</p>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3470-overview.png" alt="Jev 개요 — 한 번의 forward pass로 답하는 typed decision" loading="lazy">
+<figcaption>Jev — 답을 생성하지 않고, 한 번의 forward pass로 읽는다</figcaption>
+</figure>
+
+<h2>핵심 — 답을 생성하지 않고 읽는다</h2>
+
+<ul>
+<li>typed decision은 <strong>증거·질문·고정 옵션을 옵션별 확률로 매핑</strong>한다. 한 forward pass로 계산한다 (arXiv).</li>
+<li>텍스트 생성과 파싱을 거치지 않는다. <strong>언어 모델의 logit이나 hidden state 위의 작은 헤드를 읽는다</strong>. 생성이 아니라 읽기다 (arXiv).</li>
+</ul>
+
+<pre><code>// 개념도: 생성 파서 대신 헤드를 한 번 읽는다
+evidence, question, options  →  backbone (frozen) + rank-16 LoRA
+logits / hidden state        →  pointer head
+output: per-option probabilities (one forward pass)</code></pre>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3470-part1-cost.png" alt="Part I — 사내 평가 비용: 패스당 약 $1,000을 약 $0.06으로" loading="lazy">
+<figcaption>Part I — 사내 System~1 judge 실전 사용, 패스당 약 $1,000 → 약 $0.06</figcaption>
+</figure>
+
+<h2>Part I — 사내 평가기를 $0.06짜리로</h2>
+
+<ul>
+<li>사내 System~1 judge가 <strong>약 148K 에이전트 코딩 세션 기록</strong>을 학습 코퍼스용으로 트리아지했다 (arXiv).</li>
+<li>frontier LLM judge는 <strong>패스당 약 $1,000</strong>이 들었다. 저장된 라벨 중 최신 합의와 일치한 것은 <strong>두 judge가 합의한 세션의 26.9%</strong>뿐이었다 (arXiv).</li>
+<li>self-hosted frozen backbone + <strong>rank-16 LoRA + pointer head</strong>로 3개 typed 질문을 한 forward pass로 답했다 (arXiv).</li>
+<li><strong>1,000세션을 1개 GPU로 약 3분에 판정</strong>했다. 약 $0.06 — frontier judge 비용의 <strong>약 1%</strong>다. 세션은 조직 안에 머문다 (arXiv).</li>
+</ul>
+
+<div class="callout">
+개념 흐름은 이렇게 읽힌다: judge 호출을 LLM API가 아니라 사내 GPU의 forward pass 한 번으로 바꾼다. 비용 구조가 바뀌면 평가를 매일 돌릴 수 있다.
+</div>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3470-part2-bench.png" alt="Part II — JevBench hard 111문항: 35B 단일 시드 79.3% vs 상용 참조 73.0%" loading="lazy">
+<figcaption>Part II — 오픈 재현: JevBench hard 111문항, 35B 단일 시드 79.3%</figcaption>
+</figure>
+
+<h2>Part II — 오픈 재현이 상용 참조와 유의차 없음</h2>
+
+<ul>
+<li><strong>Eikos 공개 레시피와 약 25K 결정 코퍼스</strong>를 3개 백본(<strong>1B·2B·35B</strong>)에 적용했다 (arXiv).</li>
+<li>JevBench 공개 hard <strong>111문항</strong>에서 35B 단일 시드가 <strong>79.3%</strong>를 기록했다. 상용 참조 <strong>73.0%</strong>와 유의한 차이가 없다(<strong>미조정 p=0.12</strong>) (arXiv).</li>
+<li><strong>5개 오픈 시스템을 앞섰고</strong>, 2B는 kev 체크포인트 <strong>4개를 전부 앞섰다</strong> (arXiv).</li>
+</ul>
+
+<div class="warn">
+출력 레이어 26개 letter 행 학습의 이득은 감지되지 않았다는 점도 저자들이 직접 보고한다. 작은 평가의 해상도 한계를 지적한다 (arXiv).
+</div>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3470-impact.png" alt="왜 중요한지 — 평가 루프를 매일 돌리고 온디바이스에서도 유리한 one-forward-pass 판정" loading="lazy">
+<figcaption>왜 중요한지 — 평가 루프를 매일 돌리고, 온디바이스에서도 유리하다</figcaption>
+</figure>
+
+<h2>왜 중요한지 — Series 코딩 세션 라벨링</h2>
+
+<p>모바일 에이전트 평가에 frontier judge를 돌리면 패스당 $1,000이다. $0.06짜리 사내 judge가 같은 일을 하면 평가 루프를 매일 돌릴 수 있다. Android 온디바이스에서도 one-forward-pass 판정은 지연·배터리 양쪽에 유리하다. 라벨링을 매일 돌리면 코딩 에이전트의 회귀를 조기에 잡을 수 있다 (이슈 배경).</p>
+
+<h2>아직 안 밝혀진 것</h2>
+
+<ul>
+<li>상용 참조 Jev의 정확한 버전·시점이 초록에 없다. 무엇을 이겼는지 불분명하다 — <strong>미확인</strong>.</li>
+<li>Eikos 레시피·코퍼스의 라이선스·공개 범위가 초록에 없다. 재현 조건을 알 수 없다 — <strong>미확인</strong>.</li>
+<li>사내 judge의 실제 운영 배포 여부가 초록에 없다. 실험인지 운영인지 불분명하다 — <strong>미확인</strong>.</li>
+</ul>
+
+<h2>원문 이슈</h2>
+
+<ul>
+<li><a href="https://arxiv.org/abs/2610.29052">arXiv: Jev — 한 번의 forward pass로 답하는 오픈 LoRA 재현 (2026-10-22 제출)</a></li>
+<li><a href="https://github.com/roomedia/ax-trend/issues/3470">ax-trend 이슈 #3470</a></li>
+</ul>
+
+<p class="tags"><a href="/ax/tag/jev/">Jev</a> <a href="/ax/tag/ai-coding/">AI 코딩</a> <a href="/ax/tag/on-device/">온디바이스</a> <a href="/ax/tag/performance/">성능 최적화</a></p>
+
+<footer>
+<p>AX 트렌드 — AI/AX 업계 소식을 정리하는 자동 리서치 블로그.</p>
+</footer>
+
+<aside class="muse-banner">
+<div class="callout">
+<strong>이 블로그의 리서치·발행을 굴리는 도구 — Muse.</strong> 캘린더 브리핑부터 AX 트렌드 자동 발행, 유튜브 제작, 스마트홈까지 실제로 쓰는 AI 에이전트다. <a href="/ax/muse/">Muse 3주 사용기</a>에 정리해뒀다. 가입 후 48시간 안에 추천인 코드 <strong>QO4J0Q</strong>를 입력하면 된다.
+</div>
+</aside>
+
+<section class="related">
+  <h2>관련 글</h2>
+  <ul>
+    <li><a href="/ax/3449-microperf-bench/">Yanze Zhang 등 &#x27;MicroPerf-Bench&#x27; — 마이크로서비스 성능 최적화로 코딩 에이전트 실력 재기 (10/21, arXiv)</a></li>
+    <li><a href="/ax/3446-target-probability-reuse/">Jungseob Lee 등 &#x27;target probability reuse&#x27; — 타깃 확률 재사용으로 추측 디코딩 가속 (10/21, arXiv)</a></li>
+    <li><a href="/ax/3349-exa-3/">Exa, AI 에이전트용 검색 API &#x27;Exa 3.0&#x27; 출시 — 역대 최대 검색 품질 개선·신규 저가 티어 &#x27;Exa Lite&#x27; $4/1,000요청</a></li>
+  </ul>
+</section>
+</main>
+<script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
+</body>
+</html>

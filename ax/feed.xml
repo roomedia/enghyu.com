@@ -7,9 +7,16 @@
     <description>AI/AX 트렌드를 개발자 관점에서 정리한 글 모음.</description>
     <language>ko</language>
     <item>
+      <title>Zhan-Yu Wu 등 &#x27;UserSWE&#x27; — 동적 사용자 시뮬레이션으로 멀티턴 코딩 에이전트 평가 (10/21, arXiv)</title>
+      <link>https://enghyu.com/ax/3471-userswe/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3471-userswe/</guid>
+      <description>코딩 에이전트 평가를 싱글턴 이슈 리포트에서 실제 버그 수정 대화로. 동적 사용자 시뮬레이션과 매 턴 실행 기반 판정으로 11개 에이전트를 평가한 UserSWE.</description>
+    </item>
+    <item>
       <title>Yuchuan Weng 등 &#x27;Jev&#x27; — 한 번의 forward pass로 답하는 오픈 LoRA 재현 (10/22, arXiv)</title>
       <link>https://enghyu.com/ax/3470-jev-open-lora/</link>
       <guid isPermaLink="true">https://enghyu.com/ax/3470-jev-open-lora/</guid>
+      <pubDate>Sat, 24 Oct 2026 13:30:00 +0900</pubDate>
       <description>Jev를 오픈으로 재현한 논문. 한 번의 forward pass로 증거·질문·고정 옵션을 옵션별 확률로 매핑한다. 1,000세션을 1개 GPU로 약 3분에, 약 $0.06에 판정한다.</description>
     </item>
     <item>
@@ -137,13 +144,6 @@
       <guid isPermaLink="true">https://enghyu.com/ax/3377-torchtpu/</guid>
       <pubDate>Fri, 23 Oct 2026 01:20:00 +0900</pubDate>
       <description>Google이 PyTorch Conference 2026에서 TorchTPU를 오픈소스로 공개했다. TPU용 네이티브 PyTorch 백엔드로, Google·Meta PyTorch 팀이 공동 개발. eager 실행 우선, .to(&quot;cuda&quot;) → .to(&quot;tpu&quot;) 수준의 최소 변경으로</description>
-    </item>
-    <item>
-      <title>Mistral &#x27;Voxtral 3&#x27; — STT·TTS·SDK를 한 벤더로 묶은 실시간 음성 에이전트 스택</title>
-      <link>https://enghyu.com/ax/3376-voxtral-3/</link>
-      <guid isPermaLink="true">https://enghyu.com/ax/3376-voxtral-3/</guid>
-      <pubDate>Thu, 22 Oct 2026 21:30:00 +0900</pubDate>
-      <description>Mistral이 실시간 음성 에이전트 스택 Voxtral 3를 출시했다. STT/TTS 모델군 + LiveKit 기반 SDK. FLEURS WER 4.1%(Whisper large-v3 16.0%) 주장, 분당 $0.0035부터.</description>
     </item>
   </channel>
 </rss>

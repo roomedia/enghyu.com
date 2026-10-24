@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G5WKCES0DY"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G5WKCES0DY');</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zhan-Yu Wu 등 &#x27;UserSWE&#x27; — 동적 사용자 시뮬레이션으로 멀티턴 코딩 에이전트 평가 (10/21, arXiv)</title>
+<meta name="description" content="코딩 에이전트 평가를 싱글턴 이슈 리포트에서 실제 버그 수정 대화로. 동적 사용자 시뮬레이션과 매 턴 실행 기반 판정으로 11개 에이전트를 평가한 UserSWE.">
+<meta property="og:image" content="https://enghyu.com/ax/3471-userswe/og.png">
+<meta property="og:title" content="Zhan-Yu Wu 등 &#x27;UserSWE&#x27; — 동적 사용자 시뮬레이션으로 멀티턴 코딩 에이전트 평가 (10/21, arXiv)">
+<meta property="og:description" content="버그 수정은 대화로 일어난다. 멀티턴 상호작용으로 repository-level 버그 수정 능력을 평가하는 UserSWE — 상호작용 예산에 따라 에이전트 순위가 바뀐다.">
+<meta property="og:url" content="https://enghyu.com/ax/3471-userswe/">
+<meta property="og:type" content="article">
+<style>
+:root{--bg:#ffffff;--text:#1a1a1a;--muted:#666;--border:#e5e5e5;--accent:#0891b2;--code-bg:#f6f8fa;}
+@media (prefers-color-scheme: dark){:root{--bg:#0f1115;--text:#e8eaf0;--muted:#9aa0ad;--border:#2a2e38;--accent:#22d3ee;--code-bg:#181c24;}}
+*{box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:24px 20px;}
+main{max-width:800px;margin:0 auto;}
+.topnav{margin-bottom:20px;}.topnav a{color:var(--muted);font-size:14px;text-decoration:none;}.topnav a:hover{color:var(--accent);text-decoration:underline;}
+h1{font-size:1.9rem;line-height:1.35;margin:0 0 8px;}
+.meta{color:var(--muted);font-size:14px;margin-bottom:28px;}
+h2{font-size:1.3rem;margin:44px 0 12px;padding-top:8px;border-top:1px solid var(--border);}
+h3{font-size:1.05rem;margin:28px 0 8px;}
+p{margin:0 0 16px;}
+img{max-width:100%;height:auto;border-radius:10px;margin:20px 0;border:1px solid var(--border);}
+figure{margin:0;}figcaption{color:var(--muted);font-size:13px;text-align:center;margin:-8px 0 24px;}
+ul{margin:0 0 16px;padding-left:22px;}
+li{margin-bottom:8px;}
+strong{font-weight:700;}
+.callout{background:var(--code-bg);border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+.warn{background:var(--code-bg);border-left:3px solid #f59e0b;padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.9em;}
+pre{background:var(--code-bg);padding:16px;border-radius:8px;overflow-x:auto;border:1px solid var(--border);font-size:.85em;line-height:1.6;}
+pre code{background:none;padding:0;}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.92em;}
+th,td{border:1px solid var(--border);padding:8px 12px;text-align:left;}
+th{background:var(--code-bg);}
+a{color:var(--accent);}
+.tags a{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:3px 12px;font-size:13px;margin:0 6px 6px 0;color:var(--text);text-decoration:none;}.tags a:hover{border-color:var(--accent);color:var(--accent);}
+footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:14px;}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Zhan-Yu Wu 등 'UserSWE' — 동적 사용자 시뮬레이션으로 멀티턴 코딩 에이전트 평가 (10/21, arXiv)",
+  "mainEntityOfPage": "https://enghyu.com/ax/3471-userswe/",
+  "url": "https://enghyu.com/ax/3471-userswe/",
+  "author": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "publisher": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "description": "코딩 에이전트 평가를 싱글턴 이슈 리포트에서 실제 버그 수정 대화로. 동적 사용자 시뮬레이션과 매 턴 실행 기반 판정으로 11개 에이전트를 평가한 UserSWE.",
+  "image": "https://enghyu.com/ax/3471-userswe/og.png",
+  "datePublished": "2026-10-24T15:15:00+09:00",
+  "dateModified": "2026-10-24T15:15:00+09:00"
+}
+</script>
+<link rel="canonical" href="https://enghyu.com/ax/3471-userswe/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Zhan-Yu Wu 등 &#x27;UserSWE&#x27; — 동적 사용자 시뮬레이션으로 멀티턴 코딩 에이전트 평가 (10/21, arXiv)">
+<meta name="twitter:description" content="버그 수정은 대화로 일어난다. 멀티턴 상호작용으로 repository-level 버그 수정 능력을 평가하는 UserSWE — 상호작용 예산에 따라 에이전트 순위가 바뀐다.">
+<meta name="twitter:image" content="https://enghyu.com/ax/3471-userswe/og.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://enghyu.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AX 트렌드",
+      "item": "https://enghyu.com/ax/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Zhan-Yu Wu 등 'UserSWE' — 동적 사용자 시뮬레이션으로 멀티턴 코딩 에이전트 평가 (10/21, arXiv)",
+      "item": "https://enghyu.com/ax/3471-userswe/"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<main>
+<nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
+
+<h1>Zhan-Yu Wu 등 &#x27;UserSWE&#x27; — 동적 사용자 시뮬레이션으로 멀티턴 코딩 에이전트 평가 (10/21, arXiv)</h1>
+<p class="meta">2026-10-21 arXiv 제출 · ax-trend 이슈 #3471 · UserSWE</p>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3471-overview.png" alt="UserSWE 개요 — 멀티턴 코딩 에이전트 평가, 동적 사용자 시뮬레이션" loading="lazy">
+<figcaption>UserSWE — 동적 사용자 시뮬레이션으로 멀티턴 코딩 에이전트를 평가한다</figcaption>
+</figure>
+
+<h2>핵심 — 벤치마크는 개발자처럼 대화하지 않는다</h2>
+
+<ul>
+<li>기존 벤치마크는 완성된 issue report를 한 턴에 주고 끝낸다. 상호작용 없이 <strong>single turn에 complete issue report</strong>를 제시하는 방식이다 (arXiv).</li>
+<li>실제 개발자는 코딩 에이전트와 <strong>대화를 주고받으며</strong> 버그를 고친다. UserSWE는 바로 이 장면을 평가한다 (arXiv).</li>
+<li>이 간극 때문에 단일 턴 평가는 <strong>false positive와 false negative</strong>를 낸다. 틀린 패치를 통과시키거나, 맞는 패치를 떨어뜨린다 (arXiv).</li>
+</ul>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3471-verdicts.png" alt="UserSWE 판정 방식 — 매 턴 테스트 실행, 모델 페어 검증 판정" loading="lazy">
+<figcaption>UserSWE 판정 — 매 턴 테스트를 돌리고, 모델 페어가 verdict를 작성·게이팅한다</figcaption>
+</figure>
+
+<h2>판정은 매 턴 테스트를 돌린다</h2>
+
+<ul>
+<li>매 턴 <strong>execution-grounded verdicts</strong>로 판정한다. 테스트가 매 턴 실행된다 (arXiv).</li>
+<li>verdict 작성·게이팅은 <strong>서로 다른 model family의 에이전트 한 쌍</strong>이 맡는다 (arXiv).</li>
+<li><strong>test results가 1차 근거</strong>다. model judgment는 테스트로 해결 안 되는 측면에만 쓴다 (arXiv).</li>
+</ul>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3471-pipeline.png" alt="UserSWE 태스크 파이프라인 — 레포 히스토리를 멀티턴 태스크로 변환" loading="lazy">
+<figcaption>태스크 파이프라인 — repo history와 싱글턴 벤치마크를 멀티턴 태스크로 변환한다</figcaption>
+</figure>
+
+<h2>multi-turn 태스크 파이프라인</h2>
+
+<ul>
+<li>구축 파이프라인은 <strong>repository history와 기존 single-turn 벤치마크</strong>를 multi-turn 태스크로 바꾼다 (arXiv).</li>
+<li><strong>information pools</strong>가 시뮬레이션된 사용자가 밝힐 수 있는 정보를 제한한다. 사용자가 모든 정보를 한 번에 주지 않게 설계한 장치다 (arXiv).</li>
+<li><strong>persona chain</strong>은 <strong>20,859 development sessions</strong>으로 보정한 transition model에서 샘플링한다 (arXiv).</li>
+</ul>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3471-results.png" alt="UserSWE 평가 결과 — 42개 레포·72개 태스크·11개 에이전트, 상호작용 예산별 순위 변동" loading="lazy">
+<figcaption>평가 결과 — 상호작용 예산에 따라 에이전트 순위가 바뀐다</figcaption>
+</figure>
+
+<h2>상호작용 예산에 따라 순위가 바뀐다</h2>
+
+<ul>
+<li><strong>42개 repository의 72개 태스크</strong>에 <strong>11개 에이전트</strong>를 평가했다 (arXiv).</li>
+<li><strong>Claude Fable 5.1</strong>은 <strong>1턴에서 최다 해결</strong>했다 (arXiv).</li>
+<li><strong>GPT-6-Astra</strong>는 <strong>8턴까지 최다</strong>를 기록했다 (arXiv).</li>
+<li><strong>Claude Opus 5</strong>는 <strong>중간 budget 다수</strong>를 리드했다 (arXiv).</li>
+</ul>
+
+<div class="callout">
+single-turn performance로는 interactive coding ability를 설명할 수 없다는 게 논문의 지적이다. 턴 수가 허용되는 순간 순위가 바뀌니, 벤치마크 점수 한 줄로 에이전트를 고르면 안 된다.
+</div>
+
+<h2>왜 중요한지 — 도입 평가의 기준을 바꿔라</h2>
+
+<p>코딩 에이전트를 실무에 도입할 때 벤치마크 단일 턴 점수만 보면 안 된다. 우리 사용 패턴이 짧은 수정 요청 위주인지, 긴 디버깅 대화 위주인지에 따라 봐야 할 순위가 달라진다. 평가할 때는 1턴·8턴·중간 budget의 순위를 함께 보고, 우리 사용 패턴에 맞는 에이전트를 골라야 한다 (이슈 배경).</p>
+
+<h2>아직 안 밝혀진 것</h2>
+
+<ul>
+<li>42개 repository의 <strong>언어·규모 분포</strong>는 미확인이다.</li>
+<li>persona transition model의 <strong>구체 구조</strong>는 미확인이다.</li>
+<li>verdict pair를 구성한 <strong>model family의 조합</strong>은 미확인이다.</li>
+<li>multi-turn task 변환 파이프라인의 <strong>재현 가능성(코드 공개 여부)</strong>은 미확인이다.</li>
+</ul>
+
+<h2>원문 이슈</h2>
+
+<ul>
+<li><a href="https://arxiv.org/abs/2610.29822">arXiv: UserSWE — 동적 사용자 시뮬레이션으로 멀티턴 코딩 에이전트 평가 (2026-10-21 제출)</a></li>
+<li><a href="https://github.com/roomedia/ax-trend/issues/3471">ax-trend 이슈 #3471</a></li>
+<li><a href="https://github.com/roomedia/ax-trend/issues/3455">관련 이슈 #3455 — SWE-DIVE: 동적 사용자 시뮬레이션으로 멀티턴 코딩 에이전트 평가</a></li>
+</ul>
+
+<p class="tags"><a href="/ax/tag/ai-coding/">AI 코딩</a> <a href="/ax/tag/agentic-benchmark/">agentic benchmark</a> <a href="/ax/tag/agent-model/">에이전트 모델</a></p>
+
+<footer>
+<p>AX 트렌드 — AI/AX 업계 소식을 정리하는 자동 리서치 블로그.</p>
+</footer>
+
+<aside class="muse-banner">
+<div class="callout">
+<strong>이 블로그의 리서치·발행을 굴리는 도구 — Muse.</strong> 캘린더 브리핑부터 AX 트렌드 자동 발행, 유튜브 제작, 스마트홈까지 실제로 쓰는 AI 에이전트다. <a href="/ax/muse/">Muse 3주 사용기</a>에 정리해뒀다. 가입 후 48시간 안에 추천인 코드 <strong>QO4J0Q</strong>를 입력하면 된다.
+</div>
+</aside>
+
+<section class="related">
+  <h2>관련 글</h2>
+  <ul>
+    <li><a href="/ax/3445-sysrb/">Chenxi Huang 등 &#x27;SysRB&#x27; — 코딩 에이전트는 시스템 크래시 원인을 아직 못 읽는다 (10/21, arXiv)</a></li>
+    <li><a href="/ax/3449-microperf-bench/">Yanze Zhang 등 &#x27;MicroPerf-Bench&#x27; — 마이크로서비스 성능 최적화로 코딩 에이전트 실력 재기 (10/21, arXiv)</a></li>
+    <li><a href="/ax/3447-agent-behavior-maps/">Shota Fujikawa 등 &#x27;Agent Behavior Maps&#x27; — 에이전트를 실행 없이 행동 궤적으로 위치시키는 지도 (10/21, arXiv)</a></li>
+  </ul>
+</section>
+</main>
+<script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
+</body>
+</html>

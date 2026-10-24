@@ -357,3 +357,26 @@ npm run test:e2e
 ### 다음 작업 우선순위
 - 신규 ax 글은 발행 시 og.png를 포함한다 (channels/enghyu.md 규격 반영 완료, 크론이 다음 run부터 적용).
 - 카톡 실기기에서 #3381 미리보기 확인 후에도 깨지면 Content-Type 부재를 다음 원인으로 조사한다.
+
+## 2026-10-24 — Muse 사용기 /ax/muse 발행
+
+### 현재 구현 상태
+- ax-trend 이슈에 묶이지 않는 단독 사용기 페이지를 `https://enghyu.com/ax/muse/`로 발행했다 (사용자 지시로 경로 확정). 티스토리판과 같은 원고를 enghyu 규격(다크 팔레트 이미지 4장, 자체 도메인 og)으로 재구성했다. 추천인 코드 QO4J0Q 본문 삽입.
+
+### 변경한 파일과 동작
+- `ax/muse/index.html` (신규): 독립 HTML. GA·BlogPosting/Breadcrumb LD·canonical·비콘·태그 링크 포함. 하단에 티스토리판 크로스링크.
+- `ax/muse/og.png` (신규): 첫 패널(overview) 복사 — og:image 자체 도메인 서빙.
+- `scripts/tag_pool.json`: 정식 태그 `Muse` 추가 (슬러그 muse 자동 생성).
+- 이미지: 다크 2x2 그리드 생성→split_grid 분리→blog-assets 레포에 `enghyu-muse-{overview,briefing,pipeline,smarthome}.png` 업로드 (contents API, raw 200 확인). 1차 그리드의 가짜 수치(코스피 +0.82%)를 발견해 수치 금지 조건으로 재생성한 2차 그리드를 채택.
+- 목록·태그·sitemap·피드는 배포 파이프라인이 재생성 (ax/index에 카드, /ax/tag/muse/ 생성).
+
+### 실행한 검증 명령과 결과
+- `python deploy_cf.py`: Worker 배포 성공 (에셋 8개 업로드).
+- 라이브 curl: /ax/muse/ 200, QO4J0Q 3회 검출, og.png 200 (293,684B, 원본 동일), 패널 raw 200, /ax/ 목록에 카드 포함, /ax/tag/muse/ 200.
+
+### 확인하지 못한 항목과 남은 리스크
+- 카카오톡 공유 미리보기 실기기 확인은 미실시 (og 자체 도메인 전환 건과 동일 리스크).
+- gen_ax_index 카드 번호 표기가 `#muse`로 나온다 (비숫자 슬러그 처리 방식 그대로). 목록 최하단에 위치.
+
+### 다음 작업 우선순위
+- 카톡 실기기 미리보기 확인 시 깨지면 Content-Type 부재를 다음 원인으로 조사 (기존 항목과 동일).

@@ -98,9 +98,17 @@
       <description>MeMoDecode는 DSL의 concrete syntax·abstract syntax·well-formedness constraints를 디코딩 시점에 함께 강제하는 프레임워크다. 4개 DSL·6개 LLM(0.6B~70B)에서 일관성이 무제약 대비 평균 23%, 문법제약 디코딩 대비</description>
     </item>
     <item>
+      <title>OpenAI, 프론티어 모델·Codex를 Google Cloud Model Garden에 입점 — Marketplace 구매·수 주 내 GA, &#x27;Microsoft remains primary&#x27; (10/21, OpenAI 공식)</title>
+      <link>https://enghyu.com/ax/3385-openai-google-cloud-model-garden/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3385-openai-google-cloud-model-garden/</guid>
+      <pubDate>Sat, 24 Oct 2026 19:16:55 +0900</pubDate>
+      <description>OpenAI의 프론티어 모델과 Codex가 Google Cloud Model Garden에 들어간다. Marketplace 구매에 GCP 지출 약정을 차감할 수 있고, 일반 제공은 수 주 안에 예정돼 있다.</description>
+    </item>
+    <item>
       <title>Asymptote Labs &#x27;Beacon&#x27; — 29개 하네스를 가로지르는 에이전트 메모리 레이어, Jev 평가 연동 (10/21, GitHub)</title>
       <link>https://enghyu.com/ax/3384-beacon-memory/</link>
       <guid isPermaLink="true">https://enghyu.com/ax/3384-beacon-memory/</guid>
+      <pubDate>Sat, 24 Oct 2026 17:18:17 +0900</pubDate>
       <description>코딩 에이전트 세션을 hooks·OTLP·폴링으로 모아 OpenTelemetry 이벤트로 정규화하는 오픈소스 메모리 레이어 Beacon. 사람 리뷰를 거친 지식만 재사용하고, Jev 평가로 승격을 가른다.</description>
     </item>
     <item>
@@ -137,13 +145,6 @@
       <guid isPermaLink="true">https://enghyu.com/ax/3379-eleven-realtime/</guid>
       <pubDate>Fri, 23 Oct 2026 06:10:00 +0900</pubDate>
       <description>ElevenLabs가 실시간 음성 에이전트용 speech-to-speech 모델 &#x27;Eleven Realtime v1&#x27;(Mini/Max)을 공개했다. v1 Max는 Big Bench Audio 98.8%, 첫 오디오 응답 0.57초. OpenAI Realtime API 호환이라</description>
-    </item>
-    <item>
-      <title>Microsoft, AI 코딩 에이전트 평가 오픈소스 플랫폼 &#x27;Scope&#x27; 공개 — Copilot·Claude Code 반복 과제로 테스트, DevAx 개념 제시</title>
-      <link>https://enghyu.com/ax/3378-microsoft-scope/</link>
-      <guid isPermaLink="true">https://enghyu.com/ax/3378-microsoft-scope/</guid>
-      <pubDate>Fri, 23 Oct 2026 03:35:00 +0900</pubDate>
-      <description>Microsoft가 AI 코딩 에이전트 평가 플랫폼 Scope를 오픈소스로 공개했다. 핵심 개념은 DevAx(Developer Agent Experience). 작업과 에이전트 설정(프로필)을 주고 Copilot·Claude Code 같은 기존 에이전트를 반복 투입해 채점하는 구조다</description>
     </item>
   </channel>
 </rss>

@@ -7,9 +7,16 @@
     <description>AI/AX 트렌드를 개발자 관점에서 정리한 글 모음.</description>
     <language>ko</language>
     <item>
+      <title>Sujoy Roychowdhury 등 &#x27;Code Comprehensor&#x27; — 대규모 레포의 계층 문서·크로스모달 검색 (10/22, arXiv)</title>
+      <link>https://enghyu.com/ax/3469-code-comprehensor/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3469-code-comprehensor/</guid>
+      <description>Code Comprehensor는 대규모 코드베이스를 이해하는 검색+추론 하이브리드다. CodeGraph로 호출 관계를 지도화하고, CodeScribe로 계층 문서를 생성하고, CodeContrast로 코드-텍스트를 의미 검색한다.</description>
+    </item>
+    <item>
       <title>Yanze Zhang 등 &#x27;MicroPerf-Bench&#x27; — 마이크로서비스 성능 최적화로 코딩 에이전트 실력 재기 (10/21, arXiv)</title>
       <link>https://enghyu.com/ax/3449-microperf-bench/</link>
       <guid isPermaLink="true">https://enghyu.com/ax/3449-microperf-bench/</guid>
+      <pubDate>Sat, 24 Oct 2026 07:20:00 +0900</pubDate>
       <description>MicroPerf-Bench는 마이크로서비스 시스템의 종단간 성능 최적화로 코딩 에이전트를 재는 벤치마크다. 1,755회 실행에서 최고 구성도 주입된 성능 저하의 42.0%만 회복했다.</description>
     </item>
     <item>
@@ -76,6 +83,13 @@
       <description>MeMoDecode는 DSL의 concrete syntax·abstract syntax·well-formedness constraints를 디코딩 시점에 함께 강제하는 프레임워크다. 4개 DSL·6개 LLM(0.6B~70B)에서 일관성이 무제약 대비 평균 23%, 문법제약 디코딩 대비</description>
     </item>
     <item>
+      <title>Underdog, 음성 모델 &#x27;Bark 3.0&#x27; 출시 — 163MB로 Whisper large-v3보다 낮은 오류율 주장 (10/21, Underdog 공식)</title>
+      <link>https://enghyu.com/ax/3383-underdog-bark-3-speech-model/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3383-underdog-bark-3-speech-model/</guid>
+      <pubDate>Sat, 24 Oct 2026 09:20:38 +0900</pubDate>
+      <description>Underdog AI가 163MB 음성 인식 모델 Bark 3.0을 출시했다. 회의 녹음 단어 오류율 자사 측정 7.82%로 Whisper large-v3(13.63%)보다 낮다고 주장했다. CC-BY 4.0 오픈소스, 영어 전용.</description>
+    </item>
+    <item>
       <title>ARahim3 &#x27;DigUp&#x27; — EmbeddingGemma 2 기반 온디바이스 파일 의미 검색, Mac/Windows/Linux 오픈소스 (GitHub 5.3k★)</title>
       <link>https://enghyu.com/ax/3382-digup/</link>
       <guid isPermaLink="true">https://enghyu.com/ax/3382-digup/</guid>
@@ -130,20 +144,6 @@
       <guid isPermaLink="true">https://enghyu.com/ax/3375-kanana-2-vision-encoder/</guid>
       <pubDate>Thu, 22 Oct 2026 19:20:00 +0900</pubDate>
       <description>카카오가 AI 비전 인코더 Kanana-2-vision-encoder 2종을 오픈소스로 공개했다. medium 4.26억·tiny 9,800만 파라미터, 지연 60% 감소 주장. 온디바이스 멀티모달 파이프라인에 쓸 만한 경량 옵션이 하나 늘었다.</description>
-    </item>
-    <item>
-      <title>yomiyasu &#x27;4일 4릴리스&#x27; — 서브에이전트 1,200개가 만든 일본어 교정 스킬, 루프+하네스 엔지니어링 3층 설계</title>
-      <link>https://enghyu.com/ax/3365-yomiyasu/</link>
-      <guid isPermaLink="true">https://enghyu.com/ax/3365-yomiyasu/</guid>
-      <pubDate>Thu, 22 Oct 2026 17:25:00 +0900</pubDate>
-      <description>yomiyasu v2.1.0 해설 포스트(조회 8.8만)가 공개한 3층 설계: 완성 조건을 먼저 정하는 개선 사이클(1층), 지시를 구조에 맡기는 루프 엔지니어링(2층), 에이전트 작업 환경을 설계하는 하네스 엔지니어링(3층). 서브에이전트 1,200개+, 테스트 1,814건, 출력</description>
-    </item>
-    <item>
-      <title>UniiChat — &#x27;새 채팅&#x27; 없는 영원한 하나의 대화, 메모리 트리로 무한 컨텍스트를 구현한 오픈소스 에이전트</title>
-      <link>https://enghyu.com/ax/3353-uniichat/</link>
-      <guid isPermaLink="true">https://enghyu.com/ax/3353-uniichat/</guid>
-      <pubDate>Thu, 22 Oct 2026 15:30:00 +0900</pubDate>
-      <description>Victor Taelin이 2026-10-19 공개한 오픈소스 AI 에이전트 UniiChat. 하나의 대화가 수일·수주·수년 계속되고 에이전트가 전부 기억한다. 메모리 트리(이진 요약 트리)+Zoom으로 compaction의 기억 손실 없이 최대 128KB 뷰를 유지한다.</description>
     </item>
   </channel>
 </rss>

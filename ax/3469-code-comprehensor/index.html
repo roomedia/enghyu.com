@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G5WKCES0DY"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G5WKCES0DY');</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sujoy Roychowdhury 등 &#x27;Code Comprehensor&#x27; — 대규모 레포의 계층 문서·크로스모달 검색 (10/22, arXiv)</title>
+<meta name="description" content="Code Comprehensor는 대규모 코드베이스를 이해하는 검색+추론 하이브리드다. CodeGraph로 호출 관계를 지도화하고, CodeScribe로 계층 문서를 생성하고, CodeContrast로 코드-텍스트를 의미 검색한다.">
+<meta property="og:image" content="https://enghyu.com/ax/3469-code-comprehensor/og.png">
+<meta property="og:title" content="Sujoy Roychowdhury 등 &#x27;Code Comprehensor&#x27; — 대규모 레포의 계층 문서·크로스모달 검색 (10/22, arXiv)">
+<meta property="og:description" content="호출 그래프 기반 계층 문서와 CLIP식 크로스모달 검색으로 대규모 레포를 이해하는 시스템. RAGAS faithfulness 90% 이상.">
+<meta property="og:url" content="https://enghyu.com/ax/3469-code-comprehensor/">
+<meta property="og:type" content="article">
+<style>
+:root{--bg:#ffffff;--text:#1a1a1a;--muted:#666;--border:#e5e5e5;--accent:#0891b2;--code-bg:#f6f8fa;}
+@media (prefers-color-scheme: dark){:root{--bg:#0f1115;--text:#e8eaf0;--muted:#9aa0ad;--border:#2a2e38;--accent:#22d3ee;--code-bg:#181c24;}}
+*{box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:24px 20px;}
+main{max-width:800px;margin:0 auto;}
+.topnav{margin-bottom:20px;}.topnav a{color:var(--muted);font-size:14px;text-decoration:none;}.topnav a:hover{color:var(--accent);text-decoration:underline;}
+h1{font-size:1.9rem;line-height:1.35;margin:0 0 8px;}
+.meta{color:var(--muted);font-size:14px;margin-bottom:28px;}
+h2{font-size:1.3rem;margin:44px 0 12px;padding-top:8px;border-top:1px solid var(--border);}
+h3{font-size:1.05rem;margin:28px 0 8px;}
+p{margin:0 0 16px;}
+img{max-width:100%;height:auto;border-radius:10px;margin:20px 0;border:1px solid var(--border);}
+figure{margin:0;}figcaption{color:var(--muted);font-size:13px;text-align:center;margin:-8px 0 24px;}
+ul{margin:0 0 16px;padding-left:22px;}
+li{margin-bottom:8px;}
+strong{font-weight:700;}
+.callout{background:var(--code-bg);border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+.warn{background:var(--code-bg);border-left:3px solid #f59e0b;padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.9em;}
+pre{background:var(--code-bg);padding:16px;border-radius:8px;overflow-x:auto;border:1px solid var(--border);font-size:.85em;line-height:1.6;}
+pre code{background:none;padding:0;}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.92em;}
+th,td{border:1px solid var(--border);padding:8px 12px;text-align:left;}
+th{background:var(--code-bg);}
+a{color:var(--accent);}
+.tags a{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:3px 12px;font-size:13px;margin:0 6px 6px 0;color:var(--text);text-decoration:none;}.tags a:hover{border-color:var(--accent);color:var(--accent);}
+footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:14px;}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Sujoy Roychowdhury 등 'Code Comprehensor' — 대규모 레포의 계층 문서·크로스모달 검색 (10/22, arXiv)",
+  "mainEntityOfPage": "https://enghyu.com/ax/3469-code-comprehensor/",
+  "url": "https://enghyu.com/ax/3469-code-comprehensor/",
+  "author": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "publisher": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "description": "Code Comprehensor는 대규모 코드베이스를 이해하는 검색+추론 하이브리드다. CodeGraph로 호출 관계를 지도화하고, CodeScribe로 계층 문서를 생성하고, CodeContrast로 코드-텍스트를 의미 검색한다.",
+  "image": "https://enghyu.com/ax/3469-code-comprehensor/og.png",
+  "datePublished": "2026-10-24T11:30:00+09:00",
+  "dateModified": "2026-10-24T11:30:00+09:00"
+}
+</script>
+<link rel="canonical" href="https://enghyu.com/ax/3469-code-comprehensor/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sujoy Roychowdhury 등 &#x27;Code Comprehensor&#x27; — 대규모 레포의 계층 문서·크로스모달 검색 (10/22, arXiv)">
+<meta name="twitter:description" content="호출 그래프 기반 계층 문서와 CLIP식 크로스모달 검색으로 대규모 레포를 이해하는 시스템. RAGAS faithfulness 90% 이상.">
+<meta name="twitter:image" content="https://enghyu.com/ax/3469-code-comprehensor/og.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://enghyu.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AX 트렌드",
+      "item": "https://enghyu.com/ax/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Sujoy Roychowdhury 등 'Code Comprehensor' — 대규모 레포의 계층 문서·크로스모달 검색 (10/22, arXiv)",
+      "item": "https://enghyu.com/ax/3469-code-comprehensor/"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<main>
+<nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
+
+<h1>Sujoy Roychowdhury 등 &#x27;Code Comprehensor&#x27; — 대규모 레포의 계층 문서·크로스모달 검색 (10/22, arXiv)</h1>
+<p class="meta">2026-10-22 arXiv 제출 · ax-trend 이슈 #3469 · AI 코딩</p>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3469-overview.png" alt="Code Comprehensor 개요 — 대규모 레포의 계층 문서와 크로스모달 코드 검색" loading="lazy">
+<figcaption>Code Comprehensor — 대규모 레포 이해를 위한 검색+추론 하이브리드</figcaption>
+</figure>
+
+<h2>핵심 — 이 함수가 어디서 불리는지를 계층 문서와 의미 검색으로 답한다</h2>
+
+<ul>
+<li>크고 복잡하고 빨리 변하는 코드베이스를 이해하는 일은 온보딩·유지보수·리팩토링·영향 분석의 병목이다 (arXiv).</li>
+<li>LLM에 필요한 건 메서드 하나가 아니라 <strong>레포 전체 맥락에서의 연관 메서드</strong>다 (arXiv).</li>
+<li><strong>Code Comprehensor는 검색으로 근거를 모으고 추론으로 답하는 하이브리드</strong>다 (arXiv).</li>
+<li>구성은 세 단계다: CodeGraph(호출 그래프) → CodeScribe(계층 문서) → CodeContrast(크로스모달 검색), 마지막에 MCP 기반 LLM 오케스트레이터가 도메인 질의에 답한다 (arXiv).</li>
+</ul>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3469-codescribe.png" alt="CodeScribe — 호출 그래프를 따라 계층 문서를 생성하는 구조" loading="lazy">
+<figcaption>CodeScribe — 호출 그래프를 따라 문서를 계층적으로 쌓는 단계</figcaption>
+</figure>
+
+<h2>CodeScribe — 호출 그래프를 따라 계층 문서를 쌓는다</h2>
+
+<ul>
+<li><strong>CodeGraph는 코드 의존 호출 그래프</strong>다. 레포 전체의 호출 관계를 담은 지도 — 누가 누구를 부르는지의 전체 그림이다 (arXiv).</li>
+<li><strong>CodeScribe는 코드 인식 LLM으로 호출 그래프에 계층 문서를 생성</strong>한다. 그래프 구조를 따라 문서를 쌓는다. 호출 관계를 따라 계층적으로 문서를 만든다 (arXiv).</li>
+<li>계층 문서·부모/형제 컨텍스트·LLM 합성 질문 같은 <strong>풍부한 텍스트 지도가 두 레포에서 일관되게 성능을 높였다</strong> (arXiv).</li>
+</ul>
+
+<div class="callout">
+개념 흐름은 이렇게 읽힌다: 레포 전체를 정적 분석해 호출 그래프를 뽑고, 그래프 위를 LLM이 따라가며 각 노드에 문서를 붙인다. 문서가 곧 검색의 연료다.
+</div>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3469-codecontrast.png" alt="CodeContrast — 코드와 텍스트를 하나의 임베딩 공간에 정렬하는 CLIP식 듀얼 인코더" loading="lazy">
+<figcaption>CodeContrast — CodeScribe 출력으로 학습한 CLIP식 듀얼 인코더</figcaption>
+</figure>
+
+<h2>CodeContrast — 코드와 텍스트를 하나의 임베딩 공간에</h2>
+
+<ul>
+<li><strong>CodeContrast는 CodeScribe 출력으로 학습한 CLIP식 듀얼 인코더</strong>다. 정렬된 텍스트-코드 임베딩을 학습한다 (arXiv).</li>
+<li><strong>관련 코드-컨텍스트 이웃을 빠르고 의미 있게 검색</strong>한다 (arXiv).</li>
+<li><strong>MCP 기반 LLM 오케스트레이터</strong>가 검색 결과를 근거로 도메인 질의에 답한다 (arXiv).</li>
+<li><strong>RAGAS LLM-as-a-judge에서 faithfulness 90% 이상</strong>을 기록했다. 답의 근거 충실도가 높다 — 근거 없는 답을 안 한다는 뜻이다 (arXiv).</li>
+</ul>
+
+<h2>평가 — OpenCV와 5M-LOC 독점 레포에서 검증</h2>
+
+<ul>
+<li><strong>OpenCV와 독점 5M-LOC 레포지토리에서 평가</strong>했다. 공개와 비공개 레포 둘 다에서 검증했다 (arXiv).</li>
+<li><strong>CodeScribe 파생 지도가 text-to-code 정확도를 베이스라인 대비 개선</strong>했다. 문서 품질이 검색 품질로 이어진다 (arXiv).</li>
+</ul>
+
+<div class="warn">
+text-to-code 정확도의 절대 수치는 초록에 없다. 개선폭의 기준선은 미확인이다. 아래 쟁점과 함께 읽을 것.
+</div>
+
+<h2>아직 안 밝혀진 것</h2>
+
+<ul>
+<li>text-to-code 정확도의 절대 수치가 초록에 없다. 개선폭의 기준을 알 수 없다 — <strong>미확인</strong>.</li>
+<li>독점 레포의 언어·도메인이 초록에 없다. 어떤 코드인지 확인할 수 없다 — <strong>미확인</strong>.</li>
+<li>MCP 오케스트레이터의 지연·비용이 초록에 없다. 운영 조건을 추정할 수 없다 — <strong>미확인</strong>.</li>
+<li>CodeScribe에 쓴 코드 인식 LLM의 정체가 초록에 없다. 재현 기준이 없다 — <strong>미확인</strong>.</li>
+</ul>
+
+<h2>왜 중요한지 — Series 같은 대형 코드베이스의 온보딩 병목</h2>
+
+<p>Series 같은 대형 Android 코드베이스에 새 팀원이 붙을 때 "이 함수가 어디서 불리는지"를 계층 문서와 의미 검색으로 답하는 구조다. 문서와 검색이 팀의 공유 지식이 된다. MCP 오케스트레이터라는 점이 AX TF의 에이전트 툴링과 바로 맞물린다. 기존 툴링에 얹기 쉽다. 온보딩 시간을 줄이는 게 곧 팀 속도다 (이슈 배경).</p>
+
+<h2>원문 이슈</h2>
+
+<ul>
+<li><a href="https://arxiv.org/abs/2610.30016">arXiv: Code Comprehensor (2026-10-22 제출)</a></li>
+<li><a href="https://github.com/roomedia/ax-trend/issues/3469">ax-trend 이슈 #3469</a></li>
+</ul>
+
+<p class="tags"><a href="/ax/tag/ai-coding/">AI 코딩</a> <a href="/ax/tag/code-maintenance/">코드 유지보수</a> <a href="/ax/tag/multimodal/">멀티모달</a></p>
+
+<footer>
+<p>AX 트렌드 — AI/AX 업계 소식을 정리하는 자동 리서치 블로그.</p>
+</footer>
+
+<section class="related">
+  <h2>관련 글</h2>
+  <ul>
+    <li><a href="/ax/3441-dynaci-runtime-ci/">Javid Ditty 등 &#x27;DynaCI&#x27; — 로컬 런타임 정보로 GitHub Actions 워크플로 자동 생성 (10/21, arXiv)</a></li>
+    <li><a href="/ax/3277-gpt6-codebase-maintenance/">OpenAI의 &#x27;GPT-6 family로 소프트웨어 유지보수&#x27; — 죽은 코드·기능 스위치·CI 최적화 실전 프롬프트</a></li>
+    <li><a href="/ax/3449-microperf-bench/">Yanze Zhang 등 &#x27;MicroPerf-Bench&#x27; — 마이크로서비스 성능 최적화로 코딩 에이전트 실력 재기 (10/21, arXiv)</a></li>
+  </ul>
+</section>
+</main>
+<script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
+</body>
+</html>

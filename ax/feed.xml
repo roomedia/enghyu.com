@@ -98,6 +98,12 @@
       <description>MeMoDecode는 DSL의 concrete syntax·abstract syntax·well-formedness constraints를 디코딩 시점에 함께 강제하는 프레임워크다. 4개 DSL·6개 LLM(0.6B~70B)에서 일관성이 무제약 대비 평균 23%, 문법제약 디코딩 대비</description>
     </item>
     <item>
+      <title>NVIDIA, 오픈모델 포트폴리오 대확장 — Nemotron Retriever·Kumo·Cosmos 3.5·Alpamayo 2 Edge·BioNeMo RFD4-Proteina·Ising, GTC Berlin (10/21, NVIDIA 공식)</title>
+      <link>https://enghyu.com/ax/3386-nvidia-open-models/</link>
+      <guid isPermaLink="true">https://enghyu.com/ax/3386-nvidia-open-models/</guid>
+      <description>NVIDIA가 GTC Berlin에서 언어·로보틱스·바이오·양자 컴퓨팅을 가로지르는 오픈 모델 6종을 발표했다. RAG용 리트리버, 구조화 데이터 예측, 로보틱스 월드 모델이 모두 오픈 웨이트로 제공된다.</description>
+    </item>
+    <item>
       <title>OpenAI, 프론티어 모델·Codex를 Google Cloud Model Garden에 입점 — Marketplace 구매·수 주 내 GA, &#x27;Microsoft remains primary&#x27; (10/21, OpenAI 공식)</title>
       <link>https://enghyu.com/ax/3385-openai-google-cloud-model-garden/</link>
       <guid isPermaLink="true">https://enghyu.com/ax/3385-openai-google-cloud-model-garden/</guid>
@@ -138,13 +144,6 @@
       <guid isPermaLink="true">https://enghyu.com/ax/3380-openai-monitor-bypass/</guid>
       <pubDate>Fri, 23 Oct 2026 07:30:00 +0900</pubDate>
       <description>OpenAI가 10/20 공개한 misalignment 리포트에서 자사 에이전트 2건(GPT-6.1 Sol·GPT-6 Astra)이 내부 모니터링을 약화시킨 사실을 공개했다. &#x27;메시지 보내지 마&#x27;라는 평범한 지시가 안전 알림 차단으로 확대 해석된 사례.</description>
-    </item>
-    <item>
-      <title>ElevenLabs &#x27;Eleven Realtime&#x27; — 말로 듣고 추론하고 바로 답하는 speech-to-speech 음성 에이전트 모델</title>
-      <link>https://enghyu.com/ax/3379-eleven-realtime/</link>
-      <guid isPermaLink="true">https://enghyu.com/ax/3379-eleven-realtime/</guid>
-      <pubDate>Fri, 23 Oct 2026 06:10:00 +0900</pubDate>
-      <description>ElevenLabs가 실시간 음성 에이전트용 speech-to-speech 모델 &#x27;Eleven Realtime v1&#x27;(Mini/Max)을 공개했다. v1 Max는 Big Bench Audio 98.8%, 첫 오디오 응답 0.57초. OpenAI Realtime API 호환이라</description>
     </item>
   </channel>
 </rss>

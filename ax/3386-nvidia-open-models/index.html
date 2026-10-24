@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G5WKCES0DY"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G5WKCES0DY');</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NVIDIA, 오픈모델 포트폴리오 대확장 — Nemotron Retriever·Kumo·Cosmos 3.5·Alpamayo 2 Edge·BioNeMo RFD4-Proteina·Ising, GTC Berlin (10/21, NVIDIA 공식)</title>
+<meta name="description" content="NVIDIA가 GTC Berlin에서 언어·로보틱스·바이오·양자 컴퓨팅을 가로지르는 오픈 모델 6종을 발표했다. RAG용 리트리버, 구조화 데이터 예측, 로보틱스 월드 모델이 모두 오픈 웨이트로 제공된다.">
+<meta property="og:image" content="https://enghyu.com/ax/3386-nvidia-open-models/og.png">
+<meta property="og:title" content="NVIDIA, 오픈모델 포트폴리오 대확장 — Nemotron Retriever·Kumo·Cosmos 3.5·Alpamayo 2 Edge·BioNeMo RFD4-Proteina·Ising, GTC Berlin (10/21, NVIDIA 공식)">
+<meta property="og:description" content="NVIDIA가 GTC Berlin에서 언어·로보틱스·바이오·양자 컴퓨팅을 가로지르는 오픈 모델 6종을 발표했다.">
+<meta property="og:url" content="https://enghyu.com/ax/3386-nvidia-open-models/">
+<meta property="og:type" content="article">
+<style>
+:root{--bg:#ffffff;--text:#1a1a1a;--muted:#666;--border:#e5e5e5;--accent:#0891b2;--code-bg:#f6f8fa;}
+@media (prefers-color-scheme: dark){:root{--bg:#0f1115;--text:#e8eaf0;--muted:#9aa0ad;--border:#2a2e38;--accent:#22d3ee;--code-bg:#181c24;}}
+*{box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:24px 20px;}
+main{max-width:800px;margin:0 auto;}
+.topnav{margin-bottom:20px;}.topnav a{color:var(--muted);font-size:14px;text-decoration:none;}.topnav a:hover{color:var(--accent);text-decoration:underline;}
+h1{font-size:1.9rem;line-height:1.35;margin:0 0 8px;}
+.meta{color:var(--muted);font-size:14px;margin-bottom:28px;}
+h2{font-size:1.3rem;margin:44px 0 12px;padding-top:8px;border-top:1px solid var(--border);}
+h3{font-size:1.05rem;margin:28px 0 8px;}
+p{margin:0 0 16px;}
+img{max-width:100%;height:auto;border-radius:10px;margin:20px 0;border:1px solid var(--border);}
+figure{margin:0;}figcaption{color:var(--muted);font-size:13px;text-align:center;margin:-8px 0 24px;}
+ul{margin:0 0 16px;padding-left:22px;}
+li{margin-bottom:8px;}
+strong{font-weight:700;}
+.callout{background:var(--code-bg);border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+.warn{background:var(--code-bg);border-left:3px solid #f59e0b;padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.9em;}
+pre{background:var(--code-bg);padding:16px;border-radius:8px;overflow-x:auto;border:1px solid var(--border);font-size:.85em;line-height:1.6;}
+pre code{background:none;padding:0;}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.92em;}
+th,td{border:1px solid var(--border);padding:8px 12px;text-align:left;}
+th{background:var(--code-bg);}
+a{color:var(--accent);}
+.tags a{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:3px 12px;font-size:13px;margin:0 6px 6px 0;color:var(--text);text-decoration:none;}.tags a:hover{border-color:var(--accent);color:var(--accent);}
+footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:14px;}
+</style>
+<link rel="canonical" href="https://enghyu.com/ax/3386-nvidia-open-models/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="NVIDIA, 오픈모델 포트폴리오 대확장 — Nemotron Retriever·Kumo·Cosmos 3.5·Alpamayo 2 Edge·BioNeMo RFD4-Proteina·Ising, GTC Berlin (10/21, NVIDIA 공식)">
+<meta name="twitter:description" content="NVIDIA가 GTC Berlin에서 언어·로보틱스·바이오·양자 컴퓨팅을 가로지르는 오픈 모델 6종을 발표했다.">
+<meta name="twitter:image" content="https://enghyu.com/ax/3386-nvidia-open-models/og.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "NVIDIA, 오픈모델 포트폴리오 대확장 — Nemotron Retriever·Kumo·Cosmos 3.5·Alpamayo 2 Edge·BioNeMo RFD4-Proteina·Ising, GTC Berlin (10/21, NVIDIA 공식)",
+  "mainEntityOfPage": "https://enghyu.com/ax/3386-nvidia-open-models/",
+  "url": "https://enghyu.com/ax/3386-nvidia-open-models/",
+  "author": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "publisher": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "description": "NVIDIA가 GTC Berlin에서 언어·로보틱스·바이오·양자 컴퓨팅을 가로지르는 오픈 모델 6종을 발표했다. RAG용 리트리버, 구조화 데이터 예측, 로보틱스 월드 모델이 모두 오픈 웨이트로 제공된다.",
+  "image": "https://enghyu.com/ax/3386-nvidia-open-models/og.png"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://enghyu.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AX 트렌드",
+      "item": "https://enghyu.com/ax/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "NVIDIA, 오픈모델 포트폴리오 대확장 — Nemotron Retriever·Kumo·Cosmos 3.5·Alpamayo 2 Edge·BioNeMo RFD4-Proteina·Ising, GTC Berlin (10/21, NVIDIA 공식)",
+      "item": "https://enghyu.com/ax/3386-nvidia-open-models/"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<main>
+<nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
+
+<h1>NVIDIA, 오픈모델 포트폴리오 대확장 — Nemotron Retriever·Kumo·Cosmos 3.5·Alpamayo 2 Edge·BioNeMo RFD4-Proteina·Ising, GTC Berlin (10/21, NVIDIA 공식)</h1>
+<p class="meta">2026-10-21 NVIDIA 공식 블로그 · ax-trend 이슈 #3386 · GTC Berlin</p>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3386-overview.png" alt="NVIDIA open models — GTC Berlin, 6 new families" loading="lazy">
+<figcaption>NVIDIA 오픈 모델 포트폴리오 확장 — 6개 신규 패밀리</figcaption>
+</figure>
+
+<h2>핵심 — 한 번의 발표에 6개 분야의 오픈 모델이 나왔다</h2>
+
+<ul>
+<li>NVIDIA는 GTC Berlin 시점에 공식 블로그에서 언어·로보틱스·바이오·양자 컴퓨팅을 가로지르는 오픈 모델 포트폴리오 확장을 발표했다. 블로그 게시일은 <strong>2026-10-21</strong>이다.</li>
+<li>이번 묶음은 <strong>Nemotron Retriever·Kumo·Cosmos 3.5·Alpamayo 2 Edge·BioNeMo RFD4-Proteina·Ising</strong> 6종이다. 10/15 Nemotron 3.5 발표에 이은 두 번째 물결이다.</li>
+<li>이번 발표의 프레임은 <strong>유럽의 소버린 인텔리전스</strong>다. 각국 기업·연구소가 자체 데이터로 커스터마이즈하고 자체 인프라에 배포할 수 있는 오픈 모델 묶음을 전면에 내세운 점이 10/15 발표와 다르다.</li>
+</ul>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3386-retrieval.png" alt="Nemotron Retriever and Kumo — retrieval and structured data" loading="lazy">
+<figcaption>검색·구조화 데이터 — Nemotron Retriever와 Kumo</figcaption>
+</figure>
+
+<h2>검색과 구조화 데이터 — Nemotron Retriever·Kumo</h2>
+
+<ul>
+<li><strong>Nemotron Retriever</strong>는 임베딩·리랭킹·문서 파싱용 신규 모델군이다. Hugging Face·파트너 플랫폼·build.nvidia.com의 NIM 마이크로서비스로 제공된다. RAG 파이프라인의 검색 계층을 통째로 교체할 수 있는 위치다.</li>
+<li><strong>Kumo</strong>는 구조화된 비즈니스 데이터를 위한 오픈 웨이트 파운데이션 모델·라이브러리·도구다. 예측·포캐스팅·이상 탐지 모델을 제공하고, 조직이 자체 데이터로 파인튜닝할 수 있다.</li>
+<li>Kumo Structured는 Hugging Face에, Kumo Engine(오픈 라이브러리 스택)은 GitHub에 공개됐다. Cognite·Coinbase·Databricks·DoorDash·Revolut·Tubi가 Kumo를 쓰고 있고, Snowflake 고객사들도 광고·에너지·금융·리테일 AI 개발에 Kumo를 사용 중이다.</li>
+</ul>
+
+<div class="callout">
+에이전트가 기업 테이블 데이터를 다뤄야 하는 AX 업무라면, Kumo는 LLM 프롬프트로 테이블을 찔러보는 방식이 아니라 전용 파운데이션 모델로 예측·탐지를 붙이는 선택지를 준다.
+</div>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3386-robotics.png" alt="Cosmos 3.5 and Alpamayo 2 Edge — robotics and autonomy" loading="lazy">
+<figcaption>로보틱스·자율주행 — Cosmos 3.5와 Alpamayo 2 Edge</figcaption>
+</figure>
+
+<h2>로보틱스·자율주행 — Cosmos 3.5·Alpamayo 2 Edge</h2>
+
+<ul>
+<li><strong>Cosmos 3.5</strong>는 로보틱스·자율주행·비전 에이전트용 월드 모델이다. 새로 도입된 <strong>Cosmos Data Factory</strong>(블루프린트+코어 에이전트 스킬)가 주행 시나리오·제품 결함·이미지 증강·이벤트 생성 데이터의 큐레이션·라벨링·생성·평가를 지원한다.</li>
+<li>Porsche(Voxel51과)·ANYbotics(Encord와)·Zalando·CEVA Logistics(Sereact와)·Siemens가 Data Factory를 사용 중이다. Cosmos는 Hugging Face·GitHub·일부 추론 파트너에서 오픈 제공된다.</li>
+<li><strong>Alpamayo 2 Edge</strong>는 차량 내 실시간 장면 이해·모션 플래닝을 위한 소형 리즈닝 모델이다. Cosmos 3 Edge의 Nemotron 기반 파운데이션을 쓰고 NVIDIA DRIVE AGX Thor에 최적화됐다. 이달 중 GitHub·Hugging Face 다운로드 예정이다.</li>
+</ul>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3386-bioquantum.png" alt="BioNeMo RFD4-Proteina 13x faster and Ising quantum" loading="lazy">
+<figcaption>바이오·양자 — BioNeMo RFD4-Proteina 13배와 Ising</figcaption>
+</figure>
+
+<h2>바이오·양자 — BioNeMo RFD4-Proteina·Ising</h2>
+
+<ul>
+<li><strong>BioNeMo RFD4-Proteina</strong>는 NVIDIA와 워싱턴대 단백질디자인연구소(Baker Lab)의 오픈 단백질 디자인 모델이다. 단백질 서열과 3D 구조를 생성하며, 10개 이상 단백질 디자인 태스크에서 최고 성능을 내고, 200개 아미노산 단백질 벤치마크에서 RFdiffusion3 대비 <strong>약 13배 빠르게</strong> 설계를 생성한다고 주장한다. build.nvidia.com·NIM·GitHub·Hugging Face에서 제공된다.</li>
+<li><strong>Ising</strong>은 양자 슈퍼컴퓨터 개발을 위한 오픈 모델 패밀리다. 실시간 하드웨어 캘리브레이션부터 오류 정정까지 다룬다. IQM Quantum Computers가 양자 프로세서 캘리브레이션에 사용 중이고, SEEQC는 NVQLink+Ising 조합을, AWS는 AWS Parallel Computing Service에 Ising을 통합한다.</li>
+<li>그 밖에 <strong>Nemotron 3.5 Bolt E4B 4GB는 10/23 금요일 출시 예정</strong>이다. Nemotron은 Black Forest Labs·H-Company·Mistral이 참여한 Nemotron Coalition의 데이터·연구를 기반으로 한다.</li>
+</ul>
+
+<h2>배경 — 10/15 발표의 두 번째 물결, 프레임은 소버린 AI</h2>
+
+<p>지난주 10/15에 발표된 Nemotron 3.5 Super VL 120B·Bolt 74B-A9B(관련 이슈 #3278)에 이은 두 번째 물결이다. 10/15 발표가 대형 언어 모델 자체였다면, 이번 발표는 검색·구조화 데이터·로보틱스·바이오·양자까지 영역을 넓힌 포트폴리오 확장이다. 공통 분모는 오픈 웨이트와 자체 배포 가능성이다. 온디바이스·온프레미스 배포를 노리는 팀에게는 이번 묶음이 실질적인 메뉴가 된다.</p>
+
+<h2>왜 중요한지 — AX 실무에 바로 꽂히는 세 가지</h2>
+
+<p>RAG용 리트리버(Nemotron Retriever), 구조화 데이터 예측(Kumo), 로보틱스 시뮬레이션(Cosmos 3.5+Data Factory)이 모두 오픈 웨이트로 바로 내려받아 쓸 수 있다. 특히 Kumo는 에이전트가 기업 테이블 데이터를 다루는 AX 업무에, Cosmos Data Factory는 로보틱스 데이터 파이프라인에 직접 연결되는 실무형 자산이다.</p>
+
+<h2>아직 안 밝혀진 것 / 쟁점</h2>
+
+<ul>
+<li><strong>각 모델별 라이선스 조건 미공개</strong>: 오픈 웨이트 표현이나 세부 이용 조건은 블로그에 없다.</li>
+<li><strong>“10개 이상 태스크 최고 성능” 주장의 태스크 목록·평가 방법 미공개.</strong></li>
+<li><strong>Cosmos 3.5가 Cosmos 3 대비 구체적으로 바뀐 점 미공개.</strong></li>
+</ul>
+
+<h2>원문 이슈</h2>
+
+<ul>
+<li><a href="https://blogs.nvidia.com/blog/open-models-europe-industry/">NVIDIA 공식 블로그: 오픈 모델 포트폴리오 확장 (2026-10-21)</a></li>
+<li><a href="https://www.aiaffairs.com/technology/nvidia-open-models-nemotron-cosmos-bionemo-ising/">AI Affairs 요약 (2026-10-21)</a></li>
+<li><a href="https://github.com/roomedia/ax-trend/issues/3386">ax-trend 이슈 #3386</a></li>
+<li><a href="https://github.com/roomedia/ax-trend/issues/3278">관련 이슈 #3278 — NVIDIA, Nemotron 3.5 Super VL 120B 공개 + Bolt 74B-A9B 정식 출시</a></li>
+<li><a href="https://github.com/roomedia/ax-trend/issues/3234">관련 이슈 #3234 — NVIDIA, RTX Spark 출시 앞두고 소프트웨어 생태계 발표</a></li>
+<li><a href="https://github.com/roomedia/ax-trend/issues/3320">관련 이슈 #3320 — NVIDIA RTX Spark 노트북 실제 출시 — ASUS·Dell·HP</a></li>
+<li><a href="https://github.com/roomedia/ax-trend/issues/944">관련 이슈 #944 — NVIDIA, 물리 기반 세계 모델 Cosmos 3 출시</a></li>
+</ul>
+
+<p class="tags"><a href="/ax/tag/agent-model/">에이전트 모델</a> <a href="/ax/tag/on-device/">온디바이스</a> <a href="/ax/tag/ax-trend/">AX Trend</a></p>
+
+<footer>
+<p>AX 트렌드 — AI/AX 업계 소식을 정리하는 자동 리서치 블로그.</p>
+</footer>
+
+<aside class="muse-banner">
+<div class="callout">
+<strong>이 블로그의 리서치·발행을 굴리는 도구 — Muse.</strong> 캘린더 브리핑부터 AX 트렌드 자동 발행, 유튜브 제작, 스마트홈까지 실제로 쓰는 AI 에이전트다. <a href="/ax/muse/">Muse 3주 사용기</a>에 정리해뒀다. 가입 후 48시간 안에 추천인 코드 <strong>QO4J0Q</strong>를 입력하면 된다.
+</div>
+</aside>
+
+<section class="related">
+  <h2>관련 글</h2>
+  <ul>
+    <li><a href="/ax/3471-userswe/">Zhan-Yu Wu 등 &#x27;UserSWE&#x27; — 동적 사용자 시뮬레이션으로 멀티턴 코딩 에이전트 평가 (10/21, arXiv)</a></li>
+    <li><a href="/ax/3470-jev-open-lora/">Yuchuan Weng 등 &#x27;Jev&#x27; — 한 번의 forward pass로 답하는 오픈 LoRA 재현 (10/22, arXiv)</a></li>
+    <li><a href="/ax/3447-agent-behavior-maps/">Shota Fujikawa 등 &#x27;Agent Behavior Maps&#x27; — 에이전트를 실행 없이 행동 궤적으로 위치시키는 지도 (10/21, arXiv)</a></li>
+  </ul>
+</section>
+</main>
+<script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
+</body>
+</html>

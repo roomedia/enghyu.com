@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G5WKCES0DY"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G5WKCES0DY');</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>akitaonrails 'ai-memory' — 20종 코딩 에이전트가 공유하는 장기 메모리 서버, LLM 0콜·git 백업 위키 (10/22, GitHub)</title>
+<meta name="description" content="akitaonrails의 ai-memory는 20종이 넘는 코딩 에이전트가 하나의 공유 메모리에 연결되는 장기 메모리 서버다. LLM 호출 0으로 동작하고, 메모리의 정본은 git 백업 마크다운 위키다.">
+<meta property="og:image" content="https://enghyu.com/ax/3387-ai-memory/og.png">
+<meta property="og:title" content="akitaonrails &#x27;ai-memory&#x27; — 20종 코딩 에이전트가 공유하는 장기 메모리 서버, LLM 0콜·git 백업 위키 (10/22, GitHub)">
+<meta property="og:description" content="20종이 넘는 코딩 에이전트가 공유하는 장기 메모리 서버. LLM 호출 0, 메모리의 정본은 git 백업 마크다운 위키다.">
+<meta property="og:url" content="https://enghyu.com/ax/3387-ai-memory/">
+<meta property="og:type" content="article">
+<style>
+:root{--bg:#ffffff;--text:#1a1a1a;--muted:#666;--border:#e5e5e5;--accent:#0891b2;--code-bg:#f6f8fa;}
+@media (prefers-color-scheme: dark){:root{--bg:#0f1115;--text:#e8eaf0;--muted:#9aa0ad;--border:#2a2e38;--accent:#22d3ee;--code-bg:#181c24;}}
+*{box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:24px 20px;}
+main{max-width:800px;margin:0 auto;}
+.topnav{margin-bottom:20px;}.topnav a{color:var(--muted);font-size:14px;text-decoration:none;}.topnav a:hover{color:var(--accent);text-decoration:underline;}
+h1{font-size:1.9rem;line-height:1.35;margin:0 0 8px;}
+.meta{color:var(--muted);font-size:14px;margin-bottom:28px;}
+h2{font-size:1.3rem;margin:44px 0 12px;padding-top:8px;border-top:1px solid var(--border);}
+h3{font-size:1.05rem;margin:28px 0 8px;}
+p{margin:0 0 16px;}
+img{max-width:100%;height:auto;border-radius:10px;margin:20px 0;border:1px solid var(--border);}
+figure{margin:0;}figcaption{color:var(--muted);font-size:13px;text-align:center;margin:-8px 0 24px;}
+ul{margin:0 0 16px;padding-left:22px;}
+li{margin-bottom:8px;}
+strong{font-weight:700;}
+.callout{background:var(--code-bg);border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+.warn{background:var(--code-bg);border-left:3px solid #f59e0b;padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95em;}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.9em;}
+pre{background:var(--code-bg);padding:16px;border-radius:8px;overflow-x:auto;border:1px solid var(--border);font-size:.85em;line-height:1.6;}
+pre code{background:none;padding:0;}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.92em;}
+th,td{border:1px solid var(--border);padding:8px 12px;text-align:left;}
+th{background:var(--code-bg);}
+a{color:var(--accent);}
+.tags a{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:3px 12px;font-size:13px;margin:0 6px 6px 0;color:var(--text);text-decoration:none;}.tags a:hover{border-color:var(--accent);color:var(--accent);}
+footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:14px;}
+</style>
+<link rel="canonical" href="https://enghyu.com/ax/3387-ai-memory/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="akitaonrails &#x27;ai-memory&#x27; — 20종 코딩 에이전트가 공유하는 장기 메모리 서버, LLM 0콜·git 백업 위키 (10/22, GitHub)">
+<meta name="twitter:description" content="20종이 넘는 코딩 에이전트가 공유하는 장기 메모리 서버. LLM 호출 0, 메모리의 정본은 git 백업 마크다운 위키다.">
+<meta name="twitter:image" content="https://enghyu.com/ax/3387-ai-memory/og.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/site-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "akitaonrails 'ai-memory' — 20종 코딩 에이전트가 공유하는 장기 메모리 서버, LLM 0콜·git 백업 위키 (10/22, GitHub)",
+  "mainEntityOfPage": "https://enghyu.com/ax/3387-ai-memory/",
+  "url": "https://enghyu.com/ax/3387-ai-memory/",
+  "author": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "publisher": {
+    "@id": "https://enghyu.com/#org"
+  },
+  "description": "akitaonrails의 ai-memory는 20종이 넘는 코딩 에이전트가 하나의 공유 메모리에 연결되는 장기 메모리 서버다. LLM 호출 0으로 동작하고, 메모리의 정본은 git 백업 마크다운 위키다.",
+  "image": "https://enghyu.com/ax/3387-ai-memory/og.png"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://enghyu.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AX 트렌드",
+      "item": "https://enghyu.com/ax/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "akitaonrails 'ai-memory' — 20종 코딩 에이전트가 공유하는 장기 메모리 서버, LLM 0콜·git 백업 위키 (10/22, GitHub)",
+      "item": "https://enghyu.com/ax/3387-ai-memory/"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<main>
+<nav class="topnav"><a href="/ax/">&larr; AX 트렌드 목록</a></nav>
+
+<h1>akitaonrails 'ai-memory' — 20종 코딩 에이전트가 공유하는 장기 메모리 서버, LLM 0콜·git 백업 위키 (10/22, GitHub)</h1>
+<p class="meta">GitHub · ax-trend 이슈 #3387 · 2026-10-21 푸시 · 12,188★ · MIT · Rust</p>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3387-overview.png" alt="ai-memory overview — 20+ harnesses, 0 LLM calls" loading="lazy">
+<figcaption>ai-memory 개요 — 20종 이상 하네스, LLM 호출 0</figcaption>
+</figure>
+
+<h2>핵심 — 에이전트를 바꿔도 설명을 다시 하지 않는다</h2>
+
+<ul>
+<li>ai-memory는 AI 코딩 에이전트용 장기 메모리 서버다. README의 문장 그대로, <strong>"Quit Claude Code mid-task, start OpenAI Codex in the same directory, continue without re-explaining"</strong> — 작업 도중에 에이전트를 바꿔도 다시 설명하지 않고 이어서 작업할 수 있게 한다.</li>
+<li>Claude Code·Codex·Cursor·Gemini CLI·OpenCode·Grok·Devin·Kimi·Kiro 등 <strong>20개가 넘는 하네스</strong>가 하나의 공유 메모리에 연결된다.</li>
+<li>기본 경로는 <strong>LLM 호출이 0</strong>이다. 캡처·검색·핸드오프가 API 키 없이 동작한다.</li>
+<li>메모리의 정본은 평범한 마크다운 파일들의 <strong>git 백업 위키</strong>다. grep·Obsidian·손 편집·rsync가 그대로 통하고, 벡터 스토어가 없으며, 데이터베이스는 파일에서 언제든 다시 만들 수 있는 파생 인덱스다.</li>
+</ul>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3387-handoff.png" alt="ai-memory handoff — Claude Code to Codex, claimed exactly once" loading="lazy">
+<figcaption>핸드오프 — Claude Code에서 Codex로, 정확히 한 번 청구</figcaption>
+</figure>
+
+<h2>핸드오프 — 세션을 통째로 넘긴다</h2>
+
+<ul>
+<li><code>ai-memory run</code>으로 세션을 에이전트 간에 통째로 넘길 수 있다. Claude Code를 종료하고 <code>ai-memory run codex</code>를 실행하면, Codex가 공유 워크스트림과 Claude의 로컬 히스토리를 받아 이어서 작업한다.</li>
+<li>핸드오프는 소유자(owner)가 있고 <strong>정확히 한 번만 청구되는 타입드 프로토콜</strong>이다. 두 에이전트가 같은 작업을 중복으로 집어가는 일을 구조적으로 막는 설계다.</li>
+<li>서버가 받는 것은 하네스·세션 식별자뿐이다. 로컬 트랜스크립트 경로나 본문은 절대 전송되지 않는다.</li>
+</ul>
+
+<pre><code># Claude Code에서 하던 작업을 Codex로 넘기는 흐름 (README 기준)
+ai-memory run codex</code></pre>
+
+<div class="callout">
+여러 에이전트를 번갈아 쓰는 실무자에게 메모리 자체보다 중요한 것은 "어떤 에이전트에서든 이어지는" 핸드오프다. ai-memory는 그 지점을 제품의 정면으로 내세운다.
+</div>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3387-gitwiki.png" alt="ai-memory git wiki — Markdown files are the source of truth" loading="lazy">
+<figcaption>git 위키 — 마크다운 파일이 정본, 데이터베이스는 파생 인덱스</figcaption>
+</figure>
+
+<h2>git 위키와 프라이버시 경계 — 파일이 정본이다</h2>
+
+<ul>
+<li>팀 단위 사용이 기본 설계에 포함돼 있다. 한 서버에 여러 명이 연결하면, 한 사람의 세션에서 학습한 내용을 모두의 에이전트가 검색할 수 있다. 멀티유저 인증·개인별 귀속·감사 로그가 유료 티어가 아닌 기본 기능이다.</li>
+<li>라이프사이클 훅이 프롬프트·툴 호출·세션 경계를 기록할 때, <strong>타입드 프라이버시 경계에서 살균한 뒤 저장</strong>한다. 민감한 내용이 그대로 메모리에 남지 않게 거르는 층이 있다는 뜻이다.</li>
+<li>메모리가 파일이면 감사·백업·수동 개입이 쉽다. 에이전트 메모리를 블랙박스 서비스에 맡기지 않고, 평소 쓰던 도구로 열어보고 고칠 수 있다는 점이 실무적으로 크다.</li>
+</ul>
+
+<figure>
+<img width="1024" height="576" src="https://raw.githubusercontent.com/roomedia/blog-assets/master/enghyu-3387-aging.png" alt="ai-memory aging memory — tiered decay, duplicates merged, originals stay in git" loading="lazy">
+<figcaption>노화하는 메모리 — 티어별 감쇠, 중복 병합, 원본은 git에 유지</figcaption>
+</figure>
+
+<h2>노화하는 메모리 — LLM 없이 감쇠·압축·병합한다</h2>
+
+<ul>
+<li>LLM 없이 메모리가 노화한다. <strong>티어별 감쇠 스케줄</strong>을 조정할 수 있고, 자주 쓰는 메모리는 감쇠가 느려진다.</li>
+<li>식은 에피소드는 내구성 팩트(파일 경로·에러 코드·결정)로 압축되고, 유사 중복은 병합되며, 모순 가능성이 있으면 플래그가 붙는다.</li>
+<li>삭제는 없고, 원본은 git에 남는다. 메모리가 "사라지는" 방식이 아니라 "가라앉고 압축되는" 방식이다.</li>
+</ul>
+
+<h2>배경 — 메모리 레이어 경쟁, 차별점은 조합이다</h2>
+
+<p>에이전트 메모리 레이어 경쟁이 붙었다. 텐센트 Hy Memory 2.0(관련 이슈 #3332, 10/16), rohithhn Agentic Brain(관련 이슈 #3343, 10/18), Asymptote Labs Beacon(관련 이슈 #3384, 10/21)이 같은 주를 달린다. ai-memory의 차별점은 벤더 중립 + LLM 0콜 + git 네이티브라는 조합이다. 어느 하나만으로는 흔하지만, 세 가지가 함께 붙은 제품은 드물다.</p>
+
+<h2>왜 중요한지 — AX TF 실무에 바로 꽂히는 인프라다</h2>
+
+<p>코딩 에이전트를 여럿 쓰는 AX TF 실무에 바로 꽂을 수 있는 인프라다. API 키 없이 LLM 호출 0으로 동작하므로 비용 부담이 없고, 메모리가 git 위키라 감사·백업·수동 개입이 쉽다. Claude Code에서 하던 작업을 Codex로 넘기는 "에이전트 간 이직" 시나리오가 현실화되는 도구라는 점에서, 코딩 에이전트 워크플로우의 표준 부품 후보가 될 수 있다.</p>
+
+<h2>아직 안 밝혀진 것 / 쟁점</h2>
+
+<ul>
+<li><strong>핸드오프 품질·기억 유지율에 대한 정량 벤치마크 미공개.</strong></li>
+<li><strong>다중 사용자 환경의 보안 모델(서버 측 접근 제어) 세부 사항 미확인.</strong></li>
+<li><strong>aimemory.sh 웹사이트의 추가 정보와 Windows 지원 여부 미확인.</strong></li>
+<li><strong>메모리 품질이 LLM 기반 메모리 시스템(전용 메모리 라이터 모델)과 비교해 어느 수준인지 미검증.</strong></li>
+</ul>
+
+<h2>원문 이슈</h2>
+
+<ul>
+<li><a href="https://github.com/akitaonrails/ai-memory">GitHub 레포: akitaonrails/ai-memory (MIT, 2026-10-21 푸시)</a></li>
+<li><a href="https://aimemory.sh">프로젝트 사이트: aimemory.sh</a></li>
+<li><a href="https://github.com/roomedia/ax-trend/issues/3387">ax-trend 이슈 #3387</a></li>
+<li><a href="https://github.com/roomedia/ax-trend/issues/3343">관련 이슈 #3343 — rohithhn 'Agentic Brain' — Claude Code·Cursor·Codex 세션을 공유하는 오픈소스 셀프호스팅 AI 코딩 메모리 (10/18)</a></li>
+<li><a href="https://github.com/roomedia/ax-trend/issues/3384">관련 이슈 #3384 — Asymptote Labs 'Beacon' — 29개 하네스를 가로지르는 에이전트 메모리 레이어 (10/21)</a></li>
+<li><a href="https://github.com/roomedia/ax-trend/issues/3332">관련 이슈 #3332 — 텐센트, 에이전트 메모리 프레임워크 'Hy Memory 2.0' 공개 (10/16)</a></li>
+</ul>
+
+<p class="tags"><a href="/ax/tag/ai-coding/">AI 코딩</a> <a href="/ax/tag/agent-model/">에이전트 모델</a> <a href="/ax/tag/ax-trend/">AX Trend</a></p>
+
+<footer>
+<p>AX 트렌드 — AI/AX 업계 소식을 정리하는 자동 리서치 블로그.</p>
+</footer>
+
+<aside class="muse-banner">
+<div class="callout">
+<strong>이 블로그의 리서치·발행을 굴리는 도구 — Muse.</strong> 캘린더 브리핑부터 AX 트렌드 자동 발행, 유튜브 제작, 스마트홈까지 실제로 쓰는 AI 에이전트다. <a href="/ax/muse/">Muse 3주 사용기</a>에 정리해뒀다. 가입 후 48시간 안에 추천인 코드 <strong>QO4J0Q</strong>를 입력하면 된다.
+</div>
+</aside>
+
+<section class="related">
+  <h2>관련 글</h2>
+  <ul>
+    <li><a href="/ax/3471-userswe/">Zhan-Yu Wu 등 &#x27;UserSWE&#x27; — 동적 사용자 시뮬레이션으로 멀티턴 코딩 에이전트 평가 (10/21, arXiv)</a></li>
+    <li><a href="/ax/3445-sysrb/">Chenxi Huang 등 &#x27;SysRB&#x27; — 코딩 에이전트는 시스템 크래시 원인을 아직 못 읽는다 (10/21, arXiv)</a></li>
+    <li><a href="/ax/3431-memodecode-dsl/">Boqi Chen 등 &#x27;MeMoDecode&#x27; — 메타모델 제약으로 DSL 생성의 의미 일관성 보장 (10/21, arXiv)</a></li>
+  </ul>
+</section>
+</main>
+<script>(function(){try{var d=JSON.stringify({p:location.pathname,r:document.referrer||""});if(navigator.sendBeacon){navigator.sendBeacon("/ax/api/track",d);}else{fetch("/ax/api/track",{method:"POST",body:d,keepalive:true});}}catch(e){}})();</script>
+</body>
+</html>
